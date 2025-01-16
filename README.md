@@ -1,3 +1,9 @@
+# To do
+
+- fix chart
+- rename chart component that i will show to the user (the components/ui is called chart)
+- import the appropriate dependencies in the chart
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
