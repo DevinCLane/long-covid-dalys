@@ -1,5 +1,6 @@
 import "./App.css";
 import { MainChart } from "./components/main-chart";
+import { SiteFooter } from "./components/site-footer";
 
 function App() {
     return (
@@ -7,9 +8,10 @@ function App() {
             <h1 className="pb-4 md:pb-6 lg:pb-10 md:pt-2 lg:pt-4">
                 Long Covid DALYs
             </h1>
-            <div className="">
+            <div>
                 <MainChart />
             </div>
+            <SiteFooter />
         </div>
     );
 }
