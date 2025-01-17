@@ -5,18 +5,6 @@
     text-align: center;
 }
 
-@media (min-width: 1024px) {
-    #root {
-        max-width: 95%;
-    }
-}
-
-@media (min-width: 1280px) {
-    #root {
-        max-width: 98%;
-    }
-}
-
 .logo {
     height: 6em;
     padding: 1.5em;
