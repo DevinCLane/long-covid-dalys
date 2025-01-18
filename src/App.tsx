@@ -5,9 +5,13 @@ import { SiteFooter } from "./components/site-footer";
 function App() {
     return (
         <div className="min-h-screen flex flex-col">
-            <h1 className="pb-4 md:pb-6 lg:pb-10 md:pt-2 lg:pt-4">
-                Long Covid DALYs
-            </h1>
+            <header className="pb-4 md:pb-6 lg:pb-10 md:pt-2 lg:pt-4">
+                <h1 className="p-4">Long Covid DALYs</h1>
+                <p>
+                    How public health interventions could decrease or increase
+                    cases of long covid
+                </p>
+            </header>
             <div className="lg:max-w-7xl mx-auto w-full">
                 <MainChart />
                 <SiteFooter />

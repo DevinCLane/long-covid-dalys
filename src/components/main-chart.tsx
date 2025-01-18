@@ -154,9 +154,20 @@ export function MainChart() {
         <Card>
             <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
                 <div className="grid flex-1 gap-1 text-center sm:text-left">
-                    <CardTitle>Area Chart - Interactive</CardTitle>
+                    <CardTitle>Long Covid cases</CardTitle>
                     <CardDescription>
-                        Showing total visitors for the last 3 months
+                        Showing total cases of long covid and disease burden as
+                        measured in Disability-adjusted life years (DALYs).
+                    </CardDescription>
+                    <CardDescription>
+                        <a
+                            href="https://en.wikipedia.org/wiki/Disability-adjusted_life_year"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="font-medium underline underline-offset-4"
+                        >
+                            What's a DALY?{" "}
+                        </a>
                     </CardDescription>
                 </div>
                 <Select value={timeRange} onValueChange={setTimeRange}>
