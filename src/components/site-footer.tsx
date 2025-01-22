@@ -6,7 +6,7 @@ export function SiteFooter() {
                     <div className="text-balance text-center text-sm leading-loose text-muted-foreground md:text-left">
                         Built by{" "}
                         <a
-                            href="devinlane.com"
+                            href="https://www.devinlane.com/"
                             target="_blank"
                             rel="noreferrer"
                             className="font-medium underline underline-offset-4"
@@ -24,7 +24,7 @@ export function SiteFooter() {
                         </a>
                         . Source code available on{" "}
                         <a
-                            href="devinlane.com"
+                            href="https://github.com/DevinCLane/long-covid-dalys"
                             target="_blank"
                             rel="noreferrer"
                             className="font-medium underline underline-offset-4"
