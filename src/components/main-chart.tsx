@@ -26,109 +26,109 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 const chartData = [
-    { date: "2024-04-01", desktop: 222, mobile: 150 },
-    { date: "2024-04-02", desktop: 97, mobile: 180 },
-    { date: "2024-04-03", desktop: 167, mobile: 120 },
-    { date: "2024-04-04", desktop: 242, mobile: 260 },
-    { date: "2024-04-05", desktop: 373, mobile: 290 },
-    { date: "2024-04-06", desktop: 301, mobile: 340 },
-    { date: "2024-04-07", desktop: 245, mobile: 180 },
-    { date: "2024-04-08", desktop: 409, mobile: 320 },
-    { date: "2024-04-09", desktop: 59, mobile: 110 },
-    { date: "2024-04-10", desktop: 261, mobile: 190 },
-    { date: "2024-04-11", desktop: 327, mobile: 350 },
-    { date: "2024-04-12", desktop: 292, mobile: 210 },
-    { date: "2024-04-13", desktop: 342, mobile: 380 },
-    { date: "2024-04-14", desktop: 137, mobile: 220 },
-    { date: "2024-04-15", desktop: 120, mobile: 170 },
-    { date: "2024-04-16", desktop: 138, mobile: 190 },
-    { date: "2024-04-17", desktop: 446, mobile: 360 },
-    { date: "2024-04-18", desktop: 364, mobile: 410 },
-    { date: "2024-04-19", desktop: 243, mobile: 180 },
-    { date: "2024-04-20", desktop: 89, mobile: 150 },
-    { date: "2024-04-21", desktop: 137, mobile: 200 },
-    { date: "2024-04-22", desktop: 224, mobile: 170 },
-    { date: "2024-04-23", desktop: 138, mobile: 230 },
-    { date: "2024-04-24", desktop: 387, mobile: 290 },
-    { date: "2024-04-25", desktop: 215, mobile: 250 },
-    { date: "2024-04-26", desktop: 75, mobile: 130 },
-    { date: "2024-04-27", desktop: 383, mobile: 420 },
-    { date: "2024-04-28", desktop: 122, mobile: 180 },
-    { date: "2024-04-29", desktop: 315, mobile: 240 },
-    { date: "2024-04-30", desktop: 454, mobile: 380 },
-    { date: "2024-05-01", desktop: 165, mobile: 220 },
-    { date: "2024-05-02", desktop: 293, mobile: 310 },
-    { date: "2024-05-03", desktop: 247, mobile: 190 },
-    { date: "2024-05-04", desktop: 385, mobile: 420 },
-    { date: "2024-05-05", desktop: 481, mobile: 390 },
-    { date: "2024-05-06", desktop: 498, mobile: 520 },
-    { date: "2024-05-07", desktop: 388, mobile: 300 },
-    { date: "2024-05-08", desktop: 149, mobile: 210 },
-    { date: "2024-05-09", desktop: 227, mobile: 180 },
-    { date: "2024-05-10", desktop: 293, mobile: 330 },
-    { date: "2024-05-11", desktop: 335, mobile: 270 },
-    { date: "2024-05-12", desktop: 197, mobile: 240 },
-    { date: "2024-05-13", desktop: 197, mobile: 160 },
-    { date: "2024-05-14", desktop: 448, mobile: 490 },
-    { date: "2024-05-15", desktop: 473, mobile: 380 },
-    { date: "2024-05-16", desktop: 338, mobile: 400 },
-    { date: "2024-05-17", desktop: 499, mobile: 420 },
-    { date: "2024-05-18", desktop: 315, mobile: 350 },
-    { date: "2024-05-19", desktop: 235, mobile: 180 },
-    { date: "2024-05-20", desktop: 177, mobile: 230 },
-    { date: "2024-05-21", desktop: 82, mobile: 140 },
-    { date: "2024-05-22", desktop: 81, mobile: 120 },
-    { date: "2024-05-23", desktop: 252, mobile: 290 },
-    { date: "2024-05-24", desktop: 294, mobile: 220 },
-    { date: "2024-05-25", desktop: 201, mobile: 250 },
-    { date: "2024-05-26", desktop: 213, mobile: 170 },
-    { date: "2024-05-27", desktop: 420, mobile: 460 },
-    { date: "2024-05-28", desktop: 233, mobile: 190 },
-    { date: "2024-05-29", desktop: 78, mobile: 130 },
-    { date: "2024-05-30", desktop: 340, mobile: 280 },
-    { date: "2024-05-31", desktop: 178, mobile: 230 },
-    { date: "2024-06-01", desktop: 178, mobile: 200 },
-    { date: "2024-06-02", desktop: 470, mobile: 410 },
-    { date: "2024-06-03", desktop: 103, mobile: 160 },
-    { date: "2024-06-04", desktop: 439, mobile: 380 },
-    { date: "2024-06-05", desktop: 88, mobile: 140 },
-    { date: "2024-06-06", desktop: 294, mobile: 250 },
-    { date: "2024-06-07", desktop: 323, mobile: 370 },
-    { date: "2024-06-08", desktop: 385, mobile: 320 },
-    { date: "2024-06-09", desktop: 438, mobile: 480 },
-    { date: "2024-06-10", desktop: 155, mobile: 200 },
-    { date: "2024-06-11", desktop: 92, mobile: 150 },
-    { date: "2024-06-12", desktop: 492, mobile: 420 },
-    { date: "2024-06-13", desktop: 81, mobile: 130 },
-    { date: "2024-06-14", desktop: 426, mobile: 380 },
-    { date: "2024-06-15", desktop: 307, mobile: 350 },
-    { date: "2024-06-16", desktop: 371, mobile: 310 },
-    { date: "2024-06-17", desktop: 475, mobile: 520 },
-    { date: "2024-06-18", desktop: 107, mobile: 170 },
-    { date: "2024-06-19", desktop: 341, mobile: 290 },
-    { date: "2024-06-20", desktop: 408, mobile: 450 },
-    { date: "2024-06-21", desktop: 169, mobile: 210 },
-    { date: "2024-06-22", desktop: 317, mobile: 270 },
-    { date: "2024-06-23", desktop: 480, mobile: 530 },
-    { date: "2024-06-24", desktop: 132, mobile: 180 },
-    { date: "2024-06-25", desktop: 141, mobile: 190 },
-    { date: "2024-06-26", desktop: 434, mobile: 380 },
-    { date: "2024-06-27", desktop: 448, mobile: 490 },
-    { date: "2024-06-28", desktop: 149, mobile: 200 },
-    { date: "2024-06-29", desktop: 103, mobile: 160 },
-    { date: "2024-06-30", desktop: 446, mobile: 400 },
+    { date: "2024-04-01", nointervention: 222, intervention: 150 },
+    { date: "2024-04-02", nointervention: 97, intervention: 180 },
+    { date: "2024-04-03", nointervention: 167, intervention: 120 },
+    { date: "2024-04-04", nointervention: 242, intervention: 260 },
+    { date: "2024-04-05", nointervention: 373, intervention: 290 },
+    { date: "2024-04-06", nointervention: 301, intervention: 340 },
+    { date: "2024-04-07", nointervention: 245, intervention: 180 },
+    { date: "2024-04-08", nointervention: 409, intervention: 320 },
+    { date: "2024-04-09", nointervention: 59, intervention: 110 },
+    { date: "2024-04-10", nointervention: 261, intervention: 190 },
+    { date: "2024-04-11", nointervention: 327, intervention: 350 },
+    { date: "2024-04-12", nointervention: 292, intervention: 210 },
+    { date: "2024-04-13", nointervention: 342, intervention: 380 },
+    { date: "2024-04-14", nointervention: 137, intervention: 220 },
+    { date: "2024-04-15", nointervention: 120, intervention: 170 },
+    { date: "2024-04-16", nointervention: 138, intervention: 190 },
+    { date: "2024-04-17", nointervention: 446, intervention: 360 },
+    { date: "2024-04-18", nointervention: 364, intervention: 410 },
+    { date: "2024-04-19", nointervention: 243, intervention: 180 },
+    { date: "2024-04-20", nointervention: 89, intervention: 150 },
+    { date: "2024-04-21", nointervention: 137, intervention: 200 },
+    { date: "2024-04-22", nointervention: 224, intervention: 170 },
+    { date: "2024-04-23", nointervention: 138, intervention: 230 },
+    { date: "2024-04-24", nointervention: 387, intervention: 290 },
+    { date: "2024-04-25", nointervention: 215, intervention: 250 },
+    { date: "2024-04-26", nointervention: 75, intervention: 130 },
+    { date: "2024-04-27", nointervention: 383, intervention: 420 },
+    { date: "2024-04-28", nointervention: 122, intervention: 180 },
+    { date: "2024-04-29", nointervention: 315, intervention: 240 },
+    { date: "2024-04-30", nointervention: 454, intervention: 380 },
+    { date: "2024-05-01", nointervention: 165, intervention: 220 },
+    { date: "2024-05-02", nointervention: 293, intervention: 310 },
+    { date: "2024-05-03", nointervention: 247, intervention: 190 },
+    { date: "2024-05-04", nointervention: 385, intervention: 420 },
+    { date: "2024-05-05", nointervention: 481, intervention: 390 },
+    { date: "2024-05-06", nointervention: 498, intervention: 520 },
+    { date: "2024-05-07", nointervention: 388, intervention: 300 },
+    { date: "2024-05-08", nointervention: 149, intervention: 210 },
+    { date: "2024-05-09", nointervention: 227, intervention: 180 },
+    { date: "2024-05-10", nointervention: 293, intervention: 330 },
+    { date: "2024-05-11", nointervention: 335, intervention: 270 },
+    { date: "2024-05-12", nointervention: 197, intervention: 240 },
+    { date: "2024-05-13", nointervention: 197, intervention: 160 },
+    { date: "2024-05-14", nointervention: 448, intervention: 490 },
+    { date: "2024-05-15", nointervention: 473, intervention: 380 },
+    { date: "2024-05-16", nointervention: 338, intervention: 400 },
+    { date: "2024-05-17", nointervention: 499, intervention: 420 },
+    { date: "2024-05-18", nointervention: 315, intervention: 350 },
+    { date: "2024-05-19", nointervention: 235, intervention: 180 },
+    { date: "2024-05-20", nointervention: 177, intervention: 230 },
+    { date: "2024-05-21", nointervention: 82, intervention: 140 },
+    { date: "2024-05-22", nointervention: 81, intervention: 120 },
+    { date: "2024-05-23", nointervention: 252, intervention: 290 },
+    { date: "2024-05-24", nointervention: 294, intervention: 220 },
+    { date: "2024-05-25", nointervention: 201, intervention: 250 },
+    { date: "2024-05-26", nointervention: 213, intervention: 170 },
+    { date: "2024-05-27", nointervention: 420, intervention: 460 },
+    { date: "2024-05-28", nointervention: 233, intervention: 190 },
+    { date: "2024-05-29", nointervention: 78, intervention: 130 },
+    { date: "2024-05-30", nointervention: 340, intervention: 280 },
+    { date: "2024-05-31", nointervention: 178, intervention: 230 },
+    { date: "2024-06-01", nointervention: 178, intervention: 200 },
+    { date: "2024-06-02", nointervention: 470, intervention: 410 },
+    { date: "2024-06-03", nointervention: 103, intervention: 160 },
+    { date: "2024-06-04", nointervention: 439, intervention: 380 },
+    { date: "2024-06-05", nointervention: 88, intervention: 140 },
+    { date: "2024-06-06", nointervention: 294, intervention: 250 },
+    { date: "2024-06-07", nointervention: 323, intervention: 370 },
+    { date: "2024-06-08", nointervention: 385, intervention: 320 },
+    { date: "2024-06-09", nointervention: 438, intervention: 480 },
+    { date: "2024-06-10", nointervention: 155, intervention: 200 },
+    { date: "2024-06-11", nointervention: 92, intervention: 150 },
+    { date: "2024-06-12", nointervention: 492, intervention: 420 },
+    { date: "2024-06-13", nointervention: 81, intervention: 130 },
+    { date: "2024-06-14", nointervention: 426, intervention: 380 },
+    { date: "2024-06-15", nointervention: 307, intervention: 350 },
+    { date: "2024-06-16", nointervention: 371, intervention: 310 },
+    { date: "2024-06-17", nointervention: 475, intervention: 520 },
+    { date: "2024-06-18", nointervention: 107, intervention: 170 },
+    { date: "2024-06-19", nointervention: 341, intervention: 290 },
+    { date: "2024-06-20", nointervention: 408, intervention: 450 },
+    { date: "2024-06-21", nointervention: 169, intervention: 210 },
+    { date: "2024-06-22", nointervention: 317, intervention: 270 },
+    { date: "2024-06-23", nointervention: 480, intervention: 530 },
+    { date: "2024-06-24", nointervention: 132, intervention: 180 },
+    { date: "2024-06-25", nointervention: 141, intervention: 190 },
+    { date: "2024-06-26", nointervention: 434, intervention: 380 },
+    { date: "2024-06-27", nointervention: 448, intervention: 490 },
+    { date: "2024-06-28", nointervention: 149, intervention: 200 },
+    { date: "2024-06-29", nointervention: 103, intervention: 160 },
+    { date: "2024-06-30", nointervention: 446, intervention: 400 },
 ];
 
 const chartConfig = {
     visitors: {
         label: "Visitors",
     },
-    desktop: {
-        label: "Desktop",
+    nointervention: {
+        label: "No intervention",
         color: "hsl(var(--chart-1))",
     },
-    mobile: {
-        label: "Mobile",
+    intervention: {
+        label: "Intervention",
         color: "hsl(var(--chart-2))",
     },
 } satisfies ChartConfig;
@@ -198,7 +198,7 @@ export function MainChart() {
                     <AreaChart data={filteredData}>
                         <defs>
                             <linearGradient
-                                id="fillDesktop"
+                                id="fillnointervention"
                                 x1="0"
                                 y1="0"
                                 x2="0"
@@ -206,17 +206,17 @@ export function MainChart() {
                             >
                                 <stop
                                     offset="5%"
-                                    stopColor="var(--color-desktop)"
+                                    stopColor="var(--color-nointervention)"
                                     stopOpacity={0.8}
                                 />
                                 <stop
                                     offset="95%"
-                                    stopColor="var(--color-desktop)"
+                                    stopColor="var(--color-nointervention)"
                                     stopOpacity={0.1}
                                 />
                             </linearGradient>
                             <linearGradient
-                                id="fillMobile"
+                                id="fillintervention"
                                 x1="0"
                                 y1="0"
                                 x2="0"
@@ -224,12 +224,12 @@ export function MainChart() {
                             >
                                 <stop
                                     offset="5%"
-                                    stopColor="var(--color-mobile)"
+                                    stopColor="var(--color-intervention)"
                                     stopOpacity={0.8}
                                 />
                                 <stop
                                     offset="95%"
-                                    stopColor="var(--color-mobile)"
+                                    stopColor="var(--color-intervention)"
                                     stopOpacity={0.1}
                                 />
                             </linearGradient>
@@ -266,17 +266,17 @@ export function MainChart() {
                             }
                         />
                         <Area
-                            dataKey="mobile"
+                            dataKey="intervention"
                             type="natural"
-                            fill="url(#fillMobile)"
-                            stroke="var(--color-mobile)"
+                            fill="url(#fillintervention)"
+                            stroke="var(--color-intervention)"
                             stackId="a"
                         />
                         <Area
-                            dataKey="desktop"
+                            dataKey="nointervention"
                             type="natural"
-                            fill="url(#fillDesktop)"
-                            stroke="var(--color-desktop)"
+                            fill="url(#fillnointervention)"
+                            stroke="var(--color-nointervention)"
                             stackId="a"
                         />
                         <ChartLegend content={<ChartLegendContent />} />
