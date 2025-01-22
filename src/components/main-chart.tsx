@@ -120,8 +120,8 @@ const chartData = [
 ];
 
 const chartConfig = {
-    visitors: {
-        label: "Visitors",
+    longcovidcases: {
+        label: "Long Covid cases",
     },
     nointervention: {
         label: "No intervention",
