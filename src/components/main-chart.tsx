@@ -49,20 +49,28 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function MainChart() {
-    const [timeRange, setTimeRange] = React.useState("90d");
+    const [timeRange, setTimeRange] = React.useState("5y");
 
     const filteredData = chartData.filter((item) => {
         const date = new Date(item.date);
-        const referenceDate = new Date("2024-06-30");
-        let daysToSubtract = 90;
-        if (timeRange === "30d") {
-            daysToSubtract = 30;
-        } else if (timeRange === "7d") {
-            daysToSubtract = 7;
+        const startDate = new Date("2024-06-30");
+        let endDate = new Date("2029-01-01");
+
+        switch (timeRange) {
+            case "10y":
+                endDate = new Date("2034-01-01");
+                break;
+            case "25y":
+                endDate = new Date("2049-01-01");
+                break;
+            case "50y":
+                endDate = new Date("2074-01-01");
+                break;
+            case "100y":
+                endDate = new Date("2124-01-01");
+                break;
         }
-        const startDate = new Date(referenceDate);
-        startDate.setDate(startDate.getDate() - daysToSubtract);
-        return date >= startDate;
+        return date >= startDate && date <= endDate;
     });
 
     return (
@@ -88,19 +96,25 @@ export function MainChart() {
                 <Select value={timeRange} onValueChange={setTimeRange}>
                     <SelectTrigger
                         className="w-[160px] rounded-lg sm:ml-auto"
-                        aria-label="Select a value"
+                        aria-label="Select projection range"
                     >
-                        <SelectValue placeholder="Last 3 months" />
+                        <SelectValue placeholder="5 year projection" />
                     </SelectTrigger>
                     <SelectContent className="rounded-xl">
-                        <SelectItem value="90d" className="rounded-lg">
-                            Last 3 months
+                        <SelectItem value="5y" className="rounded-lg">
+                            5 Year Projection
                         </SelectItem>
-                        <SelectItem value="30d" className="rounded-lg">
-                            Last 30 days
+                        <SelectItem value="10y" className="rounded-lg">
+                            10 Year Projection
                         </SelectItem>
-                        <SelectItem value="7d" className="rounded-lg">
-                            Last 7 days
+                        <SelectItem value="25y" className="rounded-lg">
+                            25 Year Projection
+                        </SelectItem>
+                        <SelectItem value="50y" className="rounded-lg">
+                            50 Year Projection
+                        </SelectItem>
+                        <SelectItem value="100y" className="rounded-lg">
+                            100 Year Projection
                         </SelectItem>
                     </SelectContent>
                 </Select>
