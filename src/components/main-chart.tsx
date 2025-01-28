@@ -53,7 +53,7 @@ export function MainChart() {
 
     const filteredData = chartData.filter((item) => {
         const date = new Date(item.date);
-        const startDate = new Date("2024-06-30");
+        const startDate = new Date("2025-01-01");
         let endDate = new Date("2029-01-01");
 
         switch (timeRange) {
@@ -170,6 +170,7 @@ export function MainChart() {
                             axisLine={false}
                             tickMargin={8}
                             minTickGap={32}
+                            interval={"preserveStartEnd"}
                             tickFormatter={(value) => {
                                 const date = new Date(value);
                                 return date.toLocaleDateString("en-US", {
