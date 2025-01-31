@@ -95,7 +95,7 @@ export function MainChart() {
                 </div>
                 <Select value={timeRange} onValueChange={setTimeRange}>
                     <SelectTrigger
-                        className="w-[160px] rounded-lg sm:ml-auto"
+                        className="w-auto rounded-lg sm:ml-auto"
                         aria-label="Select projection range"
                     >
                         <SelectValue placeholder="5 year projection" />
