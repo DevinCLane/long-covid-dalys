@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
 import {
     Card,
@@ -177,6 +177,13 @@ export function MainChart() {
                                     year: "numeric",
                                 });
                             }}
+                        />
+                        <YAxis
+                            axisLine={false}
+                            width={75}
+                            tick={{ width: 250 }}
+                            tickMargin={8}
+                            tickFormatter={(value) => value.toLocaleString()}
                         />
                         <ChartTooltip
                             cursor={false}
