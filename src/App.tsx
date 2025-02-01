@@ -4,14 +4,15 @@ import { SiteFooter } from "./components/site-footer";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 function App() {
-    const date = new Date().toLocaleDateString();
+    const date = new Date();
+    const localDate = new Intl.DateTimeFormat(navigator.language).format(date);
     return (
         <div className="min-h-screen flex flex-col">
             <Alert className="bg-orange-100">
                 <AlertTitle>Heads up!</AlertTitle>
                 <AlertDescription>
                     This is a work in progress and not currently displaying
-                    accurate data as of {date}
+                    accurate data as of {localDate}
                 </AlertDescription>
             </Alert>
 
