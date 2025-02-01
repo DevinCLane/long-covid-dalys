@@ -11,8 +11,8 @@ function App() {
             <Alert className="bg-orange-100">
                 <AlertTitle>Heads up!</AlertTitle>
                 <AlertDescription>
-                    This is a work in progress and not currently displaying
-                    accurate data as of {localDate}
+                    This is a work in progress and currently displaying test
+                    data as of {localDate}
                 </AlertDescription>
             </Alert>
 
