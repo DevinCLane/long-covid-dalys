@@ -1,8 +1,8 @@
 import "./App.css";
-import { Header } from "./components/header";
-import { MainChart } from "./components/main-chart";
-import { SiteFooter } from "./components/site-footer";
-import { WorkInProgressAlert } from "./components/work-in-progress-alert";
+import { Header } from "@/components/header";
+import { MainChart } from "@/components/main-chart";
+import { SiteFooter } from "@/components/site-footer";
+import { WorkInProgressAlert } from "@/components/work-in-progress-alert";
 
 function App() {
     return (
