@@ -1,8 +1,9 @@
 import "./App.css";
 import { Header } from "@/components/header";
-import { MainChart } from "@/components/main-chart";
+import { DALYs } from "@/components/DALYs";
 import { SiteFooter } from "@/components/site-footer";
 import { WorkInProgressAlert } from "@/components/work-in-progress-alert";
+import { Bedbound } from "@/components/bedbound";
 
 function App() {
     return (
@@ -10,7 +11,8 @@ function App() {
             <WorkInProgressAlert />
             <Header />
             <div className="lg:max-w-7xl mx-auto w-full">
-                <MainChart />
+                <DALYs />
+                <Bedbound />
                 <SiteFooter />
             </div>
         </div>

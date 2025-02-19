@@ -48,7 +48,7 @@ const chartConfig = {
     },
 } satisfies ChartConfig;
 
-export function MainChart() {
+export function Bedbound() {
     const [timeRange, setTimeRange] = React.useState("5y");
 
     const filteredData = chartData.filter((item) => {
