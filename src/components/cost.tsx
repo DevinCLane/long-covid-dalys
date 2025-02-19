@@ -48,7 +48,7 @@ const chartConfig = {
     },
 } satisfies ChartConfig;
 
-export function DALYs() {
+export function Cost() {
     const [timeRange, setTimeRange] = React.useState("5y");
 
     const filteredData = chartData.filter((item) => {
