@@ -77,7 +77,7 @@ export function HeartAttacks() {
         <Card>
             <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
                 <div className="grid flex-1 gap-1 text-center sm:text-left">
-                    <CardTitle>Long Covid cases</CardTitle>
+                    <CardTitle>Heart Attacks</CardTitle>
                     <CardDescription>
                         Showing total cases of long covid and disease burden as
                         measured in Disability-adjusted life years (DALYs).
