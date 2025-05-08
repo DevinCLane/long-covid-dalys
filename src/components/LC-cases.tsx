@@ -25,6 +25,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 const chartData = [
     { date: "2025-01-01", nointervention: 15000000, intervention: 12000000 },
     { date: "2029-01-01", nointervention: 12500000, intervention: 8000000 },
@@ -50,6 +51,11 @@ const chartConfig = {
 
 export function LCCases() {
     const [timeRange, setTimeRange] = React.useState("5y");
+    const [interventions, setInterventions] = React.useState({
+        sickLeave: false,
+        ventilation: false,
+        masks: false,
+    });
 
     const filteredData = chartData.filter((item) => {
         const date = new Date(item.date);
@@ -122,7 +128,7 @@ export function LCCases() {
             <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
                 <ChartContainer
                     config={chartConfig}
-                    className="aspect-auto h-[250px] w-full"
+                    className="aspect-auto h-[500px] w-full"
                 >
                     <AreaChart data={filteredData}>
                         <defs>
@@ -214,7 +220,113 @@ export function LCCases() {
                             stroke="var(--color-nointervention)"
                             stackId="a"
                         />
-                        <ChartLegend content={<ChartLegendContent />} />
+                        <ChartLegend
+                            content={
+                                <>
+                                    <ChartLegendContent />
+                                    <div className="mt-4 grid grid-cols-2 gap-x-8 gap-y-2">
+                                        <div className="items-top flex space-x-2 mt-4">
+                                            <Checkbox id="sickLeave" />
+                                            <div className="grid gap-0.5 leading-none">
+                                                <label
+                                                    htmlFor="sickLeave"
+                                                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-75"
+                                                >
+                                                    Paid sick leave
+                                                </label>
+                                                <p className="text-sm text-muted-foreground">
+                                                    Mandatory paid sick leave
+                                                    for workers with COVID-19
+                                                    symptoms
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div className="items-top flex space-x-2 mt-4">
+                                            <Checkbox id="ventilation" />
+                                            <div className="grid gap-0.5 leading-none">
+                                                <label
+                                                    htmlFor="ventilation"
+                                                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-75"
+                                                >
+                                                    Improved ventilation in
+                                                    schools
+                                                </label>
+                                                <p className="text-sm text-muted-foreground">
+                                                    Enhanced air filtration and
+                                                    ventilation in educational
+                                                    facilities
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div className="items-top flex space-x-2 mt-4">
+                                            <Checkbox id="testing" />
+                                            <div className="grid gap-0.5 leading-none">
+                                                <label
+                                                    htmlFor="testing"
+                                                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-75"
+                                                >
+                                                    Testing and isolation
+                                                </label>
+                                                <p className="text-sm text-muted-foreground">
+                                                    Covid testing and isolation
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div className="items-top flex space-x-2 mt-4">
+                                            <Checkbox id="vaccination" />
+                                            <div className="grid gap-0.5 leading-none">
+                                                <label
+                                                    htmlFor="vaccination"
+                                                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-75"
+                                                >
+                                                    Vaccination
+                                                </label>
+                                                <p className="text-sm text-muted-foreground">
+                                                    Current vaccines at certain
+                                                    % of community
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div className="items-top flex space-x-2 mt-4">
+                                            <Checkbox id="masks" />
+                                            <div className="grid gap-0.5 leading-none">
+                                                <label
+                                                    htmlFor="masks"
+                                                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-75"
+                                                >
+                                                    Masking
+                                                </label>
+                                                <p className="text-sm text-muted-foreground">
+                                                    Universal masking, partial,
+                                                    health care settings, etc
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div className="items-top flex space-x-2 mt-4">
+                                            <Checkbox id="interventions" />
+                                            <div className="grid gap-0.5 leading-none">
+                                                <label
+                                                    htmlFor="interventions"
+                                                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-75"
+                                                >
+                                                    Pharmaceutical interventions
+                                                    - infection prevention
+                                                </label>
+                                                <p className="text-sm text-muted-foreground">
+                                                    Nasal sprays, improved
+                                                    vaccines
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </>
+                            }
+                        />
                     </AreaChart>
                 </ChartContainer>
             </CardContent>
