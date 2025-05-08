@@ -55,6 +55,8 @@ export function LCCases() {
     sickLeave: false,
     ventilation: false,
     masks: false,
+    pharmaceuticalprevention: false,
+    vaccination: false,
   });
 
   const filteredData = chartData.filter((item) => {
@@ -295,13 +297,13 @@ export function LCCases() {
                     </div>
 
                     <div className="mt-4 flex gap-x-4 text-left">
-                      <Checkbox id="interventions" />
+                      <Checkbox id="pharmaceutical-prevention" />
                       <div className="grid gap-0.5 leading-none">
                         <label
-                          htmlFor="interventions"
+                          htmlFor="pharmaceutical-prevention"
                           className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-75"
                         >
-                          Pharmaceutical interventions - infection prevention
+                          Pharmaceutical infection prevention
                         </label>
                         <p className="text-sm text-muted-foreground">
                           Nasal sprays, improved vaccines
