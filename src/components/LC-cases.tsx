@@ -212,10 +212,12 @@ export function LCCases() {
               }}
             />
             <YAxis
+              dataKey="cases"
               axisLine={false}
               width={75}
               tick={{ width: 250 }}
               tickMargin={8}
+              domain={[0, 15000000]}
               tickFormatter={(value) => value.toLocaleString()}
             />
             <ChartTooltip
