@@ -27,59 +27,96 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 const chartData = [
-  { date: "2025-01-01", nointervention: 15000000, intervention: 12000000 },
-  { date: "2029-01-01", nointervention: 12500000, intervention: 8000000 },
-  { date: "2034-01-01", nointervention: 10000000, intervention: 5000000 },
-  { date: "2049-01-01", nointervention: 8000000, intervention: 2000000 },
-  { date: "2074-01-01", nointervention: 5000000, intervention: 500000 },
-  { date: "2124-01-01", nointervention: 2000000, intervention: 100000 },
+  { date: "2025-01-01", cases: 15000000 },
+  { date: "2029-01-01", cases: 12500000 },
+  { date: "2034-01-01", cases: 10000000 },
+  { date: "2049-01-01", cases: 8000000 },
+  { date: "2074-01-01", cases: 5000000 },
+  { date: "2124-01-01", cases: 2000000 },
 ];
 
 const chartConfig = {
-  longcovidcases: {
+  cases: {
     label: "Long Covid cases",
-  },
-  nointervention: {
-    label: "No intervention",
     color: "hsl(var(--chart-1))",
   },
-  intervention: {
-    label: "Intervention",
-    color: "hsl(var(--chart-2))",
-  },
 } satisfies ChartConfig;
+
+const calculateReducedCases = (
+  baseData: typeof chartData,
+  interventions: Record<string, boolean>,
+) => {
+  const reductionFactor = Object.entries(interventions).reduce(
+    (acc, [key, value]) => {
+      if (value) {
+        switch (key) {
+          case "sickLeave":
+            return acc + 0.1; // 10% reduction
+          case "ventilation":
+            return acc + 0.15; // 15% reduction
+          case "masks":
+            return acc + 0.2; // 20% reduction
+          case "pharmaceuticalprevention":
+            return acc + 0.25; // 25% reduction
+          case "vaccination":
+            return acc + 0.3; // 30% reduction
+          case "testing":
+            return acc + 0.1; // 10% reduction
+          default:
+            return acc;
+        }
+      }
+      return acc;
+    },
+    0,
+  );
+  return baseData.map((item) => ({
+    date: item.date,
+    cases: Math.round(item.cases * (1 - reductionFactor)),
+  }));
+};
 
 export function LCCases() {
   const [timeRange, setTimeRange] = React.useState("5y");
   const [interventions, setInterventions] = React.useState({
     sickLeave: false,
     ventilation: false,
+    testing: false,
     masks: false,
     pharmaceuticalprevention: false,
     vaccination: false,
   });
 
-  const filteredData = chartData.filter((item) => {
-    const date = new Date(item.date);
-    const startDate = new Date("2025-01-01");
-    let endDate = new Date("2029-01-01");
+  const handleInterventionChange = (id: string, checked: boolean) => {
+    setInterventions((prev) => ({
+      ...prev,
+      [id]: checked,
+    }));
+  };
 
-    switch (timeRange) {
-      case "10y":
-        endDate = new Date("2034-01-01");
-        break;
-      case "25y":
-        endDate = new Date("2049-01-01");
-        break;
-      case "50y":
-        endDate = new Date("2074-01-01");
-        break;
-      case "100y":
-        endDate = new Date("2124-01-01");
-        break;
-    }
-    return date >= startDate && date <= endDate;
-  });
+  const filteredData = calculateReducedCases(chartData, interventions).filter(
+    (item) => {
+      const date = new Date(item.date);
+      const startDate = new Date("2025-01-01");
+      let endDate = new Date("2029-01-01");
+
+      switch (timeRange) {
+        case "10y":
+          endDate = new Date("2034-01-01");
+          break;
+        case "25y":
+          endDate = new Date("2049-01-01");
+          break;
+        case "50y":
+          endDate = new Date("2074-01-01");
+          break;
+        case "100y":
+          endDate = new Date("2124-01-01");
+          break;
+      }
+      return date >= startDate && date <= endDate;
+    },
+  );
 
   return (
     <Card>
@@ -134,21 +171,15 @@ export function LCCases() {
         >
           <AreaChart data={filteredData}>
             <defs>
-              <linearGradient
-                id="fillnointervention"
-                x1="0"
-                y1="0"
-                x2="0"
-                y2="1"
-              >
+              <linearGradient id="fillcases" x1="0" y1="0" x2="0" y2="1">
                 <stop
                   offset="5%"
-                  stopColor="var(--color-nointervention)"
+                  stopColor="var(--color-cases)"
                   stopOpacity={0.8}
                 />
                 <stop
                   offset="95%"
-                  stopColor="var(--color-nointervention)"
+                  stopColor="var(--color-cases)"
                   stopOpacity={0.1}
                 />
               </linearGradient>
@@ -201,17 +232,10 @@ export function LCCases() {
               }
             />
             <Area
-              dataKey="intervention"
+              dataKey="cases"
               type="natural"
-              fill="url(#fillintervention)"
-              stroke="var(--color-intervention)"
-              stackId="a"
-            />
-            <Area
-              dataKey="nointervention"
-              type="natural"
-              fill="url(#fillnointervention)"
-              stroke="var(--color-nointervention)"
+              fill="url(#fillcases)"
+              stroke="var(--color-cases)"
               stackId="a"
             />
             <ChartLegend
@@ -220,7 +244,16 @@ export function LCCases() {
                   <ChartLegendContent />
                   <div className="mt-4 grid grid-cols-2 gap-x-8 gap-y-2">
                     <div className="mt-4 flex gap-x-4 text-left">
-                      <Checkbox id="sickLeave" />
+                      <Checkbox
+                        id="sickLeave"
+                        checked={interventions.sickLeave}
+                        onCheckedChange={(checked) =>
+                          handleInterventionChange(
+                            "sickLeave",
+                            checked as boolean,
+                          )
+                        }
+                      />
                       <div className="grid gap-0.5 leading-none">
                         <label
                           htmlFor="sickLeave"
@@ -236,7 +269,16 @@ export function LCCases() {
                     </div>
 
                     <div className="mt-4 flex gap-x-4 text-left">
-                      <Checkbox id="ventilation" />
+                      <Checkbox
+                        id="ventilation"
+                        checked={interventions.ventilation}
+                        onCheckedChange={(checked) =>
+                          handleInterventionChange(
+                            "ventilation",
+                            checked as boolean,
+                          )
+                        }
+                      />
                       <div className="grid gap-0.5 leading-none">
                         <label
                           htmlFor="ventilation"
@@ -252,7 +294,16 @@ export function LCCases() {
                     </div>
 
                     <div className="mt-4 flex gap-x-4 text-left">
-                      <Checkbox id="testing" />
+                      <Checkbox
+                        id="testing"
+                        checked={interventions.testing}
+                        onCheckedChange={(checked) =>
+                          handleInterventionChange(
+                            "testing",
+                            checked as boolean,
+                          )
+                        }
+                      />
                       <div className="grid gap-0.5 leading-none">
                         <label
                           htmlFor="testing"
@@ -267,7 +318,16 @@ export function LCCases() {
                     </div>
 
                     <div className="mt-4 flex gap-x-4 text-left">
-                      <Checkbox id="vaccination" />
+                      <Checkbox
+                        id="vaccination"
+                        checked={interventions.vaccination}
+                        onCheckedChange={(checked) =>
+                          handleInterventionChange(
+                            "vaccination",
+                            checked as boolean,
+                          )
+                        }
+                      />
                       <div className="grid gap-0.5 leading-none">
                         <label
                           htmlFor="vaccination"
@@ -282,7 +342,13 @@ export function LCCases() {
                     </div>
 
                     <div className="mt-4 flex gap-x-4 text-left">
-                      <Checkbox id="masks" />
+                      <Checkbox
+                        id="masks"
+                        checked={interventions.masks}
+                        onCheckedChange={(checked) =>
+                          handleInterventionChange("masks", checked as boolean)
+                        }
+                      />
                       <div className="grid gap-0.5 leading-none">
                         <label
                           htmlFor="masks"
@@ -297,7 +363,16 @@ export function LCCases() {
                     </div>
 
                     <div className="mt-4 flex gap-x-4 text-left">
-                      <Checkbox id="pharmaceutical-prevention" />
+                      <Checkbox
+                        id="pharmaceutical-prevention"
+                        checked={interventions.pharmaceuticalprevention}
+                        onCheckedChange={(checked) =>
+                          handleInterventionChange(
+                            "pharmaceuticalprevention",
+                            checked as boolean,
+                          )
+                        }
+                      />
                       <div className="grid gap-0.5 leading-none">
                         <label
                           htmlFor="pharmaceutical-prevention"
