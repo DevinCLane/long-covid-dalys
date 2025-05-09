@@ -26,14 +26,22 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-const chartData = [
-  { date: "2025-01-01", cases: 15000000 },
-  { date: "2029-01-01", cases: 12500000 },
-  { date: "2034-01-01", cases: 10000000 },
-  { date: "2049-01-01", cases: 8000000 },
-  { date: "2074-01-01", cases: 5000000 },
-  { date: "2124-01-01", cases: 2000000 },
-];
+const generateChartData = () => {
+  const data = [];
+  let currentCases = 17000000; // Starting with 17M cases
+  const yearlyReduction = 0.98; // 2% reduction per year
+
+  for (let year = 2025; year <= 2125; year++) {
+    data.push({
+      date: `${year}-01-01`,
+      cases: Math.round(currentCases),
+    });
+    currentCases *= yearlyReduction; // Reduce by 2% each year
+  }
+  return data;
+};
+
+const chartData = generateChartData();
 
 const chartConfig = {
   cases: {
