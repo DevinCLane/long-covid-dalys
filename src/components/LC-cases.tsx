@@ -26,6 +26,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
+
 const generateChartData = () => {
   const data = [];
   let currentCases = 17000000; // Starting with 17M cases
@@ -225,8 +226,9 @@ export function LCCases() {
               width={75}
               tick={{ width: 250 }}
               tickMargin={8}
-              domain={[0, 15000000]}
+              domain={[0, 17000000]}
               tickFormatter={(value) => value.toLocaleString()}
+              allowDataOverflow={false}
             />
             <ChartTooltip
               cursor={false}
