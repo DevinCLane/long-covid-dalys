@@ -26,6 +26,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Slider } from "./ui/slider";
 
 const generateChartData = () => {
   const data = [];
@@ -51,6 +52,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
+// to do: link the reduction rate to the slider values
 const calculateReducedCases = (
   baseData: typeof chartData,
   interventions: Record<string, boolean>,
@@ -266,7 +268,7 @@ export function LCCases() {
                           )
                         }
                       />
-                      <div className="grid gap-0.5 leading-none">
+                      <div className="grid w-full gap-0.5 leading-none">
                         <label
                           htmlFor="sickLeave"
                           className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-75"
@@ -277,6 +279,14 @@ export function LCCases() {
                           Mandatory paid sick leave for workers with COVID-19
                           symptoms
                         </p>
+                        <div className="w-[90%]">
+                          {/* to do: 
+                          - reset sliders to 0
+                              - keep slider disabled until checkbox is clicked
+                              - only view slider if check box is clicked? hidden otherwise?
+                          */}
+                          <Slider className="mt-2" />
+                        </div>
                       </div>
                     </div>
 
@@ -291,7 +301,7 @@ export function LCCases() {
                           )
                         }
                       />
-                      <div className="grid gap-0.5 leading-none">
+                      <div className="grid w-full gap-0.5 leading-none">
                         <label
                           htmlFor="ventilation"
                           className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-75"
@@ -302,6 +312,9 @@ export function LCCases() {
                           Enhanced air filtration and ventilation in educational
                           facilities
                         </p>
+                        <div className="w-[90%]">
+                          <Slider className="mt-2" />
+                        </div>
                       </div>
                     </div>
 
@@ -316,7 +329,7 @@ export function LCCases() {
                           )
                         }
                       />
-                      <div className="grid gap-0.5 leading-none">
+                      <div className="grid w-full gap-0.5 leading-none">
                         <label
                           htmlFor="testing"
                           className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-75"
@@ -326,6 +339,9 @@ export function LCCases() {
                         <p className="text-sm text-muted-foreground">
                           Covid testing and isolation
                         </p>
+                        <div className="w-[90%]">
+                          <Slider className="mt-2" />
+                        </div>
                       </div>
                     </div>
 
@@ -340,7 +356,7 @@ export function LCCases() {
                           )
                         }
                       />
-                      <div className="grid gap-0.5 leading-none">
+                      <div className="grid w-full gap-0.5 leading-none">
                         <label
                           htmlFor="vaccination"
                           className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-75"
@@ -350,6 +366,9 @@ export function LCCases() {
                         <p className="text-sm text-muted-foreground">
                           Current vaccines at certain % of community
                         </p>
+                        <div className="w-[90%]">
+                          <Slider className="mt-2" />
+                        </div>
                       </div>
                     </div>
 
@@ -361,7 +380,7 @@ export function LCCases() {
                           handleInterventionChange("masks", checked as boolean)
                         }
                       />
-                      <div className="grid gap-0.5 leading-none">
+                      <div className="grid w-full gap-0.5 leading-none">
                         <label
                           htmlFor="masks"
                           className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-75"
@@ -371,6 +390,9 @@ export function LCCases() {
                         <p className="text-sm text-muted-foreground">
                           Universal masking, partial, health care settings, etc
                         </p>
+                        <div className="w-[90%]">
+                          <Slider className="mt-2" />
+                        </div>
                       </div>
                     </div>
 
@@ -385,7 +407,7 @@ export function LCCases() {
                           )
                         }
                       />
-                      <div className="grid gap-0.5 leading-none">
+                      <div className="grid w-full gap-0.5 leading-none">
                         <label
                           htmlFor="pharmaceutical-prevention"
                           className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-75"
@@ -395,6 +417,9 @@ export function LCCases() {
                         <p className="text-sm text-muted-foreground">
                           Nasal sprays, improved vaccines
                         </p>
+                        <div className="w-[90%]">
+                          <Slider className="mt-2" />
+                        </div>
                       </div>
                     </div>
                   </div>
