@@ -26,7 +26,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Slider } from "./ui/slider";
+import { InterventionsSlider } from "@/components/interventions-slider";
 
 const generateChartData = () => {
   const data = [];
@@ -285,7 +285,7 @@ export function LCCases() {
                               - keep slider disabled until checkbox is clicked
                               - only view slider if check box is clicked? hidden otherwise?
                           */}
-                          <Slider className="mt-2" />
+                          <InterventionsSlider className="mt-2" />
                         </div>
                       </div>
                     </div>
@@ -313,7 +313,7 @@ export function LCCases() {
                           facilities
                         </p>
                         <div className="w-[90%]">
-                          <Slider className="mt-2" />
+                          <InterventionsSlider className="mt-2" />
                         </div>
                       </div>
                     </div>
@@ -340,7 +340,7 @@ export function LCCases() {
                           Covid testing and isolation
                         </p>
                         <div className="w-[90%]">
-                          <Slider className="mt-2" />
+                          <InterventionsSlider className="mt-2" />
                         </div>
                       </div>
                     </div>
@@ -367,7 +367,7 @@ export function LCCases() {
                           Current vaccines at certain % of community
                         </p>
                         <div className="w-[90%]">
-                          <Slider className="mt-2" />
+                          <InterventionsSlider className="mt-2" />
                         </div>
                       </div>
                     </div>
@@ -391,7 +391,7 @@ export function LCCases() {
                           Universal masking, partial, health care settings, etc
                         </p>
                         <div className="w-[90%]">
-                          <Slider className="mt-2" />
+                          <InterventionsSlider className="mt-2" />
                         </div>
                       </div>
                     </div>
@@ -418,7 +418,7 @@ export function LCCases() {
                           Nasal sprays, improved vaccines
                         </p>
                         <div className="w-[90%]">
-                          <Slider className="mt-2" />
+                          <InterventionsSlider className="mt-2" />
                         </div>
                       </div>
                     </div>
