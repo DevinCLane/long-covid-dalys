@@ -305,8 +305,8 @@ export function LCCases() {
                         </label>
                         <div className="w-[90%]">
                           <InterventionsSlider
-                            label="Ventilation Effectiveness"
-                            sublabel="Percentage of air filtration and ventilation improvement"
+                            label="Air Quality Improvements"
+                            sublabel="Percentage of buildings with effective air filtration, ventilation, and far germicial UVC"
                             minValue={0}
                             maxValue={100}
                             step={5}
@@ -426,7 +426,7 @@ export function LCCases() {
                         <div className="w-[90%]">
                           <InterventionsSlider
                             label="Pharmaceutical Prevention"
-                            sublabel="Percentage of high-risk population using preventive measures"
+                            sublabel="Percentage of population using preventive measures such as nasal sprays and PrEP"
                             minValue={0}
                             maxValue={100}
                             step={5}
