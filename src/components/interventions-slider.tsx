@@ -1,5 +1,3 @@
-"use client";
-
 import { useSliderWithInput } from "@/hooks/use-slider-with-input";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,13 +10,31 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { RotateCcw } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-function InterventionsSlider() {
-  const minValue = 0.0;
-  const maxValue = 2;
-  const initialValue = [1.25];
-  const defaultValue = [1];
+interface InterventionsSliderProps {
+  className?: string;
+  label?: string;
+  sublabel?: string;
+  minValue?: number;
+  maxValue?: number;
+  step?: number;
+  initialValue?: number[];
+  defaultValue?: number[];
+  disabled?: boolean;
+}
 
+function InterventionsSlider({
+  className,
+  label,
+  sublabel,
+  minValue = 0.0,
+  maxValue = 2,
+  step,
+  initialValue = [0.5],
+  defaultValue = [0],
+  disabled = false,
+}: InterventionsSliderProps) {
   const {
     sliderValue,
     inputValues,
@@ -29,11 +45,14 @@ function InterventionsSlider() {
   } = useSliderWithInput({ minValue, maxValue, initialValue, defaultValue });
 
   return (
-    <div className="min-w-[300px] space-y-3">
+    <div className={cn("min-w-[300px] space-y-3", className)}>
       <div className="flex items-center justify-between gap-2">
-        {/* to do: label should be a prop I can assign when i consume the component */}
-        <Label>Temperature</Label>
-        {/* to do: there should be a sub-label as a prop I can assign when I consume the component */}
+        <div>
+          <Label>{label}</Label>
+          {sublabel && (
+            <p className="text-sm text-muted-foreground">{sublabel}</p>
+          )}
+        </div>
         <div className="flex items-center gap-1">
           <TooltipProvider delayDuration={0}>
             <Tooltip>
@@ -44,6 +63,7 @@ function InterventionsSlider() {
                   className="size-7"
                   aria-label="Reset"
                   onClick={resetToDefault}
+                  disabled={disabled}
                 >
                   <RotateCcw size={16} strokeWidth={2} aria-hidden="true" />
                 </Button>
@@ -65,6 +85,7 @@ function InterventionsSlider() {
                 validateAndUpdateValue(inputValues[0], 0);
               }
             }}
+            disabled={disabled}
             aria-label="Enter value"
           />
         </div>
@@ -76,7 +97,8 @@ function InterventionsSlider() {
           onValueChange={handleSliderChange}
           min={minValue}
           max={maxValue}
-          step={0.01}
+          step={step}
+          disabled={disabled}
           aria-label="Temperature"
         />
       </div>

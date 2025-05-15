@@ -178,7 +178,7 @@ export function LCCases() {
       <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
         <ChartContainer
           config={chartConfig}
-          className="aspect-auto h-[500px] w-full"
+          className="aspect-auto h-[700px] w-full"
         >
           <AreaChart data={filteredData}>
             <defs>
@@ -269,7 +269,7 @@ export function LCCases() {
                         }
                       />
                       <div className="grid w-full gap-0.5 leading-none">
-                        <label
+                        {/* <label
                           htmlFor="sickLeave"
                           className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-75"
                         >
@@ -278,14 +278,19 @@ export function LCCases() {
                         <p className="text-sm text-muted-foreground">
                           Mandatory paid sick leave for workers with COVID-19
                           symptoms
-                        </p>
+                        </p> */}
                         <div className="w-[90%]">
-                          {/* to do: 
-                          - reset sliders to 0
-                              - keep slider disabled until checkbox is clicked
-                              - only view slider if check box is clicked? hidden otherwise?
-                          */}
-                          <InterventionsSlider className="mt-2" />
+                          <InterventionsSlider
+                            label="Paid Sick Leave"
+                            sublabel="Mandatory paid sick leave for workers with COVID-19
+                          symptoms, in weeks"
+                            minValue={0}
+                            maxValue={52}
+                            step={1}
+                            initialValue={[0]}
+                            defaultValue={[0]}
+                            disabled={!interventions.sickLeave}
+                          />
                         </div>
                       </div>
                     </div>
