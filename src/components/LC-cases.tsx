@@ -269,16 +269,9 @@ export function LCCases() {
                         }
                       />
                       <div className="grid w-full gap-0.5 leading-none">
-                        {/* <label
-                          htmlFor="sickLeave"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-75"
-                        >
+                        <label htmlFor="sickLeave" className="sr-only">
                           Paid sick leave
                         </label>
-                        <p className="text-sm text-muted-foreground">
-                          Mandatory paid sick leave for workers with COVID-19
-                          symptoms
-                        </p> */}
                         <div className="w-[90%]">
                           <InterventionsSlider
                             label="Paid Sick Leave"
@@ -307,18 +300,21 @@ export function LCCases() {
                         }
                       />
                       <div className="grid w-full gap-0.5 leading-none">
-                        <label
-                          htmlFor="ventilation"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-75"
-                        >
+                        <label htmlFor="ventilation" className="sr-only">
                           Improved ventilation in schools
                         </label>
-                        <p className="text-sm text-muted-foreground">
-                          Enhanced air filtration and ventilation in educational
-                          facilities
-                        </p>
                         <div className="w-[90%]">
-                          <InterventionsSlider className="mt-2" />
+                          <InterventionsSlider
+                            className="mt-2"
+                            label="Ventilation Effectiveness"
+                            sublabel="Percentage of air filtration and ventilation improvement"
+                            minValue={0}
+                            maxValue={100}
+                            step={5}
+                            initialValue={[0]}
+                            defaultValue={[0]}
+                            disabled={!interventions.ventilation}
+                          />
                         </div>
                       </div>
                     </div>
@@ -335,17 +331,21 @@ export function LCCases() {
                         }
                       />
                       <div className="grid w-full gap-0.5 leading-none">
-                        <label
-                          htmlFor="testing"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-75"
-                        >
+                        <label htmlFor="testing" className="sr-only">
                           Testing and isolation
                         </label>
-                        <p className="text-sm text-muted-foreground">
-                          Covid testing and isolation
-                        </p>
                         <div className="w-[90%]">
-                          <InterventionsSlider className="mt-2" />
+                          <InterventionsSlider
+                            className="mt-2"
+                            label="Testing Coverage"
+                            sublabel="Percentage of symptomatic individuals tested"
+                            minValue={0}
+                            maxValue={100}
+                            step={5}
+                            initialValue={[0]}
+                            defaultValue={[0]}
+                            disabled={!interventions.testing}
+                          />
                         </div>
                       </div>
                     </div>
@@ -362,17 +362,21 @@ export function LCCases() {
                         }
                       />
                       <div className="grid w-full gap-0.5 leading-none">
-                        <label
-                          htmlFor="vaccination"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-75"
-                        >
+                        <label htmlFor="vaccination" className="sr-only">
                           Vaccination
                         </label>
-                        <p className="text-sm text-muted-foreground">
-                          Current vaccines at certain % of community
-                        </p>
                         <div className="w-[90%]">
-                          <InterventionsSlider className="mt-2" />
+                          <InterventionsSlider
+                            className="mt-2"
+                            label="Vaccination Coverage"
+                            sublabel="Percentage of population with up-to-date vaccination"
+                            minValue={0}
+                            maxValue={100}
+                            step={5}
+                            initialValue={[0]}
+                            defaultValue={[0]}
+                            disabled={!interventions.vaccination}
+                          />
                         </div>
                       </div>
                     </div>
@@ -386,17 +390,21 @@ export function LCCases() {
                         }
                       />
                       <div className="grid w-full gap-0.5 leading-none">
-                        <label
-                          htmlFor="masks"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-75"
-                        >
+                        <label htmlFor="masks" className="sr-only">
                           Masking
                         </label>
-                        <p className="text-sm text-muted-foreground">
-                          Universal masking, partial, health care settings, etc
-                        </p>
                         <div className="w-[90%]">
-                          <InterventionsSlider className="mt-2" />
+                          <InterventionsSlider
+                            className="mt-2"
+                            label="Masking Adoption"
+                            sublabel="Percentage of population wearing effective masks"
+                            minValue={0}
+                            maxValue={100}
+                            step={5}
+                            initialValue={[0]}
+                            defaultValue={[0]}
+                            disabled={!interventions.masks}
+                          />
                         </div>
                       </div>
                     </div>
@@ -415,15 +423,22 @@ export function LCCases() {
                       <div className="grid w-full gap-0.5 leading-none">
                         <label
                           htmlFor="pharmaceutical-prevention"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-75"
+                          className="sr-only"
                         >
                           Pharmaceutical infection prevention
                         </label>
-                        <p className="text-sm text-muted-foreground">
-                          Nasal sprays, improved vaccines
-                        </p>
                         <div className="w-[90%]">
-                          <InterventionsSlider className="mt-2" />
+                          <InterventionsSlider
+                            className="mt-2"
+                            label="Pharmaceutical Prevention"
+                            sublabel="Percentage of high-risk population using preventive measures"
+                            minValue={0}
+                            maxValue={100}
+                            step={5}
+                            initialValue={[0]}
+                            defaultValue={[0]}
+                            disabled={!interventions.pharmaceuticalprevention}
+                          />
                         </div>
                       </div>
                     </div>
