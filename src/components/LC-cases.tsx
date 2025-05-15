@@ -305,7 +305,6 @@ export function LCCases() {
                         </label>
                         <div className="w-[90%]">
                           <InterventionsSlider
-                            className="mt-2"
                             label="Ventilation Effectiveness"
                             sublabel="Percentage of air filtration and ventilation improvement"
                             minValue={0}
@@ -336,7 +335,6 @@ export function LCCases() {
                         </label>
                         <div className="w-[90%]">
                           <InterventionsSlider
-                            className="mt-2"
                             label="Testing Coverage"
                             sublabel="Percentage of symptomatic individuals tested"
                             minValue={0}
@@ -367,7 +365,6 @@ export function LCCases() {
                         </label>
                         <div className="w-[90%]">
                           <InterventionsSlider
-                            className="mt-2"
                             label="Vaccination Coverage"
                             sublabel="Percentage of population with up-to-date vaccination"
                             minValue={0}
@@ -395,7 +392,6 @@ export function LCCases() {
                         </label>
                         <div className="w-[90%]">
                           <InterventionsSlider
-                            className="mt-2"
                             label="Masking Adoption"
                             sublabel="Percentage of population wearing effective masks"
                             minValue={0}
@@ -429,7 +425,6 @@ export function LCCases() {
                         </label>
                         <div className="w-[90%]">
                           <InterventionsSlider
-                            className="mt-2"
                             label="Pharmaceutical Prevention"
                             sublabel="Percentage of high-risk population using preventive measures"
                             minValue={0}
