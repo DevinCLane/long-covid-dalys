@@ -114,14 +114,6 @@ export function LCCases() {
       ...prev,
       [id]: checked,
     }));
-
-    // reset intervention value when unchecking
-    if (!checked) {
-      setInterventionValues((prev) => ({
-        ...prev,
-        [id]: 0,
-      }));
-    }
   };
 
   const handleSliderValueChange = (id: string, value: number[]) => {
