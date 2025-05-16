@@ -156,7 +156,7 @@ export function LCDALYs() {
     <Card>
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
-          <CardTitle>Long Covid Disease Burden</CardTitle>
+          <CardTitle>Long Covid Disease Burden in the United States</CardTitle>
           <CardDescription>
             Showing the total disease burden long covid as measured in
             Disability-adjusted life years (DALYs). Each DALY represents one
