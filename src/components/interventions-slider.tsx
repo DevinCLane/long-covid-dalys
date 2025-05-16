@@ -22,6 +22,7 @@ interface InterventionsSliderProps {
   initialValue?: number[];
   defaultValue?: number[];
   disabled?: boolean;
+  onValueChange?: (value: number[]) => void;
 }
 
 function InterventionsSlider({
@@ -34,6 +35,7 @@ function InterventionsSlider({
   initialValue = [0.5],
   defaultValue = [0],
   disabled = false,
+  onValueChange,
 }: InterventionsSliderProps) {
   const {
     sliderValue,
@@ -94,12 +96,14 @@ function InterventionsSlider({
         <Slider
           className="grow"
           value={sliderValue}
-          onValueChange={handleSliderChange}
+          onValueChange={(newValue) => {
+            handleSliderChange(newValue);
+            onValueChange?.(newValue);
+          }}
           min={minValue}
           max={maxValue}
           step={step}
           disabled={disabled}
-          aria-label="Temperature"
         />
       </div>
     </div>

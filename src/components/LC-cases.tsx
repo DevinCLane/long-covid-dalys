@@ -56,23 +56,25 @@ const chartConfig = {
 const calculateReducedCases = (
   baseData: typeof chartData,
   interventions: Record<string, boolean>,
+  interventionValues: Record<string, number>,
 ) => {
   const reductionFactor = Object.entries(interventions).reduce(
     (acc, [key, value]) => {
       if (value) {
+        const sliderValue = interventionValues[key];
         switch (key) {
           case "sickLeave":
-            return acc + 0.1; // 10% reduction
+            return acc + (sliderValue / 52) * 0.1; // 10% reduction
           case "ventilation":
-            return acc + 0.15; // 15% reduction
+            return acc + (sliderValue / 100) * 0.15; // 15% reduction
           case "masks":
-            return acc + 0.2; // 20% reduction
+            return acc + (sliderValue / 100) * 0.2; // 20% reduction
           case "pharmaceuticalprevention":
-            return acc + 0.25; // 25% reduction
+            return acc + (sliderValue / 100) * 0.25; // 25% reduction
           case "vaccination":
-            return acc + 0.3; // 30% reduction
+            return acc + (sliderValue / 100) * 0.3; // 30% reduction
           case "testing":
-            return acc + 0.1; // 10% reduction
+            return acc + (sliderValue / 100) * 0.1; // 10% reduction
           default:
             return acc;
         }
@@ -98,6 +100,15 @@ export function LCCases() {
     vaccination: false,
   });
 
+  const [interventionValues, setInterventionValues] = React.useState({
+    sickLeave: 0,
+    ventilation: 0,
+    testing: 0,
+    masks: 0,
+    pharmaceuticalprevention: 0,
+    vaccination: 0,
+  });
+
   const handleInterventionChange = (id: string, checked: boolean) => {
     setInterventions((prev) => ({
       ...prev,
@@ -105,29 +116,31 @@ export function LCCases() {
     }));
   };
 
-  const filteredData = calculateReducedCases(chartData, interventions).filter(
-    (item) => {
-      const date = new Date(item.date);
-      const startDate = new Date("2025-01-01");
-      let endDate = new Date("2029-01-01");
+  const filteredData = calculateReducedCases(
+    chartData,
+    interventions,
+    interventionValues,
+  ).filter((item) => {
+    const date = new Date(item.date);
+    const startDate = new Date("2025-01-01");
+    let endDate = new Date("2029-01-01");
 
-      switch (timeRange) {
-        case "10y":
-          endDate = new Date("2034-01-01");
-          break;
-        case "25y":
-          endDate = new Date("2049-01-01");
-          break;
-        case "50y":
-          endDate = new Date("2074-01-01");
-          break;
-        case "100y":
-          endDate = new Date("2124-01-01");
-          break;
-      }
-      return date >= startDate && date <= endDate;
-    },
-  );
+    switch (timeRange) {
+      case "10y":
+        endDate = new Date("2034-01-01");
+        break;
+      case "25y":
+        endDate = new Date("2049-01-01");
+        break;
+      case "50y":
+        endDate = new Date("2074-01-01");
+        break;
+      case "100y":
+        endDate = new Date("2124-01-01");
+        break;
+    }
+    return date >= startDate && date <= endDate;
+  });
 
   return (
     <Card>
@@ -283,6 +296,12 @@ export function LCCases() {
                             initialValue={[0]}
                             defaultValue={[0]}
                             disabled={!interventions.sickLeave}
+                            onValueChange={(value) => {
+                              setInterventionValues((prev) => ({
+                                ...prev,
+                                sickLeave: value[0],
+                              }));
+                            }}
                           />
                         </div>
                       </div>
@@ -313,6 +332,12 @@ export function LCCases() {
                             initialValue={[0]}
                             defaultValue={[0]}
                             disabled={!interventions.ventilation}
+                            onValueChange={(value) => {
+                              setInterventionValues((prev) => ({
+                                ...prev,
+                                ventilation: value[0],
+                              }));
+                            }}
                           />
                         </div>
                       </div>
@@ -343,6 +368,12 @@ export function LCCases() {
                             initialValue={[0]}
                             defaultValue={[0]}
                             disabled={!interventions.testing}
+                            onValueChange={(value) => {
+                              setInterventionValues((prev) => ({
+                                ...prev,
+                                testing: value[0],
+                              }));
+                            }}
                           />
                         </div>
                       </div>
@@ -373,6 +404,12 @@ export function LCCases() {
                             initialValue={[0]}
                             defaultValue={[0]}
                             disabled={!interventions.vaccination}
+                            onValueChange={(value) => {
+                              setInterventionValues((prev) => ({
+                                ...prev,
+                                vaccination: value[0],
+                              }));
+                            }}
                           />
                         </div>
                       </div>
@@ -400,6 +437,12 @@ export function LCCases() {
                             initialValue={[0]}
                             defaultValue={[0]}
                             disabled={!interventions.masks}
+                            onValueChange={(value) => {
+                              setInterventionValues((prev) => ({
+                                ...prev,
+                                masks: value[0],
+                              }));
+                            }}
                           />
                         </div>
                       </div>
@@ -433,6 +476,12 @@ export function LCCases() {
                             initialValue={[0]}
                             defaultValue={[0]}
                             disabled={!interventions.pharmaceuticalprevention}
+                            onValueChange={(value) => {
+                              setInterventionValues((prev) => ({
+                                ...prev,
+                                pharmaceuticalprevention: value[0],
+                              }));
+                            }}
                           />
                         </div>
                       </div>
