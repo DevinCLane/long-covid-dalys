@@ -114,6 +114,21 @@ export function LCCases() {
       ...prev,
       [id]: checked,
     }));
+
+    // reset intervention value when unchecking
+    if (!checked) {
+      setInterventionValues((prev) => ({
+        ...prev,
+        [id]: 0,
+      }));
+    }
+  };
+
+  const handleSliderValueChange = (id: string, value: number[]) => {
+    setInterventionValues((prev) => ({
+      ...prev,
+      [id]: value[0],
+    }));
   };
 
   const filteredData = calculateReducedCases(
@@ -296,12 +311,9 @@ export function LCCases() {
                             initialValue={[0]}
                             defaultValue={[0]}
                             disabled={!interventions.sickLeave}
-                            onValueChange={(value) => {
-                              setInterventionValues((prev) => ({
-                                ...prev,
-                                sickLeave: value[0],
-                              }));
-                            }}
+                            onValueChange={(value) =>
+                              handleSliderValueChange("sickLeave", value)
+                            }
                           />
                         </div>
                       </div>
@@ -332,12 +344,9 @@ export function LCCases() {
                             initialValue={[0]}
                             defaultValue={[0]}
                             disabled={!interventions.ventilation}
-                            onValueChange={(value) => {
-                              setInterventionValues((prev) => ({
-                                ...prev,
-                                ventilation: value[0],
-                              }));
-                            }}
+                            onValueChange={(value) =>
+                              handleSliderValueChange("ventilation", value)
+                            }
                           />
                         </div>
                       </div>
@@ -368,12 +377,9 @@ export function LCCases() {
                             initialValue={[0]}
                             defaultValue={[0]}
                             disabled={!interventions.testing}
-                            onValueChange={(value) => {
-                              setInterventionValues((prev) => ({
-                                ...prev,
-                                testing: value[0],
-                              }));
-                            }}
+                            onValueChange={(value) =>
+                              handleSliderValueChange("testing", value)
+                            }
                           />
                         </div>
                       </div>
@@ -404,12 +410,9 @@ export function LCCases() {
                             initialValue={[0]}
                             defaultValue={[0]}
                             disabled={!interventions.vaccination}
-                            onValueChange={(value) => {
-                              setInterventionValues((prev) => ({
-                                ...prev,
-                                vaccination: value[0],
-                              }));
-                            }}
+                            onValueChange={(value) =>
+                              handleSliderValueChange("vaccination", value)
+                            }
                           />
                         </div>
                       </div>
@@ -437,12 +440,9 @@ export function LCCases() {
                             initialValue={[0]}
                             defaultValue={[0]}
                             disabled={!interventions.masks}
-                            onValueChange={(value) => {
-                              setInterventionValues((prev) => ({
-                                ...prev,
-                                masks: value[0],
-                              }));
-                            }}
+                            onValueChange={(value) =>
+                              handleSliderValueChange("masks", value)
+                            }
                           />
                         </div>
                       </div>
@@ -476,12 +476,12 @@ export function LCCases() {
                             initialValue={[0]}
                             defaultValue={[0]}
                             disabled={!interventions.pharmaceuticalprevention}
-                            onValueChange={(value) => {
-                              setInterventionValues((prev) => ({
-                                ...prev,
-                                pharmaceuticalprevention: value[0],
-                              }));
-                            }}
+                            onValueChange={(value) =>
+                              handleSliderValueChange(
+                                "pharmaceuticalprevention",
+                                value,
+                              )
+                            }
                           />
                         </div>
                       </div>
