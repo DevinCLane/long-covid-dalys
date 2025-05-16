@@ -26,6 +26,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
+import { InterventionsSlider } from "@/components/interventions-slider";
 
 const generateChartData = () => {
   const data = [];
@@ -51,26 +52,29 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
+// to do: link the reduction rate to the slider values
 const calculateReducedCases = (
   baseData: typeof chartData,
   interventions: Record<string, boolean>,
+  interventionValues: Record<string, number>,
 ) => {
   const reductionFactor = Object.entries(interventions).reduce(
     (acc, [key, value]) => {
       if (value) {
+        const sliderValue = interventionValues[key];
         switch (key) {
           case "sickLeave":
-            return acc + 0.1; // 10% reduction
+            return acc + (sliderValue / 52) * 0.1; // 10% reduction
           case "ventilation":
-            return acc + 0.15; // 15% reduction
+            return acc + (sliderValue / 100) * 0.15; // 15% reduction
           case "masks":
-            return acc + 0.2; // 20% reduction
+            return acc + (sliderValue / 100) * 0.2; // 20% reduction
           case "pharmaceuticalprevention":
-            return acc + 0.25; // 25% reduction
+            return acc + (sliderValue / 100) * 0.25; // 25% reduction
           case "vaccination":
-            return acc + 0.3; // 30% reduction
+            return acc + (sliderValue / 100) * 0.3; // 30% reduction
           case "testing":
-            return acc + 0.1; // 10% reduction
+            return acc + (sliderValue / 100) * 0.1; // 10% reduction
           default:
             return acc;
         }
@@ -96,6 +100,15 @@ export function LCCases() {
     vaccination: false,
   });
 
+  const [interventionValues, setInterventionValues] = React.useState({
+    sickLeave: 0,
+    ventilation: 0,
+    testing: 0,
+    masks: 0,
+    pharmaceuticalprevention: 0,
+    vaccination: 0,
+  });
+
   const handleInterventionChange = (id: string, checked: boolean) => {
     setInterventions((prev) => ({
       ...prev,
@@ -103,29 +116,31 @@ export function LCCases() {
     }));
   };
 
-  const filteredData = calculateReducedCases(chartData, interventions).filter(
-    (item) => {
-      const date = new Date(item.date);
-      const startDate = new Date("2025-01-01");
-      let endDate = new Date("2029-01-01");
+  const filteredData = calculateReducedCases(
+    chartData,
+    interventions,
+    interventionValues,
+  ).filter((item) => {
+    const date = new Date(item.date);
+    const startDate = new Date("2025-01-01");
+    let endDate = new Date("2029-01-01");
 
-      switch (timeRange) {
-        case "10y":
-          endDate = new Date("2034-01-01");
-          break;
-        case "25y":
-          endDate = new Date("2049-01-01");
-          break;
-        case "50y":
-          endDate = new Date("2074-01-01");
-          break;
-        case "100y":
-          endDate = new Date("2124-01-01");
-          break;
-      }
-      return date >= startDate && date <= endDate;
-    },
-  );
+    switch (timeRange) {
+      case "10y":
+        endDate = new Date("2034-01-01");
+        break;
+      case "25y":
+        endDate = new Date("2049-01-01");
+        break;
+      case "50y":
+        endDate = new Date("2074-01-01");
+        break;
+      case "100y":
+        endDate = new Date("2124-01-01");
+        break;
+    }
+    return date >= startDate && date <= endDate;
+  });
 
   return (
     <Card>
@@ -176,7 +191,7 @@ export function LCCases() {
       <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
         <ChartContainer
           config={chartConfig}
-          className="aspect-auto h-[500px] w-full"
+          className="aspect-auto h-[700px] w-full"
         >
           <AreaChart data={filteredData}>
             <defs>
@@ -266,17 +281,29 @@ export function LCCases() {
                           )
                         }
                       />
-                      <div className="grid gap-0.5 leading-none">
-                        <label
-                          htmlFor="sickLeave"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-75"
-                        >
+                      <div className="grid w-full gap-0.5 leading-none">
+                        <label htmlFor="sickLeave" className="sr-only">
                           Paid sick leave
                         </label>
-                        <p className="text-sm text-muted-foreground">
-                          Mandatory paid sick leave for workers with COVID-19
-                          symptoms
-                        </p>
+                        <div className="w-[90%]">
+                          <InterventionsSlider
+                            label="Paid Sick Leave"
+                            sublabel="Mandatory paid sick leave for workers with COVID-19
+                          symptoms, in weeks"
+                            minValue={0}
+                            maxValue={52}
+                            step={1}
+                            initialValue={[0]}
+                            defaultValue={[0]}
+                            disabled={!interventions.sickLeave}
+                            onValueChange={(value) => {
+                              setInterventionValues((prev) => ({
+                                ...prev,
+                                sickLeave: value[0],
+                              }));
+                            }}
+                          />
+                        </div>
                       </div>
                     </div>
 
@@ -291,17 +318,28 @@ export function LCCases() {
                           )
                         }
                       />
-                      <div className="grid gap-0.5 leading-none">
-                        <label
-                          htmlFor="ventilation"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-75"
-                        >
+                      <div className="grid w-full gap-0.5 leading-none">
+                        <label htmlFor="ventilation" className="sr-only">
                           Improved ventilation in schools
                         </label>
-                        <p className="text-sm text-muted-foreground">
-                          Enhanced air filtration and ventilation in educational
-                          facilities
-                        </p>
+                        <div className="w-[90%]">
+                          <InterventionsSlider
+                            label="Air Quality Improvements"
+                            sublabel="Percentage of buildings with effective air filtration, ventilation, and far germicial UVC"
+                            minValue={0}
+                            maxValue={100}
+                            step={5}
+                            initialValue={[0]}
+                            defaultValue={[0]}
+                            disabled={!interventions.ventilation}
+                            onValueChange={(value) => {
+                              setInterventionValues((prev) => ({
+                                ...prev,
+                                ventilation: value[0],
+                              }));
+                            }}
+                          />
+                        </div>
                       </div>
                     </div>
 
@@ -316,16 +354,28 @@ export function LCCases() {
                           )
                         }
                       />
-                      <div className="grid gap-0.5 leading-none">
-                        <label
-                          htmlFor="testing"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-75"
-                        >
+                      <div className="grid w-full gap-0.5 leading-none">
+                        <label htmlFor="testing" className="sr-only">
                           Testing and isolation
                         </label>
-                        <p className="text-sm text-muted-foreground">
-                          Covid testing and isolation
-                        </p>
+                        <div className="w-[90%]">
+                          <InterventionsSlider
+                            label="Testing Coverage"
+                            sublabel="Percentage of symptomatic individuals tested"
+                            minValue={0}
+                            maxValue={100}
+                            step={5}
+                            initialValue={[0]}
+                            defaultValue={[0]}
+                            disabled={!interventions.testing}
+                            onValueChange={(value) => {
+                              setInterventionValues((prev) => ({
+                                ...prev,
+                                testing: value[0],
+                              }));
+                            }}
+                          />
+                        </div>
                       </div>
                     </div>
 
@@ -340,16 +390,28 @@ export function LCCases() {
                           )
                         }
                       />
-                      <div className="grid gap-0.5 leading-none">
-                        <label
-                          htmlFor="vaccination"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-75"
-                        >
+                      <div className="grid w-full gap-0.5 leading-none">
+                        <label htmlFor="vaccination" className="sr-only">
                           Vaccination
                         </label>
-                        <p className="text-sm text-muted-foreground">
-                          Current vaccines at certain % of community
-                        </p>
+                        <div className="w-[90%]">
+                          <InterventionsSlider
+                            label="Vaccination Coverage"
+                            sublabel="Percentage of population with up-to-date vaccination"
+                            minValue={0}
+                            maxValue={100}
+                            step={5}
+                            initialValue={[0]}
+                            defaultValue={[0]}
+                            disabled={!interventions.vaccination}
+                            onValueChange={(value) => {
+                              setInterventionValues((prev) => ({
+                                ...prev,
+                                vaccination: value[0],
+                              }));
+                            }}
+                          />
+                        </div>
                       </div>
                     </div>
 
@@ -361,16 +423,28 @@ export function LCCases() {
                           handleInterventionChange("masks", checked as boolean)
                         }
                       />
-                      <div className="grid gap-0.5 leading-none">
-                        <label
-                          htmlFor="masks"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-75"
-                        >
+                      <div className="grid w-full gap-0.5 leading-none">
+                        <label htmlFor="masks" className="sr-only">
                           Masking
                         </label>
-                        <p className="text-sm text-muted-foreground">
-                          Universal masking, partial, health care settings, etc
-                        </p>
+                        <div className="w-[90%]">
+                          <InterventionsSlider
+                            label="Masking Adoption"
+                            sublabel="Percentage of population wearing effective masks"
+                            minValue={0}
+                            maxValue={100}
+                            step={5}
+                            initialValue={[0]}
+                            defaultValue={[0]}
+                            disabled={!interventions.masks}
+                            onValueChange={(value) => {
+                              setInterventionValues((prev) => ({
+                                ...prev,
+                                masks: value[0],
+                              }));
+                            }}
+                          />
+                        </div>
                       </div>
                     </div>
 
@@ -385,16 +459,31 @@ export function LCCases() {
                           )
                         }
                       />
-                      <div className="grid gap-0.5 leading-none">
+                      <div className="grid w-full gap-0.5 leading-none">
                         <label
                           htmlFor="pharmaceutical-prevention"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-75"
+                          className="sr-only"
                         >
                           Pharmaceutical infection prevention
                         </label>
-                        <p className="text-sm text-muted-foreground">
-                          Nasal sprays, improved vaccines
-                        </p>
+                        <div className="w-[90%]">
+                          <InterventionsSlider
+                            label="Pharmaceutical Prevention"
+                            sublabel="Percentage of population using preventive measures such as nasal sprays and PrEP"
+                            minValue={0}
+                            maxValue={100}
+                            step={5}
+                            initialValue={[0]}
+                            defaultValue={[0]}
+                            disabled={!interventions.pharmaceuticalprevention}
+                            onValueChange={(value) => {
+                              setInterventionValues((prev) => ({
+                                ...prev,
+                                pharmaceuticalprevention: value[0],
+                              }));
+                            }}
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
