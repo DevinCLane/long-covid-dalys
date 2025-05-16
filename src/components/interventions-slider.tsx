@@ -44,7 +44,13 @@ function InterventionsSlider({
     handleInputChange,
     handleSliderChange,
     resetToDefault,
-  } = useSliderWithInput({ minValue, maxValue, initialValue, defaultValue });
+  } = useSliderWithInput({
+    minValue,
+    maxValue,
+    initialValue,
+    defaultValue,
+    onValueChange,
+  });
 
   return (
     <div className={cn("min-w-[300px] space-y-3", className)}>

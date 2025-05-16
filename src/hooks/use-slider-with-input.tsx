@@ -5,6 +5,7 @@ type UseSliderWithInputProps = {
   maxValue?: number;
   initialValue?: number[];
   defaultValue?: number[];
+  onValueChange?: (value: number[]) => void;
 };
 
 export function useSliderWithInput({
@@ -12,6 +13,7 @@ export function useSliderWithInput({
   maxValue = 100,
   initialValue = [minValue],
   defaultValue = [minValue],
+  onValueChange,
 }: UseSliderWithInputProps) {
   const [sliderValue, setSliderValue] = useState(initialValue);
   const [inputValues, setInputValues] = useState(
@@ -57,8 +59,10 @@ export function useSliderWithInput({
       const newInputValues = [...inputValues];
       newInputValues[index] = clampedValue.toString();
       setInputValues(newInputValues);
+
+      onValueChange?.(newSliderValues);
     },
-    [sliderValue, inputValues, minValue, maxValue],
+    [sliderValue, inputValues, minValue, maxValue, onValueChange],
   );
 
   const handleInputChange = useCallback(
@@ -73,15 +77,20 @@ export function useSliderWithInput({
     [inputValues],
   );
 
-  const handleSliderChange = useCallback((newValue: number[]) => {
-    setSliderValue(newValue);
-    setInputValues(newValue.map((v) => v.toString()));
-  }, []);
+  const handleSliderChange = useCallback(
+    (newValue: number[]) => {
+      setSliderValue(newValue);
+      setInputValues(newValue.map((v) => v.toString()));
+      onValueChange?.(newValue);
+    },
+    [onValueChange],
+  );
 
   const resetToDefault = useCallback(() => {
     setSliderValue(defaultValue);
     setInputValues(defaultValue.map((v) => v.toString()));
-  }, [defaultValue]);
+    onValueChange?.(defaultValue);
+  }, [defaultValue, onValueChange]);
 
   return {
     sliderValue,
