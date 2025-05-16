@@ -30,15 +30,19 @@ import { InterventionsSlider } from "@/components/interventions-slider";
 
 const generateChartData = () => {
   const data = [];
-  let currentCases = 17000000; // Starting with 17M cases
+  let baselineCases = 17000000; // Starting with 17M cases
   const yearlyReduction = 0.98; // 2% reduction per year
+  // 80 DALYs per 1k people with LC
+  const dalysPer1000People = 80;
 
   for (let year = 2025; year <= 2125; year++) {
+    // convert LC cases to DALYs
+    const totalDALYs = (baselineCases * dalysPer1000People) / 1000;
     data.push({
       date: `${year}-01-01`,
-      cases: Math.round(currentCases),
+      dalys: Math.round(totalDALYs),
     });
-    currentCases *= yearlyReduction; // Reduce by 2% each year
+    baselineCases *= yearlyReduction; // Reduce by 2% each year
   }
   return data;
 };
@@ -46,14 +50,13 @@ const generateChartData = () => {
 const chartData = generateChartData();
 
 const chartConfig = {
-  cases: {
-    label: "Long Covid cases",
+  dalys: {
+    label: "Disability Adjusted Life Years (DALYs)",
     color: "hsl(var(--chart-1))",
   },
 } satisfies ChartConfig;
 
-// to do: link the reduction rate to the slider values
-const calculateReducedCases = (
+const calculateReducedDALYs = (
   baseData: typeof chartData,
   interventions: Record<string, boolean>,
   interventionValues: Record<string, number>,
@@ -85,11 +88,11 @@ const calculateReducedCases = (
   );
   return baseData.map((item) => ({
     date: item.date,
-    cases: Math.round(item.cases * (1 - reductionFactor)),
+    dalys: Math.round(item.dalys * (1 - reductionFactor)),
   }));
 };
 
-export function LCCases() {
+export function LCDALYs() {
   const [timeRange, setTimeRange] = React.useState("5y");
   const [interventions, setInterventions] = React.useState({
     sickLeave: false,
@@ -123,7 +126,7 @@ export function LCCases() {
     }));
   };
 
-  const filteredData = calculateReducedCases(
+  const filteredData = calculateReducedDALYs(
     chartData,
     interventions,
     interventionValues,
@@ -153,10 +156,19 @@ export function LCCases() {
     <Card>
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
-          <CardTitle>Long Covid cases</CardTitle>
+          <CardTitle>Long Covid Disease Burden</CardTitle>
           <CardDescription>
-            Showing total cases of long covid and disease burden as measured in
-            Disability-adjusted life years (DALYs).
+            Showing the total disease burden long covid as measured in
+            Disability-adjusted life years (DALYs). Each DALY represents one
+            year of healthy life lost to illness.{" "}
+            <a
+              href="https://www.nature.com/articles/s41591-023-02521-2"
+              target="_blank"
+              rel="noreferrer"
+              className="font-medium underline underline-offset-4"
+            >
+              Based on research showing 80 DALYs per 1,000 long covid cases.
+            </a>
           </CardDescription>
           <CardDescription>
             <a
@@ -202,15 +214,15 @@ export function LCCases() {
         >
           <AreaChart data={filteredData}>
             <defs>
-              <linearGradient id="fillcases" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="filldalys" x1="0" y1="0" x2="0" y2="1">
                 <stop
                   offset="5%"
-                  stopColor="var(--color-cases)"
+                  stopColor="var(--color-dalys)"
                   stopOpacity={0.8}
                 />
                 <stop
                   offset="95%"
-                  stopColor="var(--color-cases)"
+                  stopColor="var(--color-dalys)"
                   stopOpacity={0.1}
                 />
               </linearGradient>
@@ -243,13 +255,14 @@ export function LCCases() {
               }}
             />
             <YAxis
-              dataKey="cases"
+              dataKey="dalys"
               axisLine={false}
               width={75}
               tick={{ width: 250 }}
               tickMargin={8}
-              domain={[0, 17000000]}
-              tickFormatter={(value) => value.toLocaleString()}
+              // 17M cases * 80 DALYs / 1000
+              domain={[0, 1360000]}
+              tickFormatter={(value) => `${(value / 1000).toFixed(1)}M`}
               allowDataOverflow={false}
             />
             <ChartTooltip
@@ -266,10 +279,10 @@ export function LCCases() {
               }
             />
             <Area
-              dataKey="cases"
+              dataKey="dalys"
               type="natural"
-              fill="url(#fillcases)"
-              stroke="var(--color-cases)"
+              fill="url(#filldalys)"
+              stroke="var(--color-dalys)"
               stackId="a"
             />
             <ChartLegend
