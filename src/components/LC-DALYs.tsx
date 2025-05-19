@@ -170,22 +170,13 @@ export function LCDALYs() {
             . Each DALY represents one year of healthy life lost to illness.
           </CardDescription>
           <CardDescription>
-            <a
-              href="https://www.nature.com/articles/s41591-023-02521-2"
-              target="_blank"
-              rel="noreferrer"
-              className="font-medium underline underline-offset-4"
-            >
-              Based on research showing 80 DALYs per 1,000 long covid cases,
+            Based on research showing 80 DALYs per 1,000 long COVID cases
+            <a href="#ref-1" className="no-underline">
+              <sup>1</sup>
             </a>{" "}
-            with an estimated{" "}
-            <a
-              href="https://www.kff.org/coronavirus-covid-19/issue-brief/as-recommendations-for-isolation-end-how-common-is-long-covid/"
-              target="_blank"
-              rel="noreferrer"
-              className="font-medium underline underline-offset-4"
-            >
-              17M cases of long covid
+            with an estimated 17M cases of long COVID
+            <a href="#ref-2" className="no-underline">
+              <sup>2</sup>
             </a>{" "}
             in the US.
           </CardDescription>
@@ -506,6 +497,33 @@ export function LCDALYs() {
             />
           </AreaChart>
         </ChartContainer>
+        <div className="mt-6 border-t pt-4 text-sm text-muted-foreground">
+          <p className="mb-2">References:</p>
+          <ol className="list-inside list-decimal">
+            <li>
+              <a
+                href="https://www.nature.com/articles/s41591-023-02521-2"
+                target="_blank"
+                rel="noreferrer"
+                className="hover:underline"
+              >
+                Nature Medicine: Long COVID burden and risk factors in 10 UK
+                longitudinal studies and electronic health records
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.kff.org/coronavirus-covid-19/issue-brief/as-recommendations-for-isolation-end-how-common-is-long-covid/"
+                target="_blank"
+                rel="noreferrer"
+                className="hover:underline"
+              >
+                KFF: As Recommendations for Isolation End, How Common is Long
+                COVID?
+              </a>
+            </li>
+          </ol>
+        </div>
       </CardContent>
     </Card>
   );
