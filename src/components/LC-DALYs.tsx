@@ -51,7 +51,7 @@ const chartData = generateChartData();
 
 const chartConfig = {
   dalys: {
-    label: "Disability Adjusted Life Years (DALYs)",
+    label: "Million DALYs per year",
     color: "hsl(var(--chart-1))",
   },
 } satisfies ChartConfig;
@@ -158,27 +158,21 @@ export function LCDALYs() {
         <div className="grid flex-1 gap-1 text-center sm:text-left">
           <CardTitle>Long Covid Disease Burden in the United States</CardTitle>
           <CardDescription>
-            Showing the total disease burden long covid as measured in
-            Disability-adjusted life years (DALYs). Each DALY represents one
-            year of healthy life lost to illness.{" "}
-            <a
-              href="https://www.nature.com/articles/s41591-023-02521-2"
-              target="_blank"
-              rel="noreferrer"
-              className="font-medium underline underline-offset-4"
-            >
-              Based on research showing 80 DALYs per 1,000 long covid cases.
-            </a>
-          </CardDescription>
-          <CardDescription>
+            Showing the total disease burden of long covid as measured in{" "}
             <a
               href="https://en.wikipedia.org/wiki/Disability-adjusted_life_year"
               target="_blank"
               rel="noreferrer"
               className="font-medium underline underline-offset-4"
             >
-              What's a DALY?{" "}
+              Disability-adjusted life years (DALYs)
             </a>
+            . Each DALY represents one year of healthy life lost to illness.
+          </CardDescription>
+          <CardDescription>
+            Based on research showing 80 DALYs per 1,000 long COVID cases
+            <sup>1</sup> with an estimated 17M cases of long COVID
+            <sup>2</sup> in the US.
           </CardDescription>
         </div>
         <Select value={timeRange} onValueChange={setTimeRange}>
@@ -257,12 +251,12 @@ export function LCDALYs() {
             <YAxis
               dataKey="dalys"
               axisLine={false}
-              width={75}
+              width={85}
               tick={{ width: 250 }}
               tickMargin={8}
               // 17M cases * 80 DALYs / 1000
               domain={[0, 1360000]}
-              tickFormatter={(value) => `${(value / 1000).toFixed(1)}M`}
+              tickFormatter={(value) => `${(value / 1000).toFixed(1)}M  `}
               allowDataOverflow={false}
             />
             <ChartTooltip
@@ -497,6 +491,33 @@ export function LCDALYs() {
             />
           </AreaChart>
         </ChartContainer>
+        <div className="mt-6 border-t pt-4 text-sm text-muted-foreground">
+          <p className="mb-2">References:</p>
+          <ol className="list-inside list-decimal">
+            <li>
+              <a
+                href="https://www.nature.com/articles/s41591-023-02521-2"
+                target="_blank"
+                rel="noreferrer"
+                className="hover:underline"
+              >
+                Nature Medicine: Long COVID burden and risk factors in 10 UK
+                longitudinal studies and electronic health records
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.kff.org/coronavirus-covid-19/issue-brief/as-recommendations-for-isolation-end-how-common-is-long-covid/"
+                target="_blank"
+                rel="noreferrer"
+                className="hover:underline"
+              >
+                KFF: As Recommendations for Isolation End, How Common is Long
+                COVID?
+              </a>
+            </li>
+          </ol>
+        </div>
       </CardContent>
     </Card>
   );
