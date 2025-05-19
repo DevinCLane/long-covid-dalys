@@ -171,14 +171,8 @@ export function LCDALYs() {
           </CardDescription>
           <CardDescription>
             Based on research showing 80 DALYs per 1,000 long COVID cases
-            <a href="#ref-1" className="no-underline">
-              <sup>1</sup>
-            </a>{" "}
-            with an estimated 17M cases of long COVID
-            <a href="#ref-2" className="no-underline">
-              <sup>2</sup>
-            </a>{" "}
-            in the US.
+            <sup>1</sup> with an estimated 17M cases of long COVID
+            <sup>2</sup> in the US.
           </CardDescription>
         </div>
         <Select value={timeRange} onValueChange={setTimeRange}>
