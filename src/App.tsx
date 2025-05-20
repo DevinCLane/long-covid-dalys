@@ -8,12 +8,12 @@ import { NavBar } from "./components/nav-bar";
 
 function App() {
   return (
-    <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-      <div className="flex min-h-screen flex-col">
+    <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+      <div className="mx-auto flex min-h-screen flex-col lg:max-w-7xl">
         <NavBar />
         <WorkInProgressAlert />
         <Header />
-        <div className="mx-auto flex w-full flex-col gap-8 lg:max-w-7xl">
+        <div className="mx-auto flex w-full flex-col gap-8">
           <LCDALYs />
           <SiteFooter />
         </div>
