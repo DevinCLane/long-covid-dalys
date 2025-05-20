@@ -204,7 +204,7 @@ export function LCDALYs() {
       <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
         <ChartContainer
           config={chartConfig}
-          className="aspect-auto h-[700px] w-full"
+          className="aspect-auto h-[1050px] w-full md:h-[700px]"
         >
           <AreaChart data={filteredData}>
             <defs>
@@ -283,7 +283,7 @@ export function LCDALYs() {
               content={
                 <>
                   <ChartLegendContent />
-                  <div className="mt-4 grid grid-cols-2 gap-x-8 gap-y-2">
+                  <div className="mt-4 grid grid-cols-1 gap-x-8 gap-y-2 md:grid-cols-2">
                     <div className="mt-4 flex gap-x-4 text-left">
                       <Checkbox
                         id="sickLeave"
