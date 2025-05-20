@@ -3,7 +3,7 @@ import { ModeToggle } from "./mode-toggle";
 
 export function NavBar() {
   return (
-    <nav className="flex justify-end gap-2 pb-4">
+    <nav className="mb-4 flex justify-end gap-2">
       <GitHub />
       <ModeToggle />
     </nav>
