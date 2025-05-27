@@ -2,7 +2,6 @@ import { useId, useRef, useState } from "react";
 import { SiBluesky } from "@icons-pack/react-simple-icons";
 import { CheckIcon, CopyIcon, Code, Mail, Forward } from "lucide-react";
 import { RxLinkedinLogo } from "react-icons/rx";
-import { RiShareForwardLine } from "react-icons/ri";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -54,7 +53,13 @@ export default function ShareButton() {
                 variant="outline"
                 aria-label="Share on BlueSky"
               >
-                <SiBluesky size={16} aria-hidden="true" />
+                <a
+                  href="https://bsky.app/intent/compose?text=https://longcoviddalys.netlify.app/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <SiBluesky size={16} aria-hidden="true" />
+                </a>
               </Button>
               <Button
                 title="Share on LinkedIn"
@@ -62,7 +67,13 @@ export default function ShareButton() {
                 variant="outline"
                 aria-label="Share on LinkedIn"
               >
-                <RxLinkedinLogo aria-hidden="true" />
+                <a
+                  href="http://www.linkedin.com/shareArticle?mini=true&url=https://longcoviddalys.netlify.app/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <RxLinkedinLogo aria-hidden="true" />
+                </a>
               </Button>
               <Button
                 size="icon"
