@@ -1,6 +1,6 @@
 import { useId, useRef, useState } from "react";
 import { SiBluesky } from "@icons-pack/react-simple-icons";
-import { CheckIcon, CopyIcon, Code, Mail, Forward } from "lucide-react";
+import { CheckIcon, CopyIcon, Mail, Forward } from "lucide-react";
 import { RxLinkedinLogo } from "react-icons/rx";
 
 import { cn } from "@/lib/utils";
@@ -35,7 +35,7 @@ export default function ShareButton() {
     <div className="flex flex-col gap-4">
       <Popover>
         <PopoverTrigger asChild>
-          <Button variant="outline">
+          <Button variant="outline" aria-label="Share options">
             <Forward />
           </Button>
         </PopoverTrigger>
@@ -44,6 +44,7 @@ export default function ShareButton() {
             <div className="text-sm font-medium">Share</div>
             <div className="flex flex-wrap justify-center gap-2">
               {/* to do: remove title, and add as tooltip */}
+
               <Button
                 title="Share on BlueSky"
                 size="icon"
@@ -58,6 +59,7 @@ export default function ShareButton() {
                   <SiBluesky size={16} aria-hidden="true" />
                 </a>
               </Button>
+
               <Button
                 title="Share on LinkedIn"
                 size="icon"
@@ -73,6 +75,7 @@ export default function ShareButton() {
                 </a>
               </Button>
               <Button
+                title="Share via email"
                 size="icon"
                 variant="outline"
                 aria-label="Share via email"
