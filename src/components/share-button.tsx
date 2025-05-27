@@ -43,9 +43,6 @@ export default function ShareButton() {
           <div className="flex flex-col gap-3 text-center">
             <div className="text-sm font-medium">Share</div>
             <div className="flex flex-wrap justify-center gap-2">
-              <Button size="icon" variant="outline" aria-label="Embed">
-                <Code size={16} aria-hidden="true" />
-              </Button>
               {/* to do: remove title, and add as tooltip */}
               <Button
                 title="Share on BlueSky"
