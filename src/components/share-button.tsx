@@ -80,7 +80,13 @@ export default function ShareButton() {
                 variant="outline"
                 aria-label="Share via email"
               >
-                <Mail size={16} aria-hidden="true" />
+                <a
+                  href="mailto:?subject=Long Covid DALYs website&amp;body=https://longcoviddalys.netlify.app/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Mail size={16} aria-hidden="true" />
+                </a>
               </Button>
             </div>
             <div className="space-y-2">
