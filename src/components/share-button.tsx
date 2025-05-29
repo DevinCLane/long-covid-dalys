@@ -1,5 +1,5 @@
 import { useId, useRef, useState } from "react";
-import { SiBluesky } from "@icons-pack/react-simple-icons";
+import { SiBluesky, SiX } from "@icons-pack/react-simple-icons";
 import { CheckIcon, CopyIcon, Mail, Forward } from "lucide-react";
 import { RxLinkedinLogo } from "react-icons/rx";
 
@@ -52,6 +52,7 @@ export default function ShareButton() {
                 variant="outline"
                 aria-label="Share on BlueSky"
               >
+                {/* todo: tag myself? */}
                 <a
                   href="https://bsky.app/intent/compose?text=https://longcoviddalys.netlify.app/"
                   target="_blank"
@@ -74,6 +75,22 @@ export default function ShareButton() {
                   rel="noreferrer"
                 >
                   <RxLinkedinLogo aria-hidden="true" />
+                </a>
+              </Button>
+              <Button
+                asChild
+                title="Share on Twitter"
+                size="icon"
+                variant="outline"
+                aria-label="Share on Twitter"
+              >
+                {/* todo: add correct share on X link */}
+                <a
+                  href="https://x.com/intent/tweet?text=https://longcoviddalys.netlify.app/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <SiX aria-hidden="true" />
                 </a>
               </Button>
               <Button
