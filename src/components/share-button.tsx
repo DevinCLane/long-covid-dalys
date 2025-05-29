@@ -33,18 +33,24 @@ export default function ShareButton() {
 
   // todo: add tooltips describing what each button does
   return (
-    <div className="flex flex-col gap-4">
-      <Popover>
-        <PopoverTrigger asChild>
-          <Button variant="outline" aria-label="Share options">
-            <Forward />
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-72">
-          <div className="flex flex-col gap-3 text-center">
-            <div className="text-sm font-medium">Share</div>
-            <div className="flex flex-wrap justify-center gap-2">
-              <TooltipProvider delayDuration={0}>
+    <TooltipProvider delayDuration={0}>
+      <div className="flex flex-col gap-4">
+        <Popover>
+          <Tooltip>
+            <PopoverTrigger asChild>
+              <TooltipTrigger asChild>
+                <Button variant="outline" aria-label="Share options">
+                  <Forward />
+                </Button>
+              </TooltipTrigger>
+            </PopoverTrigger>
+            <TooltipContent className="px-2 py-1 text-xs">Share</TooltipContent>
+          </Tooltip>
+
+          <PopoverContent className="w-72">
+            <div className="flex flex-col gap-3 text-center">
+              <div className="text-sm font-medium">Share</div>
+              <div className="flex flex-wrap justify-center gap-2">
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button
@@ -134,20 +140,18 @@ export default function ShareButton() {
                     Share via email
                   </TooltipContent>
                 </Tooltip>
-              </TooltipProvider>
-            </div>
-            <div className="space-y-2">
-              <div className="relative">
-                <Input
-                  ref={inputRef}
-                  id={id}
-                  className="pe-9"
-                  type="text"
-                  defaultValue="https://longcoviddalys.netlify.app/"
-                  aria-label="Share link"
-                  readOnly
-                />
-                <TooltipProvider delayDuration={0}>
+              </div>
+              <div className="space-y-2">
+                <div className="relative">
+                  <Input
+                    ref={inputRef}
+                    id={id}
+                    className="pe-9"
+                    type="text"
+                    defaultValue="https://longcoviddalys.netlify.app/"
+                    aria-label="Share link"
+                    readOnly
+                  />
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <button
@@ -186,12 +190,12 @@ export default function ShareButton() {
                       Copy to clipboard
                     </TooltipContent>
                   </Tooltip>
-                </TooltipProvider>
+                </div>
               </div>
             </div>
-          </div>
-        </PopoverContent>
-      </Popover>
-    </div>
+          </PopoverContent>
+        </Popover>
+      </div>
+    </TooltipProvider>
   );
 }
