@@ -31,7 +31,6 @@ export default function ShareButton() {
     }
   };
 
-  // todo: add tooltips describing what each button does
   return (
     <TooltipProvider delayDuration={0}>
       <div className="flex flex-col gap-4">
@@ -61,7 +60,7 @@ export default function ShareButton() {
                     >
                       {/* todo: tag myself? */}
                       <a
-                        href="https://bsky.app/intent/compose?text=https://longcoviddalys.netlify.app/"
+                        href="https://bsky.app/intent/compose?text=https%3A%2F%2Flongcoviddalys.netlify.app%2F%20%40devinlane.com"
                         target="_blank"
                         rel="noreferrer"
                       >
@@ -83,7 +82,7 @@ export default function ShareButton() {
                       aria-label="Share on LinkedIn"
                     >
                       <a
-                        href="http://www.linkedin.com/shareArticle?mini=true&url=https://longcoviddalys.netlify.app/"
+                        href="https://www.linkedin.com/feed/?linkOrigin=LI_BADGE&shareActive=true&shareUrl=https%3A%2F%2Flongcoviddalys.netlify.app%2F"
                         target="_blank"
                         rel="noreferrer"
                       >
@@ -105,7 +104,7 @@ export default function ShareButton() {
                       aria-label="Share on X"
                     >
                       <a
-                        href="https://x.com/intent/tweet?text=https://longcoviddalys.netlify.app/"
+                        href="https://x.com/intent/post?text=https%3A%2F%2Flongcoviddalys.netlify.app%2F%20%40DevinCLane"
                         target="_blank"
                         rel="noreferrer"
                       >
