@@ -31,6 +31,7 @@ export default function ShareButton() {
     }
   };
 
+  // todo: add tooltips describing what each button does
   return (
     <div className="flex flex-col gap-4">
       <Popover>
@@ -43,71 +44,97 @@ export default function ShareButton() {
           <div className="flex flex-col gap-3 text-center">
             <div className="text-sm font-medium">Share</div>
             <div className="flex flex-wrap justify-center gap-2">
-              {/* to do: remove title, and add as tooltip */}
+              <TooltipProvider delayDuration={0}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      asChild
+                      size="icon"
+                      variant="outline"
+                      aria-label="Share on BlueSky"
+                    >
+                      {/* todo: tag myself? */}
+                      <a
+                        href="https://bsky.app/intent/compose?text=https://longcoviddalys.netlify.app/"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <SiBluesky size={16} aria-hidden="true" />
+                      </a>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent className="px-2 py-1 text-xs">
+                    Share on BlueSky
+                  </TooltipContent>
+                </Tooltip>
 
-              <Button
-                asChild
-                title="Share on BlueSky"
-                size="icon"
-                variant="outline"
-                aria-label="Share on BlueSky"
-              >
-                {/* todo: tag myself? */}
-                <a
-                  href="https://bsky.app/intent/compose?text=https://longcoviddalys.netlify.app/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <SiBluesky size={16} aria-hidden="true" />
-                </a>
-              </Button>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      asChild
+                      size="icon"
+                      variant="outline"
+                      aria-label="Share on LinkedIn"
+                    >
+                      <a
+                        href="http://www.linkedin.com/shareArticle?mini=true&url=https://longcoviddalys.netlify.app/"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <RxLinkedinLogo aria-hidden="true" />
+                      </a>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent className="px-2 py-1 text-xs">
+                    Share on LinkedIn
+                  </TooltipContent>
+                </Tooltip>
 
-              <Button
-                asChild
-                title="Share on LinkedIn"
-                size="icon"
-                variant="outline"
-                aria-label="Share on LinkedIn"
-              >
-                <a
-                  href="http://www.linkedin.com/shareArticle?mini=true&url=https://longcoviddalys.netlify.app/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <RxLinkedinLogo aria-hidden="true" />
-                </a>
-              </Button>
-              <Button
-                asChild
-                title="Share on Twitter"
-                size="icon"
-                variant="outline"
-                aria-label="Share on Twitter"
-              >
-                {/* todo: add correct share on X link */}
-                <a
-                  href="https://x.com/intent/tweet?text=https://longcoviddalys.netlify.app/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <SiX aria-hidden="true" />
-                </a>
-              </Button>
-              <Button
-                asChild
-                title="Share via email"
-                size="icon"
-                variant="outline"
-                aria-label="Share via email"
-              >
-                <a
-                  href="mailto:?subject=Long Covid DALYs website&amp;body=https://longcoviddalys.netlify.app/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <Mail size={16} aria-hidden="true" />
-                </a>
-              </Button>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      asChild
+                      size="icon"
+                      variant="outline"
+                      aria-label="Share on X"
+                    >
+                      <a
+                        href="https://x.com/intent/tweet?text=https://longcoviddalys.netlify.app/"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <SiX aria-hidden="true" />
+                      </a>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent className="px-2 py-1 text-xs">
+                    Share on X
+                  </TooltipContent>
+                </Tooltip>
+
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      asChild
+                      title="Share via email"
+                      size="icon"
+                      variant="outline"
+                      aria-label="Share via email"
+                    >
+                      <a
+                        href="mailto:?subject=Long Covid DALYs website&amp;body=https://longcoviddalys.netlify.app/"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <Mail size={16} aria-hidden="true" />
+                      </a>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent className="px-2 py-1 text-xs">
+                    Share via email
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
             <div className="space-y-2">
               <div className="relative">
