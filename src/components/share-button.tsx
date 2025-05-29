@@ -46,6 +46,7 @@ export default function ShareButton() {
               {/* to do: remove title, and add as tooltip */}
 
               <Button
+                asChild
                 title="Share on BlueSky"
                 size="icon"
                 variant="outline"
@@ -61,6 +62,7 @@ export default function ShareButton() {
               </Button>
 
               <Button
+                asChild
                 title="Share on LinkedIn"
                 size="icon"
                 variant="outline"
@@ -75,6 +77,7 @@ export default function ShareButton() {
                 </a>
               </Button>
               <Button
+                asChild
                 title="Share via email"
                 size="icon"
                 variant="outline"
