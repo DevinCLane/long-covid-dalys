@@ -13,6 +13,7 @@ export function GitHub() {
       <Tooltip>
         <TooltipTrigger asChild>
           <Button
+            className="bg-card"
             asChild
             variant="outline"
             size="icon"

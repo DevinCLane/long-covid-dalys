@@ -17,6 +17,7 @@ export function DarkLightToggle() {
       <Tooltip>
         <TooltipTrigger asChild>
           <Button
+            className="bg-card"
             variant="outline"
             size="icon"
             onClick={() => setTheme(theme === "light" ? "dark" : "light")}
