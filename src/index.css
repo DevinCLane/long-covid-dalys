@@ -1,9 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
+    /* font */
+    --font-sans: "Geist", sans-serif;
     /* Theme colors */
     --background: 33.3 100% 96.5%;
     --foreground: 0 0% 3.9%;
