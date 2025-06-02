@@ -182,7 +182,7 @@ export function LCDALYs() {
           >
             <SelectValue placeholder="5 year projection" />
           </SelectTrigger>
-          <SelectContent className="rounded-xl">
+          <SelectContent className="rounded-xl bg-card">
             <SelectItem value="5y" className="rounded-lg">
               5 Year Projection
             </SelectItem>
