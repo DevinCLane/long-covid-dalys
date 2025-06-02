@@ -263,6 +263,7 @@ export function LCDALYs() {
               cursor={false}
               content={
                 <ChartTooltipContent
+                  className="bg-card"
                   labelFormatter={(value) => {
                     return new Date(value).toLocaleDateString("en-US", {
                       year: "numeric",
