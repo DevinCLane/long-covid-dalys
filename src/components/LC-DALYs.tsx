@@ -51,8 +51,12 @@ const chartData = generateChartData();
 
 const chartConfig = {
   dalys: {
-    label: "Million DALYs per year",
+    label: "Baseline DALYs",
     color: "hsl(var(--chart-1))",
+  },
+  interventionDalys: {
+    label: "With Interventions",
+    color: "hsl(var(--chart-2))",
   },
 } satisfies ChartConfig;
 
@@ -126,31 +130,42 @@ export function LCDALYs() {
     }));
   };
 
-  const filteredData = calculateReducedDALYs(
-    chartData,
-    interventions,
-    interventionValues,
-  ).filter((item) => {
-    const date = new Date(item.date);
-    const startDate = new Date("2025-01-01");
-    let endDate = new Date("2029-01-01");
+  const filteredData = chartData
+    .map((baselineItem) => {
+      const date = baselineItem.date;
+      const interventionDalys = calculateReducedDALYs(
+        [baselineItem],
+        interventions,
+        interventionValues,
+      )[0].dalys;
 
-    switch (timeRange) {
-      case "10y":
-        endDate = new Date("2034-01-01");
-        break;
-      case "25y":
-        endDate = new Date("2049-01-01");
-        break;
-      case "50y":
-        endDate = new Date("2074-01-01");
-        break;
-      case "100y":
-        endDate = new Date("2124-01-01");
-        break;
-    }
-    return date >= startDate && date <= endDate;
-  });
+      return {
+        date,
+        dalys: baselineItem.dalys,
+        interventionDalys,
+      };
+    })
+    .filter((item) => {
+      const date = new Date(item.date);
+      const startDate = new Date("2025-01-01");
+      let endDate = new Date("2029-01-01");
+
+      switch (timeRange) {
+        case "10y":
+          endDate = new Date("2034-01-01");
+          break;
+        case "25y":
+          endDate = new Date("2049-01-01");
+          break;
+        case "50y":
+          endDate = new Date("2074-01-01");
+          break;
+        case "100y":
+          endDate = new Date("2124-01-01");
+          break;
+      }
+      return date >= startDate && date <= endDate;
+    });
 
   return (
     <Card>
@@ -220,15 +235,21 @@ export function LCDALYs() {
                   stopOpacity={0.1}
                 />
               </linearGradient>
-              <linearGradient id="fillintervention" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient
+                id="fillinterventionDalys"
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="1"
+              >
                 <stop
                   offset="5%"
-                  stopColor="var(--color-intervention)"
+                  stopColor="var(--color-interventionDalys)"
                   stopOpacity={0.8}
                 />
                 <stop
                   offset="95%"
-                  stopColor="var(--color-intervention)"
+                  stopColor="var(--color-interventionDalys)"
                   stopOpacity={0.1}
                 />
               </linearGradient>
@@ -254,7 +275,6 @@ export function LCDALYs() {
               width={85}
               tick={{ width: 250 }}
               tickMargin={8}
-              // 17M cases * 80 DALYs / 1000
               domain={[0, 1360000]}
               tickFormatter={(value) => `${(value / 1000).toFixed(1)}M  `}
               allowDataOverflow={false}
@@ -278,7 +298,14 @@ export function LCDALYs() {
               type="natural"
               fill="url(#filldalys)"
               stroke="var(--color-dalys)"
-              stackId="a"
+              name="Baseline DALYs"
+            />
+            <Area
+              dataKey="interventionDalys"
+              type="natural"
+              fill="url(#fillinterventionDalys)"
+              stroke="var(--color-interventionDalys)"
+              name="With Interventions"
             />
             <ChartLegend
               content={
