@@ -177,12 +177,12 @@ export function LCDALYs() {
         </div>
         <Select value={timeRange} onValueChange={setTimeRange}>
           <SelectTrigger
-            className="w-auto rounded-lg sm:ml-auto"
+            className="w-auto rounded-lg bg-card sm:ml-auto"
             aria-label="Select projection range"
           >
             <SelectValue placeholder="5 year projection" />
           </SelectTrigger>
-          <SelectContent className="rounded-xl">
+          <SelectContent className="rounded-xl bg-card">
             <SelectItem value="5y" className="rounded-lg">
               5 Year Projection
             </SelectItem>
@@ -263,6 +263,7 @@ export function LCDALYs() {
               cursor={false}
               content={
                 <ChartTooltipContent
+                  className="bg-card"
                   labelFormatter={(value) => {
                     return new Date(value).toLocaleDateString("en-US", {
                       year: "numeric",

@@ -82,7 +82,7 @@ function InterventionsSlider({
             </Tooltip>
           </TooltipProvider>
           <Input
-            className="h-7 w-12 px-2 py-0"
+            className="h-7 w-12 bg-card px-2 py-0"
             type="text"
             inputMode="decimal"
             value={inputValues[0]}
@@ -100,7 +100,7 @@ function InterventionsSlider({
       </div>
       <div className="flex items-center gap-4">
         <Slider
-          className="grow"
+          className={cn("grow", "[&_[role='slider']]:bg-card")}
           value={sliderValue}
           onValueChange={(newValue) => {
             handleSliderChange(newValue);

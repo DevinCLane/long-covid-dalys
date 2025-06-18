@@ -38,7 +38,11 @@ export default function ShareButton() {
           <Tooltip>
             <PopoverTrigger asChild>
               <TooltipTrigger asChild>
-                <Button variant="outline" aria-label="Share options">
+                <Button
+                  className="bg-card"
+                  variant="outline"
+                  aria-label="Share options"
+                >
                   <Forward />
                 </Button>
               </TooltipTrigger>
@@ -46,13 +50,14 @@ export default function ShareButton() {
             <TooltipContent className="px-2 py-1 text-xs">Share</TooltipContent>
           </Tooltip>
 
-          <PopoverContent className="w-72">
+          <PopoverContent className="w-72 bg-card">
             <div className="flex flex-col gap-3 text-center">
               <div className="text-sm font-medium">Share</div>
               <div className="flex flex-wrap justify-center gap-2">
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button
+                      className="bg-card"
                       asChild
                       size="icon"
                       variant="outline"
@@ -76,6 +81,7 @@ export default function ShareButton() {
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button
+                      className="bg-card"
                       asChild
                       size="icon"
                       variant="outline"
@@ -98,6 +104,7 @@ export default function ShareButton() {
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button
+                      className="bg-card"
                       asChild
                       size="icon"
                       variant="outline"
@@ -120,6 +127,7 @@ export default function ShareButton() {
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button
+                      className="bg-card"
                       asChild
                       title="Share via email"
                       size="icon"
@@ -145,7 +153,7 @@ export default function ShareButton() {
                   <Input
                     ref={inputRef}
                     id={id}
-                    className="pe-9"
+                    className="bg-card pe-9"
                     type="text"
                     defaultValue="https://longcoviddalys.netlify.app/"
                     aria-label="Share link"
