@@ -56,7 +56,7 @@ const chartConfig = {
   },
   interventionDalys: {
     label: "With interventions",
-    color: "hsl(var(--chart-1))",
+    color: "hsl(var(--chart-2))",
   },
 } satisfies ChartConfig;
 
@@ -236,7 +236,7 @@ export function LCDALYs() {
                 />
               </linearGradient>
               <linearGradient
-                id="interventionDalys"
+                id="fillInterventionDalys"
                 x1="0"
                 y1="0"
                 x2="0"
@@ -299,14 +299,12 @@ export function LCDALYs() {
               type="natural"
               fill="url(#filldalys)"
               stroke="var(--color-dalys)"
-              name="Baseline DALYs"
             />
             <Area
               dataKey="interventionDalys"
               type="natural"
-              fill="url(#interventionDalys)"
+              fill="url(#fillInterventionDalys)"
               stroke="var(--color-interventionDalys)"
-              stackId="a"
             />
             <ChartLegend
               content={
