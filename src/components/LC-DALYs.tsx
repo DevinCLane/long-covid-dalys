@@ -54,6 +54,10 @@ const chartConfig = {
     label: "Million DALYs per year",
     color: "hsl(var(--chart-1))",
   },
+  interventionDalys: {
+    label: "With interventions",
+    color: "hsl(var(--chart-1))",
+  },
 } satisfies ChartConfig;
 
 const calculateReducedDALYs = (
@@ -231,15 +235,21 @@ export function LCDALYs() {
                   stopOpacity={0.1}
                 />
               </linearGradient>
-              <linearGradient id="fillintervention" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient
+                id="interventionDalys"
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="1"
+              >
                 <stop
                   offset="5%"
-                  stopColor="var(--color-intervention)"
+                  stopColor="var(--color-interventionDalys)"
                   stopOpacity={0.8}
                 />
                 <stop
                   offset="95%"
-                  stopColor="var(--color-intervention)"
+                  stopColor="var(--color-interventionDalys)"
                   stopOpacity={0.1}
                 />
               </linearGradient>
@@ -289,6 +299,13 @@ export function LCDALYs() {
               type="natural"
               fill="url(#filldalys)"
               stroke="var(--color-dalys)"
+              name="Baseline DALYs"
+            />
+            <Area
+              dataKey="interventionDalys"
+              type="natural"
+              fill="url(#interventionDalys)"
+              stroke="var(--color-interventionDalys)"
               stackId="a"
             />
             <ChartLegend
