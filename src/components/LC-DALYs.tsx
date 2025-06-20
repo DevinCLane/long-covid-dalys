@@ -126,31 +126,42 @@ export function LCDALYs() {
     }));
   };
 
-  const filteredData = calculateReducedDALYs(
-    chartData,
-    interventions,
-    interventionValues,
-  ).filter((item) => {
-    const date = new Date(item.date);
-    const startDate = new Date("2025-01-01");
-    let endDate = new Date("2029-01-01");
+  const filteredData = chartData
+    .map((baselineItem) => {
+      const date = baselineItem.date;
+      const interventionDalys = calculateReducedDALYs(
+        [baselineItem],
+        interventions,
+        interventionValues,
+      )[0].dalys;
 
-    switch (timeRange) {
-      case "10y":
-        endDate = new Date("2034-01-01");
-        break;
-      case "25y":
-        endDate = new Date("2049-01-01");
-        break;
-      case "50y":
-        endDate = new Date("2074-01-01");
-        break;
-      case "100y":
-        endDate = new Date("2124-01-01");
-        break;
-    }
-    return date >= startDate && date <= endDate;
-  });
+      return {
+        date,
+        dalys: baselineItem.dalys,
+        interventionDalys,
+      };
+    })
+    .filter((item) => {
+      const date = new Date(item.date);
+      const startDate = new Date("2025-01-01");
+      let endDate = new Date("2029-01-01");
+
+      switch (timeRange) {
+        case "10y":
+          endDate = new Date("2034-01-01");
+          break;
+        case "25y":
+          endDate = new Date("2049-01-01");
+          break;
+        case "50y":
+          endDate = new Date("2074-01-01");
+          break;
+        case "100y":
+          endDate = new Date("2124-01-01");
+          break;
+      }
+      return date >= startDate && date <= endDate;
+    });
 
   return (
     <Card>
