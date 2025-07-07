@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import { Area, AreaChart, CartesianGrid, Label, XAxis, YAxis } from "recharts";
 
 import {
   Card,
@@ -279,6 +279,11 @@ export function LCDALYs() {
               domain={[0, 1360000]}
               tickFormatter={(value) => `${(value / 1000).toFixed(1)}M  `}
               allowDataOverflow={false}
+              label={{
+                value: "Million DALYs per year",
+                angle: -90,
+                position: "insideLeft",
+              }}
             />
             <ChartTooltip
               cursor={false}
