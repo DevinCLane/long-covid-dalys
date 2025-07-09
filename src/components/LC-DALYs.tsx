@@ -27,6 +27,68 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { InterventionsSlider } from "@/components/interventions-slider";
+import { InterventionArea } from "@/components/intervention-area";
+
+// todo: use the group labels to group interventions in the UI
+const GROUP_LABELS = {
+  air: "Air Quality improvements",
+  masking: "Masking",
+  vaccination: "Vaccination",
+  publicHealth: "Public Health Policies",
+  pharma: "Pharmaceutical Interventions",
+};
+
+interface Intervention {
+  key: string;
+  group: keyof typeof GROUP_LABELS;
+  ariaLabel: string;
+  sliderLabel: string;
+  sliderSubLabel: string;
+  sliderMin: number;
+  sliderMax: number;
+  sliderStep: number;
+  defaultValue: number;
+  reductionFn: (sliderValue: number) => number;
+}
+
+const INTERVENTIONS: Intervention[] = [
+  {
+    key: "airExchangeRate",
+    group: "air",
+    ariaLabel: "Air Exchange Rate",
+    sliderLabel: "Air Changes Per Hour (ACH)",
+    sliderSubLabel: "Percentage of buildings with a minimun of 5 ACH",
+    sliderMin: 0,
+    sliderMax: 100,
+    sliderStep: 5,
+    defaultValue: 0,
+    reductionFn: (sliderValue) => (sliderValue / 100) * 0.1,
+  },
+  {
+    key: "UVC",
+    group: "air",
+    ariaLabel: "Far germicidal UVC",
+    sliderLabel: "Far germicidal UVC",
+    sliderSubLabel: "Percentage of buildings with far germicidal UVC",
+    sliderMin: 0,
+    sliderMax: 100,
+    sliderStep: 5,
+    defaultValue: 0,
+    reductionFn: (sliderValue) => (sliderValue / 100) * 0.1,
+  },
+  {
+    key: "airQuality",
+    group: "air",
+    ariaLabel: "Air Quality",
+    sliderLabel: "PM2.5 Concentration",
+    sliderSubLabel: "Micrograms per cubic meter (µg/m³)",
+    sliderMin: 0,
+    sliderMax: 100,
+    sliderStep: 5,
+    defaultValue: 0,
+    reductionFn: (sliderValue) => (sliderValue / 100) * 0.1,
+  },
+];
 
 const generateChartData = () => {
   const data = [];
@@ -65,31 +127,14 @@ const calculateReducedDALYs = (
   interventions: Record<string, boolean>,
   interventionValues: Record<string, number>,
 ) => {
-  const reductionFactor = Object.entries(interventions).reduce(
-    (acc, [key, value]) => {
-      if (value) {
-        const sliderValue = interventionValues[key];
-        switch (key) {
-          case "sickLeave":
-            return acc + (sliderValue / 52) * 0.1; // 10% reduction
-          case "ventilation":
-            return acc + (sliderValue / 100) * 0.15; // 15% reduction
-          case "masks":
-            return acc + (sliderValue / 100) * 0.2; // 20% reduction
-          case "pharmaceuticalprevention":
-            return acc + (sliderValue / 100) * 0.25; // 25% reduction
-          case "vaccination":
-            return acc + (sliderValue / 100) * 0.3; // 30% reduction
-          case "testing":
-            return acc + (sliderValue / 100) * 0.1; // 10% reduction
-          default:
-            return acc;
-        }
-      }
-      return acc;
-    },
-    0,
-  );
+  let reductionFactor = 0;
+  for (const intervention of INTERVENTIONS) {
+    if (interventions[intervention.key]) {
+      const sliderValue = interventionValues[intervention.key];
+      reductionFactor += intervention.reductionFn(sliderValue);
+    }
+  }
+
   return baseData.map((item) => ({
     date: item.date,
     dalys: Math.round(item.dalys * (1 - reductionFactor)),
@@ -98,23 +143,24 @@ const calculateReducedDALYs = (
 
 export function LCDALYs() {
   const [timeRange, setTimeRange] = React.useState("5y");
-  const [interventions, setInterventions] = React.useState({
-    sickLeave: false,
-    ventilation: false,
-    testing: false,
-    masks: false,
-    pharmaceuticalprevention: false,
-    vaccination: false,
-  });
 
-  const [interventionValues, setInterventionValues] = React.useState({
-    sickLeave: 0,
-    ventilation: 0,
-    testing: 0,
-    masks: 0,
-    pharmaceuticalprevention: 0,
-    vaccination: 0,
-  });
+  const initialInterventions = Object.fromEntries(
+    INTERVENTIONS.map((intervention) => [intervention.key, false]),
+  );
+
+  const initialInterventionValues = Object.fromEntries(
+    INTERVENTIONS.map((intervention) => [
+      intervention.key,
+      intervention.defaultValue,
+    ]),
+  );
+
+  const [interventions, setInterventions] =
+    React.useState(initialInterventions);
+
+  const [interventionValues, setInterventionValues] = React.useState(
+    initialInterventionValues,
+  );
 
   const handleInterventionChange = (id: string, checked: boolean) => {
     setInterventions((prev) => ({
@@ -325,39 +371,53 @@ export function LCDALYs() {
                 <>
                   <ChartLegendContent />
                   <div className="mt-4 grid grid-cols-1 gap-x-8 gap-y-2 md:grid-cols-2">
-                    <div className="mt-4 flex gap-x-4 text-left">
-                      <Checkbox
-                        id="ventilation"
-                        checked={interventions.ventilation}
+                    {INTERVENTIONS.map((intervention) => (
+                      <InterventionArea
+                        key={intervention.key}
+                        id={intervention.key}
+                        checked={interventions[intervention.key]}
                         onCheckedChange={(checked) =>
                           handleInterventionChange(
-                            "ventilation",
+                            intervention.key,
                             checked as boolean,
                           )
                         }
+                        ariaLabel={intervention.ariaLabel}
+                        sliderLabel={intervention.sliderLabel}
+                        sliderSubLabel={intervention.sliderSubLabel}
+                        sliderMin={intervention.sliderMin}
+                        sliderMax={intervention.sliderMax}
+                        sliderStep={intervention.sliderStep}
+                        sliderInitialValue={intervention.defaultValue}
+                        sliderDefaultValue={intervention.defaultValue}
+                        sliderDisabled={!interventions[intervention.key]}
+                        onSliderChange={(value) =>
+                          handleSliderValueChange(intervention.key, value)
+                        }
                       />
-                      <div className="grid w-full gap-0.5 leading-none">
-                        <label htmlFor="ventilation" className="sr-only">
-                          Improved ventilation in schools
-                        </label>
-                        <div className="w-[90%]">
-                          <InterventionsSlider
-                            label="Air Quality: Air Changes per Hour (ACH)"
-                            sublabel="Percentage of buildings with a minimum of 5 ACH"
-                            minValue={0}
-                            maxValue={100}
-                            step={5}
-                            initialValue={[0]}
-                            defaultValue={[0]}
-                            disabled={!interventions.ventilation}
-                            onValueChange={(value) =>
-                              handleSliderValueChange("ventilation", value)
-                            }
-                          />
-                        </div>
-                      </div>
-                    </div>
-
+                    ))}
+                    <InterventionArea
+                      id="ventilation"
+                      checked={interventions.ventilation}
+                      onCheckedChange={(checked) =>
+                        handleInterventionChange(
+                          "ventilation",
+                          checked as boolean,
+                        )
+                      }
+                      ariaLabel="Air Quality: Air Changes per Hour (ACH)"
+                      sliderLabel="Air Quality: Air Changes per Hour (ACH)"
+                      sliderSubLabel="Percentage of buildings with a minimum of 5 ACH"
+                      sliderMin={0}
+                      sliderMax={100}
+                      sliderStep={5}
+                      sliderInitialValue={0}
+                      sliderDefaultValue={0}
+                      sliderDisabled={!interventions.ventilation}
+                      onSliderChange={(value) =>
+                        handleSliderValueChange("ventilation", value)
+                      }
+                    />
                     <div className="mt-4 flex gap-x-4 text-left">
                       <Checkbox
                         id="ventilation"
@@ -390,7 +450,6 @@ export function LCDALYs() {
                         </div>
                       </div>
                     </div>
-
                     <div className="mt-4 flex gap-x-4 text-left">
                       <Checkbox
                         id="sickLeave"
@@ -423,7 +482,6 @@ export function LCDALYs() {
                         </div>
                       </div>
                     </div>
-
                     <div className="mt-4 flex gap-x-4 text-left">
                       <Checkbox
                         id="testing"
@@ -456,7 +514,6 @@ export function LCDALYs() {
                         </div>
                       </div>
                     </div>
-
                     <div className="mt-4 flex gap-x-4 text-left">
                       <Checkbox
                         id="vaccination"
@@ -489,7 +546,6 @@ export function LCDALYs() {
                         </div>
                       </div>
                     </div>
-
                     <div className="mt-4 flex gap-x-4 text-left">
                       <Checkbox
                         id="vaccination"
@@ -522,7 +578,6 @@ export function LCDALYs() {
                         </div>
                       </div>
                     </div>
-
                     <div className="mt-4 flex gap-x-4 text-left">
                       <Checkbox
                         id="masks"
@@ -552,7 +607,6 @@ export function LCDALYs() {
                         </div>
                       </div>
                     </div>
-
                     <div className="mt-4 flex gap-x-4 text-left">
                       <Checkbox
                         id="masks"
@@ -582,7 +636,6 @@ export function LCDALYs() {
                         </div>
                       </div>
                     </div>
-
                     <div className="mt-4 flex gap-x-4 text-left">
                       <Checkbox
                         id="pharmaceutical-prevention"
@@ -621,7 +674,6 @@ export function LCDALYs() {
                         </div>
                       </div>
                     </div>
-
                     <div className="mt-4 flex gap-x-4 text-left">
                       <Checkbox
                         id="vaccination"
@@ -654,7 +706,6 @@ export function LCDALYs() {
                         </div>
                       </div>
                     </div>
-
                     <div className="mt-4 flex gap-x-4 text-left">
                       <Checkbox
                         id="vaccination"
@@ -687,7 +738,6 @@ export function LCDALYs() {
                         </div>
                       </div>
                     </div>
-
                     <div className="mt-4 flex gap-x-4 text-left">
                       <Checkbox
                         id="vaccination"

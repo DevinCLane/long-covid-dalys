@@ -5,14 +5,14 @@ interface InterventionAreaProps {
   id: string;
   checked: boolean;
   onCheckedChange: (checked: boolean) => void;
-  label: string;
   ariaLabel?: string;
   sliderLabel: string;
   sliderSubLabel: string;
   sliderMin: number;
   sliderMax: number;
   sliderStep: number;
-  sliderValue: number;
+  sliderInitialValue: number;
+  sliderDefaultValue: number;
   sliderDisabled: boolean;
   onSliderChange: (value: number[]) => void;
 }
@@ -21,14 +21,14 @@ export function InterventionArea({
   id,
   checked,
   onCheckedChange,
-  label,
   ariaLabel,
   sliderLabel,
   sliderSubLabel,
   sliderMin,
   sliderMax,
   sliderStep,
-  sliderValue,
+  sliderInitialValue,
+  sliderDefaultValue,
   sliderDisabled,
   onSliderChange,
 }: InterventionAreaProps) {
@@ -37,7 +37,7 @@ export function InterventionArea({
       <Checkbox id={id} checked={checked} onCheckedChange={onCheckedChange} />
       <div className="grid w-full gap-0.5 leading-none">
         <label htmlFor={id} className="sr-only">
-          {ariaLabel || label}
+          {ariaLabel}
         </label>
         <div className="w-[90%]">
           <InterventionsSlider
@@ -46,8 +46,8 @@ export function InterventionArea({
             minValue={sliderMin}
             maxValue={sliderMax}
             step={sliderStep}
-            initialValue={[sliderValue]}
-            defaultValue={[0]}
+            initialValue={[sliderInitialValue]}
+            defaultValue={[sliderDefaultValue]}
             disabled={sliderDisabled}
             onValueChange={onSliderChange}
           />
