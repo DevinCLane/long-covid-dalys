@@ -219,7 +219,7 @@ export function LCDALYs() {
       <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
         <ChartContainer
           config={chartConfig}
-          className="aspect-auto h-[1050px] w-full md:h-[700px]"
+          className="md:h-[12 00px] aspect-auto h-[1050px] w-full"
         >
           <AreaChart data={filteredData}>
             <defs>
@@ -327,32 +327,31 @@ export function LCDALYs() {
                   <div className="mt-4 grid grid-cols-1 gap-x-8 gap-y-2 md:grid-cols-2">
                     <div className="mt-4 flex gap-x-4 text-left">
                       <Checkbox
-                        id="sickLeave"
-                        checked={interventions.sickLeave}
+                        id="ventilation"
+                        checked={interventions.ventilation}
                         onCheckedChange={(checked) =>
                           handleInterventionChange(
-                            "sickLeave",
+                            "ventilation",
                             checked as boolean,
                           )
                         }
                       />
                       <div className="grid w-full gap-0.5 leading-none">
-                        <label htmlFor="sickLeave" className="sr-only">
-                          Paid sick leave
+                        <label htmlFor="ventilation" className="sr-only">
+                          Improved ventilation in schools
                         </label>
                         <div className="w-[90%]">
                           <InterventionsSlider
-                            label="Paid Sick Leave"
-                            sublabel="Mandatory paid sick leave for workers with COVID-19
-                          symptoms, in weeks"
+                            label="Air Quality: Air Changes per Hour (ACH)"
+                            sublabel="Percentage of buildings with a minimum of 5 ACH"
                             minValue={0}
-                            maxValue={52}
-                            step={1}
+                            maxValue={100}
+                            step={5}
                             initialValue={[0]}
                             defaultValue={[0]}
-                            disabled={!interventions.sickLeave}
+                            disabled={!interventions.ventilation}
                             onValueChange={(value) =>
-                              handleSliderValueChange("sickLeave", value)
+                              handleSliderValueChange("ventilation", value)
                             }
                           />
                         </div>
@@ -372,12 +371,12 @@ export function LCDALYs() {
                       />
                       <div className="grid w-full gap-0.5 leading-none">
                         <label htmlFor="ventilation" className="sr-only">
-                          Improved ventilation in schools
+                          Far germicidal UVC
                         </label>
                         <div className="w-[90%]">
                           <InterventionsSlider
-                            label="Air Quality Improvements"
-                            sublabel="Percentage of buildings with effective air filtration, ventilation, and far germicial UVC"
+                            label="Far germicidal UVC"
+                            sublabel="Percentage of buildings with far germicidal UVC"
                             minValue={0}
                             maxValue={100}
                             step={5}
@@ -386,6 +385,39 @@ export function LCDALYs() {
                             disabled={!interventions.ventilation}
                             onValueChange={(value) =>
                               handleSliderValueChange("ventilation", value)
+                            }
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mt-4 flex gap-x-4 text-left">
+                      <Checkbox
+                        id="sickLeave"
+                        checked={interventions.sickLeave}
+                        onCheckedChange={(checked) =>
+                          handleInterventionChange(
+                            "sickLeave",
+                            checked as boolean,
+                          )
+                        }
+                      />
+                      <div className="grid w-full gap-0.5 leading-none">
+                        <label htmlFor="sickLeave" className="sr-only">
+                          Paid sick leave
+                        </label>
+                        <div className="w-[90%]">
+                          <InterventionsSlider
+                            label="Paid Sick Leave"
+                            sublabel="Percentage of workers with paid sick leave"
+                            minValue={0}
+                            maxValue={52}
+                            step={1}
+                            initialValue={[0]}
+                            defaultValue={[0]}
+                            disabled={!interventions.sickLeave}
+                            onValueChange={(value) =>
+                              handleSliderValueChange("sickLeave", value)
                             }
                           />
                         </div>
@@ -409,8 +441,8 @@ export function LCDALYs() {
                         </label>
                         <div className="w-[90%]">
                           <InterventionsSlider
-                            label="Testing Coverage"
-                            sublabel="Percentage of symptomatic individuals tested"
+                            label="Free COVID tests"
+                            sublabel="Percentage of population with free COVID tests available to them"
                             minValue={0}
                             maxValue={100}
                             step={5}
@@ -442,8 +474,41 @@ export function LCDALYs() {
                         </label>
                         <div className="w-[90%]">
                           <InterventionsSlider
-                            label="Vaccination Coverage"
+                            label="Vaccination Coverage: current vaccines"
                             sublabel="Percentage of population with up-to-date vaccination"
+                            minValue={0}
+                            maxValue={100}
+                            step={5}
+                            initialValue={[0]}
+                            defaultValue={[0]}
+                            disabled={!interventions.vaccination}
+                            onValueChange={(value) =>
+                              handleSliderValueChange("vaccination", value)
+                            }
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mt-4 flex gap-x-4 text-left">
+                      <Checkbox
+                        id="vaccination"
+                        checked={interventions.vaccination}
+                        onCheckedChange={(checked) =>
+                          handleInterventionChange(
+                            "vaccination",
+                            checked as boolean,
+                          )
+                        }
+                      />
+                      <div className="grid w-full gap-0.5 leading-none">
+                        <label htmlFor="vaccination" className="sr-only">
+                          Improved vaccine
+                        </label>
+                        <div className="w-[90%]">
+                          <InterventionsSlider
+                            label="Vaccine coverage: improved vaccine"
+                            sublabel="Percentage of population with improved vaccine"
                             minValue={0}
                             maxValue={100}
                             step={5}
@@ -468,12 +533,42 @@ export function LCDALYs() {
                       />
                       <div className="grid w-full gap-0.5 leading-none">
                         <label htmlFor="masks" className="sr-only">
-                          Masking
+                          Masking in healthcare facilities
                         </label>
                         <div className="w-[90%]">
                           <InterventionsSlider
-                            label="Masking Adoption"
-                            sublabel="Percentage of population wearing effective masks"
+                            label="Masking Adoption: health care facilities"
+                            sublabel="Percentage of healthcare facilities using masks"
+                            minValue={0}
+                            maxValue={100}
+                            step={5}
+                            initialValue={[0]}
+                            defaultValue={[0]}
+                            disabled={!interventions.masks}
+                            onValueChange={(value) =>
+                              handleSliderValueChange("masks", value)
+                            }
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mt-4 flex gap-x-4 text-left">
+                      <Checkbox
+                        id="masks"
+                        checked={interventions.masks}
+                        onCheckedChange={(checked) =>
+                          handleInterventionChange("masks", checked as boolean)
+                        }
+                      />
+                      <div className="grid w-full gap-0.5 leading-none">
+                        <label htmlFor="masks" className="sr-only">
+                          Masking in general population
+                        </label>
+                        <div className="w-[90%]">
+                          <InterventionsSlider
+                            label="Masking Adoption: general population"
+                            sublabel="Percentage of general population wearing masks"
                             minValue={0}
                             maxValue={100}
                             step={5}
@@ -504,12 +599,12 @@ export function LCDALYs() {
                           htmlFor="pharmaceutical-prevention"
                           className="sr-only"
                         >
-                          Pharmaceutical infection prevention
+                          Pharmaceutical interventions: nasal sprays
                         </label>
                         <div className="w-[90%]">
                           <InterventionsSlider
-                            label="Pharmaceutical Prevention"
-                            sublabel="Percentage of population using preventive measures such as nasal sprays and PrEP"
+                            label="Pharmaceutical intervention: nasal sprays"
+                            sublabel="Percentage of population using COVID preventative nasal sprays"
                             minValue={0}
                             maxValue={100}
                             step={5}
@@ -521,6 +616,106 @@ export function LCDALYs() {
                                 "pharmaceuticalprevention",
                                 value,
                               )
+                            }
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mt-4 flex gap-x-4 text-left">
+                      <Checkbox
+                        id="vaccination"
+                        checked={interventions.vaccination}
+                        onCheckedChange={(checked) =>
+                          handleInterventionChange(
+                            "vaccination",
+                            checked as boolean,
+                          )
+                        }
+                      />
+                      <div className="grid w-full gap-0.5 leading-none">
+                        <label htmlFor="vaccination" className="sr-only">
+                          pharmaceutical intervention: paxlovid
+                        </label>
+                        <div className="w-[90%]">
+                          <InterventionsSlider
+                            label="Pharmaceutical intervention: Paxlovid"
+                            sublabel="Percentage of population taking Paxlovid during acute COVID"
+                            minValue={0}
+                            maxValue={100}
+                            step={5}
+                            initialValue={[0]}
+                            defaultValue={[0]}
+                            disabled={!interventions.vaccination}
+                            onValueChange={(value) =>
+                              handleSliderValueChange("vaccination", value)
+                            }
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mt-4 flex gap-x-4 text-left">
+                      <Checkbox
+                        id="vaccination"
+                        checked={interventions.vaccination}
+                        onCheckedChange={(checked) =>
+                          handleInterventionChange(
+                            "vaccination",
+                            checked as boolean,
+                          )
+                        }
+                      />
+                      <div className="grid w-full gap-0.5 leading-none">
+                        <label htmlFor="vaccination" className="sr-only">
+                          pharmaceutical intervention: metformin
+                        </label>
+                        <div className="w-[90%]">
+                          <InterventionsSlider
+                            label="Pharmaceutical intervention: Metformin"
+                            sublabel="Percentage of population taking Metformin during acute COVID"
+                            minValue={0}
+                            maxValue={100}
+                            step={5}
+                            initialValue={[0]}
+                            defaultValue={[0]}
+                            disabled={!interventions.vaccination}
+                            onValueChange={(value) =>
+                              handleSliderValueChange("vaccination", value)
+                            }
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mt-4 flex gap-x-4 text-left">
+                      <Checkbox
+                        id="vaccination"
+                        checked={interventions.vaccination}
+                        onCheckedChange={(checked) =>
+                          handleInterventionChange(
+                            "vaccination",
+                            checked as boolean,
+                          )
+                        }
+                      />
+                      <div className="grid w-full gap-0.5 leading-none">
+                        <label htmlFor="vaccination" className="sr-only">
+                          pharmaceutical intervention: reduction of long covid
+                          symptoms
+                        </label>
+                        <div className="w-[90%]">
+                          <InterventionsSlider
+                            label="Pharmaceutical intervention: reduction of long covid symptoms"
+                            sublabel="Percentage of population taking pharmaceuticals that reduce long covid symptoms"
+                            minValue={0}
+                            maxValue={100}
+                            step={5}
+                            initialValue={[0]}
+                            defaultValue={[0]}
+                            disabled={!interventions.vaccination}
+                            onValueChange={(value) =>
+                              handleSliderValueChange("vaccination", value)
                             }
                           />
                         </div>
