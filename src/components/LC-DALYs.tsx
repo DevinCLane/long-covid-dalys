@@ -25,11 +25,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-// import { Checkbox } from "@/components/ui/checkbox";
-// import { InterventionsSlider } from "@/components/interventions-slider";
 import { InterventionArea } from "@/components/intervention-area";
 
-// todo: use the group labels to group interventions in the UI
 const GROUP_LABELS: Record<string, string> = {
   air: "Air Quality improvements",
   masking: "Masking",
@@ -209,6 +206,16 @@ const INTERVENTIONS: Intervention[] = [
   },
 ];
 
+const groupedInterventions: Record<string, Intervention[]> =
+  INTERVENTIONS.reduce(
+    (acc, intervention) => {
+      if (!acc[intervention.group]) acc[intervention.group] = [];
+      acc[intervention.group].push(intervention);
+      return acc;
+    },
+    {} as Record<string, Intervention[]>,
+  );
+
 const generateChartData = () => {
   const data = [];
   let baselineCases = 17000000; // Starting with 17M cases
@@ -384,7 +391,7 @@ export function LCDALYs() {
       <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
         <ChartContainer
           config={chartConfig}
-          className="md:h-[12 00px] aspect-auto h-[1050px] w-full"
+          className="aspect-auto h-[1050px] w-full md:h-[1400px]"
         >
           <AreaChart data={filteredData}>
             <defs>
@@ -489,32 +496,48 @@ export function LCDALYs() {
               content={
                 <>
                   <ChartLegendContent />
-                  <div className="mt-4 grid grid-cols-1 gap-x-8 gap-y-2 md:grid-cols-2">
-                    {INTERVENTIONS.map((intervention) => (
-                      <InterventionArea
-                        key={intervention.key}
-                        id={intervention.key}
-                        checked={interventions[intervention.key]}
-                        onCheckedChange={(checked) =>
-                          handleInterventionChange(
-                            intervention.key,
-                            checked as boolean,
-                          )
-                        }
-                        ariaLabel={intervention.ariaLabel}
-                        sliderLabel={intervention.sliderLabel}
-                        sliderSubLabel={intervention.sliderSubLabel}
-                        sliderMin={intervention.sliderMin}
-                        sliderMax={intervention.sliderMax}
-                        sliderStep={intervention.sliderStep}
-                        sliderInitialValue={intervention.defaultValue}
-                        sliderDefaultValue={intervention.defaultValue}
-                        sliderDisabled={!interventions[intervention.key]}
-                        onSliderChange={(value) =>
-                          handleSliderValueChange(intervention.key, value)
-                        }
-                      />
-                    ))}
+                  <div className="mt-4 space-y-8">
+                    {Object.entries(groupedInterventions).map(
+                      ([group, groupInterventions]) => (
+                        <div key={group}>
+                          <h3 className="mb-2 text-lg font-semibold">
+                            {GROUP_LABELS[group]}
+                          </h3>
+                          <div className="grid grid-cols-1 gap-x-8 gap-y-2 md:grid-cols-2">
+                            {groupInterventions.map((intervention) => (
+                              <InterventionArea
+                                key={intervention.key}
+                                id={intervention.key}
+                                checked={interventions[intervention.key]}
+                                onCheckedChange={(checked) =>
+                                  handleInterventionChange(
+                                    intervention.key,
+                                    checked as boolean,
+                                  )
+                                }
+                                ariaLabel={intervention.ariaLabel}
+                                sliderLabel={intervention.sliderLabel}
+                                sliderSubLabel={intervention.sliderSubLabel}
+                                sliderMin={intervention.sliderMin}
+                                sliderMax={intervention.sliderMax}
+                                sliderStep={intervention.sliderStep}
+                                sliderInitialValue={intervention.defaultValue}
+                                sliderDefaultValue={intervention.defaultValue}
+                                sliderDisabled={
+                                  !interventions[intervention.key]
+                                }
+                                onSliderChange={(value) =>
+                                  handleSliderValueChange(
+                                    intervention.key,
+                                    value,
+                                  )
+                                }
+                              />
+                            ))}
+                          </div>
+                        </div>
+                      ),
+                    )}
                   </div>
                 </>
               }
