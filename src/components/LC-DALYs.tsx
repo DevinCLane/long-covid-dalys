@@ -247,13 +247,13 @@ const chartConfig = {
 
 const calculateReducedDALYs = (
   baseData: typeof chartData,
-  interventions: Record<string, boolean>,
-  interventionValues: Record<string, number>,
+  interventionCheckBoxes: Record<string, boolean>,
+  interventionSliderValues: Record<string, number>,
 ) => {
   let reductionFactor = 0;
   for (const intervention of INTERVENTIONS) {
-    if (interventions[intervention.key]) {
-      const sliderValue = interventionValues[intervention.key];
+    if (interventionCheckBoxes[intervention.key]) {
+      const sliderValue = interventionSliderValues[intervention.key];
       reductionFactor += intervention.reductionFn(sliderValue);
     }
   }
@@ -278,22 +278,21 @@ export function LCDALYs() {
     ]),
   );
 
-  const [interventions, setInterventions] =
+  const [interventionCheckBoxes, setInterventionCheckBoxes] =
     React.useState(initialInterventions);
 
-  const [interventionValues, setInterventionValues] = React.useState(
-    initialInterventionValues,
-  );
+  const [interventionSliderValues, setInterventionSliderValues] =
+    React.useState(initialInterventionValues);
 
   const handleInterventionChange = (id: string, checked: boolean) => {
-    setInterventions((prev) => ({
+    setInterventionCheckBoxes((prev) => ({
       ...prev,
       [id]: checked,
     }));
   };
 
   const handleSliderValueChange = (id: string, value: number[]) => {
-    setInterventionValues((prev) => ({
+    setInterventionSliderValues((prev) => ({
       ...prev,
       [id]: value[0],
     }));
@@ -304,8 +303,8 @@ export function LCDALYs() {
       const date = baselineItem.date;
       const interventionDalys = calculateReducedDALYs(
         [baselineItem],
-        interventions,
-        interventionValues,
+        interventionCheckBoxes,
+        interventionSliderValues,
       )[0].dalys;
 
       return {
@@ -503,7 +502,7 @@ export function LCDALYs() {
                     <InterventionArea
                       key={intervention.key}
                       id={intervention.key}
-                      checked={interventions[intervention.key]}
+                      checked={interventionCheckBoxes[intervention.key]}
                       onCheckedChange={(checked) =>
                         handleInterventionChange(
                           intervention.key,
@@ -518,7 +517,7 @@ export function LCDALYs() {
                       sliderStep={intervention.sliderStep}
                       sliderInitialValue={intervention.defaultValue}
                       sliderDefaultValue={intervention.defaultValue}
-                      sliderDisabled={!interventions[intervention.key]}
+                      sliderDisabled={!interventionCheckBoxes[intervention.key]}
                       onSliderChange={(value) =>
                         handleSliderValueChange(intervention.key, value)
                       }
