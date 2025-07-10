@@ -205,15 +205,14 @@ const INTERVENTIONS: Intervention[] = [
 ];
 
 // Group interventions by their group label
-const groupedInterventions: Record<string, Intervention[]> =
-  INTERVENTIONS.reduce(
-    (acc, intervention) => {
-      if (!acc[intervention.group]) acc[intervention.group] = [];
-      acc[intervention.group].push(intervention);
-      return acc;
-    },
-    {} as Record<string, Intervention[]>,
-  );
+const groupedInterventions = INTERVENTIONS.reduce(
+  (acc, intervention) => {
+    if (!acc[intervention.group]) acc[intervention.group] = [];
+    acc[intervention.group].push(intervention);
+    return acc;
+  },
+  {} as Record<string, Intervention[]>,
+);
 
 // Function to generate chart data for DALYs over time
 const generateChartData = () => {
