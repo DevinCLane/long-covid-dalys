@@ -25,12 +25,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Checkbox } from "@/components/ui/checkbox";
-import { InterventionsSlider } from "@/components/interventions-slider";
+// import { Checkbox } from "@/components/ui/checkbox";
+// import { InterventionsSlider } from "@/components/interventions-slider";
 import { InterventionArea } from "@/components/intervention-area";
 
 // todo: use the group labels to group interventions in the UI
-const GROUP_LABELS = {
+const GROUP_LABELS: Record<string, string> = {
   air: "Air Quality improvements",
   masking: "Masking",
   vaccination: "Vaccination",
@@ -55,9 +55,9 @@ const INTERVENTIONS: Intervention[] = [
   {
     key: "airExchangeRate",
     group: "air",
-    ariaLabel: "Air Exchange Rate",
+    ariaLabel: "Air Changes Per Hour (ACH)",
     sliderLabel: "Air Changes Per Hour (ACH)",
-    sliderSubLabel: "Percentage of buildings with a minimun of 5 ACH",
+    sliderSubLabel: "Percentage of buildings with a minimum of 5 ACH",
     sliderMin: 0,
     sliderMax: 100,
     sliderStep: 5,
@@ -77,16 +77,135 @@ const INTERVENTIONS: Intervention[] = [
     reductionFn: (sliderValue) => (sliderValue / 100) * 0.1,
   },
   {
-    key: "airQuality",
-    group: "air",
-    ariaLabel: "Air Quality",
-    sliderLabel: "PM2.5 Concentration",
-    sliderSubLabel: "Micrograms per cubic meter (µg/m³)",
+    key: "masksHealthcare",
+    group: "masking",
+    ariaLabel: "Masks in Healthcare Settings",
+    sliderLabel: "Masking in healthcare facilities",
+    sliderSubLabel: "Percentage of healthcare facilities with mask mandates",
     sliderMin: 0,
     sliderMax: 100,
     sliderStep: 5,
     defaultValue: 0,
     reductionFn: (sliderValue) => (sliderValue / 100) * 0.1,
+  },
+  {
+    key: "masksGeneral",
+    group: "masking",
+    ariaLabel: "Masks in General Population",
+    sliderLabel: "Masking in general population",
+    sliderSubLabel: "Percentage of general population wearing masks",
+    sliderMin: 0,
+    sliderMax: 100,
+    sliderStep: 5,
+    defaultValue: 0,
+    reductionFn: (sliderValue) => (sliderValue / 100) * 0.1,
+  },
+  {
+    key: "sickLeave",
+    group: "publicHealth",
+    ariaLabel: "Paid Sick Leave",
+    sliderLabel: "Paid Sick Leave",
+    sliderSubLabel: "Percentage of workers with paid sick leave",
+    sliderMin: 0,
+    sliderMax: 52,
+    sliderStep: 1,
+    defaultValue: 0,
+    reductionFn: (sliderValue) => (sliderValue / 100) * 0.05,
+  },
+  {
+    key: "testing",
+    group: "publicHealth",
+    ariaLabel: "Free COVID Tests",
+    sliderLabel: "Free COVID tests",
+    sliderSubLabel:
+      "Percentage of population with free COVID tests available to them",
+    sliderMin: 0,
+    sliderMax: 100,
+    sliderStep: 5,
+    defaultValue: 0,
+    reductionFn: (sliderValue) => (sliderValue / 100) * 0.1,
+  },
+  {
+    key: "vaccinationCurrent",
+    group: "vaccination",
+    ariaLabel: "Vaccination Coverage: Current Vaccines",
+    sliderLabel: "Vaccination Coverage: Current Vaccines",
+    sliderSubLabel:
+      "Percentage of population with up-to-date vaccination for current variants",
+    sliderMin: 0,
+    sliderMax: 100,
+    sliderStep: 5,
+    defaultValue: 0,
+    reductionFn: (sliderValue) => (sliderValue / 100) * 0.2,
+  },
+  {
+    key: "vaccinationImproved",
+    group: "vaccination",
+    ariaLabel:
+      "Vaccination Coverage: Improved Vaccines for Long COVID Prevention",
+    sliderLabel:
+      "Vaccination Coverage: improved vaccine for long COVID prevention",
+    sliderSubLabel:
+      "Percentage of population with improved vaccine for long COVID prevention",
+    sliderMin: 0,
+    sliderMax: 100,
+    sliderStep: 5,
+    defaultValue: 0,
+    reductionFn: (sliderValue) => (sliderValue / 100) * 0.3,
+  },
+  {
+    key: "nasalSprays",
+    group: "pharma",
+    ariaLabel: "Pharmaceutical Interventions: Nasal Sprays",
+    sliderLabel: "Pharmaceutical intervention: nasal sprays",
+    sliderSubLabel:
+      "Percentage of population using COVID preventative nasal sprays",
+    sliderMin: 0,
+    sliderMax: 100,
+    sliderStep: 5,
+    defaultValue: 0,
+    reductionFn: (sliderValue) => (sliderValue / 100) * 0.15,
+  },
+  {
+    key: "paxlovid",
+    group: "pharma",
+    ariaLabel: "Pharmaceutical Interventions: Paxlovid",
+    sliderLabel: "Pharmaceutical intervention: Paxlovid",
+    sliderSubLabel:
+      "Percentage of population taking Paxlovid during acute COVID",
+    sliderMin: 0,
+    sliderMax: 100,
+    sliderStep: 5,
+    defaultValue: 0,
+    reductionFn: (sliderValue) => (sliderValue / 100) * 0.1,
+  },
+  {
+    key: "metformin",
+    group: "pharma",
+    ariaLabel: "Pharmaceutical Interventions: Metformin",
+    sliderLabel: "Pharmaceutical intervention: Metformin",
+    sliderSubLabel:
+      "Percentage of population taking Metformin during acute COVID",
+    sliderMin: 0,
+    sliderMax: 100,
+    sliderStep: 5,
+    defaultValue: 0,
+    reductionFn: (sliderValue) => (sliderValue / 100) * 0.1,
+  },
+  {
+    key: "reduceSymptoms",
+    group: "pharma",
+    ariaLabel:
+      "Pharmaceutical Interventions - Reduction of Long COVID Symptoms",
+    sliderLabel:
+      "Pharmaceutical intervention: reduction of long covid symptoms",
+    sliderSubLabel:
+      "Percentage of population taking pharmaceuticals that reduce long covid symptoms",
+    sliderMin: 0,
+    sliderMax: 100,
+    sliderStep: 5,
+    defaultValue: 0,
+    reductionFn: (sliderValue) => (sliderValue / 100) * 0.2,
   },
 ];
 
@@ -396,381 +515,6 @@ export function LCDALYs() {
                         }
                       />
                     ))}
-                    <InterventionArea
-                      id="ventilation"
-                      checked={interventions.ventilation}
-                      onCheckedChange={(checked) =>
-                        handleInterventionChange(
-                          "ventilation",
-                          checked as boolean,
-                        )
-                      }
-                      ariaLabel="Air Quality: Air Changes per Hour (ACH)"
-                      sliderLabel="Air Quality: Air Changes per Hour (ACH)"
-                      sliderSubLabel="Percentage of buildings with a minimum of 5 ACH"
-                      sliderMin={0}
-                      sliderMax={100}
-                      sliderStep={5}
-                      sliderInitialValue={0}
-                      sliderDefaultValue={0}
-                      sliderDisabled={!interventions.ventilation}
-                      onSliderChange={(value) =>
-                        handleSliderValueChange("ventilation", value)
-                      }
-                    />
-                    <div className="mt-4 flex gap-x-4 text-left">
-                      <Checkbox
-                        id="ventilation"
-                        checked={interventions.ventilation}
-                        onCheckedChange={(checked) =>
-                          handleInterventionChange(
-                            "ventilation",
-                            checked as boolean,
-                          )
-                        }
-                      />
-                      <div className="grid w-full gap-0.5 leading-none">
-                        <label htmlFor="ventilation" className="sr-only">
-                          Far germicidal UVC
-                        </label>
-                        <div className="w-[90%]">
-                          <InterventionsSlider
-                            label="Far germicidal UVC"
-                            sublabel="Percentage of buildings with far germicidal UVC"
-                            minValue={0}
-                            maxValue={100}
-                            step={5}
-                            initialValue={[0]}
-                            defaultValue={[0]}
-                            disabled={!interventions.ventilation}
-                            onValueChange={(value) =>
-                              handleSliderValueChange("ventilation", value)
-                            }
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="mt-4 flex gap-x-4 text-left">
-                      <Checkbox
-                        id="sickLeave"
-                        checked={interventions.sickLeave}
-                        onCheckedChange={(checked) =>
-                          handleInterventionChange(
-                            "sickLeave",
-                            checked as boolean,
-                          )
-                        }
-                      />
-                      <div className="grid w-full gap-0.5 leading-none">
-                        <label htmlFor="sickLeave" className="sr-only">
-                          Paid sick leave
-                        </label>
-                        <div className="w-[90%]">
-                          <InterventionsSlider
-                            label="Paid Sick Leave"
-                            sublabel="Percentage of workers with paid sick leave"
-                            minValue={0}
-                            maxValue={52}
-                            step={1}
-                            initialValue={[0]}
-                            defaultValue={[0]}
-                            disabled={!interventions.sickLeave}
-                            onValueChange={(value) =>
-                              handleSliderValueChange("sickLeave", value)
-                            }
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="mt-4 flex gap-x-4 text-left">
-                      <Checkbox
-                        id="testing"
-                        checked={interventions.testing}
-                        onCheckedChange={(checked) =>
-                          handleInterventionChange(
-                            "testing",
-                            checked as boolean,
-                          )
-                        }
-                      />
-                      <div className="grid w-full gap-0.5 leading-none">
-                        <label htmlFor="testing" className="sr-only">
-                          Testing and isolation
-                        </label>
-                        <div className="w-[90%]">
-                          <InterventionsSlider
-                            label="Free COVID tests"
-                            sublabel="Percentage of population with free COVID tests available to them"
-                            minValue={0}
-                            maxValue={100}
-                            step={5}
-                            initialValue={[0]}
-                            defaultValue={[0]}
-                            disabled={!interventions.testing}
-                            onValueChange={(value) =>
-                              handleSliderValueChange("testing", value)
-                            }
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="mt-4 flex gap-x-4 text-left">
-                      <Checkbox
-                        id="vaccination"
-                        checked={interventions.vaccination}
-                        onCheckedChange={(checked) =>
-                          handleInterventionChange(
-                            "vaccination",
-                            checked as boolean,
-                          )
-                        }
-                      />
-                      <div className="grid w-full gap-0.5 leading-none">
-                        <label htmlFor="vaccination" className="sr-only">
-                          Vaccination
-                        </label>
-                        <div className="w-[90%]">
-                          <InterventionsSlider
-                            label="Vaccination Coverage: current vaccines"
-                            sublabel="Percentage of population with up-to-date vaccination"
-                            minValue={0}
-                            maxValue={100}
-                            step={5}
-                            initialValue={[0]}
-                            defaultValue={[0]}
-                            disabled={!interventions.vaccination}
-                            onValueChange={(value) =>
-                              handleSliderValueChange("vaccination", value)
-                            }
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="mt-4 flex gap-x-4 text-left">
-                      <Checkbox
-                        id="vaccination"
-                        checked={interventions.vaccination}
-                        onCheckedChange={(checked) =>
-                          handleInterventionChange(
-                            "vaccination",
-                            checked as boolean,
-                          )
-                        }
-                      />
-                      <div className="grid w-full gap-0.5 leading-none">
-                        <label htmlFor="vaccination" className="sr-only">
-                          Improved vaccine
-                        </label>
-                        <div className="w-[90%]">
-                          <InterventionsSlider
-                            label="Vaccine coverage: improved vaccine"
-                            sublabel="Percentage of population with improved vaccine"
-                            minValue={0}
-                            maxValue={100}
-                            step={5}
-                            initialValue={[0]}
-                            defaultValue={[0]}
-                            disabled={!interventions.vaccination}
-                            onValueChange={(value) =>
-                              handleSliderValueChange("vaccination", value)
-                            }
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="mt-4 flex gap-x-4 text-left">
-                      <Checkbox
-                        id="masks"
-                        checked={interventions.masks}
-                        onCheckedChange={(checked) =>
-                          handleInterventionChange("masks", checked as boolean)
-                        }
-                      />
-                      <div className="grid w-full gap-0.5 leading-none">
-                        <label htmlFor="masks" className="sr-only">
-                          Masking in healthcare facilities
-                        </label>
-                        <div className="w-[90%]">
-                          <InterventionsSlider
-                            label="Masking Adoption: health care facilities"
-                            sublabel="Percentage of healthcare facilities using masks"
-                            minValue={0}
-                            maxValue={100}
-                            step={5}
-                            initialValue={[0]}
-                            defaultValue={[0]}
-                            disabled={!interventions.masks}
-                            onValueChange={(value) =>
-                              handleSliderValueChange("masks", value)
-                            }
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="mt-4 flex gap-x-4 text-left">
-                      <Checkbox
-                        id="masks"
-                        checked={interventions.masks}
-                        onCheckedChange={(checked) =>
-                          handleInterventionChange("masks", checked as boolean)
-                        }
-                      />
-                      <div className="grid w-full gap-0.5 leading-none">
-                        <label htmlFor="masks" className="sr-only">
-                          Masking in general population
-                        </label>
-                        <div className="w-[90%]">
-                          <InterventionsSlider
-                            label="Masking Adoption: general population"
-                            sublabel="Percentage of general population wearing masks"
-                            minValue={0}
-                            maxValue={100}
-                            step={5}
-                            initialValue={[0]}
-                            defaultValue={[0]}
-                            disabled={!interventions.masks}
-                            onValueChange={(value) =>
-                              handleSliderValueChange("masks", value)
-                            }
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="mt-4 flex gap-x-4 text-left">
-                      <Checkbox
-                        id="pharmaceutical-prevention"
-                        checked={interventions.pharmaceuticalprevention}
-                        onCheckedChange={(checked) =>
-                          handleInterventionChange(
-                            "pharmaceuticalprevention",
-                            checked as boolean,
-                          )
-                        }
-                      />
-                      <div className="grid w-full gap-0.5 leading-none">
-                        <label
-                          htmlFor="pharmaceutical-prevention"
-                          className="sr-only"
-                        >
-                          Pharmaceutical interventions: nasal sprays
-                        </label>
-                        <div className="w-[90%]">
-                          <InterventionsSlider
-                            label="Pharmaceutical intervention: nasal sprays"
-                            sublabel="Percentage of population using COVID preventative nasal sprays"
-                            minValue={0}
-                            maxValue={100}
-                            step={5}
-                            initialValue={[0]}
-                            defaultValue={[0]}
-                            disabled={!interventions.pharmaceuticalprevention}
-                            onValueChange={(value) =>
-                              handleSliderValueChange(
-                                "pharmaceuticalprevention",
-                                value,
-                              )
-                            }
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="mt-4 flex gap-x-4 text-left">
-                      <Checkbox
-                        id="vaccination"
-                        checked={interventions.vaccination}
-                        onCheckedChange={(checked) =>
-                          handleInterventionChange(
-                            "vaccination",
-                            checked as boolean,
-                          )
-                        }
-                      />
-                      <div className="grid w-full gap-0.5 leading-none">
-                        <label htmlFor="vaccination" className="sr-only">
-                          pharmaceutical intervention: paxlovid
-                        </label>
-                        <div className="w-[90%]">
-                          <InterventionsSlider
-                            label="Pharmaceutical intervention: Paxlovid"
-                            sublabel="Percentage of population taking Paxlovid during acute COVID"
-                            minValue={0}
-                            maxValue={100}
-                            step={5}
-                            initialValue={[0]}
-                            defaultValue={[0]}
-                            disabled={!interventions.vaccination}
-                            onValueChange={(value) =>
-                              handleSliderValueChange("vaccination", value)
-                            }
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="mt-4 flex gap-x-4 text-left">
-                      <Checkbox
-                        id="vaccination"
-                        checked={interventions.vaccination}
-                        onCheckedChange={(checked) =>
-                          handleInterventionChange(
-                            "vaccination",
-                            checked as boolean,
-                          )
-                        }
-                      />
-                      <div className="grid w-full gap-0.5 leading-none">
-                        <label htmlFor="vaccination" className="sr-only">
-                          pharmaceutical intervention: metformin
-                        </label>
-                        <div className="w-[90%]">
-                          <InterventionsSlider
-                            label="Pharmaceutical intervention: Metformin"
-                            sublabel="Percentage of population taking Metformin during acute COVID"
-                            minValue={0}
-                            maxValue={100}
-                            step={5}
-                            initialValue={[0]}
-                            defaultValue={[0]}
-                            disabled={!interventions.vaccination}
-                            onValueChange={(value) =>
-                              handleSliderValueChange("vaccination", value)
-                            }
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="mt-4 flex gap-x-4 text-left">
-                      <Checkbox
-                        id="vaccination"
-                        checked={interventions.vaccination}
-                        onCheckedChange={(checked) =>
-                          handleInterventionChange(
-                            "vaccination",
-                            checked as boolean,
-                          )
-                        }
-                      />
-                      <div className="grid w-full gap-0.5 leading-none">
-                        <label htmlFor="vaccination" className="sr-only">
-                          pharmaceutical intervention: reduction of long covid
-                          symptoms
-                        </label>
-                        <div className="w-[90%]">
-                          <InterventionsSlider
-                            label="Pharmaceutical intervention: reduction of long covid symptoms"
-                            sublabel="Percentage of population taking pharmaceuticals that reduce long covid symptoms"
-                            minValue={0}
-                            maxValue={100}
-                            step={5}
-                            initialValue={[0]}
-                            defaultValue={[0]}
-                            disabled={!interventions.vaccination}
-                            onValueChange={(value) =>
-                              handleSliderValueChange("vaccination", value)
-                            }
-                          />
-                        </div>
-                      </div>
-                    </div>
                   </div>
                 </>
               }
