@@ -463,7 +463,7 @@ export function LCDALYs() {
             <text
               className="left-2 text-2xl font-bold tracking-widest opacity-50 lg:text-5xl"
               x={window.innerWidth < 640 ? "60%" : "50%"}
-              y={window.innerWidth < 640 ? "15%" : "28%"}
+              y={window.innerWidth < 640 ? "50%" : "50%"}
               textAnchor="middle"
             >
               TEST DATA
