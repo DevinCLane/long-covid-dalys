@@ -206,6 +206,7 @@ const INTERVENTIONS: Intervention[] = [
   },
 ];
 
+// Group interventions by their group label
 const groupedInterventions: Record<string, Intervention[]> =
   INTERVENTIONS.reduce(
     (acc, intervention) => {
@@ -216,6 +217,7 @@ const groupedInterventions: Record<string, Intervention[]> =
     {} as Record<string, Intervention[]>,
   );
 
+// Function to generate chart data for DALYs over time
 const generateChartData = () => {
   const data = [];
   let baselineCases = 17000000; // Starting with 17M cases
@@ -248,6 +250,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
+// Function to calculate reduced DALYs based on selected interventions
 const calculateReducedDALYs = (
   baseData: typeof chartData,
   interventions: Record<string, boolean>,
@@ -391,7 +394,7 @@ export function LCDALYs() {
       <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
         <ChartContainer
           config={chartConfig}
-          className="aspect-auto h-[1050px] w-full md:h-[1400px]"
+          className="h-[400px] w-full md:h-[600px]"
         >
           <AreaChart data={filteredData}>
             <defs>
@@ -492,58 +495,46 @@ export function LCDALYs() {
               fill="url(#fillInterventionDalys)"
               stroke="var(--color-interventionDalys)"
             />
-            <ChartLegend
-              content={
-                <>
-                  <ChartLegendContent />
-                  <div className="mt-4 space-y-8">
-                    {Object.entries(groupedInterventions).map(
-                      ([group, groupInterventions]) => (
-                        <div key={group}>
-                          <h3 className="mb-2 text-lg font-semibold">
-                            {GROUP_LABELS[group]}
-                          </h3>
-                          <div className="grid grid-cols-1 gap-x-8 gap-y-2 md:grid-cols-2">
-                            {groupInterventions.map((intervention) => (
-                              <InterventionArea
-                                key={intervention.key}
-                                id={intervention.key}
-                                checked={interventions[intervention.key]}
-                                onCheckedChange={(checked) =>
-                                  handleInterventionChange(
-                                    intervention.key,
-                                    checked as boolean,
-                                  )
-                                }
-                                ariaLabel={intervention.ariaLabel}
-                                sliderLabel={intervention.sliderLabel}
-                                sliderSubLabel={intervention.sliderSubLabel}
-                                sliderMin={intervention.sliderMin}
-                                sliderMax={intervention.sliderMax}
-                                sliderStep={intervention.sliderStep}
-                                sliderInitialValue={intervention.defaultValue}
-                                sliderDefaultValue={intervention.defaultValue}
-                                sliderDisabled={
-                                  !interventions[intervention.key]
-                                }
-                                onSliderChange={(value) =>
-                                  handleSliderValueChange(
-                                    intervention.key,
-                                    value,
-                                  )
-                                }
-                              />
-                            ))}
-                          </div>
-                        </div>
-                      ),
-                    )}
-                  </div>
-                </>
-              }
-            />
           </AreaChart>
         </ChartContainer>
+        <div className="mt-4 space-y-8">
+          {Object.entries(groupedInterventions).map(
+            ([group, groupInterventions]) => (
+              <div key={group}>
+                <h3 className="mb-2 text-lg font-semibold">
+                  {GROUP_LABELS[group]}
+                </h3>
+                <div className="grid grid-cols-1 gap-x-8 gap-y-2 md:grid-cols-2">
+                  {groupInterventions.map((intervention) => (
+                    <InterventionArea
+                      key={intervention.key}
+                      id={intervention.key}
+                      checked={interventions[intervention.key]}
+                      onCheckedChange={(checked) =>
+                        handleInterventionChange(
+                          intervention.key,
+                          checked as boolean,
+                        )
+                      }
+                      ariaLabel={intervention.ariaLabel}
+                      sliderLabel={intervention.sliderLabel}
+                      sliderSubLabel={intervention.sliderSubLabel}
+                      sliderMin={intervention.sliderMin}
+                      sliderMax={intervention.sliderMax}
+                      sliderStep={intervention.sliderStep}
+                      sliderInitialValue={intervention.defaultValue}
+                      sliderDefaultValue={intervention.defaultValue}
+                      sliderDisabled={!interventions[intervention.key]}
+                      onSliderChange={(value) =>
+                        handleSliderValueChange(intervention.key, value)
+                      }
+                    />
+                  ))}
+                </div>
+              </div>
+            ),
+          )}
+        </div>
         <div className="mt-6 border-t pt-4 text-sm text-muted-foreground">
           <p className="mb-2">References:</p>
           <ol className="list-inside list-decimal">
