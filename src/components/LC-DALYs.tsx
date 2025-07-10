@@ -204,7 +204,6 @@ const INTERVENTIONS: Intervention[] = [
   },
 ];
 
-// Group interventions by their group label
 const groupedInterventions = INTERVENTIONS.reduce(
   (acc, intervention) => {
     if (!acc[intervention.group]) acc[intervention.group] = [];
@@ -214,7 +213,6 @@ const groupedInterventions = INTERVENTIONS.reduce(
   {} as Record<string, Intervention[]>,
 );
 
-// Function to generate chart data for DALYs over time
 const generateChartData = () => {
   const data = [];
   let baselineCases = 17000000; // Starting with 17M cases
@@ -247,7 +245,6 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-// Function to calculate reduced DALYs based on selected interventions
 const calculateReducedDALYs = (
   baseData: typeof chartData,
   interventions: Record<string, boolean>,
