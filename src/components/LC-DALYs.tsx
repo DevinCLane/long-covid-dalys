@@ -57,7 +57,9 @@ const INTERVENTIONS: Intervention[] = [
     sliderMax: 100,
     sliderStep: 5,
     defaultValue: 0,
-    reductionFn: (sliderValue) => (sliderValue / 100) * 0.1,
+    reductionFn: function (sliderValue) {
+      return (sliderValue / this.sliderMax) * 0.1;
+    },
   },
   {
     key: "UVC",
@@ -69,7 +71,9 @@ const INTERVENTIONS: Intervention[] = [
     sliderMax: 100,
     sliderStep: 5,
     defaultValue: 0,
-    reductionFn: (sliderValue) => (sliderValue / 100) * 0.1,
+    reductionFn: function (sliderValue) {
+      return (sliderValue / this.sliderMax) * 0.1;
+    },
   },
   {
     key: "masksHealthcare",
@@ -81,7 +85,9 @@ const INTERVENTIONS: Intervention[] = [
     sliderMax: 100,
     sliderStep: 5,
     defaultValue: 0,
-    reductionFn: (sliderValue) => (sliderValue / 100) * 0.1,
+    reductionFn: function (sliderValue) {
+      return (sliderValue / this.sliderMax) * 0.1;
+    },
   },
   {
     key: "masksGeneral",
@@ -93,7 +99,9 @@ const INTERVENTIONS: Intervention[] = [
     sliderMax: 100,
     sliderStep: 5,
     defaultValue: 0,
-    reductionFn: (sliderValue) => (sliderValue / 100) * 0.1,
+    reductionFn: function (sliderValue) {
+      return (sliderValue / this.sliderMax) * 0.1;
+    },
   },
   {
     key: "sickLeave",
@@ -105,7 +113,9 @@ const INTERVENTIONS: Intervention[] = [
     sliderMax: 52,
     sliderStep: 1,
     defaultValue: 0,
-    reductionFn: (sliderValue) => (sliderValue / 100) * 0.05,
+    reductionFn: function (sliderValue) {
+      return (sliderValue / this.sliderMax) * 0.05;
+    },
   },
   {
     key: "testing",
@@ -118,7 +128,9 @@ const INTERVENTIONS: Intervention[] = [
     sliderMax: 100,
     sliderStep: 5,
     defaultValue: 0,
-    reductionFn: (sliderValue) => (sliderValue / 100) * 0.1,
+    reductionFn: function (sliderValue) {
+      return (sliderValue / this.sliderMax) * 0.1;
+    },
   },
   {
     key: "vaccinationCurrent",
@@ -131,7 +143,9 @@ const INTERVENTIONS: Intervention[] = [
     sliderMax: 100,
     sliderStep: 5,
     defaultValue: 0,
-    reductionFn: (sliderValue) => (sliderValue / 100) * 0.2,
+    reductionFn: function (sliderValue) {
+      return (sliderValue / this.sliderMax) * 0.2;
+    },
   },
   {
     key: "vaccinationImproved",
@@ -146,7 +160,9 @@ const INTERVENTIONS: Intervention[] = [
     sliderMax: 100,
     sliderStep: 5,
     defaultValue: 0,
-    reductionFn: (sliderValue) => (sliderValue / 100) * 0.3,
+    reductionFn: function (sliderValue) {
+      return (sliderValue / this.sliderMax) * 0.3;
+    },
   },
   {
     key: "nasalSprays",
@@ -159,7 +175,9 @@ const INTERVENTIONS: Intervention[] = [
     sliderMax: 100,
     sliderStep: 5,
     defaultValue: 0,
-    reductionFn: (sliderValue) => (sliderValue / 100) * 0.15,
+    reductionFn: function (sliderValue) {
+      return (sliderValue / this.sliderMax) * 0.15;
+    },
   },
   {
     key: "paxlovid",
@@ -172,7 +190,9 @@ const INTERVENTIONS: Intervention[] = [
     sliderMax: 100,
     sliderStep: 5,
     defaultValue: 0,
-    reductionFn: (sliderValue) => (sliderValue / 100) * 0.1,
+    reductionFn: function (sliderValue) {
+      return (sliderValue / this.sliderMax) * 0.1;
+    },
   },
   {
     key: "metformin",
@@ -185,7 +205,9 @@ const INTERVENTIONS: Intervention[] = [
     sliderMax: 100,
     sliderStep: 5,
     defaultValue: 0,
-    reductionFn: (sliderValue) => (sliderValue / 100) * 0.1,
+    reductionFn: function (sliderValue) {
+      return (sliderValue / this.sliderMax) * 0.1;
+    },
   },
   {
     key: "reduceSymptoms",
@@ -200,9 +222,12 @@ const INTERVENTIONS: Intervention[] = [
     sliderMax: 100,
     sliderStep: 5,
     defaultValue: 0,
-    reductionFn: (sliderValue) => (sliderValue / 100) * 0.2,
+    reductionFn: function (sliderValue) {
+      return (sliderValue / this.sliderMax) * 0.2;
+    },
   },
 ];
+console.log(INTERVENTIONS);
 
 const groupedInterventions = INTERVENTIONS.reduce(
   (acc, intervention) => {
@@ -247,12 +272,12 @@ const chartConfig = {
 
 const calculateReducedDALYs = (
   baseData: typeof chartData,
-  interventionCheckBoxes: Record<string, boolean>,
+  interventionIsChecked: Record<string, boolean>,
   interventionSliderValues: Record<string, number>,
 ) => {
   let reductionFactor = 0;
   for (const intervention of INTERVENTIONS) {
-    if (interventionCheckBoxes[intervention.key]) {
+    if (interventionIsChecked[intervention.key]) {
       const sliderValue = interventionSliderValues[intervention.key];
       reductionFactor += intervention.reductionFn(sliderValue);
     }
@@ -278,14 +303,14 @@ export function LCDALYs() {
     ]),
   );
 
-  const [interventionCheckBoxes, setInterventionCheckBoxes] =
+  const [interventionIsChecked, setInterventionIsChecked] =
     React.useState(initialInterventions);
 
   const [interventionSliderValues, setInterventionSliderValues] =
     React.useState(initialInterventionValues);
 
   const handleInterventionChange = (id: string, checked: boolean) => {
-    setInterventionCheckBoxes((prev) => ({
+    setInterventionIsChecked((prev) => ({
       ...prev,
       [id]: checked,
     }));
@@ -303,7 +328,7 @@ export function LCDALYs() {
       const date = baselineItem.date;
       const interventionDalys = calculateReducedDALYs(
         [baselineItem],
-        interventionCheckBoxes,
+        interventionIsChecked,
         interventionSliderValues,
       )[0].dalys;
 
@@ -502,7 +527,7 @@ export function LCDALYs() {
                     <InterventionArea
                       key={intervention.key}
                       id={intervention.key}
-                      checked={interventionCheckBoxes[intervention.key]}
+                      checked={interventionIsChecked[intervention.key]}
                       onCheckedChange={(checked) =>
                         handleInterventionChange(
                           intervention.key,
@@ -517,7 +542,7 @@ export function LCDALYs() {
                       sliderStep={intervention.sliderStep}
                       sliderInitialValue={intervention.defaultValue}
                       sliderDefaultValue={intervention.defaultValue}
-                      sliderDisabled={!interventionCheckBoxes[intervention.key]}
+                      sliderDisabled={!interventionIsChecked[intervention.key]}
                       onSliderChange={(value) =>
                         handleSliderValueChange(intervention.key, value)
                       }
