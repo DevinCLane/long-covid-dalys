@@ -291,7 +291,7 @@ const calculateReducedDALYs = (
 export function LCDALYs() {
   const [timeRange, setTimeRange] = React.useState("5y");
 
-  const initialInterventions = Object.fromEntries(
+  const initialInterventionCheckBoxStatus = Object.fromEntries(
     INTERVENTIONS.map((intervention) => [intervention.key, false]),
   );
 
@@ -302,8 +302,9 @@ export function LCDALYs() {
     ]),
   );
 
-  const [interventionIsChecked, setInterventionIsChecked] =
-    React.useState(initialInterventions);
+  const [interventionIsChecked, setInterventionIsChecked] = React.useState(
+    initialInterventionCheckBoxStatus,
+  );
 
   const [interventionSliderValues, setInterventionSliderValues] =
     React.useState(initialInterventionValues);
