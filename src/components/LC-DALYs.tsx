@@ -227,7 +227,6 @@ const INTERVENTIONS: Intervention[] = [
     },
   },
 ];
-console.log(INTERVENTIONS);
 
 const groupedInterventions = INTERVENTIONS.reduce(
   (acc, intervention) => {
