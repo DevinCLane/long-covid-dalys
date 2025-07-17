@@ -1,10 +1,7 @@
-import { Checkbox } from "@/components/ui/checkbox";
 import { InterventionsSlider } from "@/components/interventions-slider";
 
 interface InterventionAreaProps {
   id: string;
-  checked: boolean;
-  onCheckedChange: (checked: boolean) => void;
   ariaLabel?: string;
   sliderLabel: string;
   sliderSubLabel: string;
@@ -19,8 +16,6 @@ interface InterventionAreaProps {
 
 export function InterventionArea({
   id,
-  checked,
-  onCheckedChange,
   ariaLabel,
   sliderLabel,
   sliderSubLabel,
@@ -34,7 +29,6 @@ export function InterventionArea({
 }: InterventionAreaProps) {
   return (
     <div className="mt-4 flex gap-x-4 text-left">
-      <Checkbox id={id} checked={checked} onCheckedChange={onCheckedChange} />
       <div className="grid w-full gap-0.5 leading-none">
         <label htmlFor={id} className="sr-only">
           {ariaLabel}
