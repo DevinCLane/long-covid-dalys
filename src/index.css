@@ -30,13 +30,20 @@
     --radius: 0.5rem;
     /* Chart colors */
     /* rose 600 */
-    --chart-1: 346.8 77.2% 49.8%;
-    /* rose 50 */
-    --chart-2: 355.7 100% 97.3%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    /* todo add various colors */
+    --chart-1: 346.8 77.2% 49.8%; /* Base rose color */
+    --chart-2: 200 75% 45%; /* Ocean blue */
+    --chart-3: 150 65% 40%; /* Forest green */
+    --chart-4: 270 65% 50%; /* Royal purple */
+    --chart-5: 30 80% 45%; /* Burnt orange */
+    --chart-6: 180 70% 45%; /* Teal */
+    --chart-7: 320 65% 45%; /* Magenta */
+    --chart-8: 60 75% 45%; /* Gold */
+    --chart-9: 240 65% 45%; /* Navy blue */
+    --chart-10: 100 65% 45%; /* Lime green */
+    --chart-11: 0 75% 45%; /* Cherry red */
+    --chart-12: 210 70% 45%; /* Steel blue */
+    --chart-13: 290 65% 45%; /* Plum */
+    --chart-14: 160 70% 45%; /* Emerald */
   }
 
   .dark {
@@ -61,13 +68,20 @@
     --ring: 0 0% 83.1%;
 
     /* Chart colors for dark mode */
-    /* red 400 */
-    --chart-1: 0 90.6% 70.8%;
-    /* red 100 */
-    --chart-2: 0 93.3% 94.1%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    --chart-1: 0 90.6% 70.8%; /* Base red */
+    --chart-2: 200 85% 65%; /* Bright blue */
+    --chart-3: 150 75% 60%; /* Bright green */
+    --chart-4: 270 75% 65%; /* Bright purple */
+    --chart-5: 30 85% 65%; /* Bright orange */
+    --chart-6: 180 80% 65%; /* Bright teal */
+    --chart-7: 320 75% 65%; /* Bright pink */
+    --chart-8: 60 85% 65%; /* Bright yellow */
+    --chart-9: 240 75% 65%; /* Bright navy */
+    --chart-10: 100 75% 65%; /* Bright lime */
+    --chart-11: 0 85% 65%; /* Bright red */
+    --chart-12: 210 80% 65%; /* Bright azure */
+    --chart-13: 290 75% 65%; /* Bright violet */
+    --chart-14: 160 80% 65%; /* Bright mint */
   }
 }
 

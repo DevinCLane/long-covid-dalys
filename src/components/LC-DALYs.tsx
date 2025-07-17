@@ -290,10 +290,6 @@ const chartDataItems = generateChartDataItems();
 //   },
 // } satisfies ChartConfig;
 
-// to do: checkboxes no longer enable or disable sliders.
-// instead, checkboxes will enable a "comparison mode". Each time you click a checkbox, it adds that intervention to the chart as its own line.
-// this way, a user can compare various interventions against each other, and the baseline.
-
 /**
  * Calculates the reduced DALYs based on selected interventions and their slider values.
  * @param baseData - The baseline chart data (no intervention).
@@ -351,6 +347,7 @@ export function LCDALYs() {
         color: "hsl(var(--chart-2))",
       };
     }
+    console.log("chartConfig", config);
 
     return config;
   }, [isComparativeMode, interventionSliderValues]);
@@ -569,7 +566,7 @@ export function LCDALYs() {
                 setIsComparativeMode(checked as boolean)
               }
             />
-            <label htmlFor="comparative-mode">Comparative Mode</label>
+            <label htmlFor="comparative-mode">Compare Interventions</label>
           </div>
           {Object.entries(groupedInterventions).map(
             ([group, groupInterventions]) => (
