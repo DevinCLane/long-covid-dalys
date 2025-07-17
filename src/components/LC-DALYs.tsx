@@ -347,7 +347,6 @@ export function LCDALYs() {
         color: "hsl(var(--chart-2))",
       };
     }
-    console.log("chartConfig", config);
 
     return config;
   }, [isComparativeMode, interventionSliderValues]);
