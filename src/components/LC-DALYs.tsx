@@ -279,35 +279,44 @@ const generateChartDataItems = () => {
 
 const chartDataItems = generateChartDataItems();
 
-// const chartConfig = {
-//   dalys: {
-//     label: "Million DALYs per year",
-//     color: "hsl(var(--chart-1))",
-//   },
-//   interventionDalys: {
-//     label: "With interventions",
-//     color: "hsl(var(--chart-2))",
-//   },
-// } satisfies ChartConfig;
-
 /**
- * Calculates the reduced DALYs based on selected interventions and their slider values.
- * @param baseData - The baseline chart data (no intervention).
- * @param interventionIsChecked - Object indicating which interventions are checked.
+ * Calculates the reduced DALYs based on interventions applied, either cumulatively or comparing between interventions.
+ * @param item - The baseline chart data (no intervention).
  * @param interventionSliderValues - Object containing slider values for each intervention.
+ * @param isComparativeMode - Boolean indicating if the chart is in comparative mode.
  * @returns The modified chart data with reduced DALYs.
  */
-const calculateReducedDALYs = (
+const calculateInterventionDALYs = (
   item: ChartDataItem,
   interventionSliderValues: Record<string, number>,
-) => {
-  let reductionFactor = 0;
-  for (const intervention of INTERVENTIONS) {
-    const sliderValue = interventionSliderValues[intervention.key];
-    reductionFactor += intervention.reductionFn(sliderValue);
-  }
+  isComparativeMode: boolean,
+): ChartDataItem => {
+  const modifiedDataItem: ChartDataItem = {
+    ...item,
+  };
 
-  return Math.round(item.dalys * (1 - reductionFactor));
+  if (isComparativeMode) {
+    // In comparative mode, we calculate each intervention's DALYs separately
+    for (const intervention of INTERVENTIONS) {
+      const sliderValue = interventionSliderValues[intervention.key];
+      if (sliderValue > 0) {
+        modifiedDataItem[intervention.key] = Math.round(
+          item.dalys * (1 - intervention.reductionFn(sliderValue)),
+        );
+      }
+    }
+  } else {
+    // In cumulative mode, we calculate the cumulative effect of all interventions
+    let totalReductionFactor = 0;
+    for (const intervention of INTERVENTIONS) {
+      const sliderValue = interventionSliderValues[intervention.key];
+      totalReductionFactor += intervention.reductionFn(sliderValue);
+    }
+    modifiedDataItem.interventionDalys = Math.round(
+      item.dalys * (1 - totalReductionFactor),
+    );
+  }
+  return modifiedDataItem;
 };
 
 export function LCDALYs() {
@@ -364,32 +373,13 @@ export function LCDALYs() {
   };
 
   const filteredData = chartDataItems
-    .map((chartDataItem) => {
-      const modifiedDataItem: ChartDataItem = {
-        ...chartDataItem,
-      };
-
-      if (isComparativeMode) {
-        // add each intervention's DALYs to the modified data item
-        INTERVENTIONS.forEach((intervention) => {
-          const sliderValue = interventionSliderValues[intervention.key];
-          modifiedDataItem[intervention.key] = Math.round(
-            chartDataItem.dalys *
-              (1 -
-                (sliderValue > 0 ? intervention.reductionFn(sliderValue) : 0)),
-          );
-        });
-      } else {
-        // in cumulative mode, we only add the interventionDalys
-        const interventionDalys = calculateReducedDALYs(
-          chartDataItem,
-          interventionSliderValues,
-        );
-        modifiedDataItem.interventionDalys = interventionDalys;
-      }
-
-      return modifiedDataItem;
-    })
+    .map((chartDataItem) =>
+      calculateInterventionDALYs(
+        chartDataItem,
+        interventionSliderValues,
+        isComparativeMode,
+      ),
+    )
     .filter((item) => {
       const date = new Date(item.date);
       const startDate = new Date("2025-01-01");
