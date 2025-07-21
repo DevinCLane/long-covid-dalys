@@ -24,7 +24,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { InterventionArea } from "@/components/intervention-area";
+import { Checkbox } from "./ui/checkbox";
 
+/**
+ * Defines categories into which multiple interventions are grouped.
+ */
 const GROUP_LABELS: Record<string, string> = {
   air: "Air Quality improvements",
   masking: "Masking",
@@ -46,6 +50,9 @@ interface Intervention {
   reductionFn: (sliderValue: number) => number;
 }
 
+/**
+ * List of interventions to display. Add or remove interventions here.
+ */
 const INTERVENTIONS: Intervention[] = [
   {
     key: "airExchangeRate",
@@ -228,6 +235,9 @@ const INTERVENTIONS: Intervention[] = [
   },
 ];
 
+/**
+ * Groups interventions by their category for display purposes.
+ */
 const groupedInterventions = INTERVENTIONS.reduce(
   (acc, intervention) => {
     if (!acc[intervention.group]) acc[intervention.group] = [];
@@ -237,8 +247,19 @@ const groupedInterventions = INTERVENTIONS.reduce(
   {} as Record<string, Intervention[]>,
 );
 
-const generateChartData = () => {
-  const data = [];
+interface ChartDataItem {
+  date: string;
+  dalys: number;
+  [key: string]: number | string;
+}
+
+/**
+ * Generates the baseline chart data for Long COVID DALYs.
+ * Starts with 17 million cases and reduces by 2% each year.
+ * Each case contributes 80 DALYs per 1,000 people.
+ */
+const generateChartDataItems = () => {
+  const data: ChartDataItem[] = [];
   let baselineCases = 17000000; // Starting with 17M cases
   const yearlyReduction = 0.98; // 2% reduction per year
   // 80 DALYs per 1k people with LC
@@ -256,44 +277,51 @@ const generateChartData = () => {
   return data;
 };
 
-const chartData = generateChartData();
+const chartDataItems = generateChartDataItems();
 
-const chartConfig = {
-  dalys: {
-    label: "Million DALYs per year",
-    color: "hsl(var(--chart-1))",
-  },
-  interventionDalys: {
-    label: "With interventions",
-    color: "hsl(var(--chart-2))",
-  },
-} satisfies ChartConfig;
-
-const calculateReducedDALYs = (
-  baseData: typeof chartData,
-  interventionIsChecked: Record<string, boolean>,
+/**
+ * Calculates the reduced DALYs based on interventions applied, either cumulatively or comparing between interventions.
+ * @param item - The baseline chart data (no intervention).
+ * @param interventionSliderValues - Object containing slider values for each intervention.
+ * @param isComparativeMode - Boolean indicating if the chart is in comparative mode.
+ * @returns The modified chart data with reduced DALYs.
+ */
+const calculateInterventionDALYs = (
+  item: ChartDataItem,
   interventionSliderValues: Record<string, number>,
-) => {
-  let reductionFactor = 0;
-  for (const intervention of INTERVENTIONS) {
-    if (interventionIsChecked[intervention.key]) {
-      const sliderValue = interventionSliderValues[intervention.key];
-      reductionFactor += intervention.reductionFn(sliderValue);
-    }
-  }
+  isComparativeMode: boolean,
+): ChartDataItem => {
+  const modifiedDataItem: ChartDataItem = {
+    ...item,
+  };
 
-  return baseData.map((item) => ({
-    date: item.date,
-    dalys: Math.round(item.dalys * (1 - reductionFactor)),
-  }));
+  if (isComparativeMode) {
+    // In comparative mode, we calculate each intervention's DALYs separately
+    for (const intervention of INTERVENTIONS) {
+      const sliderValue = interventionSliderValues[intervention.key];
+      if (sliderValue > 0) {
+        modifiedDataItem[intervention.key] = Math.round(
+          item.dalys * (1 - intervention.reductionFn(sliderValue)),
+        );
+      }
+    }
+  } else {
+    // In cumulative mode, we calculate the cumulative effect of all interventions
+    let totalReductionFactor = 0;
+    for (const intervention of INTERVENTIONS) {
+      const sliderValue = interventionSliderValues[intervention.key];
+      totalReductionFactor += intervention.reductionFn(sliderValue);
+    }
+    modifiedDataItem.interventionDalys = Math.round(
+      item.dalys * (1 - totalReductionFactor),
+    );
+  }
+  return modifiedDataItem;
 };
 
 export function LCDALYs() {
   const [timeRange, setTimeRange] = React.useState("5y");
-
-  const initialInterventionCheckBoxStatus = Object.fromEntries(
-    INTERVENTIONS.map((intervention) => [intervention.key, false]),
-  );
+  const [isComparativeMode, setIsComparativeMode] = React.useState(false);
 
   const initialInterventionValues = Object.fromEntries(
     INTERVENTIONS.map((intervention) => [
@@ -302,19 +330,35 @@ export function LCDALYs() {
     ]),
   );
 
-  const [interventionIsChecked, setInterventionIsChecked] = React.useState(
-    initialInterventionCheckBoxStatus,
-  );
-
   const [interventionSliderValues, setInterventionSliderValues] =
     React.useState(initialInterventionValues);
 
-  const handleInterventionChange = (id: string, checked: boolean) => {
-    setInterventionIsChecked((prev) => ({
-      ...prev,
-      [id]: checked,
-    }));
-  };
+  // loop through interventions and create a chart config for each
+  const chartConfig: ChartConfig = React.useMemo(() => {
+    const config: ChartConfig = {
+      dalys: {
+        label: "Baseline DALYs (no intervention)",
+        color: "hsl(var(--chart-1))",
+      },
+    };
+    if (isComparativeMode) {
+      INTERVENTIONS.forEach((intervention, index) => {
+        if (interventionSliderValues[intervention.key] > 0) {
+          config[intervention.key] = {
+            label: intervention.sliderLabel,
+            color: `hsl(var(--chart-${index + 3}))`,
+          };
+        }
+      });
+    } else {
+      config.interventionDalys = {
+        label: "Intervention DALYs",
+        color: "hsl(var(--chart-2))",
+      };
+    }
+
+    return config;
+  }, [isComparativeMode, interventionSliderValues]);
 
   const handleSliderValueChange = (id: string, value: number[]) => {
     setInterventionSliderValues((prev) => ({
@@ -323,40 +367,23 @@ export function LCDALYs() {
     }));
   };
 
-  const filteredData = chartData
-    .map((baselineItem) => {
-      const date = baselineItem.date;
-      const interventionDalys = calculateReducedDALYs(
-        [baselineItem],
-        interventionIsChecked,
-        interventionSliderValues,
-      )[0].dalys;
+  const durationToEndDate: Record<string, Date> = {
+    "5y": new Date("2029-01-01"),
+    "10y": new Date("2034-01-01"),
+  };
 
-      return {
-        date,
-        dalys: baselineItem.dalys,
-        interventionDalys,
-      };
-    })
+  const filteredData = chartDataItems
+    .map((chartDataItem) =>
+      calculateInterventionDALYs(
+        chartDataItem,
+        interventionSliderValues,
+        isComparativeMode,
+      ),
+    )
     .filter((item) => {
       const date = new Date(item.date);
       const startDate = new Date("2025-01-01");
-      let endDate = new Date("2029-01-01");
-
-      switch (timeRange) {
-        case "10y":
-          endDate = new Date("2034-01-01");
-          break;
-        case "25y":
-          endDate = new Date("2049-01-01");
-          break;
-        case "50y":
-          endDate = new Date("2074-01-01");
-          break;
-        case "100y":
-          endDate = new Date("2124-01-01");
-          break;
-      }
+      const endDate = durationToEndDate[timeRange];
       return date >= startDate && date <= endDate;
     });
 
@@ -396,15 +423,6 @@ export function LCDALYs() {
             </SelectItem>
             <SelectItem value="10y" className="rounded-lg">
               10 Year Projection
-            </SelectItem>
-            <SelectItem value="25y" className="rounded-lg">
-              25 Year Projection
-            </SelectItem>
-            <SelectItem value="50y" className="rounded-lg">
-              50 Year Projection
-            </SelectItem>
-            <SelectItem value="100y" className="rounded-lg">
-              100 Year Projection
             </SelectItem>
           </SelectContent>
         </Select>
@@ -501,7 +519,17 @@ export function LCDALYs() {
                 />
               }
             />
-            <Area
+            {Object.entries(chartConfig).map(([key]) => (
+              <Area
+                key={key}
+                dataKey={key}
+                type="natural"
+                fill={`url(#fill${key})`}
+                stroke={`var(--color-${key})`}
+              />
+            ))}
+            {/* 
+                        <Area
               dataKey="dalys"
               type="natural"
               fill="url(#filldalys)"
@@ -513,9 +541,22 @@ export function LCDALYs() {
               fill="url(#fillInterventionDalys)"
               stroke="var(--color-interventionDalys)"
             />
+
+            */}
           </AreaChart>
         </ChartContainer>
         <div className="mt-4 space-y-8">
+          {/* checkbox for comparative mode vs cumulative mode */}
+          <div className="flex items-center justify-center gap-4">
+            <Checkbox
+              id="comparative-mode"
+              checked={isComparativeMode}
+              onCheckedChange={(checked) =>
+                setIsComparativeMode(checked as boolean)
+              }
+            />
+            <label htmlFor="comparative-mode">Compare Interventions</label>
+          </div>
           {Object.entries(groupedInterventions).map(
             ([group, groupInterventions]) => (
               <div key={group}>
@@ -527,13 +568,6 @@ export function LCDALYs() {
                     <InterventionArea
                       key={intervention.key}
                       id={intervention.key}
-                      checked={interventionIsChecked[intervention.key]}
-                      onCheckedChange={(checked) =>
-                        handleInterventionChange(
-                          intervention.key,
-                          checked as boolean,
-                        )
-                      }
                       ariaLabel={intervention.ariaLabel}
                       sliderLabel={intervention.sliderLabel}
                       sliderSubLabel={intervention.sliderSubLabel}
@@ -542,7 +576,7 @@ export function LCDALYs() {
                       sliderStep={intervention.sliderStep}
                       sliderInitialValue={intervention.defaultValue}
                       sliderDefaultValue={intervention.defaultValue}
-                      sliderDisabled={!interventionIsChecked[intervention.key]}
+                      sliderDisabled={false}
                       onSliderChange={(value) =>
                         handleSliderValueChange(intervention.key, value)
                       }
