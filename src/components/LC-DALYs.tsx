@@ -312,9 +312,11 @@ const calculateInterventionDALYs = (
       const sliderValue = interventionSliderValues[intervention.key];
       totalReductionFactor += intervention.reductionFn(sliderValue);
     }
-    modifiedDataItem.interventionDalys = Math.round(
-      item.dalys * (1 - totalReductionFactor),
-    );
+    if (totalReductionFactor > 0) {
+      modifiedDataItem.interventionDalys = Math.round(
+        item.dalys * (1 - totalReductionFactor),
+      );
+    }
   }
   return modifiedDataItem;
 };
