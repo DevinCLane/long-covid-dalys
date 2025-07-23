@@ -1,10 +1,16 @@
 # Long Covid DALYs
 
-A research project to explore how different public health interventions can improve or worsen the number of long covid cases, as measured in [Disability Adjusted Life Years](https://en.wikipedia.org/wiki/Disability-adjusted_life_year)
+A research project to explore how different public health interventions could improve or worsen the burden of long covid, as measured in [Disability Adjusted Life Years](https://en.wikipedia.org/wiki/Disability-adjusted_life_year)
 
-## Credits
+## Affiliated Organizations
+
+- [PolyBio](https://polybio.org/)
+- [University of California, San Francisco](https://www.ucsf.edu/)
+
+## Prior Art and Libraries Used
 
 - UI components from [Shadcn](https://ui.shadcn.com/), [OriginUI](https://originui.com/)
+- Charts built using [Recharts](https://recharts.org/en-US)
 
 This project bootstrapped from the following Vite template:
 
