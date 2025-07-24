@@ -24,7 +24,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { InterventionArea } from "@/components/intervention-area";
-import { Checkbox } from "./ui/checkbox";
+import { CumulativeComparativeSwitcher } from "./cumulative-comparative-switcher";
 
 /**
  * Defines categories into which multiple interventions are grouped.
@@ -530,34 +530,22 @@ export function LCDALYs() {
                 stroke={`var(--color-${key})`}
               />
             ))}
-            {/* 
-                        <Area
-              dataKey="dalys"
-              type="natural"
-              fill="url(#filldalys)"
-              stroke="var(--color-dalys)"
-            />
-            <Area
-              dataKey="interventionDalys"
-              type="natural"
-              fill="url(#fillInterventionDalys)"
-              stroke="var(--color-interventionDalys)"
-            />
-
-            */}
           </AreaChart>
         </ChartContainer>
         <div className="mt-4 space-y-8">
-          {/* checkbox for comparative mode vs cumulative mode */}
           <div className="flex items-center justify-center gap-4">
-            <Checkbox
+            <CumulativeComparativeSwitcher
+              isComparativeMode={isComparativeMode}
+              setIsComparativeMode={setIsComparativeMode}
+            />
+            {/* <Checkbox
               id="comparative-mode"
               checked={isComparativeMode}
               onCheckedChange={(checked) =>
                 setIsComparativeMode(checked as boolean)
               }
             />
-            <label htmlFor="comparative-mode">Compare Interventions</label>
+            <label htmlFor="comparative-mode">Compare Interventions</label> */}
           </div>
           {Object.entries(groupedInterventions).map(
             ([group, groupInterventions]) => (
