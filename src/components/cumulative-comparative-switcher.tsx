@@ -21,7 +21,7 @@ export function CumulativeComparativeSwitcher({
             ? (value) => setIsComparativeMode(value === "comparative")
             : undefined
         }
-        className={`after:ease-[cubic-bezier(0.16,1,0.3,1)] group relative inline-grid grid-cols-[1fr_1fr] items-center gap-0 text-sm font-medium after:absolute after:inset-y-0 after:w-1/2 after:rounded-sm after:bg-card after:shadow-sm after:transition-transform after:duration-300 ${isComparativeMode ? "after:translate-x-0" : "after:translate-x-full"}`}
+        className={`after:ease-&lsqb;cubic-bezier(0.16,1,0.3,1)&rsqb; group relative inline-grid grid-cols-[1fr_1fr] items-center gap-0 text-sm font-medium after:absolute after:inset-y-0 after:w-1/2 after:rounded-sm after:bg-card after:shadow-sm after:transition-transform after:duration-300 ${isComparativeMode ? "after:translate-x-0" : "after:translate-x-full"}`}
         data-state={isComparativeMode ? "comparative" : "cumulative"}
       >
         <label
