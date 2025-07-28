@@ -33,7 +33,7 @@ export function InterventionArea({
         <label htmlFor={id} className="sr-only">
           {ariaLabel}
         </label>
-        <div className="w-[90%]">
+        <div className="m-4">
           <InterventionsSlider
             label={sliderLabel}
             sublabel={sliderSubLabel}
