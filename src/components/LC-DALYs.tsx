@@ -58,7 +58,7 @@ const INTERVENTIONS: Intervention[] = [
     key: "airExchangeRate",
     group: "air",
     ariaLabel: "Air Changes Per Hour (ACH)",
-    sliderLabel: "Air Changes Per Hour (ACH)",
+    sliderLabel: "Air changes per hour (ACH)",
     sliderSubLabel: "Percentage of buildings with a minimum of 5 ACH",
     sliderMin: 0,
     sliderMax: 100,
@@ -114,7 +114,7 @@ const INTERVENTIONS: Intervention[] = [
     key: "sickLeave",
     group: "publicHealth",
     ariaLabel: "Paid Sick Leave",
-    sliderLabel: "Paid Sick Leave",
+    sliderLabel: "Paid sick leave",
     sliderSubLabel: "Percentage of workers with paid sick leave",
     sliderMin: 0,
     sliderMax: 52,
@@ -143,7 +143,7 @@ const INTERVENTIONS: Intervention[] = [
     key: "vaccinationCurrent",
     group: "vaccination",
     ariaLabel: "Vaccination Coverage: Current Vaccines",
-    sliderLabel: "Vaccination Coverage: Current Vaccines",
+    sliderLabel: "Vaccination coverage: current vaccines",
     sliderSubLabel:
       "Percentage of population with up-to-date vaccination for current variants",
     sliderMin: 0,
@@ -160,9 +160,9 @@ const INTERVENTIONS: Intervention[] = [
     ariaLabel:
       "Vaccination Coverage: Improved Vaccines for Long COVID Prevention",
     sliderLabel:
-      "Vaccination Coverage: improved vaccine for long COVID prevention",
+      "Vaccination coverage: hypothetical improved vaccine for long COVID prevention",
     sliderSubLabel:
-      "Percentage of population with improved vaccine for long COVID prevention",
+      "Percentage of population with hypothetical improved vaccine for long COVID prevention",
     sliderMin: 0,
     sliderMax: 100,
     sliderStep: 5,
@@ -205,7 +205,7 @@ const INTERVENTIONS: Intervention[] = [
     key: "metformin",
     group: "pharma",
     ariaLabel: "Pharmaceutical Interventions: Metformin",
-    sliderLabel: "Pharmaceutical intervention: Metformin",
+    sliderLabel: "Pharmaceutical intervention: metformin",
     sliderSubLabel:
       "Percentage of population taking Metformin during acute COVID",
     sliderMin: 0,

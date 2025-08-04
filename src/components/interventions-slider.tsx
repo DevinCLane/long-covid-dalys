@@ -54,8 +54,8 @@ function InterventionsSlider({
 
   return (
     <div className={cn("w-full space-y-3", className)}>
-      <div className="flex items-center justify-between gap-2">
-        <div>
+      <div className="flex items-start justify-between gap-2">
+        <div className="md:min-h-20">
           <Label>{label}</Label>
           {sublabel && (
             <p className="text-sm text-muted-foreground">{sublabel}</p>
