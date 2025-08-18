@@ -25,227 +25,12 @@ import {
 } from "@/components/ui/select";
 import { InterventionArea } from "@/components/intervention-area";
 import { CumulativeComparativeSwitcher } from "./cumulative-comparative-switcher";
-
-/**
- * Defines categories into which multiple interventions are grouped.
- */
-const GROUP_LABELS: Record<string, string> = {
-  air: "Air Quality improvements",
-  masking: "Masking",
-  vaccination: "Vaccination",
-  publicHealth: "Public Health Policies",
-  pharma: "Pharmaceutical Interventions",
-};
-
-interface Intervention {
-  key: string;
-  group: keyof typeof GROUP_LABELS;
-  ariaLabel: string;
-  sliderLabel: string;
-  sliderSubLabel: string;
-  sliderMin: number;
-  sliderMax: number;
-  sliderStep: number;
-  defaultValue: number;
-  reductionFn: (sliderValue: number) => number;
-}
-
-/**
- * List of interventions to display. Add or remove interventions here.
- */
-const INTERVENTIONS: Intervention[] = [
-  {
-    key: "airExchangeRate",
-    group: "air",
-    ariaLabel: "Air Changes Per Hour (ACH)",
-    sliderLabel: "Air changes per hour (ACH)",
-    sliderSubLabel: "Percentage of buildings with a minimum of 5 ACH",
-    sliderMin: 0,
-    sliderMax: 100,
-    sliderStep: 5,
-    defaultValue: 0,
-    reductionFn: function (sliderValue) {
-      return (sliderValue / this.sliderMax) * 0.1;
-    },
-  },
-  {
-    key: "UVC",
-    group: "air",
-    ariaLabel: "Far germicidal UVC",
-    sliderLabel: "Far germicidal UVC",
-    sliderSubLabel: "Percentage of buildings with far germicidal UVC",
-    sliderMin: 0,
-    sliderMax: 100,
-    sliderStep: 5,
-    defaultValue: 0,
-    reductionFn: function (sliderValue) {
-      return (sliderValue / this.sliderMax) * 0.1;
-    },
-  },
-  {
-    key: "masksHealthcare",
-    group: "masking",
-    ariaLabel: "Masks in Healthcare Settings",
-    sliderLabel: "Masking in healthcare facilities",
-    sliderSubLabel: "Percentage of healthcare facilities with mask mandates",
-    sliderMin: 0,
-    sliderMax: 100,
-    sliderStep: 5,
-    defaultValue: 0,
-    reductionFn: function (sliderValue) {
-      return (sliderValue / this.sliderMax) * 0.1;
-    },
-  },
-  {
-    key: "masksGeneral",
-    group: "masking",
-    ariaLabel: "Masks in General Population",
-    sliderLabel: "Masking in general population",
-    sliderSubLabel: "Percentage of general population wearing masks",
-    sliderMin: 0,
-    sliderMax: 100,
-    sliderStep: 5,
-    defaultValue: 0,
-    reductionFn: function (sliderValue) {
-      return (sliderValue / this.sliderMax) * 0.1;
-    },
-  },
-  {
-    key: "sickLeave",
-    group: "publicHealth",
-    ariaLabel: "Paid Sick Leave",
-    sliderLabel: "Paid sick leave",
-    sliderSubLabel: "Percentage of workers with paid sick leave",
-    sliderMin: 0,
-    sliderMax: 52,
-    sliderStep: 1,
-    defaultValue: 0,
-    reductionFn: function (sliderValue) {
-      return (sliderValue / this.sliderMax) * 0.05;
-    },
-  },
-  {
-    key: "testing",
-    group: "publicHealth",
-    ariaLabel: "Free COVID Tests",
-    sliderLabel: "Free COVID tests",
-    sliderSubLabel:
-      "Percentage of population with free COVID tests available to them",
-    sliderMin: 0,
-    sliderMax: 100,
-    sliderStep: 5,
-    defaultValue: 0,
-    reductionFn: function (sliderValue) {
-      return (sliderValue / this.sliderMax) * 0.1;
-    },
-  },
-  {
-    key: "vaccinationCurrent",
-    group: "vaccination",
-    ariaLabel: "Vaccination Coverage: Current Vaccines",
-    sliderLabel: "Vaccination coverage: current vaccines",
-    sliderSubLabel:
-      "Percentage of population with up-to-date vaccination for current variants",
-    sliderMin: 0,
-    sliderMax: 100,
-    sliderStep: 5,
-    defaultValue: 0,
-    reductionFn: function (sliderValue) {
-      return (sliderValue / this.sliderMax) * 0.2;
-    },
-  },
-  {
-    key: "vaccinationImproved",
-    group: "vaccination",
-    ariaLabel:
-      "Vaccination Coverage: Improved Vaccines for Long COVID Prevention",
-    sliderLabel:
-      "Vaccination coverage: hypothetical improved vaccine for long COVID prevention",
-    sliderSubLabel:
-      "Percentage of population with hypothetical improved vaccine for long COVID prevention",
-    sliderMin: 0,
-    sliderMax: 100,
-    sliderStep: 5,
-    defaultValue: 0,
-    reductionFn: function (sliderValue) {
-      return (sliderValue / this.sliderMax) * 0.3;
-    },
-  },
-  {
-    key: "nasalSprays",
-    group: "pharma",
-    ariaLabel: "Pharmaceutical Interventions: Nasal Sprays",
-    sliderLabel: "Pharmaceutical intervention: nasal sprays",
-    sliderSubLabel:
-      "Percentage of population using COVID preventative nasal sprays",
-    sliderMin: 0,
-    sliderMax: 100,
-    sliderStep: 5,
-    defaultValue: 0,
-    reductionFn: function (sliderValue) {
-      return (sliderValue / this.sliderMax) * 0.15;
-    },
-  },
-  {
-    key: "paxlovid",
-    group: "pharma",
-    ariaLabel: "Pharmaceutical Interventions: Paxlovid",
-    sliderLabel: "Pharmaceutical intervention: Paxlovid",
-    sliderSubLabel:
-      "Percentage of population taking Paxlovid during acute COVID",
-    sliderMin: 0,
-    sliderMax: 100,
-    sliderStep: 5,
-    defaultValue: 0,
-    reductionFn: function (sliderValue) {
-      return (sliderValue / this.sliderMax) * 0.1;
-    },
-  },
-  {
-    key: "metformin",
-    group: "pharma",
-    ariaLabel: "Pharmaceutical Interventions: Metformin",
-    sliderLabel: "Pharmaceutical intervention: metformin",
-    sliderSubLabel:
-      "Percentage of population taking Metformin during acute COVID",
-    sliderMin: 0,
-    sliderMax: 100,
-    sliderStep: 5,
-    defaultValue: 0,
-    reductionFn: function (sliderValue) {
-      return (sliderValue / this.sliderMax) * 0.1;
-    },
-  },
-  {
-    key: "reduceSymptoms",
-    group: "pharma",
-    ariaLabel:
-      "Pharmaceutical Interventions - Reduction of Long COVID Symptoms",
-    sliderLabel:
-      "Pharmaceutical intervention: reduction of long covid symptoms",
-    sliderSubLabel:
-      "Percentage of population taking pharmaceuticals that reduce long covid symptoms",
-    sliderMin: 0,
-    sliderMax: 100,
-    sliderStep: 5,
-    defaultValue: 0,
-    reductionFn: function (sliderValue) {
-      return (sliderValue / this.sliderMax) * 0.2;
-    },
-  },
-];
-
-/**
- * Groups interventions by their category for display purposes.
- */
-const groupedInterventions = INTERVENTIONS.reduce(
-  (acc, intervention) => {
-    if (!acc[intervention.group]) acc[intervention.group] = [];
-    acc[intervention.group].push(intervention);
-    return acc;
-  },
-  {} as Record<string, Intervention[]>,
-);
+import {
+  INTERVENTIONS,
+  GROUP_LABELS,
+  groupedInterventions,
+  baseReductionFn,
+} from "@/config/interventions";
 
 interface ChartDataItem {
   date: string;
@@ -300,8 +85,13 @@ const calculateInterventionDALYs = (
     for (const intervention of INTERVENTIONS) {
       const sliderValue = interventionSliderValues[intervention.key];
       if (sliderValue > 0) {
+        const reduction = baseReductionFn(
+          sliderValue,
+          intervention.sliderMax,
+          intervention.reductionFactor,
+        );
         modifiedDataItem[intervention.key] = Math.round(
-          item.dalys * (1 - intervention.reductionFn(sliderValue)),
+          item.dalys * (1 - reduction),
         );
       }
     }
@@ -310,7 +100,11 @@ const calculateInterventionDALYs = (
     let totalReductionFactor = 0;
     for (const intervention of INTERVENTIONS) {
       const sliderValue = interventionSliderValues[intervention.key];
-      totalReductionFactor += intervention.reductionFn(sliderValue);
+      totalReductionFactor += baseReductionFn(
+        sliderValue,
+        intervention.sliderMax,
+        intervention.reductionFactor,
+      );
     }
     if (totalReductionFactor > 0) {
       modifiedDataItem.interventionDalys = Math.round(
