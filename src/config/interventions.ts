@@ -1,4 +1,4 @@
-import reductionFactors from "../../data/intervention-reduction-factors.json";
+import reductionFactors from "../data/intervention-reduction-factors.json";
 
 interface Intervention {
   key: string;
@@ -19,6 +19,7 @@ interface Intervention {
 export const INTERVENTIONS: Intervention[] = [
   {
     key: "airExchangeRate",
+    // the "group" is the label that organizes multiple interventions of a similar category
     group: "air",
     ariaLabel: "Air Changes Per Hour (ACH)",
     sliderLabel: "Air changes per hour (ACH)",
