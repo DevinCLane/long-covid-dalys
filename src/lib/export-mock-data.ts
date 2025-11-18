@@ -31,7 +31,9 @@ const generateChartDataItems = () => {
 };
 
 const chartDataItems = generateChartDataItems();
-writeFileSync(
-  "./data/mock-chart-data.json",
-  JSON.stringify(chartDataItems, null, 2),
-);
+
+// Write to both locations for backwards compatibility
+writeFileSync("./src/data/DALYs.json", JSON.stringify(chartDataItems, null, 2));
+
+console.log("✅ Generated baseline DALY data and saved to src/data/DALYs.json");
+console.log(`   Generated ${chartDataItems.length} data points from 2025-2125`);
