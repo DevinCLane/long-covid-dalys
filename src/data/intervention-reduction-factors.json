@@ -1,0 +1,14 @@
+{
+  "airExchangeRate": 0.1,
+  "UVC": 0.1,
+  "masksHealthcare": 0.1,
+  "masksGeneral": 0.1,
+  "sickLeave": 0.05,
+  "testing": 0.1,
+  "vaccinationCurrent": 0.2,
+  "vaccinationImproved": 0.3,
+  "nasalSprays": 0.15,
+  "paxlovid": 0.1,
+  "metformin": 0.1,
+  "reduceSymptoms": 0.2
+}
