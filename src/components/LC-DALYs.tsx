@@ -23,14 +23,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { InterventionArea } from "@/components/intervention-area";
-import { CumulativeComparativeSwitcher } from "./cumulative-comparative-switcher";
-import {
-  INTERVENTIONS,
-  GROUP_LABELS,
-  groupedInterventions,
-  baseReductionFn,
-} from "@/config/interventions";
+import { ScenarioSelector } from "@/components/scenario-selector";
+import { AdvancedSettingsPanel } from "@/components/advanced-settings-panel";
+import { Scenario, getDefaultScenario } from "@/config/scenarios";
+import { getDefaultAdvancedSettings } from "@/config/advanced-settings";
 import chartDataItems from "@/data/DALYs.json";
 
 interface ChartDataItem {
@@ -40,120 +36,135 @@ interface ChartDataItem {
 }
 
 /**
- * Calculates the reduced DALYs based on interventions applied, either cumulatively or comparing between interventions.
+ * Calculates the reduced DALYs based on selected scenario and advanced settings.
  * @param item - The baseline chart data (no intervention).
- * @param interventionSliderValues - Object containing slider values for each intervention.
- * @param isComparativeMode - Boolean indicating if the chart is in comparative mode.
+ * @param scenario - The selected scenario with its reduction factor.
+ * @param advancedSettings - Advanced settings that adjust the calculations.
  * @returns The modified chart data with reduced DALYs.
  */
-const calculateInterventionDALYs = (
+const calculateScenarioDALYs = (
   item: ChartDataItem,
-  interventionSliderValues: Record<string, number>,
-  isComparativeMode: boolean,
+  scenario: Scenario,
+  advancedSettings: Record<string, number>,
 ): ChartDataItem => {
   const modifiedDataItem: ChartDataItem = {
     ...item,
   };
 
-  if (isComparativeMode) {
-    // In comparative mode, we calculate each intervention's DALYs separately
-    for (const intervention of INTERVENTIONS) {
-      const sliderValue = interventionSliderValues[intervention.key];
-      if (sliderValue > 0) {
-        const reduction = baseReductionFn(
-          sliderValue,
-          intervention.sliderMax,
-          intervention.reductionFactor,
-        );
-        modifiedDataItem[intervention.key] = Math.round(
-          item.dalys * (1 - reduction),
-        );
-      }
-    }
-  } else {
-    // In cumulative mode, we calculate the cumulative effect of all interventions
-    let totalReductionFactor = 0;
-    for (const intervention of INTERVENTIONS) {
-      const sliderValue = interventionSliderValues[intervention.key];
-      totalReductionFactor += baseReductionFn(
-        sliderValue,
-        intervention.sliderMax,
-        intervention.reductionFactor,
-      );
-    }
-    if (totalReductionFactor > 0) {
-      modifiedDataItem.interventionDalys = Math.round(
-        item.dalys * (1 - totalReductionFactor),
-      );
-    }
+  // Start with baseline DALYs
+  let adjustedDALYs = item.dalys;
+
+  // Base scenario reduction factor (from paper)
+  let reductionFactor = scenario.reductionFactor;
+
+  // Apply effectiveness multipliers if scenario uses HEPA or Far UVC
+  // These adjust the base reduction factor
+  if (scenario.key.includes("hepa")) {
+    const hepaMultiplier = advancedSettings.hepaEffectivenessMultiplier ?? 1.0;
+    reductionFactor *= hepaMultiplier;
+  } else if (scenario.key.includes("far-uvc") || scenario.key.includes("uvc")) {
+    const uvcMultiplier = advancedSettings.farUvcEffectivenessMultiplier ?? 1.0;
+    reductionFactor *= uvcMultiplier;
   }
+
+  // Apply indoor air transmission percentage adjustment
+  // If less transmission happens via indoor air, air cleaning is less effective
+  const indoorAirPercent = advancedSettings.indoorAirTransmissionPercent ?? 60;
+  const baseIndoorAirPercent = 60; // Default assumption
+  const indoorAirAdjustment = indoorAirPercent / baseIndoorAirPercent;
+  // Only apply to non-baseline scenarios
+  if (reductionFactor > 0) {
+    reductionFactor *= indoorAirAdjustment;
+  }
+
+  // Apply annual infection rate adjustment to baseline
+  // If infection rate changes, adjust baseline proportionally
+  const annualInfectionRate = advancedSettings.annualInfectionRate ?? 29;
+  const baseInfectionRate = 29; // Default from paper
+  const infectionRateAdjustment = annualInfectionRate / baseInfectionRate;
+  adjustedDALYs *= infectionRateAdjustment;
+
+  // Apply Long COVID conversion rate adjustment to baseline
+  const longCovidConversionRate =
+    advancedSettings.longCovidConversionRate ?? 10;
+  const baseConversionRate = 10; // Estimated default
+  const conversionRateAdjustment = longCovidConversionRate / baseConversionRate;
+  adjustedDALYs *= conversionRateAdjustment;
+
+  // Apply DALY weight adjustments to baseline
+  // Average of less severe and moderate weights, weighted by assumed distribution
+  const dalyWeightLessSevere = advancedSettings.dalyWeightLessSevere ?? 0.1;
+  const dalyWeightModerate = advancedSettings.dalyWeightModerate ?? 0.4;
+  const baseDalyWeightLessSevere = 0.1;
+  const baseDalyWeightModerate = 0.4;
+  // Assume 70% less severe, 30% moderate (adjustable assumption)
+  const avgDalyWeight = dalyWeightLessSevere * 0.7 + dalyWeightModerate * 0.3;
+  const baseAvgDalyWeight =
+    baseDalyWeightLessSevere * 0.7 + baseDalyWeightModerate * 0.3;
+  const dalyWeightAdjustment = avgDalyWeight / baseAvgDalyWeight;
+  adjustedDALYs *= dalyWeightAdjustment;
+
+  // Clamp reduction factor to valid range [0, 1]
+  reductionFactor = Math.max(0, Math.min(1, reductionFactor));
+
+  // Apply the reduction factor to get scenario DALYs
+  adjustedDALYs *= 1 - reductionFactor;
+
+  modifiedDataItem.scenarioDalys = Math.round(adjustedDALYs);
+
   return modifiedDataItem;
 };
 
 export function LCDALYs() {
   const [timeRange, setTimeRange] = React.useState("5y");
-  const [isComparativeMode, setIsComparativeMode] = React.useState(false);
-
-  const initialInterventionValues = Object.fromEntries(
-    INTERVENTIONS.map((intervention) => [
-      intervention.key,
-      intervention.defaultValue,
-    ]),
+  const [selectedScenario, setSelectedScenario] =
+    React.useState<Scenario>(getDefaultScenario());
+  const [advancedSettings, setAdvancedSettings] = React.useState(
+    getDefaultAdvancedSettings(),
   );
 
-  const [interventionSliderValues, setInterventionSliderValues] =
-    React.useState(initialInterventionValues);
+  const handleScenarioChange = (scenario: Scenario) => {
+    setSelectedScenario(scenario);
+  };
 
-  // loop through interventions and create a chart config for each
+  const handleAdvancedSettingChange = (key: string, value: number) => {
+    setAdvancedSettings((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
+
+  const handleResetAdvancedSettings = () => {
+    setAdvancedSettings(getDefaultAdvancedSettings());
+  };
+
+  // Create chart config for baseline and selected scenario
   const chartConfig: ChartConfig = React.useMemo(() => {
     const config: ChartConfig = {
       dalys: {
         label: "Baseline DALYs (no intervention)",
         color: "hsl(var(--chart-1))",
       },
-    };
-    if (isComparativeMode) {
-      INTERVENTIONS.forEach((intervention, index) => {
-        if (interventionSliderValues[intervention.key] > 0) {
-          config[intervention.key] = {
-            label: intervention.sliderLabel,
-            color: `hsl(var(--chart-${index + 3}))`,
-          };
-        }
-      });
-    } else {
-      config.interventionDalys = {
-        label: "Intervention DALYs",
+      scenarioDalys: {
+        label: selectedScenario.label,
         color: "hsl(var(--chart-2))",
-      };
-    }
-
+      },
+    };
     return config;
-  }, [isComparativeMode, interventionSliderValues]);
-
-  const handleSliderValueChange = (id: string, value: number[]) => {
-    setInterventionSliderValues((prev) => ({
-      ...prev,
-      [id]: value[0],
-    }));
-  };
+  }, [selectedScenario]);
 
   const durationToEndDate: Record<string, Date> = {
-    "5y": new Date("2029-01-01"),
-    "10y": new Date("2034-01-01"),
+    "5y": new Date("2031-01-01"),
+    "10y": new Date("2041-01-01"),
   };
 
   const filteredData = chartDataItems
     .map((chartDataItem) =>
-      calculateInterventionDALYs(
-        chartDataItem,
-        interventionSliderValues,
-        isComparativeMode,
-      ),
+      calculateScenarioDALYs(chartDataItem, selectedScenario, advancedSettings),
     )
     .filter((item) => {
       const date = new Date(item.date);
-      const startDate = new Date("2025-01-01");
+      const startDate = new Date("2027-01-01");
       const endDate = durationToEndDate[timeRange];
       return date >= startDate && date <= endDate;
     });
@@ -218,7 +229,7 @@ export function LCDALYs() {
                 />
               </linearGradient>
               <linearGradient
-                id="fillInterventionDalys"
+                id="fillscenarioDalys"
                 x1="0"
                 y1="0"
                 x2="0"
@@ -226,12 +237,12 @@ export function LCDALYs() {
               >
                 <stop
                   offset="5%"
-                  stopColor="var(--color-interventionDalys)"
+                  stopColor="var(--color-scenarioDalys)"
                   stopOpacity={0.8}
                 />
                 <stop
                   offset="95%"
-                  stopColor="var(--color-interventionDalys)"
+                  stopColor="var(--color-scenarioDalys)"
                   stopOpacity={0.1}
                 />
               </linearGradient>
@@ -267,15 +278,6 @@ export function LCDALYs() {
                 position: "insideLeft",
               }}
             />
-            <text
-              className="left-2 text-2xl font-bold tracking-widest opacity-50 lg:text-5xl"
-              x={window.innerWidth < 640 ? "60%" : "50%"}
-              y={window.innerWidth < 640 ? "50%" : "50%"}
-              textAnchor="middle"
-            >
-              TEST DATA
-            </text>
-
             <ChartTooltip
               cursor={false}
               content={
@@ -301,50 +303,16 @@ export function LCDALYs() {
             ))}
           </AreaChart>
         </ChartContainer>
-        <div className="mt-4 space-y-8">
-          <div className="flex items-center justify-center gap-4">
-            <CumulativeComparativeSwitcher
-              isComparativeMode={isComparativeMode}
-              setIsComparativeMode={setIsComparativeMode}
-            />
-            {/* <Checkbox
-              id="comparative-mode"
-              checked={isComparativeMode}
-              onCheckedChange={(checked) =>
-                setIsComparativeMode(checked as boolean)
-              }
-            />
-            <label htmlFor="comparative-mode">Compare Interventions</label> */}
-          </div>
-          {Object.entries(groupedInterventions).map(
-            ([group, groupInterventions]) => (
-              <div key={group}>
-                <h3 className="mb-2 text-lg font-semibold">
-                  {GROUP_LABELS[group]}
-                </h3>
-                <div className="grid grid-cols-1 gap-x-8 gap-y-2 md:grid-cols-2">
-                  {groupInterventions.map((intervention) => (
-                    <InterventionArea
-                      key={intervention.key}
-                      id={intervention.key}
-                      ariaLabel={intervention.ariaLabel}
-                      sliderLabel={intervention.sliderLabel}
-                      sliderSubLabel={intervention.sliderSubLabel}
-                      sliderMin={intervention.sliderMin}
-                      sliderMax={intervention.sliderMax}
-                      sliderStep={intervention.sliderStep}
-                      sliderInitialValue={intervention.defaultValue}
-                      sliderDefaultValue={intervention.defaultValue}
-                      sliderDisabled={false}
-                      onSliderChange={(value) =>
-                        handleSliderValueChange(intervention.key, value)
-                      }
-                    />
-                  ))}
-                </div>
-              </div>
-            ),
-          )}
+        <div className="mt-6 space-y-6">
+          <ScenarioSelector
+            selectedScenario={selectedScenario}
+            onScenarioChange={handleScenarioChange}
+          />
+          <AdvancedSettingsPanel
+            settings={advancedSettings}
+            onSettingsChange={handleAdvancedSettingChange}
+            onReset={handleResetAdvancedSettings}
+          />
         </div>
         <div className="mt-6 border-t pt-4 text-sm text-muted-foreground">
           <p className="mb-2">References:</p>
