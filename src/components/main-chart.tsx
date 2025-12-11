@@ -16,103 +16,24 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { InterventionArea } from "@/components/intervention-area";
-import { CumulativeComparativeSwitcher } from "./cumulative-comparative-switcher";
-import {
-  INTERVENTIONS,
-  GROUP_LABELS,
-  groupedInterventions,
-  baseReductionFn,
-} from "@/config/interventions";
-import chartDataItems from "@/data/DALYs.json";
-import scenarioDALYs from "@/data/scenario-DALYs.json";
-import { ScenarioArea } from "./scenario-area";
+import DALYsData from "@/data/DALYs.json";
+import { ScenarioArea } from "@/components/scenario-area";
 import { SCENARIOS } from "@/config/scenarios";
 
-interface ChartDataItem {
-  date: string;
-  dalys: number;
-  [key: string]: number | string;
+interface DALYsDataItem {
+  year: number;
+  baseline: number;
+  HEPAMostCommonSpaces: number;
+  HEPASchoolsAndDaycare: number;
+  HEPAAllPublicIndoor: number;
+  farUVCMostCommonSpaces: number;
+  farUVCSchoolsAndDaycare: number;
+  farUVCAllPublicIndoor: number;
 }
 
-// to do: change this to assumptions? change the calculations based on changing the assumptions
-// to do: shouldn't this live in another file?
-
-/**
- * Calculates the reduced DALYs based on interventions applied, either cumulatively or comparing between interventions.
- * @param item - The baseline chart data (no intervention).
- * @param interventionSliderValues - Object containing slider values for each intervention.
- * @param isComparativeMode - Boolean indicating if the chart is in comparative mode.
- * @returns The modified chart data with reduced DALYs.
- */
-const calculateInterventionDALYs = (
-  item: ChartDataItem,
-  interventionSliderValues: Record<string, number>,
-  isComparativeMode: boolean,
-): ChartDataItem => {
-  const modifiedDataItem: ChartDataItem = {
-    ...item,
-  };
-
-  if (isComparativeMode) {
-    // In comparative mode, we calculate each intervention's DALYs separately
-    for (const intervention of INTERVENTIONS) {
-      const sliderValue = interventionSliderValues[intervention.key];
-      if (sliderValue > 0) {
-        const reduction = baseReductionFn(
-          sliderValue,
-          intervention.sliderMax,
-          intervention.reductionFactor,
-        );
-        modifiedDataItem[intervention.key] = Math.round(
-          item.dalys * (1 - reduction),
-        );
-      }
-    }
-  } else {
-    // In cumulative mode, we calculate the cumulative effect of all interventions
-    let totalReductionFactor = 0;
-    for (const intervention of INTERVENTIONS) {
-      const sliderValue = interventionSliderValues[intervention.key];
-      totalReductionFactor += baseReductionFn(
-        sliderValue,
-        intervention.sliderMax,
-        intervention.reductionFactor,
-      );
-    }
-    if (totalReductionFactor > 0) {
-      modifiedDataItem.interventionDalys = Math.round(
-        item.dalys * (1 - totalReductionFactor),
-      );
-    }
-  }
-  return modifiedDataItem;
-};
+const chartDataItems = DALYsData as DALYsDataItem[];
 
 export function MainChart() {
-  // to do: remove time range and only show 10 years
-  const [timeRange, setTimeRange] = React.useState("5y");
-  // to do: there is no comparative mode
-  const [isComparativeMode, setIsComparativeMode] = React.useState(false);
-
-  const initialInterventionValues = Object.fromEntries(
-    INTERVENTIONS.map((intervention) => [
-      intervention.key,
-      intervention.defaultValue,
-    ]),
-  );
-
-  // to do: change to assumption values
-  const [interventionSliderValues, setInterventionSliderValues] =
-    React.useState(initialInterventionValues);
-
   // to do: grab state from which checkboxes of the scenarios are checked
   // ...as in, we want to show the various scenarios if they are checked
   const [scenario, setScenario] = React.useState("baseline");
@@ -125,56 +46,9 @@ export function MainChart() {
         color: "hsl(var(--chart-1))",
       },
     };
-    if (isComparativeMode) {
-      INTERVENTIONS.forEach((intervention, index) => {
-        if (interventionSliderValues[intervention.key] > 0) {
-          config[intervention.key] = {
-            label: intervention.sliderLabel,
-            color: `hsl(var(--chart-${index + 3}))`,
-          };
-        }
-      });
-    } else {
-      config.interventionDalys = {
-        label: "Intervention DALYs",
-        color: "hsl(var(--chart-2))",
-      };
-    }
-
     return config;
-  }, [isComparativeMode, interventionSliderValues]);
+  }, [scenario]);
 
-  const handleSliderValueChange = (id: string, value: number[]) => {
-    setInterventionSliderValues((prev) => ({
-      ...prev,
-      [id]: value[0],
-    }));
-  };
-
-  // change this to only show 10 years
-  const durationToEndDate: Record<string, Date> = {
-    "5y": new Date("2029-01-01"),
-    "10y": new Date("2034-01-01"),
-  };
-
-  /**
-   * filters through the data and calculates its lower DALY value if applicable,
-   * filters the X axis by date if applicable
-   */
-  const filteredData = chartDataItems
-    .map((chartDataItem) =>
-      calculateInterventionDALYs(
-        chartDataItem,
-        interventionSliderValues,
-        isComparativeMode,
-      ),
-    )
-    .filter((item) => {
-      const date = new Date(item.date);
-      const startDate = new Date("2025-01-01");
-      const endDate = durationToEndDate[timeRange];
-      return date >= startDate && date <= endDate;
-    });
   return (
     <Card>
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
@@ -198,29 +72,18 @@ export function MainChart() {
             <sup>2</sup> in the US.
           </CardDescription>
         </div>
-        <Select value={timeRange} onValueChange={setTimeRange}>
-          <SelectTrigger
-            className="w-auto rounded-lg bg-card sm:ml-auto"
-            aria-label="Select projection range"
-          >
-            <SelectValue placeholder="5 year projection" />
-          </SelectTrigger>
-          <SelectContent className="rounded-xl bg-card">
-            <SelectItem value="5y" className="rounded-lg">
-              5 Year Projection
-            </SelectItem>
-            <SelectItem value="10y" className="rounded-lg">
-              10 Year Projection
-            </SelectItem>
-          </SelectContent>
-        </Select>
       </CardHeader>
       <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
         <ChartContainer
           config={chartConfig}
           className="h-[400px] w-full md:h-[600px]"
         >
-          <AreaChart data={filteredData}>
+          <AreaChart
+            data={chartDataItems}
+            margin={{
+              bottom: 15,
+            }}
+          >
             <defs>
               <linearGradient id="filldalys" x1="0" y1="0" x2="0" y2="1">
                 <stop
@@ -255,31 +118,26 @@ export function MainChart() {
             </defs>
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="date"
+              dataKey="year"
               tickLine={false}
               axisLine={false}
               tickMargin={8}
               minTickGap={32}
               interval={"preserveStartEnd"}
-              tickFormatter={(value) => {
-                const date = new Date(value);
-                return date.toLocaleDateString("en-US", {
-                  year: "numeric",
-                });
+              label={{
+                value: "Years",
+                position: "bottom",
               }}
             />
             <YAxis
               dataKey="dalys"
               axisLine={false}
-              width={85}
               tick={{ width: 250 }}
               tickMargin={8}
-              // 17M cases * 80 DALYs / 1000
-              domain={[0, 1360000]}
-              tickFormatter={(value) => `${(value / 1000).toFixed(1)}M  `}
+              domain={[0, 500]}
               allowDataOverflow={false}
               label={{
-                value: "Million DALYs per year",
+                value: "DALYs per 1000 people",
                 angle: -90,
                 position: "insideLeft",
               }}
@@ -318,7 +176,7 @@ export function MainChart() {
             ))}
           </AreaChart>
         </ChartContainer>
-        <div className="mt-4 space-y-8">
+        <div className="mt-4">
           <div className="grid grid-cols-1 gap-x-8 gap-y-2 md:grid-cols-2">
             {SCENARIOS.map((scenario) => (
               <ScenarioArea
@@ -329,35 +187,6 @@ export function MainChart() {
               />
             ))}
           </div>
-          {Object.entries(groupedInterventions).map(
-            ([group, groupInterventions]) => (
-              <div key={group}>
-                <h3 className="mb-2 text-lg font-semibold">
-                  {GROUP_LABELS[group]}
-                </h3>
-                <div className="grid grid-cols-1 gap-x-8 gap-y-2 md:grid-cols-2">
-                  {groupInterventions.map((intervention) => (
-                    <InterventionArea
-                      key={intervention.key}
-                      id={intervention.key}
-                      ariaLabel={intervention.ariaLabel}
-                      sliderLabel={intervention.sliderLabel}
-                      sliderSubLabel={intervention.sliderSubLabel}
-                      sliderMin={intervention.sliderMin}
-                      sliderMax={intervention.sliderMax}
-                      sliderStep={intervention.sliderStep}
-                      sliderInitialValue={intervention.defaultValue}
-                      sliderDefaultValue={intervention.defaultValue}
-                      sliderDisabled={false}
-                      onSliderChange={(value) =>
-                        handleSliderValueChange(intervention.key, value)
-                      }
-                    />
-                  ))}
-                </div>
-              </div>
-            ),
-          )}
         </div>
         <div className="mt-6 border-t pt-4 text-sm text-muted-foreground">
           <p className="mb-2">References:</p>
