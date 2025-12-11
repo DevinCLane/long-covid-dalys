@@ -32,12 +32,18 @@ import {
   baseReductionFn,
 } from "@/config/interventions";
 import chartDataItems from "@/data/DALYs.json";
+import scenarioDALYs from "@/data/scenario-DALYs.json";
+import { ScenarioArea } from "./scenario-area";
+import { SCENARIOS } from "@/config/scenarios";
 
 interface ChartDataItem {
   date: string;
   dalys: number;
   [key: string]: number | string;
 }
+
+// to do: change this to assumptions? change the calculations based on changing the assumptions
+// to do: shouldn't this live in another file?
 
 /**
  * Calculates the reduced DALYs based on interventions applied, either cumulatively or comparing between interventions.
@@ -90,8 +96,10 @@ const calculateInterventionDALYs = (
   return modifiedDataItem;
 };
 
-export function LCDALYs() {
+export function MainChart() {
+  // to do: remove time range and only show 10 years
   const [timeRange, setTimeRange] = React.useState("5y");
+  // to do: there is no comparative mode
   const [isComparativeMode, setIsComparativeMode] = React.useState(false);
 
   const initialInterventionValues = Object.fromEntries(
@@ -101,8 +109,13 @@ export function LCDALYs() {
     ]),
   );
 
+  // to do: change to assumption values
   const [interventionSliderValues, setInterventionSliderValues] =
     React.useState(initialInterventionValues);
+
+  // to do: grab state from which checkboxes of the scenarios are checked
+  // ...as in, we want to show the various scenarios if they are checked
+  const [scenario, setScenario] = React.useState("baseline");
 
   // loop through interventions and create a chart config for each
   const chartConfig: ChartConfig = React.useMemo(() => {
@@ -138,11 +151,16 @@ export function LCDALYs() {
     }));
   };
 
+  // change this to only show 10 years
   const durationToEndDate: Record<string, Date> = {
     "5y": new Date("2029-01-01"),
     "10y": new Date("2034-01-01"),
   };
 
+  /**
+   * filters through the data and calculates its lower DALY value if applicable,
+   * filters the X axis by date if applicable
+   */
   const filteredData = chartDataItems
     .map((chartDataItem) =>
       calculateInterventionDALYs(
@@ -157,7 +175,6 @@ export function LCDALYs() {
       const endDate = durationToEndDate[timeRange];
       return date >= startDate && date <= endDate;
     });
-
   return (
     <Card>
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
@@ -302,19 +319,15 @@ export function LCDALYs() {
           </AreaChart>
         </ChartContainer>
         <div className="mt-4 space-y-8">
-          <div className="flex items-center justify-center gap-4">
-            <CumulativeComparativeSwitcher
-              isComparativeMode={isComparativeMode}
-              setIsComparativeMode={setIsComparativeMode}
-            />
-            {/* <Checkbox
-              id="comparative-mode"
-              checked={isComparativeMode}
-              onCheckedChange={(checked) =>
-                setIsComparativeMode(checked as boolean)
-              }
-            />
-            <label htmlFor="comparative-mode">Compare Interventions</label> */}
+          <div className="grid grid-cols-1 gap-x-8 gap-y-2 md:grid-cols-2">
+            {SCENARIOS.map((scenario) => (
+              <ScenarioArea
+                key={scenario.id}
+                id={scenario.id}
+                label={scenario.label}
+                sublabel={scenario.sublabel}
+              />
+            ))}
           </div>
           {Object.entries(groupedInterventions).map(
             ([group, groupInterventions]) => (

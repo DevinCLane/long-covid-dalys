@@ -1,3 +1,4 @@
+// to do: change this to assumptions, and allow the user to change assumptions
 import reductionFactors from "../data/intervention-reduction-factors.json";
 
 interface Intervention {

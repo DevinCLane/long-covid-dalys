@@ -2,7 +2,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Header } from "@/components/header";
 import { SiteFooter } from "@/components/site-footer";
 import { WorkInProgressAlert } from "@/components/work-in-progress-alert";
-import { LCDALYs } from "@/components/LC-DALYs";
+import { MainChart } from "@/components/main-chart";
 import { NavBar } from "./components/nav-bar";
 
 function App() {
@@ -13,7 +13,7 @@ function App() {
         <WorkInProgressAlert />
         <Header />
         <div className="mx-auto flex w-full flex-col gap-8">
-          <LCDALYs />
+          <MainChart />
           <SiteFooter />
         </div>
       </div>
