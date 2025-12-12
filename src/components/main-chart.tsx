@@ -34,17 +34,17 @@ interface DALYsDataItem {
 const chartDataItems = DALYsData as DALYsDataItem[];
 
 export function MainChart() {
-  // to do: grab state from which checkboxes of the scenarios are checked
-  // ...as in, we want to show the various scenarios if they are checked
+  // Track selected scenarios by their ID
   const [selectedScenarios, setSelectedScenarios] = React.useState<Set<string>>(
-    // create a set of all the scenarios that are checked, using their IDs
-    new Set(
-      SCENARIOS.filter((scenario) => scenario.checked).map(
-        (scenario) => scenario.id,
+    () =>
+      new Set(
+        SCENARIOS.filter((scenario) => scenario.checked).map(
+          (scenario) => scenario.id,
+        ),
       ),
-    ),
   );
 
+  // create a new set each time so react knows to update
   const toggleScenario = (id: string, checked: boolean) => {
     setSelectedScenarios((prev) => {
       const next = new Set(prev);
@@ -57,23 +57,20 @@ export function MainChart() {
     });
   };
 
-  // based on which scenario checkbox is checked, show that data
-  /* 
-  const filteredData = scenarios.filter((which one is checked)
-    return the filtered data
-  )
-  */
+  // chart config is created based on selected scenarios
+  const chartConfig = React.useMemo(() => {
+    const config: ChartConfig = {};
 
-  // to do: loop through interventions and create a chart config for each
-  const chartConfig: ChartConfig = React.useMemo(() => {
-    const config: ChartConfig = {
-      dalys: {
-        label: "Baseline DALYs (no intervention)",
-        color: "hsl(var(--chart-1))",
-      },
-    };
+    SCENARIOS.forEach((scenario, index) => {
+      if (selectedScenarios.has(scenario.id)) {
+        config[scenario.id] = {
+          label: scenario.label,
+          color: `hsl(var(--chart-${(index % 12) + 1}))`,
+        };
+      }
+    });
     return config;
-  }, [scenario]);
+  }, [selectedScenarios]);
 
   return (
     <Card>
@@ -110,38 +107,6 @@ export function MainChart() {
               bottom: 15,
             }}
           >
-            <defs>
-              <linearGradient id="filldalys" x1="0" y1="0" x2="0" y2="1">
-                <stop
-                  offset="5%"
-                  stopColor="var(--color-dalys)"
-                  stopOpacity={0.8}
-                />
-                <stop
-                  offset="95%"
-                  stopColor="var(--color-dalys)"
-                  stopOpacity={0.1}
-                />
-              </linearGradient>
-              <linearGradient
-                id="fillInterventionDalys"
-                x1="0"
-                y1="0"
-                x2="0"
-                y2="1"
-              >
-                <stop
-                  offset="5%"
-                  stopColor="var(--color-interventionDalys)"
-                  stopOpacity={0.8}
-                />
-                <stop
-                  offset="95%"
-                  stopColor="var(--color-interventionDalys)"
-                  stopOpacity={0.1}
-                />
-              </linearGradient>
-            </defs>
             <CartesianGrid vertical={false} />
             <XAxis
               dataKey="year"
@@ -156,11 +121,10 @@ export function MainChart() {
               }}
             />
             <YAxis
-              dataKey="dalys"
               axisLine={false}
               tick={{ width: 250 }}
               tickMargin={8}
-              domain={[0, 500]}
+              domain={[0, 300]}
               allowDataOverflow={false}
               label={{
                 value: "DALYs per 1000 people",
@@ -168,6 +132,7 @@ export function MainChart() {
                 position: "insideLeft",
               }}
             />
+
             <text
               className="left-2 text-2xl font-bold tracking-widest opacity-50 lg:text-5xl"
               x={window.innerWidth < 640 ? "60%" : "50%"}
@@ -182,22 +147,20 @@ export function MainChart() {
               content={
                 <ChartTooltipContent
                   className="bg-card"
-                  labelFormatter={(value) => {
-                    return new Date(value).toLocaleDateString("en-US", {
-                      year: "numeric",
-                    });
-                  }}
+                  labelFormatter={(value) => `Year ${value}`}
                   indicator="dot"
                 />
               }
             />
-            {Object.entries(chartConfig).map(([key]) => (
+            {SCENARIOS.filter((scenario) =>
+              selectedScenarios.has(scenario.id),
+            ).map((scenario) => (
               <Area
-                key={key}
-                dataKey={key}
-                type="natural"
-                fill={`url(#fill${key})`}
-                stroke={`var(--color-${key})`}
+                key={scenario.id}
+                dataKey={scenario.id}
+                type="monotone"
+                fill={`var(--color-${scenario.id})`}
+                stroke={`var(--color-${scenario.id})`}
               />
             ))}
           </AreaChart>
