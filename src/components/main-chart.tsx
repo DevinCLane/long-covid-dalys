@@ -45,7 +45,24 @@ export function MainChart() {
     ),
   );
 
-  // based on which scenario is selected, show that data
+  const toggleScenario = (id: string, checked: boolean) => {
+    setSelectedScenarios((prev) => {
+      const next = new Set(prev);
+      if (checked) {
+        next.add(id);
+      } else {
+        next.delete(id);
+      }
+      return next;
+    });
+  };
+
+  // based on which scenario checkbox is checked, show that data
+  /* 
+  const filteredData = scenarios.filter((which one is checked)
+    return the filtered data
+  )
+  */
 
   // to do: loop through interventions and create a chart config for each
   const chartConfig: ChartConfig = React.useMemo(() => {
@@ -193,6 +210,10 @@ export function MainChart() {
                 id={scenario.id}
                 label={scenario.label}
                 sublabel={scenario.sublabel}
+                checked={selectedScenarios.has(scenario.id)}
+                onCheckedChange={(checked) =>
+                  toggleScenario(scenario.id, checked)
+                }
               />
             ))}
           </div>
