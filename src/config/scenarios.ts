@@ -20,7 +20,7 @@ export const SCENARIOS: Scenario[] = [
   },
   {
     id: Object.keys(DALYs[1])[2],
-    label: "HEPA in most common spaces indoor air (8% fewer cases)",
+    label: "HEPA in most common indoor spaces",
     sublabel:
       "246 DALYs per 1,000 people over 10 years. Incomplete implementation scenarios: HEPA in most common spaces indoor air (8% fewer cases). ~26% of population infected annually.",
     checked: false,
@@ -41,7 +41,7 @@ export const SCENARIOS: Scenario[] = [
   },
   {
     id: Object.keys(DALYs[1])[5],
-    label: "Far UVC in most common spaces indoor air (12% fewer cases)",
+    label: "Far UVC in most common indoor spaces",
     sublabel:
       "240 DALYs per 1,000 people over 10 years. Far UVC in most common spaces indoor air (12% fewer cases). ~25% of population infected annually.",
     checked: false,
