@@ -8,16 +8,27 @@ import { Label } from "@/components/ui/label";
 interface ScenarioAreaProps {
   id: string;
   label: string;
-  //   isChecked: boolean;
   sublabel?: string;
+  checked: boolean;
+  onCheckedChange: (checked: boolean) => void;
 }
 
-export function ScenarioArea({ id, label, sublabel }: ScenarioAreaProps) {
+export function ScenarioArea({
+  id,
+  label,
+  sublabel,
+  checked = false,
+  onCheckedChange,
+}: ScenarioAreaProps) {
   return (
     <div className="m-4 flex flex-col gap-6">
       <div className="flex flex-col items-start gap-3">
         <div className="flex gap-4">
-          <Checkbox id={id} />
+          <Checkbox
+            id={id}
+            checked={checked}
+            onCheckedChange={onCheckedChange}
+          />
           <Label htmlFor={id}>{label}</Label>
         </div>
         <div>

@@ -36,9 +36,12 @@ const chartDataItems = DALYsData as DALYsDataItem[];
 export function MainChart() {
   // to do: grab state from which checkboxes of the scenarios are checked
   // ...as in, we want to show the various scenarios if they are checked
-  const [scenario, setScenario] = React.useState("baseline");
+  const [selectedScenarios, setSelectedScenarios] = React.useState<Set<string>>(
+    new Set(["baseline"]),
+  );
+  // based on which scenario is selected, show that data
 
-  // loop through interventions and create a chart config for each
+  // to do: loop through interventions and create a chart config for each
   const chartConfig: ChartConfig = React.useMemo(() => {
     const config: ChartConfig = {
       dalys: {
