@@ -37,8 +37,14 @@ export function MainChart() {
   // to do: grab state from which checkboxes of the scenarios are checked
   // ...as in, we want to show the various scenarios if they are checked
   const [selectedScenarios, setSelectedScenarios] = React.useState<Set<string>>(
-    new Set(["baseline"]),
+    // create a set of all the scenarios that are checked, using their IDs
+    new Set(
+      SCENARIOS.filter((scenario) => scenario.checked).map(
+        (scenario) => scenario.id,
+      ),
+    ),
   );
+
   // based on which scenario is selected, show that data
 
   // to do: loop through interventions and create a chart config for each
