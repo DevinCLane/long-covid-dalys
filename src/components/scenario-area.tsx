@@ -4,12 +4,9 @@
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { Scenario } from "@/config/scenarios";
 
-interface ScenarioAreaProps {
-  id: string;
-  label: string;
-  sublabel?: string;
-  checked: boolean;
+interface ScenarioAreaProps extends Scenario {
   onCheckedChange: (checked: boolean) => void;
 }
 
