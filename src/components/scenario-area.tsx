@@ -4,7 +4,7 @@
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { Scenario } from "@/config/scenarios";
+import type { Scenario } from "@/config/scenarios";
 
 interface ScenarioAreaProps extends Scenario {
   onCheckedChange: (checked: boolean) => void;
@@ -14,7 +14,7 @@ export function ScenarioArea({
   id,
   label,
   sublabel,
-  checked = false,
+  checked,
   onCheckedChange,
 }: ScenarioAreaProps) {
   return (
