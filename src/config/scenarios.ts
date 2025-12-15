@@ -13,6 +13,7 @@ export interface Scenario {
 // grab the id, the dalys, and the percentage of population infected
 export const SCENARIOS: Scenario[] = [
   {
+    // to do: each one of these (DALYs[1])[1] should be (DALYs[9])[1], (DALYs[9])[2], etc to represent the 10th year in the model
     id: Object.keys(DALYs[1])[1],
     DALYs: Object.values(DALYs[1])[1],
     infected: 29,
