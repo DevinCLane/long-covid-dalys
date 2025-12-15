@@ -13,6 +13,8 @@ interface ScenarioAreaProps extends Scenario {
 export function ScenarioArea({
   id,
   label,
+  DALYs,
+  infected,
   sublabel,
   checked,
   onCheckedChange,
@@ -28,6 +30,10 @@ export function ScenarioArea({
           />
           <Label htmlFor={id}>{label}</Label>
         </div>
+        <div className="text-sm">
+          {DALYs} DALYs per 1000 people over 10 years
+        </div>
+        <div className="text-sm">~{infected}% infected annually</div>
         <div>
           {sublabel && (
             <p className="text-start text-sm text-muted-foreground">

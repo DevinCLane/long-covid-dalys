@@ -166,12 +166,15 @@ export function MainChart() {
           </AreaChart>
         </ChartContainer>
         <div className="mt-4">
+          <div className="m-2 text-xl font-medium">Scenarios</div>
           <div className="grid grid-cols-1 gap-x-8 gap-y-2 md:grid-cols-2">
             {SCENARIOS.map((scenario) => (
               <ScenarioArea
                 key={scenario.id}
                 id={scenario.id}
                 label={scenario.label}
+                DALYs={scenario.DALYs}
+                infected={scenario.infected}
                 sublabel={scenario.sublabel}
                 checked={selectedScenarios.has(scenario.id)}
                 onCheckedChange={(checked) =>
