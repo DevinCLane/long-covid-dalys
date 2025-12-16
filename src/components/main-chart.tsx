@@ -153,16 +153,6 @@ export function MainChart() {
               }}
             />
 
-            {/* test data watermark */}
-            <text
-              className="left-2 text-2xl font-bold tracking-widest opacity-50 lg:text-5xl"
-              x={window.innerWidth < 640 ? "60%" : "50%"}
-              y={window.innerWidth < 640 ? "50%" : "50%"}
-              textAnchor="middle"
-            >
-              TEST DATA
-            </text>
-
             <ChartTooltip
               cursor={false}
               content={
@@ -187,6 +177,16 @@ export function MainChart() {
                 />
               );
             })}
+
+            {/* test data watermark */}
+            <text
+              className="left-2 text-2xl font-bold tracking-widest opacity-50 lg:text-5xl"
+              x={window.innerWidth < 640 ? "60%" : "50%"}
+              y={window.innerWidth < 640 ? "50%" : "50%"}
+              textAnchor="middle"
+            >
+              TEST DATA
+            </text>
           </AreaChart>
         </ChartContainer>
 
