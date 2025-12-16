@@ -18,7 +18,8 @@ import {
 } from "@/components/ui/chart";
 import DALYsData from "@/data/DALYs.json";
 import { ScenarioArea } from "@/components/scenario-area";
-import { SCENARIOS } from "@/config/scenarios";
+import { getDefaultSelectedScenarios, SCENARIOS } from "@/config/scenarios";
+import { ResetScenariosButton } from "@/components/reset-scenarios-button";
 
 interface DALYsDataItem {
   year: number;
@@ -35,13 +36,8 @@ const chartDataItems = DALYsData as DALYsDataItem[];
 
 export function MainChart() {
   // Track selected scenarios by their ID
-  const [selectedScenarios, setSelectedScenarios] = React.useState<Set<string>>(
-    () =>
-      new Set(
-        SCENARIOS.filter((scenario) => scenario.checked).map(
-          (scenario) => scenario.id,
-        ),
-      ),
+  const [selectedScenarios, setSelectedScenarios] = React.useState(
+    getDefaultSelectedScenarios,
   );
 
   // create a new Set each time there is a new scenario selected so React knows to update
@@ -55,6 +51,11 @@ export function MainChart() {
       }
       return next;
     });
+  };
+
+  // reset selected scenarios to the default
+  const resetScenarios = () => {
+    setSelectedScenarios(getDefaultSelectedScenarios);
   };
 
   // chart config is created based on selected scenarios
@@ -90,6 +91,7 @@ export function MainChart() {
     // this way we show the animation again if someone unchecks, then re-checkes a scenario
     renderedIds.current = new Set(selectedScenarios);
   }, [selectedScenarios]);
+  console.log(selectedScenarios);
 
   return (
     <Card>
@@ -193,6 +195,9 @@ export function MainChart() {
         {/* scenario selector */}
         <div className="mt-4">
           <div className="m-2 text-xl font-medium">Scenarios</div>
+          <div className="mr-4 flex justify-end">
+            <ResetScenariosButton onClick={resetScenarios} />
+          </div>
           <div className="grid grid-cols-1 gap-x-8 gap-y-2 md:grid-cols-2">
             {SCENARIOS.map((scenario) => (
               <ScenarioArea

@@ -12,6 +12,14 @@ export interface Scenario {
 // 10th year is the final year of the model (in the 0 indexed list, 9 is the 10th item)
 const FINAL_YEAR = 9;
 
+export const getDefaultSelectedScenarios = (): Set<string> => {
+  return new Set(
+    SCENARIOS.filter((scenario) => scenario.checked).map(
+      (scenario) => scenario.id,
+    ),
+  );
+};
+
 // to do: read the data from the `DALYs.json`'
 // grab the id, the dalys, and the percentage of population infected
 
