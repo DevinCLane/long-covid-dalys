@@ -19,7 +19,7 @@ import {
 import DALYsData from "@/data/DALYs.json";
 import { ScenarioArea } from "@/components/scenario-area";
 import { getDefaultSelectedScenarios, SCENARIOS } from "@/config/scenarios";
-import { ResetScenariosButton } from "@/components/reset-scenarios-button";
+import { ScenarioAreaButton } from "@/components/scenario-area-button";
 
 interface DALYsDataItem {
   year: number;
@@ -40,7 +40,14 @@ export function MainChart() {
     getDefaultSelectedScenarios,
   );
 
-  // create a new Set each time there is a new scenario selected so React knows to update
+  /**
+   * Updates the scenario state to represent what the user has checked.
+   * Creates a new Set each time there is a new scenario selected so React knows to update.
+   *
+   * @param id - id of the scenario
+   * @param checked - if the scenario is checked or not
+   *
+   */
   const toggleScenario = (id: string, checked: boolean) => {
     setSelectedScenarios((prev) => {
       const next = new Set(prev);
@@ -53,12 +60,29 @@ export function MainChart() {
     });
   };
 
-  // reset selected scenarios to the default
+  /**
+   * Reset selected scenarios to the default
+   */
   const resetScenarios = () => {
     setSelectedScenarios(getDefaultSelectedScenarios);
   };
 
-  // chart config is created based on selected scenarios
+  /**
+   * Select all scenarios
+   */
+  const selectAllScenarios = () => {
+    setSelectedScenarios((prev) => {
+      const next = new Set(prev);
+      for (const scenario of SCENARIOS) {
+        next.add(scenario.id);
+      }
+      return next;
+    });
+  };
+
+  /**
+   * chart config/legend is created based on selected scenarios
+   */
   const chartConfig = React.useMemo(() => {
     const config: ChartConfig = {};
 
@@ -73,8 +97,11 @@ export function MainChart() {
     return config;
   }, [selectedScenarios]);
 
-  // sort scenarios so that the chart is always drawn from highest DALYs to lowest DALYs
-  // this avoids the lower DALY number charts being drawn on top of the higher DALY charts
+  //
+  /**
+   * sort scenarios so that the chart is always drawn from highest DALYs to lowest DALYs.
+   * this avoids the lower DALY number charts being drawn on top of the higher DALY charts
+   */
   const sortedScenarios = React.useMemo(() => {
     return SCENARIOS.filter((scenario) =>
       selectedScenarios.has(scenario.id),
@@ -91,7 +118,6 @@ export function MainChart() {
     // this way we show the animation again if someone unchecks, then re-checkes a scenario
     renderedIds.current = new Set(selectedScenarios);
   }, [selectedScenarios]);
-  console.log(selectedScenarios);
 
   return (
     <Card>
@@ -195,8 +221,15 @@ export function MainChart() {
         {/* scenario selector */}
         <div className="mt-4">
           <div className="m-2 text-xl font-medium">Scenarios</div>
-          <div className="mr-4 flex justify-end">
-            <ResetScenariosButton onClick={resetScenarios} />
+          <div className="flex flex-col items-end gap-4">
+            <ScenarioAreaButton
+              onClick={resetScenarios}
+              label="Reset scenarios"
+            />
+            <ScenarioAreaButton
+              onClick={selectAllScenarios}
+              label="Select all scenarios"
+            />
           </div>
           <div className="grid grid-cols-1 gap-x-8 gap-y-2 md:grid-cols-2">
             {SCENARIOS.map((scenario) => (
