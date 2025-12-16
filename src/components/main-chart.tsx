@@ -93,6 +93,7 @@ export function MainChart() {
 
   return (
     <Card>
+      {/* chart header */}
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
           <CardTitle>Long Covid Disease Burden in the United States</CardTitle>
@@ -152,6 +153,7 @@ export function MainChart() {
               }}
             />
 
+            {/* test data watermark */}
             <text
               className="left-2 text-2xl font-bold tracking-widest opacity-50 lg:text-5xl"
               x={window.innerWidth < 640 ? "60%" : "50%"}
@@ -171,6 +173,8 @@ export function MainChart() {
                 />
               }
             />
+
+            {/* area charts (these are the main graphs on the chart) */}
             {sortedScenarios.map((scenario) => {
               const isNew = !renderedIds.current.has(scenario.id);
               return (
@@ -185,6 +189,8 @@ export function MainChart() {
             })}
           </AreaChart>
         </ChartContainer>
+
+        {/* scenario selector */}
         <div className="mt-4">
           <div className="m-2 text-xl font-medium">Scenarios</div>
           <div className="grid grid-cols-1 gap-x-8 gap-y-2 md:grid-cols-2">
