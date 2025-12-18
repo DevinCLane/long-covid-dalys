@@ -20,6 +20,12 @@ import { getDefaultSelectedScenarios, SCENARIOS } from "@/config/scenarios";
 import { ScenarioAreaButton } from "@/components/scenario-area-button";
 import { ASSUMPTIONS } from "@/config/model-assumptions";
 import { AssumptionArea } from "./assumption-area";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "./ui/accordion";
 
 interface DALYsDataItem {
   year: number;
@@ -218,56 +224,68 @@ export function MainChart() {
           </AreaChart>
         </ChartContainer>
 
-        {/* scenario selector */}
-        <div className="mt-4">
-          <div className="m-2 text-xl font-medium">Scenarios</div>
-          <div className="flex flex-col items-end gap-4">
-            <ScenarioAreaButton
-              onClick={resetScenarios}
-              label="Reset scenarios"
-            />
-            <ScenarioAreaButton
-              onClick={selectAllScenarios}
-              label="Select all scenarios"
-            />
-          </div>
-          <div className="grid grid-cols-1 gap-x-8 gap-y-2 md:grid-cols-2">
-            {SCENARIOS.map((scenario) => (
-              <ScenarioArea
-                key={scenario.id}
-                id={scenario.id}
-                group={scenario.group}
-                label={scenario.label}
-                DALYs={scenario.DALYs}
-                infected={scenario.infected}
-                sublabel={scenario.sublabel}
-                checked={selectedScenarios.has(scenario.id)}
-                onCheckedChange={(checked) =>
-                  toggleScenario(scenario.id, checked)
-                }
-              />
-            ))}
-          </div>
-        </div>
+        <Accordion type="multiple" defaultValue={["scenarios"]}>
+          <AccordionItem value="scenarios">
+            <AccordionTrigger className="text-xl">Scenarios</AccordionTrigger>
+            <AccordionContent>
+              {/* scenario selector */}
+              <div className="mt-4">
+                <div className="flex flex-col items-end gap-4">
+                  <ScenarioAreaButton
+                    onClick={resetScenarios}
+                    label="Reset scenarios"
+                  />
+                  <ScenarioAreaButton
+                    onClick={selectAllScenarios}
+                    label="Select all scenarios"
+                  />
+                </div>
+                <div className="grid grid-cols-1 gap-x-8 gap-y-2 md:grid-cols-2">
+                  {SCENARIOS.map((scenario) => (
+                    <ScenarioArea
+                      key={scenario.id}
+                      id={scenario.id}
+                      group={scenario.group}
+                      label={scenario.label}
+                      DALYs={scenario.DALYs}
+                      infected={scenario.infected}
+                      sublabel={scenario.sublabel}
+                      checked={selectedScenarios.has(scenario.id)}
+                      onCheckedChange={(checked) =>
+                        toggleScenario(scenario.id, checked)
+                      }
+                    />
+                  ))}
+                </div>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
 
-        {/* Adjust model assumptions */}
-        <div className="m-2 text-xl font-medium">Model Assumptions</div>
-        <div className="grid grid-cols-1 gap-x-8 gap-y-2 md:grid-cols-2">
-          {ASSUMPTIONS.map((assumption) => (
-            <AssumptionArea
-              key={assumption.key}
-              sliderLabel={assumption.sliderLabel}
-              sliderSubLabel={assumption.sliderSubLabel}
-              sliderMin={assumption.sliderMin}
-              sliderMax={assumption.sliderMax}
-              sliderStep={assumption.sliderStep}
-              sliderInitialValue={assumption.defaultValue}
-              sliderDefaultValue={assumption.defaultValue}
-              sliderDisabled={false}
-              onSliderChange={(value) => console.log(value)}
-            />
-          ))}
-        </div>
+          {/* Adjust model assumptions */}
+          <AccordionItem value="modelAssumptions">
+            <AccordionTrigger className="text-xl">
+              Model Assumptions
+            </AccordionTrigger>
+            <AccordionContent className="flex flex-col gap-4 text-balance">
+              <div className="grid grid-cols-1 gap-x-8 gap-y-2 md:grid-cols-2">
+                {ASSUMPTIONS.map((assumption) => (
+                  <AssumptionArea
+                    key={assumption.key}
+                    sliderLabel={assumption.sliderLabel}
+                    sliderSubLabel={assumption.sliderSubLabel}
+                    sliderMin={assumption.sliderMin}
+                    sliderMax={assumption.sliderMax}
+                    sliderStep={assumption.sliderStep}
+                    sliderInitialValue={assumption.defaultValue}
+                    sliderDefaultValue={assumption.defaultValue}
+                    sliderDisabled={false}
+                    onSliderChange={(value) => console.log(value)}
+                  />
+                ))}
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
 
         <div className="mt-6 border-t pt-4 text-sm text-muted-foreground">
           <p className="mb-2">References:</p>
