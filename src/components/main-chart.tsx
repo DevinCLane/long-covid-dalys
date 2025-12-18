@@ -19,7 +19,7 @@ import { ScenarioArea } from "@/components/scenario-area";
 import { getDefaultSelectedScenarios, SCENARIOS } from "@/config/scenarios";
 import { ScenarioAreaButton } from "@/components/scenario-area-button";
 import { ASSUMPTIONS } from "@/config/model-assumptions";
-import { InterventionArea } from "./intervention-area";
+import { AssumptionArea } from "./assumption-area";
 
 interface DALYsDataItem {
   year: number;
@@ -254,7 +254,7 @@ export function MainChart() {
         <div className="m-2 text-xl font-medium">Model Assumptions</div>
         <div className="grid grid-cols-1 gap-x-8 gap-y-2 md:grid-cols-2">
           {ASSUMPTIONS.map((assumption) => (
-            <InterventionArea
+            <AssumptionArea
               key={assumption.key}
               sliderLabel={assumption.sliderLabel}
               sliderSubLabel={assumption.sliderSubLabel}

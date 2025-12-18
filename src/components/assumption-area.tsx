@@ -1,6 +1,6 @@
-import { InterventionsSlider } from "@/components/interventions-slider";
+import { AssumptionSlider } from "@/components/assumption-slider";
 
-interface InterventionAreaProps {
+interface AssumptionAreaProps {
   sliderLabel: string;
   sliderSubLabel: string;
   sliderMin: number;
@@ -12,7 +12,7 @@ interface InterventionAreaProps {
   onSliderChange: (value: number[]) => void;
 }
 
-export function InterventionArea({
+export function AssumptionArea({
   sliderLabel,
   sliderSubLabel,
   sliderMin,
@@ -22,12 +22,12 @@ export function InterventionArea({
   sliderDefaultValue,
   sliderDisabled,
   onSliderChange,
-}: InterventionAreaProps) {
+}: AssumptionAreaProps) {
   return (
     <div className="mt-4 flex gap-x-4 text-left">
       <div className="grid w-full gap-0.5 leading-none">
         <div className="m-4">
-          <InterventionsSlider
+          <AssumptionSlider
             label={sliderLabel}
             sublabel={sliderSubLabel}
             minValue={sliderMin}
