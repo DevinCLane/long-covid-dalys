@@ -18,14 +18,14 @@ import DALYsData from "@/data/DALYs.json";
 import { ScenarioArea } from "@/components/scenario-area";
 import { getDefaultSelectedScenarios, SCENARIOS } from "@/config/scenarios";
 import { ScenarioAreaButton } from "@/components/scenario-area-button";
-import { ASSUMPTIONS } from "@/config/model-assumptions";
-import { AssumptionArea } from "./assumption-area";
+import { ASSUMPTIONS } from "@/config/assumptions";
+import { AssumptionArea } from "@/components/assumption-area";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "./ui/accordion";
+} from "@/components/ui/accordion";
 
 interface DALYsDataItem {
   year: number;
@@ -124,6 +124,18 @@ export function MainChart() {
     // this way we show the animation again if someone unchecks, then re-checkes a scenario
     renderedIds.current = new Set(selectedScenarios);
   }, [selectedScenarios]);
+
+  const handleSliderChange = (value: number) => {
+    return value;
+  };
+
+  const calculateReducedDALYs = () => {
+    // listen for the slider to change
+    // when the slider changes get its value
+    // use that value to calculate how much to reduce the DALYs by
+    // loop over the selected scenarios
+    // reduce their DALYs numbers
+  };
 
   return (
     <Card>
@@ -225,10 +237,10 @@ export function MainChart() {
         </ChartContainer>
 
         <Accordion type="multiple" defaultValue={["scenarios"]}>
+          {/* scenario selector */}
           <AccordionItem value="scenarios">
             <AccordionTrigger className="text-xl">Scenarios</AccordionTrigger>
             <AccordionContent>
-              {/* scenario selector */}
               <div className="mt-4">
                 <div className="flex flex-col items-end gap-4">
                   <ScenarioAreaButton
@@ -279,7 +291,7 @@ export function MainChart() {
                     sliderInitialValue={assumption.defaultValue}
                     sliderDefaultValue={assumption.defaultValue}
                     sliderDisabled={false}
-                    onSliderChange={(value) => console.log(value)}
+                    onSliderChange={([value]) => handleSliderChange(value)}
                   />
                 ))}
               </div>

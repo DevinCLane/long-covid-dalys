@@ -18,17 +18,6 @@ interface Assumption {
  */
 export const ASSUMPTIONS: Assumption[] = [
   {
-    key: "timeHorizon",
-    group: "timeHorizon",
-    sliderLabel: "Time Horizon",
-    sliderSubLabel: "Time horizon of the model",
-    sliderMin: 1,
-    sliderMax: 100,
-    sliderStep: 1,
-    defaultValue: 10,
-    reductionFactor: reductionFactors["nasalSprays"],
-  },
-  {
     key: "noLongCovid",
     // the "group" is the label that organizes multiple interventions of a similar category
     group: "initialStates",
