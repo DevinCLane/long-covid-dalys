@@ -4,6 +4,7 @@ export interface Scenario {
   id: string;
   DALYs: number;
   infected: number;
+  group: string;
   label: string;
   sublabel?: string;
   checked: boolean;
@@ -32,6 +33,7 @@ export const SCENARIOS: Scenario[] = [
     id: Object.keys(DALYs[FINAL_YEAR])[1],
     DALYs: Object.values(DALYs[FINAL_YEAR])[1],
     infected: 29,
+    group: "baseline",
     label: "Long Covid Baseline",
     sublabel: "No air cleaning intervention.",
     checked: true,
@@ -40,6 +42,7 @@ export const SCENARIOS: Scenario[] = [
     id: Object.keys(DALYs[FINAL_YEAR])[2],
     DALYs: Object.values(DALYs[FINAL_YEAR])[2],
     infected: 26,
+    group: "HEPA",
     label: "HEPA in most common indoor spaces",
     sublabel:
       "Incomplete implementation scenario: HEPA in most common spaces indoor air (8% fewer cases).",
@@ -49,6 +52,7 @@ export const SCENARIOS: Scenario[] = [
     id: Object.keys(DALYs[FINAL_YEAR])[3],
     DALYs: Object.values(DALYs[FINAL_YEAR])[3],
     infected: 24,
+    group: "HEPA",
     label: " HEPA schools and daycares",
     sublabel:
       "HEPA filters implemented in all K-12 schools, preschools, and daycare settings.",
@@ -58,6 +62,7 @@ export const SCENARIOS: Scenario[] = [
     id: Object.keys(DALYs[FINAL_YEAR])[4],
     DALYs: Object.values(DALYs[FINAL_YEAR])[4],
     infected: 11,
+    group: "HEPA",
     label: "HEPA all public indoor air",
     sublabel: "HEPA filters implemented in all public indoor spaces.",
     checked: false,
@@ -66,6 +71,7 @@ export const SCENARIOS: Scenario[] = [
     id: Object.keys(DALYs[FINAL_YEAR])[5],
     DALYs: Object.values(DALYs[FINAL_YEAR])[5],
     infected: 25,
+    group: "UVC",
     label: "Far UVC in most common indoor spaces",
     sublabel: "Far UVC in most common spaces indoor air (12% fewer cases).",
     checked: false,
@@ -74,6 +80,7 @@ export const SCENARIOS: Scenario[] = [
     id: Object.keys(DALYs[FINAL_YEAR])[6],
     DALYs: Object.values(DALYs[FINAL_YEAR])[6],
     infected: 23,
+    group: "UVC",
     label: "Far UVC schools and daycares",
     sublabel: "Far UVC in schools and daycares.",
     checked: false,
@@ -82,6 +89,7 @@ export const SCENARIOS: Scenario[] = [
     id: Object.keys(DALYs[FINAL_YEAR])[7],
     DALYs: Object.values(DALYs[FINAL_YEAR])[7],
     infected: 6,
+    group: "UVC",
     label: "Far UVC all public indoor air",
     sublabel: "Far UVC in all public indoor spaces.",
     checked: false,

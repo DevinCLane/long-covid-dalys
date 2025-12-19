@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
@@ -20,6 +18,14 @@ import DALYsData from "@/data/DALYs.json";
 import { ScenarioArea } from "@/components/scenario-area";
 import { getDefaultSelectedScenarios, SCENARIOS } from "@/config/scenarios";
 import { ScenarioAreaButton } from "@/components/scenario-area-button";
+import { ASSUMPTIONS } from "@/config/assumptions";
+import { AssumptionArea } from "@/components/assumption-area";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 interface DALYsDataItem {
   year: number;
@@ -118,6 +124,10 @@ export function MainChart() {
     // this way we show the animation again if someone unchecks, then re-checkes a scenario
     renderedIds.current = new Set(selectedScenarios);
   }, [selectedScenarios]);
+
+  const handleSliderChange = (value: number) => {
+    return value;
+  };
 
   return (
     <Card>
@@ -218,36 +228,69 @@ export function MainChart() {
           </AreaChart>
         </ChartContainer>
 
-        {/* scenario selector */}
-        <div className="mt-4">
-          <div className="m-2 text-xl font-medium">Scenarios</div>
-          <div className="flex flex-col items-end gap-4">
-            <ScenarioAreaButton
-              onClick={resetScenarios}
-              label="Reset scenarios"
-            />
-            <ScenarioAreaButton
-              onClick={selectAllScenarios}
-              label="Select all scenarios"
-            />
-          </div>
-          <div className="grid grid-cols-1 gap-x-8 gap-y-2 md:grid-cols-2">
-            {SCENARIOS.map((scenario) => (
-              <ScenarioArea
-                key={scenario.id}
-                id={scenario.id}
-                label={scenario.label}
-                DALYs={scenario.DALYs}
-                infected={scenario.infected}
-                sublabel={scenario.sublabel}
-                checked={selectedScenarios.has(scenario.id)}
-                onCheckedChange={(checked) =>
-                  toggleScenario(scenario.id, checked)
-                }
-              />
-            ))}
-          </div>
-        </div>
+        <Accordion type="multiple" defaultValue={["scenarios"]}>
+          {/* scenario selector */}
+          <AccordionItem value="scenarios">
+            <AccordionTrigger className="text-xl">Scenarios</AccordionTrigger>
+            <AccordionContent>
+              <div className="mt-4">
+                <div className="flex flex-col items-end gap-4">
+                  <ScenarioAreaButton
+                    onClick={resetScenarios}
+                    label="Reset scenarios"
+                  />
+                  <ScenarioAreaButton
+                    onClick={selectAllScenarios}
+                    label="Select all scenarios"
+                  />
+                </div>
+                <div className="grid grid-cols-1 gap-x-8 gap-y-2 md:grid-cols-2">
+                  {SCENARIOS.map((scenario) => (
+                    <ScenarioArea
+                      key={scenario.id}
+                      id={scenario.id}
+                      group={scenario.group}
+                      label={scenario.label}
+                      DALYs={scenario.DALYs}
+                      infected={scenario.infected}
+                      sublabel={scenario.sublabel}
+                      checked={selectedScenarios.has(scenario.id)}
+                      onCheckedChange={(checked) =>
+                        toggleScenario(scenario.id, checked)
+                      }
+                    />
+                  ))}
+                </div>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+
+          {/* Adjust model assumptions */}
+          <AccordionItem value="modelAssumptions">
+            <AccordionTrigger className="text-xl">
+              Model Assumptions
+            </AccordionTrigger>
+            <AccordionContent className="flex flex-col gap-4 text-balance">
+              <div className="grid grid-cols-1 gap-x-8 gap-y-2 md:grid-cols-2">
+                {ASSUMPTIONS.map((assumption) => (
+                  <AssumptionArea
+                    key={assumption.key}
+                    sliderLabel={assumption.sliderLabel}
+                    sliderSubLabel={assumption.sliderSubLabel}
+                    sliderMin={assumption.sliderMin}
+                    sliderMax={assumption.sliderMax}
+                    sliderStep={assumption.sliderStep}
+                    sliderInitialValue={assumption.defaultValue}
+                    sliderDefaultValue={assumption.defaultValue}
+                    sliderDisabled={false}
+                    onSliderChange={([value]) => handleSliderChange(value)}
+                  />
+                ))}
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+
         <div className="mt-6 border-t pt-4 text-sm text-muted-foreground">
           <p className="mb-2">References:</p>
           <ol className="list-inside list-decimal">

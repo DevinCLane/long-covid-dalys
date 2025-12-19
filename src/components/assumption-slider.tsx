@@ -12,7 +12,7 @@ import {
 import { RotateCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-interface InterventionsSliderProps {
+interface AssumptionSliderProps {
   className?: string;
   label?: string;
   sublabel?: string;
@@ -25,7 +25,7 @@ interface InterventionsSliderProps {
   onValueChange?: (value: number[]) => void;
 }
 
-function InterventionsSlider({
+export function AssumptionSlider({
   className,
   label,
   sublabel,
@@ -36,7 +36,7 @@ function InterventionsSlider({
   defaultValue = [0],
   disabled = false,
   onValueChange,
-}: InterventionsSliderProps) {
+}: AssumptionSliderProps) {
   const {
     sliderValue,
     inputValues,
@@ -115,5 +115,3 @@ function InterventionsSlider({
     </div>
   );
 }
-
-export { InterventionsSlider };
