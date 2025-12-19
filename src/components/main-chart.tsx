@@ -129,14 +129,6 @@ export function MainChart() {
     return value;
   };
 
-  const calculateReducedDALYs = () => {
-    // listen for the slider to change
-    // when the slider changes get its value
-    // use that value to calculate how much to reduce the DALYs by
-    // loop over the selected scenarios
-    // reduce their DALYs numbers
-  };
-
   return (
     <Card>
       {/* chart header */}
