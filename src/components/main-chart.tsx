@@ -40,6 +40,18 @@ interface DALYsDataItem {
 
 const chartDataItems = DALYsData as DALYsDataItem[];
 
+/* 
+create the curve of data over 10 years (take the 10th year and show lower numbers leading up to it)
+*/
+for (const chartDataItem of chartDataItems) {
+  const keys = Object.keys(chartDataItem) as (keyof DALYsDataItem)[];
+  for (const key of keys) {
+    if (key !== "year") {
+      chartDataItem[key] *= chartDataItem["year"] * 0.1;
+    }
+  }
+}
+
 export function MainChart() {
   // Track selected scenarios by their ID
   const [selectedScenarios, setSelectedScenarios] = React.useState(
