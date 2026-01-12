@@ -38,19 +38,24 @@ interface DALYsDataItem {
   farUVCAllPublicIndoor: number;
 }
 
-const chartDataItems = DALYsData as DALYsDataItem[];
-
 /* 
 create the curve of data over 10 years (take the 10th year and show lower numbers leading up to it)
 */
-for (const chartDataItem of chartDataItems) {
-  const keys = Object.keys(chartDataItem) as (keyof DALYsDataItem)[];
-  for (const key of keys) {
-    if (key !== "year") {
-      chartDataItem[key] *= chartDataItem["year"] * 0.1;
-    }
-  }
-}
+const chartDataItems = (DALYsData as DALYsDataItem[]).map(
+  (dalysData, index) => {
+    const entries = Object.entries(dalysData);
+
+    const newEntries = entries.map((entry) => {
+      if (entry[0] === "year") {
+        return entry;
+      }
+      let number = entry[1];
+      number *= (index + 1) * 0.1;
+      return [entry[0], number];
+    });
+    return Object.fromEntries(newEntries);
+  },
+);
 
 export function MainChart() {
   // Track selected scenarios by their ID
