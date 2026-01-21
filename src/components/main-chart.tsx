@@ -151,23 +151,28 @@ export function MainChart() {
       {/* chart header */}
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
-          <CardTitle>Long Covid Disease Burden in the United States</CardTitle>
+          <CardTitle>
+            Benefits of air cleaning interventions on COVID-19 infection and
+            Long COVID-related disability-adjusted life years: A policy
+            simulation
+          </CardTitle>
           <CardDescription>
-            Showing the total disease burden of long covid as measured in{" "}
+            This scenario simulator shows the result of synthesizing existing
+            evidence to model the potential impact of population-level air
+            cleaning interventions, like HEPA filtration and far germicidal UV-C
+            light, on Long COVID-related{" "}
             <a
               href="https://en.wikipedia.org/wiki/Disability-adjusted_life_year"
               target="_blank"
               rel="noreferrer"
               className="font-medium underline underline-offset-4"
             >
-              Disability-adjusted life years (DALYs)
+              disability-adjusted life years (DALYs)
             </a>
             . Each DALY represents one year of healthy life lost to illness.
           </CardDescription>
           <CardDescription>
-            Based on research showing 80 DALYs per 1,000 long COVID cases
-            <sup>1</sup> with an estimated 17M cases of long COVID
-            <sup>2</sup> in the US.
+            Select a scenario to view the resulting DALYs
           </CardDescription>
         </div>
       </CardHeader>
@@ -307,34 +312,6 @@ export function MainChart() {
             </AccordionContent>
           </AccordionItem>
         </Accordion>
-
-        <div className="mt-6 border-t pt-4 text-sm text-muted-foreground">
-          <p className="mb-2">References:</p>
-          <ol className="list-inside list-decimal">
-            <li>
-              <a
-                href="https://www.nature.com/articles/s41591-023-02521-2"
-                target="_blank"
-                rel="noreferrer"
-                className="hover:underline"
-              >
-                Nature Medicine: Long COVID burden and risk factors in 10 UK
-                longitudinal studies and electronic health records
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://www.kff.org/coronavirus-covid-19/issue-brief/as-recommendations-for-isolation-end-how-common-is-long-covid/"
-                target="_blank"
-                rel="noreferrer"
-                className="hover:underline"
-              >
-                KFF: As Recommendations for Isolation End, How Common is Long
-                COVID?
-              </a>
-            </li>
-          </ol>
-        </div>
       </CardContent>
     </Card>
   );
