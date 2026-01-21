@@ -38,9 +38,9 @@ interface DALYsDataItem {
   farUVCAllPublicIndoor: number;
 }
 
-/* 
-create the curve of data over 10 years (take the 10th year and show lower numbers leading up to it)
-*/
+/**
+ * create the curve of data over 10 years (take the 10th year and show lower numbers leading up to it)
+ */
 const chartDataItems = (DALYsData as DALYsDataItem[]).map(
   (dalysData, index) => {
     const entries = Object.entries(dalysData);
