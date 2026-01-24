@@ -5,6 +5,7 @@ export interface Scenario {
   DALYs: number;
   infected: number;
   group: string;
+  groupLabel?: string;
   label: string;
   sublabel?: string;
   checked: boolean;
@@ -23,8 +24,14 @@ export const getDefaultSelectedScenarios = (): Set<string> => {
 
 const dalysEntries = Object.entries(DALYs[FINAL_YEAR]);
 
-// to do: read the data from the `DALYs.json`'
-// grab the id, the dalys, and the percentage of population infected
+/**
+ * map the single word, lowercase group name to the text to display for the group
+ */
+export const groupLabels: Record<string, string> = {
+  baseline: "Baseline",
+  hepa: "HEPA Filters",
+  uvc: "Far UV-C Light",
+};
 
 /**
  * Each scenario for which we are displays DALYs
@@ -44,7 +51,7 @@ export const SCENARIOS: Scenario[] = [
     id: dalysEntries[2][0],
     DALYs: dalysEntries[2][1],
     infected: 26,
-    group: "HEPA",
+    group: "hepa",
     label: "HEPA in most common indoor spaces",
     sublabel:
       "Incomplete implementation scenario: HEPA in most common spaces indoor air (8% fewer cases).",
@@ -54,8 +61,8 @@ export const SCENARIOS: Scenario[] = [
     id: dalysEntries[3][0],
     DALYs: dalysEntries[3][1],
     infected: 24,
-    group: "HEPA",
-    label: " HEPA schools and daycares",
+    group: "hepa",
+    label: "HEPA schools and daycares",
     sublabel:
       "HEPA filters implemented in all K-12 schools, preschools, and daycare settings.",
     checked: false,
@@ -64,7 +71,7 @@ export const SCENARIOS: Scenario[] = [
     id: dalysEntries[4][0],
     DALYs: dalysEntries[4][1],
     infected: 11,
-    group: "HEPA",
+    group: "hepa",
     label: "HEPA all public indoor air",
     sublabel: "HEPA filters implemented in all public indoor spaces.",
     checked: false,
@@ -73,7 +80,7 @@ export const SCENARIOS: Scenario[] = [
     id: dalysEntries[5][0],
     DALYs: dalysEntries[5][1],
     infected: 25,
-    group: "UVC",
+    group: "uvc",
     label: "Far UVC in most common indoor spaces",
     sublabel: "Far UVC in most common spaces indoor air (12% fewer cases).",
     checked: false,
@@ -82,7 +89,7 @@ export const SCENARIOS: Scenario[] = [
     id: dalysEntries[6][0],
     DALYs: dalysEntries[6][1],
     infected: 23,
-    group: "UVC",
+    group: "uvc",
     label: "Far UVC schools and daycares",
     sublabel: "Far UVC in schools and daycares.",
     checked: false,
@@ -91,9 +98,19 @@ export const SCENARIOS: Scenario[] = [
     id: dalysEntries[7][0],
     DALYs: dalysEntries[7][1],
     infected: 6,
-    group: "UVC",
+    group: "uvc",
     label: "Far UVC all public indoor air",
     sublabel: "Far UVC in all public indoor spaces.",
     checked: false,
   },
 ];
+
+export const groupedScenarios = SCENARIOS.reduce(
+  (acc, scenario) => {
+    if (!acc[scenario.group]) acc[scenario.group] = [];
+    acc[scenario.group].push(scenario);
+    return acc;
+  },
+  {} as Record<string, Scenario[]>,
+);
+console.log(groupedScenarios);
