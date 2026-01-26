@@ -30,7 +30,7 @@ const dalysEntries = Object.entries(DALYs[FINAL_YEAR]);
 export const groupLabels: Record<string, string> = {
   baseline: "Baseline",
   hepa: "HEPA Filters",
-  uvc: "Far UV-C Light",
+  uvc: "Far UVC Light",
 };
 
 /**

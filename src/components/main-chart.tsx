@@ -164,7 +164,7 @@ export function MainChart() {
           <CardDescription>
             This scenario simulator shows the result of synthesizing existing
             evidence to model the potential impact of population-level air
-            cleaning interventions, like HEPA filtration and far germicidal UV-C
+            cleaning interventions, like HEPA filtration and far germicidal UVC
             light, on Long COVID-related{" "}
             <a
               href="https://en.wikipedia.org/wiki/Disability-adjusted_life_year"
