@@ -16,7 +16,12 @@ import {
 } from "@/components/ui/chart";
 import DALYsData from "@/data/DALYs.json";
 import { ScenarioArea } from "@/components/scenario-area";
-import { getDefaultSelectedScenarios, SCENARIOS } from "@/config/scenarios";
+import {
+  getDefaultSelectedScenarios,
+  groupedScenarios,
+  groupLabels,
+  SCENARIOS,
+} from "@/config/scenarios";
 import { ScenarioAreaButton } from "@/components/scenario-area-button";
 import { ASSUMPTIONS } from "@/config/assumptions";
 import { AssumptionArea } from "@/components/assumption-area";
@@ -266,23 +271,32 @@ export function MainChart() {
                     label="Select all scenarios"
                   />
                 </div>
-                <div className="grid grid-cols-1 gap-x-8 gap-y-2 md:grid-cols-2">
-                  {SCENARIOS.map((scenario) => (
-                    <ScenarioArea
-                      key={scenario.id}
-                      id={scenario.id}
-                      group={scenario.group}
-                      label={scenario.label}
-                      DALYs={scenario.DALYs}
-                      infected={scenario.infected}
-                      sublabel={scenario.sublabel}
-                      checked={selectedScenarios.has(scenario.id)}
-                      onCheckedChange={(checked) =>
-                        toggleScenario(scenario.id, checked)
-                      }
-                    />
-                  ))}
-                </div>
+                {Object.entries(groupedScenarios).map(
+                  ([groupName, scenarios]) => (
+                    <div key={groupName} className="mb-6">
+                      <h3 className="mb-2 text-lg font-semibold">
+                        {groupLabels[groupName] || groupName}
+                      </h3>
+                      <div className="grid grid-cols-1 gap-x-8 gap-y-2 md:grid-cols-2">
+                        {scenarios.map((scenario) => (
+                          <ScenarioArea
+                            key={scenario.id}
+                            id={scenario.id}
+                            group={scenario.group}
+                            label={scenario.label}
+                            DALYs={scenario.DALYs}
+                            infected={scenario.infected}
+                            sublabel={scenario.sublabel}
+                            checked={selectedScenarios.has(scenario.id)}
+                            onCheckedChange={(checked) =>
+                              toggleScenario(scenario.id, checked)
+                            }
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  ),
+                )}
               </div>
             </AccordionContent>
           </AccordionItem>
