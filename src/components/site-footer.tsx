@@ -1,34 +1,42 @@
+import { LucideDownload } from "lucide-react";
+
 export function SiteFooter() {
   return (
     <footer className="p-6">
       <div className="container-wrapper">
         <div className="container py-4">
           <div className="text-balance text-center text-sm leading-loose text-muted-foreground md:text-left">
+            <h4 className="text-lg font-semibold">Cite this source</h4>
             <p>
-              From the paper "Modeling Disability-Adjusted Life Years Post-COVID
-              Infection: Estimating the Impacts of Long COVID and Other
-              Post-COVID Consequences
+              Cohen AK, Jaudon TW, Cho O, Lane DC, Vogel JM. Benefits of air
+              cleaning interventions on COVID-19 infection and Long
+              COVID-related disability-adjusted life years: A policy simulation.
             </p>
-            <p>Alison Cohen, Julia Moore Vogel, Toni Wall Jaudon, Devin Lane</p>
-            Website by{" "}
-            <a
-              href="https://www.devinlane.com/"
-              target="_blank"
-              rel="noreferrer"
-              className="font-medium underline underline-offset-4"
-            >
-              Devin Lane
+            <a className="flex cursor-pointer gap-2 hover:underline">
+              Download Citation <LucideDownload />
             </a>
-            . Source code available on{" "}
-            <a
-              href="https://github.com/DevinCLane/long-covid-dalys"
-              target="_blank"
-              rel="noreferrer"
-              className="font-medium underline underline-offset-4"
-            >
-              GitHub
-            </a>
-            .
+            <hr />
+            <p>
+              Website by{" "}
+              <a
+                href="https://www.devinlane.com/"
+                target="_blank"
+                rel="noreferrer"
+                className="font-medium underline underline-offset-4"
+              >
+                Devin Lane
+              </a>
+              . Source code available on{" "}
+              <a
+                href="https://github.com/DevinCLane/long-covid-dalys"
+                target="_blank"
+                rel="noreferrer"
+                className="font-medium underline underline-offset-4"
+              >
+                GitHub
+              </a>
+              .
+            </p>
           </div>
         </div>
       </div>
