@@ -149,6 +149,7 @@ export default function ShareButton() {
                 </Tooltip>
               </div>
               <div className="space-y-2">
+                <div className="text-sm font-medium">Copy URL to clipboard</div>
                 <div className="relative">
                   <Input
                     ref={inputRef}
