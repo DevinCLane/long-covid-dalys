@@ -194,7 +194,7 @@ export default function ShareButton() {
                       </button>
                     </TooltipTrigger>
                     <TooltipContent className="px-2 py-1 text-xs">
-                      Copy to clipboard
+                      Copy URL to clipboard
                     </TooltipContent>
                   </Tooltip>
                 </div>
