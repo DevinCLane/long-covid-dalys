@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@icons-pack/react-simple-icons": "^12.8.0",
+    "@posthog/react": "^1.7.0",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-checkbox": "^1.1.4",
     "@radix-ui/react-dropdown-menu": "^2.1.14",
@@ -24,6 +25,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.471.1",
+    "posthog-js": "^1.335.5",
     "radix-ui": "^1.4.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
