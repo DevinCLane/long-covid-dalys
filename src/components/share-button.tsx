@@ -1,11 +1,8 @@
-import { useId, useRef, useState } from "react";
 import { SiBluesky, SiX } from "@icons-pack/react-simple-icons";
-import { CheckIcon, CopyIcon, Mail, Forward } from "lucide-react";
+import { Mail, Forward } from "lucide-react";
 import { RxLinkedinLogo } from "react-icons/rx";
 
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Popover,
   PopoverContent,
