@@ -1,11 +1,8 @@
-import { useId, useRef, useState } from "react";
 import { SiBluesky, SiX } from "@icons-pack/react-simple-icons";
-import { CheckIcon, CopyIcon, Mail, Forward } from "lucide-react";
+import { Mail, Forward } from "lucide-react";
 import { RxLinkedinLogo } from "react-icons/rx";
 
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Popover,
   PopoverContent,
@@ -17,20 +14,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import CopyableInput from "@/components/copyable-input";
 
 export default function ShareButton() {
-  const id = useId();
-  const [copied, setCopied] = useState<boolean>(false);
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  const handleCopy = () => {
-    if (inputRef.current) {
-      navigator.clipboard.writeText(inputRef.current.value);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
-    }
-  };
-
   return (
     <TooltipProvider delayDuration={0}>
       <div className="flex flex-col gap-4">
@@ -63,7 +49,6 @@ export default function ShareButton() {
                       variant="outline"
                       aria-label="Share on BlueSky"
                     >
-                      {/* todo: tag myself? */}
                       <a
                         href="https://bsky.app/intent/compose?text=https%3A%2F%2Flongcoviddalys.netlify.app%2F%20%40devinlane.com"
                         target="_blank"
@@ -150,55 +135,19 @@ export default function ShareButton() {
               </div>
               <div className="space-y-2">
                 <div className="text-sm font-medium">Copy URL to clipboard</div>
-                <div className="relative">
-                  <Input
-                    ref={inputRef}
-                    id={id}
-                    className="bg-card pe-9"
-                    type="text"
-                    defaultValue="https://longcoviddalys.netlify.app/"
-                    aria-label="Share link"
-                    readOnly
-                  />
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <button
-                        onClick={handleCopy}
-                        className="absolute inset-y-0 end-0 flex h-full w-9 items-center justify-center rounded-e-md text-muted-foreground/80 outline-none transition-[color,box-shadow] hover:text-foreground focus:z-10 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed"
-                        aria-label={copied ? "Copied" : "Copy to clipboard"}
-                        disabled={copied}
-                      >
-                        <div
-                          className={cn(
-                            "transition-all",
-                            copied
-                              ? "scale-100 opacity-100"
-                              : "scale-0 opacity-0",
-                          )}
-                        >
-                          <CheckIcon
-                            className="stroke-emerald-500"
-                            size={16}
-                            aria-hidden="true"
-                          />
-                        </div>
-                        <div
-                          className={cn(
-                            "absolute transition-all",
-                            copied
-                              ? "scale-0 opacity-0"
-                              : "scale-100 opacity-100",
-                          )}
-                        >
-                          <CopyIcon size={16} aria-hidden="true" />
-                        </div>
-                      </button>
-                    </TooltipTrigger>
-                    <TooltipContent className="px-2 py-1 text-xs">
-                      Copy URL to clipboard
-                    </TooltipContent>
-                  </Tooltip>
+                <CopyableInput
+                  copyableInput="https://longcoviddalys.netlify.app/"
+                  ariaLabel="Share link"
+                />
+              </div>
+              <div className="space-y-2">
+                <div className="text-sm font-medium">
+                  Copy Citation to clipboard
                 </div>
+                <CopyableInput
+                  copyableInput="Cohen AK, Jaudon TW, Cho O, Lane DC, Vogel JM. Benefits of air cleaning interventions on COVID-19 infection and Long COVID-related disability-adjusted life years: A policy simulation."
+                  ariaLabel="Citation"
+                />
               </div>
             </div>
           </PopoverContent>
