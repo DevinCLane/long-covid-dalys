@@ -12,10 +12,8 @@ function App() {
         <NavBar />
         <WorkInProgressAlert />
         <Header />
-        <div className="mx-auto flex w-full flex-col gap-8">
-          <MainChart />
-          <SiteFooter />
-        </div>
+        <MainChart />
+        <SiteFooter />
       </div>
     </ThemeProvider>
   );
