@@ -260,8 +260,8 @@ export function MainChart() {
           <AccordionItem value="scenarios">
             <AccordionTrigger className="text-xl">Scenarios</AccordionTrigger>
             <AccordionContent>
-              <div className="mt-4">
-                <div className="flex flex-col items-end gap-4">
+              <div>
+                <div className="mb-4 flex flex-col items-end gap-4">
                   <ScenarioAreaButton
                     onClick={resetScenarios}
                     label="Reset scenarios"
