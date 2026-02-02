@@ -1,4 +1,4 @@
-import { LucideDownload } from "lucide-react";
+// import { LucideDownload } from "lucide-react";
 
 export function SiteFooter() {
   return (
