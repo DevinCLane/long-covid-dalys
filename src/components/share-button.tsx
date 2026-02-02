@@ -137,7 +137,7 @@ export default function ShareButton() {
                 <div className="text-sm font-medium">Copy URL to clipboard</div>
                 <CopyableInput
                   copyableInput="https://longcoviddalys.netlify.app/"
-                  ariaLabel="Share link"
+                  ariaLabel="url"
                 />
               </div>
               <div className="space-y-2">
@@ -146,7 +146,7 @@ export default function ShareButton() {
                 </div>
                 <CopyableInput
                   copyableInput="Cohen AK, Jaudon TW, Cho O, Lane DC, Vogel JM. Benefits of air cleaning interventions on COVID-19 infection and Long COVID-related disability-adjusted life years: A policy simulation."
-                  ariaLabel="Citation"
+                  ariaLabel="citation"
                 />
               </div>
             </div>

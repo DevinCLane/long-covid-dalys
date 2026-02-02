@@ -34,7 +34,7 @@ export default function CopyableInput({
       <Input
         ref={inputRef}
         id={id}
-        className="bg-card pe-9"
+        className="truncate bg-card pe-9"
         type="text"
         defaultValue={copyableInput}
         aria-label={ariaLabel}
@@ -71,7 +71,7 @@ export default function CopyableInput({
           </button>
         </TooltipTrigger>
         <TooltipContent className="px-2 py-1 text-xs">
-          Copy URL to clipboard
+          Copy {ariaLabel.toLowerCase()} to clipboard
         </TooltipContent>
       </Tooltip>
     </div>
