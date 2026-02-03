@@ -118,7 +118,7 @@ export function MainChart() {
       if (selectedScenarios.has(scenario.id)) {
         config[scenario.id] = {
           label: scenario.label,
-          color: `hsl(var(--chart-${(index % 12) + 1}))`,
+          color: `var(--chart-${(index % 12) + 1})`,
         };
       }
     });
@@ -182,10 +182,7 @@ export function MainChart() {
         </div>
       </CardHeader>
       <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
-        <ChartContainer
-          config={chartConfig}
-          className="h-[400px] w-full md:h-[600px]"
-        >
+        <ChartContainer config={chartConfig} className="h-400 w-full md:h-600">
           <AreaChart
             data={chartDataItems}
             margin={{

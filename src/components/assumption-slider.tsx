@@ -100,7 +100,7 @@ export function AssumptionSlider({
       </div>
       <div className="flex items-center gap-4">
         <Slider
-          className={cn("grow", "[&_[role='slider']]:bg-card")}
+          className={cn("grow", "**:[[role='slider']]:bg-card")}
           value={sliderValue}
           onValueChange={(newValue) => {
             handleSliderChange(newValue);
