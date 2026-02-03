@@ -36,7 +36,7 @@ export function ScenarioArea({
         <div className="text-sm">~{infected}% infected annually</div>
         <div>
           {sublabel && (
-            <p className="text-start text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-start text-sm">
               {sublabel}
             </p>
           )}
