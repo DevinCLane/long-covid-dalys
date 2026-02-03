@@ -9,13 +9,15 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-const Slider = React.forwardRef<
-  React.ElementRef<typeof SliderPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root> & {
-    showTooltip?: boolean;
-    tooltipContent?: (value: number) => React.ReactNode;
+const Slider = (
+  {
+    ref,
+    className,
+    showTooltip = false,
+    tooltipContent,
+    ...props
   }
->(({ className, showTooltip = false, tooltipContent, ...props }, ref) => {
+) => {
   const [showTooltipState, setShowTooltipState] = React.useState(false);
   const [internalValue, setInternalValue] = React.useState<number[]>(
     (props.defaultValue as number[]) ?? (props.value as number[]) ?? [0],
@@ -97,7 +99,7 @@ const Slider = React.forwardRef<
       ))}
     </SliderPrimitive.Root>
   );
-});
+};
 Slider.displayName = SliderPrimitive.Root.displayName;
 
 export { Slider };
