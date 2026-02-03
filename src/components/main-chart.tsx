@@ -154,7 +154,7 @@ export function MainChart() {
   return (
     <Card>
       {/* chart header */}
-      <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
+      <CardHeader className="flex items-center gap-2 space-y-0 border-b sm:flex-row">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
           <CardTitle>
             Benefits of air cleaning interventions on COVID-19 infection and
