@@ -182,7 +182,7 @@ export function MainChart() {
         </div>
       </CardHeader>
       <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
-        <ChartContainer config={chartConfig} className="h-400 w-full md:h-600">
+        <ChartContainer config={chartConfig} className="h-100 w-full md:h-150">
           <AreaChart
             data={chartDataItems}
             margin={{
