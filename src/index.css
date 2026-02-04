@@ -7,7 +7,9 @@ layer(base);
 
 :root {
   /* font */
-  --font-sans: "Geist", sans-serif;
+  --font-sans:
+    "Geist", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   /* Theme colors */
   --background: hsl(33.3 100% 96.5%);
   --foreground: hsl(0 0% 3.9%);
