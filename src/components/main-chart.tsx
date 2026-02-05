@@ -118,7 +118,7 @@ export function MainChart() {
       if (selectedScenarios.has(scenario.id)) {
         config[scenario.id] = {
           label: scenario.label,
-          color: `hsl(var(--chart-${(index % 12) + 1}))`,
+          color: `var(--chart-${(index % 12) + 1})`,
         };
       }
     });
@@ -154,9 +154,9 @@ export function MainChart() {
   return (
     <Card>
       {/* chart header */}
-      <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
+      <CardHeader className="flex items-center gap-2 space-y-0 border-b sm:flex-row">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
-          <CardTitle>
+          <CardTitle className="text-2xl text-pretty">
             Benefits of air cleaning interventions on COVID-19 infection and
             Long COVID-related disability-adjusted life years: A policy
             simulation
@@ -182,10 +182,7 @@ export function MainChart() {
         </div>
       </CardHeader>
       <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
-        <ChartContainer
-          config={chartConfig}
-          className="h-[400px] w-full md:h-[600px]"
-        >
+        <ChartContainer config={chartConfig} className="h-100 w-full md:h-150">
           <AreaChart
             data={chartDataItems}
             margin={{
