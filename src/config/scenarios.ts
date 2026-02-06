@@ -48,16 +48,6 @@ export const SCENARIOS: Scenario[] = [
     checked: true,
   },
   {
-    id: dalysEntries[2][0],
-    DALYs: dalysEntries[2][1],
-    infected: 26,
-    group: "hepa",
-    label: "HEPA in most common indoor spaces",
-    sublabel:
-      "Incomplete implementation scenario: HEPA in most common spaces indoor air (8% fewer cases).",
-    checked: false,
-  },
-  {
     id: dalysEntries[3][0],
     DALYs: dalysEntries[3][1],
     infected: 24,
@@ -74,15 +64,6 @@ export const SCENARIOS: Scenario[] = [
     group: "hepa",
     label: "HEPA all public indoor air",
     sublabel: "HEPA filters implemented in all public indoor spaces.",
-    checked: false,
-  },
-  {
-    id: dalysEntries[5][0],
-    DALYs: dalysEntries[5][1],
-    infected: 25,
-    group: "uvc",
-    label: "Far UVC in most common indoor spaces",
-    sublabel: "Far UVC in most common spaces indoor air (12% fewer cases).",
     checked: false,
   },
   {
