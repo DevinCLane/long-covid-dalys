@@ -64,9 +64,10 @@ const chartDataItems = (DALYsData as DALYsDataItem[]).map(
 
 export function MainChart() {
   // Track selected scenarios by their ID
-  const [selectedScenarios, setSelectedScenarios] = React.useState(
+  const [selectedScenarios, setSelectedScenarios] = React.useState<Set<string>>(
     getDefaultSelectedScenarios,
   );
+  console.log(selectedScenarios);
 
   /**
    * Updates the scenario state to represent what the user has checked.
@@ -134,17 +135,6 @@ export function MainChart() {
     return SCENARIOS.filter((scenario) =>
       selectedScenarios.has(scenario.id),
     ).sort((a, b) => b.DALYs - a.DALYs);
-  }, [selectedScenarios]);
-
-  // keep track of which scenario's we've already shown
-  // this way, if the DOM nodes need to shift
-  // (if we add a new Area to the chart with a higher number DALYs than what is currently visible)
-  // then we don't re-render the animation for the Area charts that are already there
-  const renderedIds = React.useRef<Set<string>>(new Set());
-  React.useEffect(() => {
-    // create a new set for the refs on each change to selectedScenarios
-    // this way we show the animation again if someone unchecks, then re-checkes a scenario
-    renderedIds.current = new Set(selectedScenarios);
   }, [selectedScenarios]);
 
   const handleSliderChange = (value: number) => {
@@ -228,12 +218,13 @@ export function MainChart() {
 
             {/* area charts (these are the main graphs on the chart) */}
             {sortedScenarios.map((scenario) => {
-              const isNew = !renderedIds.current.has(scenario.id);
+              // const isNew = !selectedScenarios.has(scenario.id);
+
               return (
                 <Area
                   key={scenario.id}
                   dataKey={scenario.id}
-                  isAnimationActive={isNew}
+                  // isAnimationActive={isNew}
                   fill={`var(--color-${scenario.id})`}
                   stroke={`var(--color-${scenario.id})`}
                 />
