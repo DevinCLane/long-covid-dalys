@@ -132,7 +132,6 @@ export function MainChart() {
     return config;
   }, [selectedScenarios]);
 
-  //
   /**
    * sort scenarios so that the chart is always drawn from highest DALYs to lowest DALYs.
    * this avoids the lower DALY number charts being drawn on top of the higher DALY charts
@@ -141,6 +140,15 @@ export function MainChart() {
     selectedScenarios.has(scenario.id),
   ).sort((a, b) => b.DALYs - a.DALYs);
 
+  // const renderedIds = React.useRef<Set<string>>(new Set());
+  // React.useEffect(() => {
+  //   const currentIds = new Set(selectedScenarios);
+  //   renderedIds.current = currentIds;
+  // }, [selectedScenarios]);
+
+  /**
+   * update the slider value
+   */
   const handleSliderChange = (value: number) => {
     return value;
   };
@@ -228,7 +236,7 @@ export function MainChart() {
                   <Area
                     key={scenario.id}
                     dataKey={scenario.id}
-                    // isAnimationActive={isNew}
+                    isAnimationActive={false}
                     fill={`var(--color-${scenario.id})`}
                     stroke={`var(--color-${scenario.id})`}
                     zIndex={index}
