@@ -140,10 +140,24 @@ export function MainChart() {
     selectedScenarios.has(scenario.id),
   ).sort((a, b) => b.DALYs - a.DALYs);
 
-  const renderedIds = React.useRef<Set<string>>(new Set());
+  const prevSelectedRef = React.useRef<Set<string>>(
+    getDefaultSelectedScenarios(),
+  );
+
+  const [justAdded, setJustAdded] = React.useState<Set<string>>(new Set());
+
   React.useEffect(() => {
-    const currentIds = new Set(selectedScenarios);
-    renderedIds.current = currentIds;
+    const prev = prevSelectedRef.current;
+    const newlyAdded = new Set<string>();
+
+    selectedScenarios.forEach((id) => {
+      if (!prev.has(id)) {
+        newlyAdded.add(id);
+      }
+    });
+
+    setJustAdded(newlyAdded);
+    prevSelectedRef.current = new Set(selectedScenarios);
   }, [selectedScenarios]);
 
   /**
@@ -230,14 +244,14 @@ export function MainChart() {
 
             {/* area charts (these are the main graphs on the chart) */}
             {sortedScenarios.map((scenario, index) => {
-              const isNew = !renderedIds.current.has(scenario.id);
+              const shouldAnimate = justAdded.has(scenario.id);
 
               return (
                 <ZIndexLayer zIndex={index}>
                   <Area
                     key={scenario.id}
                     dataKey={scenario.id}
-                    isAnimationActive={isNew}
+                    isAnimationActive={shouldAnimate}
                     fill={`var(--color-${scenario.id})`}
                     stroke={`var(--color-${scenario.id})`}
                     zIndex={index}
