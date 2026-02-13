@@ -47,8 +47,9 @@ A research project to explore how different public health interventions could im
 ## 📈 Data overview
 
 - Data lives in `src/data/` directory
-- `DALYs.json` - Baseline DALY projections (main chart data)
-- `intervention-reduction-factors.json` - Reduction factors for each intervention
+  - `DALYs.json` - Baseline DALY projections (main chart data)
+- Configuration lives in `src/config`
+  - `scenarios.ts` defines the various public health scenarios and their data structure
 
 ### Update DALYs
 
@@ -57,51 +58,38 @@ Format for `src/data/DALYS.json`:
 ```json
 [
   {
-    "date": "2025-01-01",
-    "dalys": 1360000
+    "year": 1,
+    "baseline": 258,
+    "HEPAMostCommonSpaces": 246,
+    "HEPASchoolsAndDaycare": 233,
+    "HEPAAllPublicIndoor": 162,
+    "farUVCMostCommonSpaces": 240,
+    "farUVCSchoolsAndDaycare": 226,
+    "farUVCAllPublicIndoor": 131
   },
   {
-    "date": "2026-01-01",
-    "dalys": 1332800
+    "year": 2,
+    "baseline": 258,
+    "HEPAMostCommonSpaces": 246,
+    "HEPASchoolsAndDaycare": 233,
+    "HEPAAllPublicIndoor": 162,
+    "farUVCMostCommonSpaces": 240,
+    "farUVCSchoolsAndDaycare": 226,
+    "farUVCAllPublicIndoor": 131
   },
   ...
 ]
 ```
 
-- `date`: ISO date string (YYYY-MM-DD format)
-- `dalys`: Number of Disability-Adjusted Life Years for that year
+- `year`: number 1-10, for number of years of the projection
+- `baseline`: baseline scenario, and each further scenario.
+- numbers are the resultant DALYs
 
 **To update:** Replace `src/data/DALYS.json` with your updated projections that match the above format. The chart will use the new data.
 
-Alternatively, you can regenerate the baseline data using the built-in model `src/lib/export-mock-data.ts` (17M cases, 2% yearly reduction, 80 DALYs per 1,000 cases).
+- Easiest method if you have write access to this repository: use the GitHub web interface to replace the `src/data/DALYS.json` file.
 
-⚠️ This will overwrite `src/data/DALYs.json` with freshly generated baseline data:
-
-```bash
-npm run generate-data
-```
-
-You can also adjust the model in `src/lib/export-mock-data.ts` and then regenerate data with the above `npm run generate-data` command
-
-### Update intervention reduction factor
-
-`src/data/intervention-reduction-factors.json` contains the reduction factors for each intervention type.
-
-**Format:**
-
-```json
-{
-  "airExchangeRate": 0.1,
-  "UVC": 0.1,
-  ...
-}
-```
-
-Each key corresponds to an intervention, and the value is the maximum reduction factor (0.0 to 1.0 corresponding to 0-100%) that an intervention can achieve.
-
-**To update:** Modify the values to adjust how much each intervention can reduce DALYs.
-
-## Testing Your Changes
+## Testing Your Changes (if working locally)
 
 After updating data files:
 

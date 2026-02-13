@@ -38,7 +38,6 @@ export const groupLabels: Record<string, string> = {
  */
 export const SCENARIOS: Scenario[] = [
   {
-    // to do: each one of these (DALYs[1])[1] should be (DALYs[9])[1], (DALYs[9])[2], etc to represent the 10th year in the model
     id: dalysEntries[1][0],
     DALYs: dalysEntries[1][1],
     infected: 29,
