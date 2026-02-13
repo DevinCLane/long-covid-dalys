@@ -81,8 +81,8 @@ export function MainChart() {
    *
    * @param id - id of the scenario
    * @param checked - if the scenario is checked or not
-   *
    */
+
   const toggleScenario = (id: string, checked: boolean) => {
     setSelectedScenarios((prev) => {
       const next = new Set(prev);
@@ -140,11 +140,11 @@ export function MainChart() {
     selectedScenarios.has(scenario.id),
   ).sort((a, b) => b.DALYs - a.DALYs);
 
-  // const renderedIds = React.useRef<Set<string>>(new Set());
-  // React.useEffect(() => {
-  //   const currentIds = new Set(selectedScenarios);
-  //   renderedIds.current = currentIds;
-  // }, [selectedScenarios]);
+  const renderedIds = React.useRef<Set<string>>(new Set());
+  React.useEffect(() => {
+    const currentIds = new Set(selectedScenarios);
+    renderedIds.current = currentIds;
+  }, [selectedScenarios]);
 
   /**
    * update the slider value
@@ -230,13 +230,14 @@ export function MainChart() {
 
             {/* area charts (these are the main graphs on the chart) */}
             {sortedScenarios.map((scenario, index) => {
-              // const isNew = !selectedScenarios.has(scenario.id);
+              const isNew = !renderedIds.current.has(scenario.id);
+
               return (
                 <ZIndexLayer zIndex={index}>
                   <Area
                     key={scenario.id}
                     dataKey={scenario.id}
-                    isAnimationActive={false}
+                    isAnimationActive={isNew}
                     fill={`var(--color-${scenario.id})`}
                     stroke={`var(--color-${scenario.id})`}
                     zIndex={index}
