@@ -1,5 +1,12 @@
 import * as React from "react";
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import {
+  Area,
+  AreaChart,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  ZIndexLayer,
+} from "recharts";
 
 import {
   Card,
@@ -67,7 +74,6 @@ export function MainChart() {
   const [selectedScenarios, setSelectedScenarios] = React.useState<Set<string>>(
     getDefaultSelectedScenarios,
   );
-  console.log(selectedScenarios);
 
   /**
    * Updates the scenario state to represent what the user has checked.
@@ -75,8 +81,8 @@ export function MainChart() {
    *
    * @param id - id of the scenario
    * @param checked - if the scenario is checked or not
-   *
    */
+
   const toggleScenario = (id: string, checked: boolean) => {
     setSelectedScenarios((prev) => {
       const next = new Set(prev);
@@ -126,17 +132,23 @@ export function MainChart() {
     return config;
   }, [selectedScenarios]);
 
-  //
   /**
    * sort scenarios so that the chart is always drawn from highest DALYs to lowest DALYs.
    * this avoids the lower DALY number charts being drawn on top of the higher DALY charts
    */
-  const sortedScenarios = React.useMemo(() => {
-    return SCENARIOS.filter((scenario) =>
-      selectedScenarios.has(scenario.id),
-    ).sort((a, b) => b.DALYs - a.DALYs);
+  const sortedScenarios = SCENARIOS.filter((scenario) =>
+    selectedScenarios.has(scenario.id),
+  ).sort((a, b) => b.DALYs - a.DALYs);
+
+  const renderedIds = React.useRef<Set<string>>(new Set());
+  React.useEffect(() => {
+    const currentIds = new Set(selectedScenarios);
+    renderedIds.current = currentIds;
   }, [selectedScenarios]);
 
+  /**
+   * update the slider value
+   */
   const handleSliderChange = (value: number) => {
     return value;
   };
@@ -217,29 +229,34 @@ export function MainChart() {
             />
 
             {/* area charts (these are the main graphs on the chart) */}
-            {sortedScenarios.map((scenario) => {
-              // const isNew = !selectedScenarios.has(scenario.id);
+            {sortedScenarios.map((scenario, index) => {
+              const isNew = !renderedIds.current.has(scenario.id);
 
               return (
-                <Area
-                  key={scenario.id}
-                  dataKey={scenario.id}
-                  // isAnimationActive={isNew}
-                  fill={`var(--color-${scenario.id})`}
-                  stroke={`var(--color-${scenario.id})`}
-                />
+                <ZIndexLayer zIndex={index}>
+                  <Area
+                    key={scenario.id}
+                    dataKey={scenario.id}
+                    isAnimationActive={isNew}
+                    fill={`var(--color-${scenario.id})`}
+                    stroke={`var(--color-${scenario.id})`}
+                    zIndex={index}
+                  />
+                </ZIndexLayer>
               );
             })}
 
             {/* test data watermark  */}
-            <text
-              className="left-2 text-2xl font-bold tracking-widest opacity-50 lg:text-5xl"
-              x={window.innerWidth < 640 ? "60%" : "50%"}
-              y={window.innerWidth < 640 ? "50%" : "50%"}
-              textAnchor="middle"
-            >
-              TEST DATA
-            </text>
+            <ZIndexLayer zIndex={9999}>
+              <text
+                className="left-2 text-2xl font-bold tracking-widest opacity-50 lg:text-5xl"
+                x={window.innerWidth < 640 ? "60%" : "50%"}
+                y={window.innerWidth < 640 ? "50%" : "50%"}
+                textAnchor="middle"
+              >
+                TEST DATA
+              </text>
+            </ZIndexLayer>
           </AreaChart>
         </ChartContainer>
 
