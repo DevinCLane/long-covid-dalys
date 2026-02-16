@@ -159,7 +159,6 @@ export function MainChart() {
     setJustAdded(newlyAdded);
     prevSelectedRef.current = new Set(selectedScenarios);
   }, [selectedScenarios]);
-  console.log("just added", "\n", justAdded);
   /**
    * update the slider value
    */
