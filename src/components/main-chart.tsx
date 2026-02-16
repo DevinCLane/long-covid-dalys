@@ -150,16 +150,16 @@ export function MainChart() {
     const prev = prevSelectedRef.current;
     const newlyAdded = new Set<string>();
 
-    selectedScenarios.forEach((id) => {
-      if (!prev.has(id)) {
-        newlyAdded.add(id);
+    for (const scenario of selectedScenarios) {
+      if (!prev.has(scenario)) {
+        newlyAdded.add(scenario);
       }
-    });
+    }
 
     setJustAdded(newlyAdded);
     prevSelectedRef.current = new Set(selectedScenarios);
   }, [selectedScenarios]);
-
+  console.log("just added", "\n", justAdded);
   /**
    * update the slider value
    */
