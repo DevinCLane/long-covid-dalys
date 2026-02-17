@@ -140,25 +140,26 @@ export function MainChart() {
     selectedScenarios.has(scenario.id),
   ).sort((a, b) => b.DALYs - a.DALYs);
 
-  const prevSelectedRef = React.useRef<Set<string>>(
-    getDefaultSelectedScenarios(),
-  );
+  // State to track the previous selection for comparison
+  // this is what allows the animations to run on only newly selected scenarios
+  const [previousSelectedScenarios, setPreviousSelectedScenarios] =
+    React.useState(selectedScenarios);
+  // State to track which scenarios were just added/selected in this render cycle
+  const [newlySelectedScenarios, setNewlySelectedScenarios] = React.useState<
+    Set<string>
+  >(new Set());
 
-  const [justAdded, setJustAdded] = React.useState<Set<string>>(new Set());
-
-  React.useEffect(() => {
-    const prev = prevSelectedRef.current;
-    const newlyAdded = new Set<string>();
-
+  if (selectedScenarios !== previousSelectedScenarios) {
+    const newScenarios = new Set<string>();
     for (const scenario of selectedScenarios) {
-      if (!prev.has(scenario)) {
-        newlyAdded.add(scenario);
+      if (!previousSelectedScenarios.has(scenario)) {
+        newScenarios.add(scenario);
       }
     }
+    setPreviousSelectedScenarios(selectedScenarios);
+    setNewlySelectedScenarios(newScenarios);
+  }
 
-    setJustAdded(newlyAdded);
-    prevSelectedRef.current = new Set(selectedScenarios);
-  }, [selectedScenarios]);
   /**
    * update the slider value
    */
@@ -243,7 +244,7 @@ export function MainChart() {
 
             {/* area charts (these are the main graphs on the chart) */}
             {sortedScenarios.map((scenario, index) => {
-              const shouldAnimate = justAdded.has(scenario.id);
+              const shouldAnimate = newlySelectedScenarios.has(scenario.id);
 
               return (
                 <ZIndexLayer zIndex={index}>
