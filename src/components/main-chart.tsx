@@ -142,21 +142,26 @@ export function MainChart() {
 
   // State to track the previous selection for comparison
   // this is what allows the animations to run on only newly selected scenarios
-  const [previousSelectedScenarios, setPreviousSelectedScenarios] =
+  const [previouslySelectedScenarios, setPreviouslySelectedScenarios] =
     React.useState(selectedScenarios);
   // State to track which scenarios were just added/selected in this render cycle
   const [newlySelectedScenarios, setNewlySelectedScenarios] = React.useState<
     Set<string>
   >(new Set());
 
-  if (selectedScenarios !== previousSelectedScenarios) {
+  // if there is a newly selected scenario (current !== prev)
+  if (selectedScenarios !== previouslySelectedScenarios) {
     const newScenarios = new Set<string>();
     for (const scenario of selectedScenarios) {
-      if (!previousSelectedScenarios.has(scenario)) {
+      // find the newly selected scenario
+      if (!previouslySelectedScenarios.has(scenario)) {
+        // add it to the new scenarios
         newScenarios.add(scenario);
       }
     }
-    setPreviousSelectedScenarios(selectedScenarios);
+    // update the prev selected scenarios with currently selected scenarios
+    setPreviouslySelectedScenarios(selectedScenarios);
+    // set newly selected scenarios with the new scenario
     setNewlySelectedScenarios(newScenarios);
   }
 
