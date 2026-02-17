@@ -140,11 +140,30 @@ export function MainChart() {
     selectedScenarios.has(scenario.id),
   ).sort((a, b) => b.DALYs - a.DALYs);
 
-  const renderedIds = React.useRef<Set<string>>(new Set());
-  React.useEffect(() => {
-    const currentIds = new Set(selectedScenarios);
-    renderedIds.current = currentIds;
-  }, [selectedScenarios]);
+  // State to track the previous selection for comparison
+  // this is what allows the animations to run on only newly selected scenarios
+  const [previouslySelectedScenarios, setPreviouslySelectedScenarios] =
+    React.useState(selectedScenarios);
+  // State to track which scenarios were just added/selected in this render cycle
+  const [newlySelectedScenarios, setNewlySelectedScenarios] = React.useState<
+    Set<string>
+  >(new Set());
+
+  // if there is a newly selected scenario (current !== prev)
+  if (selectedScenarios !== previouslySelectedScenarios) {
+    const newScenarios = new Set<string>();
+    for (const scenario of selectedScenarios) {
+      // find the newly selected scenario
+      if (!previouslySelectedScenarios.has(scenario)) {
+        // add it to the new scenarios
+        newScenarios.add(scenario);
+      }
+    }
+    // update the prev selected scenarios with currently selected scenarios
+    setPreviouslySelectedScenarios(selectedScenarios);
+    // set newly selected scenarios with the new scenario
+    setNewlySelectedScenarios(newScenarios);
+  }
 
   /**
    * update the slider value
@@ -230,14 +249,14 @@ export function MainChart() {
 
             {/* area charts (these are the main graphs on the chart) */}
             {sortedScenarios.map((scenario, index) => {
-              const isNew = !renderedIds.current.has(scenario.id);
+              const shouldAnimate = newlySelectedScenarios.has(scenario.id);
 
               return (
-                <ZIndexLayer zIndex={index}>
+                <ZIndexLayer key={index} zIndex={index}>
                   <Area
                     key={scenario.id}
                     dataKey={scenario.id}
-                    isAnimationActive={isNew}
+                    isAnimationActive={shouldAnimate}
                     fill={`var(--color-${scenario.id})`}
                     stroke={`var(--color-${scenario.id})`}
                     zIndex={index}
