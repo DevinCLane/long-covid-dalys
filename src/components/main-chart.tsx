@@ -259,7 +259,6 @@ export function MainChart() {
                     isAnimationActive={shouldAnimate}
                     fill={`var(--color-${scenario.id})`}
                     stroke={`var(--color-${scenario.id})`}
-                    zIndex={index}
                   />
                 </ZIndexLayer>
               );
