@@ -87,7 +87,7 @@ Format for `src/data/DALYS.json`:
 
 **To update:** Replace `src/data/DALYS.json` with your updated projections that match the above format. The chart will use the new data.
 
-- Easiest method if you have write access to this repository: use the GitHub web interface to replace the `src/data/DALYS.json` file.
+- Easiest method: use the GitHub web interface to replace the `src/data/DALYS.json` file.
 
 ## Testing Your Changes (if working locally)
 
