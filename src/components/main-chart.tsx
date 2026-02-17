@@ -247,7 +247,7 @@ export function MainChart() {
               const shouldAnimate = newlySelectedScenarios.has(scenario.id);
 
               return (
-                <ZIndexLayer zIndex={index}>
+                <ZIndexLayer key={index} zIndex={index}>
                   <Area
                     key={scenario.id}
                     dataKey={scenario.id}

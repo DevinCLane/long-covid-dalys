@@ -93,4 +93,3 @@ export const groupedScenarios = SCENARIOS.reduce(
   },
   {} as Record<string, Scenario[]>,
 );
-console.log(groupedScenarios);
