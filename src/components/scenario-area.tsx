@@ -13,7 +13,7 @@ interface ScenarioAreaProps extends Scenario {
 export function ScenarioArea({
   id,
   label,
-  dalys: dalys,
+  dalys,
   infected,
   sublabel,
   checked,
