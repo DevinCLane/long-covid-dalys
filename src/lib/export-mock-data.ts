@@ -20,10 +20,10 @@ const generateChartDataItems = () => {
 
   for (let year = 2025; year <= 2125; year++) {
     // convert LC cases to DALYs
-    const totalDALYs = (baselineCases * dalysPer1000People) / 1000;
+    const totalDalys = (baselineCases * dalysPer1000People) / 1000;
     data.push({
       date: `${year}-01-01`,
-      dalys: Math.round(totalDALYs),
+      dalys: Math.round(totalDalys),
     });
     baselineCases *= yearlyReduction; // Reduce by 2% each year
   }
@@ -33,7 +33,7 @@ const generateChartDataItems = () => {
 const chartDataItems = generateChartDataItems();
 
 // Write to both locations for backwards compatibility
-writeFileSync("./src/data/DALYs.json", JSON.stringify(chartDataItems, null, 2));
+writeFileSync("./src/data/dalys.json", JSON.stringify(chartDataItems, null, 2));
 
-console.log("✅ Generated baseline DALY data and saved to src/data/DALYs.json");
+console.log("✅ Generated baseline DALY data and saved to src/data/dalys.json");
 console.log(`   Generated ${chartDataItems.length} data points from 2025-2125`);

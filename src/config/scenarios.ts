@@ -1,8 +1,8 @@
-import DALYs from "@/data/DALYs.json";
+import dalys from "@/data/dalys.json";
 
 export interface Scenario {
   id: string;
-  DALYs: number;
+  dalys: number;
   infected: number;
   group: string;
   groupLabel?: string;
@@ -12,7 +12,7 @@ export interface Scenario {
 }
 
 // 10th year is the final year of the model (in the 0 indexed list, 9 is the 10th item)
-const FINAL_YEAR = DALYs.length - 1;
+const FINAL_YEAR = dalys.length - 1;
 
 export const getDefaultSelectedScenarios = (): Set<string> => {
   return new Set(
@@ -22,7 +22,7 @@ export const getDefaultSelectedScenarios = (): Set<string> => {
   );
 };
 
-const dalysEntries = Object.entries(DALYs[FINAL_YEAR]);
+const dalysEntries = Object.entries(dalys[FINAL_YEAR]);
 
 /**
  * map the single word, lowercase group name to the text to display for the group
@@ -39,7 +39,7 @@ export const groupLabels: Record<string, string> = {
 export const SCENARIOS: Scenario[] = [
   {
     id: dalysEntries[1][0],
-    DALYs: dalysEntries[1][1],
+    dalys: dalysEntries[1][1],
     infected: 29,
     group: "baseline",
     label: "Long Covid Baseline",
@@ -48,7 +48,7 @@ export const SCENARIOS: Scenario[] = [
   },
   {
     id: dalysEntries[3][0],
-    DALYs: dalysEntries[3][1],
+    dalys: dalysEntries[3][1],
     infected: 24,
     group: "hepa",
     label: "HEPA schools and daycares",
@@ -58,7 +58,7 @@ export const SCENARIOS: Scenario[] = [
   },
   {
     id: dalysEntries[4][0],
-    DALYs: dalysEntries[4][1],
+    dalys: dalysEntries[4][1],
     infected: 11,
     group: "hepa",
     label: "HEPA all public indoor air",
@@ -67,7 +67,7 @@ export const SCENARIOS: Scenario[] = [
   },
   {
     id: dalysEntries[6][0],
-    DALYs: dalysEntries[6][1],
+    dalys: dalysEntries[6][1],
     infected: 23,
     group: "uvc",
     label: "Far UVC schools and daycares",
@@ -76,7 +76,7 @@ export const SCENARIOS: Scenario[] = [
   },
   {
     id: dalysEntries[7][0],
-    DALYs: dalysEntries[7][1],
+    dalys: dalysEntries[7][1],
     infected: 6,
     group: "uvc",
     label: "Far UVC all public indoor air",

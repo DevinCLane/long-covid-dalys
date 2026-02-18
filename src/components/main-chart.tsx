@@ -21,7 +21,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import DALYsData from "@/data/DALYs.json";
+import dalysData from "@/data/dalys.json";
 import { ScenarioArea } from "@/components/scenario-area";
 import {
   getDefaultSelectedScenarios,
@@ -39,7 +39,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-interface DALYsDataItem {
+interface dalysDataItem {
   year: number;
   baseline: number;
   HEPAMostCommonSpaces: number;
@@ -53,7 +53,7 @@ interface DALYsDataItem {
 /**
  * create the curve of data over 10 years (take the 10th year and show lower numbers leading up to it)
  */
-const chartDataItems = (DALYsData as DALYsDataItem[]).map(
+const chartDataItems = (dalysData as dalysDataItem[]).map(
   (dalysData, index) => {
     const entries = Object.entries(dalysData);
 
@@ -138,7 +138,7 @@ export function MainChart() {
    */
   const sortedScenarios = SCENARIOS.filter((scenario) =>
     selectedScenarios.has(scenario.id),
-  ).sort((a, b) => b.DALYs - a.DALYs);
+  ).sort((a, b) => b.dalys - a.dalys);
 
   // State to track the previous selection for comparison
   // this is what allows the animations to run on only newly selected scenarios
@@ -240,7 +240,7 @@ export function MainChart() {
               cursor={false}
               content={
                 <ChartTooltipContent
-                  className="bg-card"
+                  className="bg-card px-4 py-2"
                   labelFormatter={(value) => `Year ${value}`}
                   indicator="dot"
                 />
@@ -307,7 +307,7 @@ export function MainChart() {
                             id={scenario.id}
                             group={scenario.group}
                             label={scenario.label}
-                            DALYs={scenario.DALYs}
+                            dalys={scenario.dalys}
                             infected={scenario.infected}
                             sublabel={scenario.sublabel}
                             checked={selectedScenarios.has(scenario.id)}
