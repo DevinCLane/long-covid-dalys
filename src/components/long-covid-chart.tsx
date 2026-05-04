@@ -69,7 +69,7 @@ const chartDataItems = (dalysData as dalysDataItem[]).map(
   },
 );
 
-export function MainChart() {
+export function LongCovidChart() {
   // Track selected scenarios by their ID
   const [selectedScenarios, setSelectedScenarios] = React.useState<Set<string>>(
     getDefaultSelectedScenarios,
