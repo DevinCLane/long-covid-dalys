@@ -177,6 +177,7 @@ export function AcuteCovidChart() {
       {/* chart header */}
       <CardHeader className="flex items-center gap-2 space-y-0 border-b sm:flex-row">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
+          <CardTitle className="text-2xl text-pretty">Acute COVID</CardTitle>
           <CardTitle className="text-2xl text-pretty">
             Benefits of air cleaning interventions on COVID-19 infection and
             Long COVID-related disability-adjusted life years: A policy
