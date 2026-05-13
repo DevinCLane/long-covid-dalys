@@ -69,11 +69,19 @@ const chartDataItems = (dalysData as dalysDataItem[]).map(
   },
 );
 
-export function PascChart() {
+interface PascChartProps {
+  selectedScenarios: Set<string>;
+  setSelectedScenarios: React.Dispatch<React.SetStateAction<Set<string>>>;
+}
+
+export function PascChart({
+  selectedScenarios,
+  setSelectedScenarios,
+}: PascChartProps) {
   // Track selected scenarios by their ID
-  const [selectedScenarios, setSelectedScenarios] = React.useState<Set<string>>(
-    getDefaultSelectedScenarios,
-  );
+  // const [selectedScenarios, setSelectedScenarios] = React.useState<Set<string>>(
+  //   getDefaultSelectedScenarios,
+  // );
 
   /**
    * Updates the scenario state to represent what the user has checked.

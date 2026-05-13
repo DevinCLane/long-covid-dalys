@@ -69,11 +69,19 @@ const chartDataItems = (dalysData as dalysDataItem[]).map(
   },
 );
 
-export function AcuteCovidChart() {
+interface AcuteCovidChartProps {
+  selectedScenarios: Set<string>;
+  setSelectedScenarios: React.Dispatch<React.SetStateAction<Set<string>>>;
+}
+
+export function AcuteCovidChart({
+  selectedScenarios,
+  setSelectedScenarios,
+}: AcuteCovidChartProps) {
   // Track selected scenarios by their ID
-  const [selectedScenarios, setSelectedScenarios] = React.useState<Set<string>>(
-    getDefaultSelectedScenarios,
-  );
+  // const [selectedScenarios, setSelectedScenarios] = React.useState<Set<string>>(
+  //   getDefaultSelectedScenarios,
+  // );
 
   /**
    * Updates the scenario state to represent what the user has checked.

@@ -9,8 +9,12 @@ export default function TabsArea() {
   const [lcScenarios, setLcScenarios] = useState<Set<string>>(
     getDefaultSelectedScenarios,
   );
-  //   const [pascScenarios, setPascScenarios] = useState<Set<string>>();
-  //   const [acuteScenarios, setAcuteScenarios] = useState<Set<string>>();
+  const [pascScenarios, setPascScenarios] = useState<Set<string>>(
+    getDefaultSelectedScenarios,
+  );
+  const [acuteScenarios, setAcuteScenarios] = useState<Set<string>>(
+    getDefaultSelectedScenarios,
+  );
 
   return (
     <Tabs defaultValue="lc" className="items-center">
@@ -26,10 +30,16 @@ export default function TabsArea() {
         />
       </TabsContent>
       <TabsContent value="pasc">
-        <PascChart />
+        <PascChart
+          selectedScenarios={pascScenarios}
+          setSelectedScenarios={setPascScenarios}
+        />
       </TabsContent>
       <TabsContent value="acute">
-        <AcuteCovidChart />
+        <AcuteCovidChart
+          selectedScenarios={acuteScenarios}
+          setSelectedScenarios={setAcuteScenarios}
+        />
       </TabsContent>
     </Tabs>
   );
