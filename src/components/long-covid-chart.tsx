@@ -69,12 +69,15 @@ const chartDataItems = (dalysData as dalysDataItem[]).map(
   },
 );
 
-export function LongCovidChart() {
-  // Track selected scenarios by their ID
-  const [selectedScenarios, setSelectedScenarios] = React.useState<Set<string>>(
-    getDefaultSelectedScenarios,
-  );
+interface LongCovidChartProps {
+  selectedScenarios: Set<string>;
+  setSelectedScenarios: React.Dispatch<React.SetStateAction<Set<string>>>;
+}
 
+export function LongCovidChart({
+  selectedScenarios,
+  setSelectedScenarios,
+}: LongCovidChartProps) {
   /**
    * Updates the scenario state to represent what the user has checked.
    * Creates a new Set each time there is a new scenario selected so React knows to update.
