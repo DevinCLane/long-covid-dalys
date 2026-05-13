@@ -1,7 +1,7 @@
 [
   {
     "year": 1,
-    "baseline": 258,
+    "baseline": 13,
     "HEPAMostCommonSpaces": 246,
     "HEPASchoolsAndDaycare": 233,
     "HEPAAllPublicIndoor": 162,
@@ -11,7 +11,7 @@
   },
   {
     "year": 2,
-    "baseline": 258,
+    "baseline": 25,
     "HEPAMostCommonSpaces": 246,
     "HEPASchoolsAndDaycare": 233,
     "HEPAAllPublicIndoor": 162,
@@ -21,7 +21,7 @@
   },
   {
     "year": 3,
-    "baseline": 258,
+    "baseline": 43,
     "HEPAMostCommonSpaces": 246,
     "HEPASchoolsAndDaycare": 233,
     "HEPAAllPublicIndoor": 162,
@@ -51,7 +51,7 @@
   },
   {
     "year": 6,
-    "baseline": 258,
+    "baseline": 66,
     "HEPAMostCommonSpaces": 246,
     "HEPASchoolsAndDaycare": 233,
     "HEPAAllPublicIndoor": 162,
@@ -61,7 +61,7 @@
   },
   {
     "year": 7,
-    "baseline": 258,
+    "baseline": 90,
     "HEPAMostCommonSpaces": 246,
     "HEPASchoolsAndDaycare": 233,
     "HEPAAllPublicIndoor": 162,
@@ -71,7 +71,7 @@
   },
   {
     "year": 8,
-    "baseline": 258,
+    "baseline": 110,
     "HEPAMostCommonSpaces": 246,
     "HEPASchoolsAndDaycare": 233,
     "HEPAAllPublicIndoor": 162,
@@ -91,7 +91,7 @@
   },
   {
     "year": 10,
-    "baseline": 258,
+    "baseline": 120,
     "HEPAMostCommonSpaces": 246,
     "HEPASchoolsAndDaycare": 233,
     "HEPAAllPublicIndoor": 162,

@@ -21,7 +21,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import dalysData from "@/data/dalys.json";
+import dalysData from "@/data/acute.json";
 import { ScenarioArea } from "@/components/scenario-area";
 import {
   getDefaultSelectedScenarios,
