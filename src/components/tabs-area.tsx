@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { AcuteCovidChart } from "./acute-covid-chart";
-import { LongCovidChart } from "./long-covid-chart";
-import { PascChart } from "./pasc-chart";
+import { AcuteCovidChart } from "@/components/charts/acute-covid-chart";
+import { LongCovidChart } from "@/components/charts/long-covid-chart";
+import { PascChart } from "@/components/charts/pasc-chart";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { getDefaultSelectedScenarios } from "@/config/scenarios";
 
