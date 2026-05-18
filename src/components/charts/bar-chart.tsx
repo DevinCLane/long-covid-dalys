@@ -22,6 +22,18 @@ import chartData from "@/data/bar-chart.json";
 
 export const description = "A stacked bar chart with a legend";
 
+/**
+ * converts dalys to dalys per 1000 people
+ */
+const chartDataItems = chartData.map((entry) => {
+  return {
+    ...entry,
+    acute: entry.acute * 1000,
+    lc: entry.lc * 1000,
+    pasc: entry.pasc * 1000,
+  };
+});
+
 const chartConfig = {
   acute: {
     label: "Acute",
@@ -38,17 +50,13 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function BarChartStacked() {
-  console.log(Object.keys(chartData[0]));
   return (
     <Card>
       {/* chart header */}
       <CardHeader className="flex items-center gap-2 space-y-0 border-b sm:flex-row">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
-          <CardTitle className="text-2xl text-pretty">Long COVID</CardTitle>
           <CardTitle className="text-2xl text-pretty">
-            Benefits of air cleaning interventions on COVID-19 infection and
-            Long COVID-related disability-adjusted life years: A policy
-            simulation
+            5-year DALYs for Acute COVID, Long COVID and PASC
           </CardTitle>
           <CardDescription>
             This scenario simulator shows the result of synthesizing existing
@@ -72,9 +80,24 @@ export function BarChartStacked() {
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="h-100 w-full md:h-150">
-          <BarChart accessibilityLayer data={chartData} layout="vertical">
+          <BarChart
+            accessibilityLayer
+            data={chartDataItems}
+            layout="vertical"
+            margin={{
+              bottom: 15,
+            }}
+          >
             <CartesianGrid horizontal={false} />
-            <XAxis type="number" />
+            <XAxis
+              type="number"
+              label={{
+                value: "DALYS per 1000 people",
+                position: "bottom",
+              }}
+              width="auto"
+              tickMargin={8}
+            />
             <YAxis
               dataKey="scenario"
               axisLine={false}
@@ -83,7 +106,7 @@ export function BarChartStacked() {
               width={140}
             />
             <ChartTooltip content={<ChartTooltipContent hideLabel />} />
-            <ChartLegend content={<ChartLegendContent />} />
+            <ChartLegend content={<ChartLegendContent />} verticalAlign="top" />
             <Bar
               dataKey="acute"
               stackId="a"
