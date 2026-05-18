@@ -1,13 +1,11 @@
 "use client";
 
-import { TrendingUp } from "lucide-react";
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -20,71 +18,93 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart";
 
+import chartData from "@/data/bar-chart.json";
+
 export const description = "A stacked bar chart with a legend";
 
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-];
-
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
+  acute: {
+    label: "Acute",
     color: "var(--chart-1)",
   },
-  mobile: {
-    label: "Mobile",
+  lc: {
+    label: "Long COVID",
     color: "var(--chart-2)",
+  },
+  pasc: {
+    label: "PASC",
+    color: "var(--chart-3)",
   },
 } satisfies ChartConfig;
 
 export function BarChartStacked() {
+  console.log(Object.keys(chartData[0]));
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Bar Chart - Stacked + Legend</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+      {/* chart header */}
+      <CardHeader className="flex items-center gap-2 space-y-0 border-b sm:flex-row">
+        <div className="grid flex-1 gap-1 text-center sm:text-left">
+          <CardTitle className="text-2xl text-pretty">Long COVID</CardTitle>
+          <CardTitle className="text-2xl text-pretty">
+            Benefits of air cleaning interventions on COVID-19 infection and
+            Long COVID-related disability-adjusted life years: A policy
+            simulation
+          </CardTitle>
+          <CardDescription>
+            This scenario simulator shows the result of synthesizing existing
+            evidence to model the potential impact of population-level air
+            cleaning interventions, like HEPA filtration and far germicidal UVC
+            light, on Long COVID-related{" "}
+            <a
+              href="https://en.wikipedia.org/wiki/Disability-adjusted_life_year"
+              target="_blank"
+              rel="noreferrer"
+              className="font-medium underline underline-offset-4"
+            >
+              disability-adjusted life years (DALYs)
+            </a>
+            . Each DALY represents one year of healthy life lost to illness.
+          </CardDescription>
+          <CardDescription>
+            Select a scenario to view the resulting DALYs
+          </CardDescription>
+        </div>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig}>
-          <BarChart accessibilityLayer data={chartData}>
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="month"
-              tickLine={false}
-              tickMargin={10}
+        <ChartContainer config={chartConfig} className="h-100 w-full md:h-150">
+          <BarChart accessibilityLayer data={chartData} layout="vertical">
+            <CartesianGrid horizontal={false} />
+            <XAxis type="number" />
+            <YAxis
+              dataKey="scenario"
               axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
+              tickLine={false}
+              type="category"
+              width={140}
             />
             <ChartTooltip content={<ChartTooltipContent hideLabel />} />
             <ChartLegend content={<ChartLegendContent />} />
             <Bar
-              dataKey="desktop"
+              dataKey="acute"
               stackId="a"
-              fill="var(--color-desktop)"
-              radius={[0, 0, 4, 4]}
+              fill="var(--color-acute)"
+              // radius={[0, 0, 4, 4]}
             />
             <Bar
-              dataKey="mobile"
+              dataKey="lc"
               stackId="a"
-              fill="var(--color-mobile)"
-              radius={[4, 4, 0, 0]}
+              fill="var(--color-lc)"
+              // radius={[0, 0, 4, 4]}
+            />
+            <Bar
+              dataKey="pasc"
+              stackId="a"
+              fill="var(--color-pasc)"
+              // radius={[0, 0, 4, 4]}
             />
           </BarChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex gap-2 leading-none font-medium">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="text-muted-foreground leading-none">
-          Showing total visitors for the last 6 months
-        </div>
-      </CardFooter>
     </Card>
   );
 }
