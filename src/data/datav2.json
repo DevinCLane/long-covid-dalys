@@ -15,234 +15,259 @@
     {
       "id": "baseline",
       "label": "Baseline",
+      "dalys_per_1000_total": 279,
       "conditions": [
         {
           "condition": "acute_covid",
           "label": "Acute COVID",
           "annual_infection_rate": 0.2874,
           "totals": {
-            "yld": 0.044,
-            "yll": 0.082,
-            "daly": 0.126,
-            "dalys_per_1000": 126.4
+            "daly": 0.049,
+            "dalys_per_1000": 49
           },
-          "years": [
-            {
-              "year": 1,
-              "age": 35,
-              "yld": 0.00350431,
-              "yll": 0.00706823,
-              "daly": 0.01057254,
-              "dalys_per_1000": 10.57254139,
-              "dalys_total_population": 10.57254139,
-              "annual_infection_rate": 0.2263,
-              "background_mortality_rate": 0.00190591,
-              "onset_rate": null
-            },
-            {
-              "year": 2,
-              "age": 36,
-              "yld": 0.00350081,
-              "yll": 0.0069327,
-              "daly": 0.01043351,
-              "dalys_per_1000": 10.43350697,
-              "dalys_total_population": 10.43350697,
-              "annual_infection_rate": 0.2263,
-              "background_mortality_rate": 0.00198466,
-              "onset_rate": null
-            }
-          ]
-        },
-        {
-          "condition": "pasc",
-          "label": "PASC",
-          "annual_infection_rate": 0.2874,
-          "totals": {
-            "yld": 0.044,
-            "yll": 0.082,
-            "daly": 0.126,
-            "dalys_per_1000": 126.4
-          },
-          "years": [
-            {
-              "year": 1,
-              "age": 35,
-              "yld": 0.00350431,
-              "yll": 0.00706823,
-              "daly": 0.01057254,
-              "dalys_per_1000": 10.57254139,
-              "dalys_total_population": 10.57254139,
-              "annual_infection_rate": 0.2263,
-              "background_mortality_rate": 0.00190591,
-              "onset_rate": null
-            },
-            {
-              "year": 2,
-              "age": 36,
-              "yld": 0.00350081,
-              "yll": 0.0069327,
-              "daly": 0.01043351,
-              "dalys_per_1000": 10.43350697,
-              "dalys_total_population": 10.43350697,
-              "annual_infection_rate": 0.2263,
-              "background_mortality_rate": 0.00198466,
-              "onset_rate": null
-            }
-          ]
+          "years": []
         },
         {
           "condition": "long_covid",
           "label": "Long COVID",
           "annual_infection_rate": 0.2874,
           "totals": {
-            "yld": 0.044,
-            "yll": 0.082,
-            "daly": 0.126,
-            "dalys_per_1000": 126.4
+            "daly": 0.083,
+            "dalys_per_1000": 83
           },
-          "years": [
-            {
-              "year": 1,
-              "age": 35,
-              "yld": 0.00350431,
-              "yll": 0.00706823,
-              "daly": 0.01057254,
-              "dalys_per_1000": 10.57254139,
-              "dalys_total_population": 10.57254139,
-              "annual_infection_rate": 0.2263,
-              "background_mortality_rate": 0.00190591,
-              "onset_rate": null
-            },
-            {
-              "year": 2,
-              "age": 36,
-              "yld": 0.00350081,
-              "yll": 0.0069327,
-              "daly": 0.01043351,
-              "dalys_per_1000": 10.43350697,
-              "dalys_total_population": 10.43350697,
-              "annual_infection_rate": 0.2263,
-              "background_mortality_rate": 0.00198466,
-              "onset_rate": null
-            }
-          ]
+          "years": []
+        },
+        {
+          "condition": "pasc",
+          "label": "PASC",
+          "annual_infection_rate": 0.2874,
+          "totals": {
+            "daly": 0.147,
+            "dalys_per_1000": 147
+          },
+          "years": []
         }
       ]
     },
     {
       "id": "hepa_most_public",
-      "label": "HEPA Most Public Indoor air",
+      "label": "HEPA in most common indoor air",
+      "dalys_per_1000_total": 261,
       "conditions": [
         {
           "condition": "acute_covid",
           "label": "Acute COVID",
           "annual_infection_rate": 0.2874,
           "totals": {
-            "yld": 0.044,
-            "yll": 0.082,
-            "daly": 0.126,
-            "dalys_per_1000": 126.4
+            "daly": 0.045,
+            "dalys_per_1000": 45
           },
-          "years": [
-            {
-              "year": 1,
-              "age": 35,
-              "yld": 0.00350431,
-              "yll": 0.00706823,
-              "daly": 0.01057254,
-              "dalys_per_1000": 10.57254139,
-              "dalys_total_population": 10.57254139,
-              "annual_infection_rate": 0.2263,
-              "background_mortality_rate": 0.00190591,
-              "onset_rate": null
-            },
-            {
-              "year": 2,
-              "age": 36,
-              "yld": 0.00350081,
-              "yll": 0.0069327,
-              "daly": 0.01043351,
-              "dalys_per_1000": 10.43350697,
-              "dalys_total_population": 10.43350697,
-              "annual_infection_rate": 0.2263,
-              "background_mortality_rate": 0.00198466,
-              "onset_rate": null
-            }
-          ]
-        },
-        {
-          "condition": "pasc",
-          "label": "PASC",
-          "annual_infection_rate": 0.2874,
-          "totals": {
-            "yld": 0.044,
-            "yll": 0.082,
-            "daly": 0.126,
-            "dalys_per_1000": 126.4
-          },
-          "years": [
-            {
-              "year": 1,
-              "age": 35,
-              "yld": 0.00350431,
-              "yll": 0.00706823,
-              "daly": 0.01057254,
-              "dalys_per_1000": 10.57254139,
-              "dalys_total_population": 10.57254139,
-              "annual_infection_rate": 0.2263,
-              "background_mortality_rate": 0.00190591,
-              "onset_rate": null
-            },
-            {
-              "year": 2,
-              "age": 36,
-              "yld": 0.00350081,
-              "yll": 0.0069327,
-              "daly": 0.01043351,
-              "dalys_per_1000": 10.43350697,
-              "dalys_total_population": 10.43350697,
-              "annual_infection_rate": 0.2263,
-              "background_mortality_rate": 0.00198466,
-              "onset_rate": null
-            }
-          ]
+          "years": []
         },
         {
           "condition": "long_covid",
           "label": "Long COVID",
           "annual_infection_rate": 0.2874,
           "totals": {
-            "yld": 0.044,
-            "yll": 0.082,
-            "daly": 0.126,
-            "dalys_per_1000": 126.4
+            "daly": 0.08,
+            "dalys_per_1000": 80
           },
-          "years": [
-            {
-              "year": 1,
-              "age": 35,
-              "yld": 0.00350431,
-              "yll": 0.00706823,
-              "daly": 0.01057254,
-              "dalys_per_1000": 10.57254139,
-              "dalys_total_population": 10.57254139,
-              "annual_infection_rate": 0.2263,
-              "background_mortality_rate": 0.00190591,
-              "onset_rate": null
-            },
-            {
-              "year": 2,
-              "age": 36,
-              "yld": 0.00350081,
-              "yll": 0.0069327,
-              "daly": 0.01043351,
-              "dalys_per_1000": 10.43350697,
-              "dalys_total_population": 10.43350697,
-              "annual_infection_rate": 0.2263,
-              "background_mortality_rate": 0.00198466,
-              "onset_rate": null
-            }
-          ]
+          "years": []
+        },
+        {
+          "condition": "pasc",
+          "label": "PASC",
+          "annual_infection_rate": 0.2874,
+          "totals": {
+            "daly": 0.135,
+            "dalys_per_1000": 135
+          },
+          "years": []
+        }
+      ]
+    },
+    {
+      "id": "hepa_schools_and_daycares",
+      "label": "HEPA schools and daycares",
+      "dalys_per_1000_total": 244,
+      "conditions": [
+        {
+          "condition": "acute_covid",
+          "label": "Acute COVID",
+          "annual_infection_rate": 0.2874,
+          "totals": {
+            "daly": 0.041,
+            "dalys_per_1000": 41
+          },
+          "years": []
+        },
+        {
+          "condition": "long_covid",
+          "label": "Long COVID",
+          "annual_infection_rate": 0.2874,
+          "totals": {
+            "daly": 0.08,
+            "dalys_per_1000": 80
+          },
+          "years": []
+        },
+        {
+          "condition": "pasc",
+          "label": "PASC",
+          "annual_infection_rate": 0.2874,
+          "totals": {
+            "daly": 0.123,
+            "dalys_per_1000": 123
+          },
+          "years": []
+        }
+      ]
+    },
+    {
+      "id": "hepa_all_public",
+      "label": "HEPA all public indoor air",
+      "dalys_per_1000_total": 136,
+      "conditions": [
+        {
+          "condition": "acute_covid",
+          "label": "Acute COVID",
+          "annual_infection_rate": 0.2874,
+          "totals": {
+            "daly": 0.019,
+            "dalys_per_1000": 19
+          },
+          "years": []
+        },
+        {
+          "condition": "long_covid",
+          "label": "Long COVID",
+          "annual_infection_rate": 0.2874,
+          "totals": {
+            "daly": 0.061,
+            "dalys_per_1000": 61
+          },
+          "years": []
+        },
+        {
+          "condition": "pasc",
+          "label": "PASC",
+          "annual_infection_rate": 0.2874,
+          "totals": {
+            "daly": 0.056,
+            "dalys_per_1000": 56
+          },
+          "years": []
+        }
+      ]
+    },
+    {
+      "id": "far_uvc_most_public",
+      "label": "Far UVC in most common indoor air",
+      "dalys_per_1000_total": 251,
+      "conditions": [
+        {
+          "condition": "acute_covid",
+          "label": "Acute COVID",
+          "annual_infection_rate": 0.2874,
+          "totals": {
+            "daly": 0.043,
+            "dalys_per_1000": 43
+          },
+          "years": []
+        },
+        {
+          "condition": "long_covid",
+          "label": "Long COVID",
+          "annual_infection_rate": 0.2874,
+          "totals": {
+            "daly": 0.079,
+            "dalys_per_1000": 79
+          },
+          "years": []
+        },
+        {
+          "condition": "pasc",
+          "label": "PASC",
+          "annual_infection_rate": 0.2874,
+          "totals": {
+            "daly": 0.129,
+            "dalys_per_1000": 129
+          },
+          "years": []
+        }
+      ]
+    },
+    {
+      "id": "far_uvc_schools_and_daycares",
+      "label": "Far UVC schools and daycares",
+      "dalys_per_1000_total": 230,
+      "conditions": [
+        {
+          "condition": "acute_covid",
+          "label": "Acute COVID",
+          "annual_infection_rate": 0.2874,
+          "totals": {
+            "daly": 0.039,
+            "dalys_per_1000": 39
+          },
+          "years": []
+        },
+        {
+          "condition": "long_covid",
+          "label": "Long COVID",
+          "annual_infection_rate": 0.2874,
+          "totals": {
+            "daly": 0.076,
+            "dalys_per_1000": 76
+          },
+          "years": []
+        },
+        {
+          "condition": "pasc",
+          "label": "PASC",
+          "annual_infection_rate": 0.2874,
+          "totals": {
+            "daly": 0.116,
+            "dalys_per_1000": 116
+          },
+          "years": []
+        }
+      ]
+    },
+    {
+      "id": "far_uvc_all_public",
+      "label": "Far UVC all public indoor air",
+      "dalys_per_1000_total": 94,
+      "conditions": [
+        {
+          "condition": "acute_covid",
+          "label": "Acute COVID",
+          "annual_infection_rate": 0.2874,
+          "totals": {
+            "daly": 0.01,
+            "dalys_per_1000": 10
+          },
+          "years": []
+        },
+        {
+          "condition": "long_covid",
+          "label": "Long COVID",
+          "annual_infection_rate": 0.2874,
+          "totals": {
+            "daly": 0.054,
+            "dalys_per_1000": 54
+          },
+          "years": []
+        },
+        {
+          "condition": "pasc",
+          "label": "PASC",
+          "annual_infection_rate": 0.2874,
+          "totals": {
+            "daly": 0.03,
+            "dalys_per_1000": 30
+          },
+          "years": []
         }
       ]
     }

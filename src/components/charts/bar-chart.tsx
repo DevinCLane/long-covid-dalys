@@ -18,28 +18,44 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart";
 
-import chartData from "@/data/bar-chart.json";
+import chartData from "@/data/datav2.json";
+
+type Condition = {
+  condition: string;
+  totals: { dalys_per_1000: number };
+};
+
+type Scenario = {
+  id: string;
+  label: string;
+  conditions: Condition[];
+};
 
 export const description = "A stacked bar chart with a legend";
 
-/**
- * converts dalys to dalys per 1000 people
- */
-const chartDataItems = chartData.map((entry) => {
+const chartRows = chartData.scenarios.map((scenario: Scenario) => {
+  const byCondition = Object.fromEntries(
+    scenario.conditions.map((condition) => [
+      condition.condition,
+      condition.totals.dalys_per_1000,
+    ]),
+  );
+
   return {
-    ...entry,
-    acute: entry.acute * 1000,
-    lc: entry.lc * 1000,
-    pasc: entry.pasc * 1000,
+    id: scenario.id,
+    label: scenario.label,
+    acute_covid: byCondition.acute_covid,
+    long_covid: byCondition.long_covid,
+    pasc: byCondition.pasc,
   };
 });
 
 const chartConfig = {
-  acute: {
-    label: "Acute",
+  acute_covid: {
+    label: "Acute COVID",
     color: "var(--chart-1)",
   },
-  lc: {
+  long_covid: {
     label: "Long COVID",
     color: "var(--chart-2)",
   },
@@ -82,7 +98,7 @@ export function BarChartStacked() {
         <ChartContainer config={chartConfig} className="h-100 w-full md:h-150">
           <BarChart
             accessibilityLayer
-            data={chartDataItems}
+            data={chartRows}
             layout="vertical"
             margin={{
               bottom: 15,
@@ -99,7 +115,7 @@ export function BarChartStacked() {
               tickMargin={8}
             />
             <YAxis
-              dataKey="scenario"
+              dataKey="label"
               axisLine={false}
               tickLine={false}
               type="category"
@@ -108,23 +124,16 @@ export function BarChartStacked() {
             <ChartTooltip content={<ChartTooltipContent hideLabel />} />
             <ChartLegend content={<ChartLegendContent />} verticalAlign="top" />
             <Bar
-              dataKey="acute"
+              dataKey="acute_covid"
               stackId="a"
-              fill="var(--color-acute)"
-              // radius={[0, 0, 4, 4]}
+              fill="var(--color-acute_covid)"
             />
             <Bar
-              dataKey="lc"
+              dataKey="long_covid"
               stackId="a"
-              fill="var(--color-lc)"
-              // radius={[0, 0, 4, 4]}
+              fill="var(--color-long_covid)"
             />
-            <Bar
-              dataKey="pasc"
-              stackId="a"
-              fill="var(--color-pasc)"
-              // radius={[0, 0, 4, 4]}
-            />
+            <Bar dataKey="pasc" stackId="a" fill="var(--color-pasc)" />
           </BarChart>
         </ChartContainer>
       </CardContent>
