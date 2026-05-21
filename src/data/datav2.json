@@ -25,7 +25,32 @@
             "daly": 0.049,
             "dalys_per_1000": 49
           },
-          "years": []
+          "years": [
+            {
+              "year": 1,
+              "age": 35,
+              "yld": 0.00350431,
+              "yll": 0.00706823,
+              "daly": 0.01057254,
+              "dalys_per_1000": 10.57254139,
+              "dalys_total_population": 10.57254139,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00190591,
+              "onset_rate": null
+            },
+            {
+              "year": 2,
+              "age": 36,
+              "yld": 0.00350081,
+              "yll": 0.0069327,
+              "daly": 0.01043351,
+              "dalys_per_1000": 10.43350697,
+              "dalys_total_population": 10.43350697,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00198466,
+              "onset_rate": null
+            }
+          ]
         },
         {
           "condition": "long_covid",

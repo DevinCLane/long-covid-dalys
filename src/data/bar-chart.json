@@ -5,7 +5,7 @@
     "acute": 0.049,
     "lc": 0.083,
     "pasc": 0.147,
-    "dalys_per_1000": 279
+    "total_dalys_per_1000": 279
   },
   {
     "id": "hepa_most_public",
@@ -13,7 +13,7 @@
     "acute": 0.045,
     "lc": 0.08,
     "pasc": 0.135,
-    "dalys_per_1000": 261
+    "total_dalys_per_1000": 261
   },
   {
     "id": "hepa_schools_and_daycares",
@@ -21,7 +21,7 @@
     "acute": 0.041,
     "lc": 0.08,
     "pasc": 0.123,
-    "dalys_per_1000": 244
+    "total_dalys_per_1000": 244
   },
   {
     "id": "hepa_all_public",
@@ -29,7 +29,7 @@
     "acute": 0.019,
     "lc": 0.061,
     "pasc": 0.056,
-    "dalys_per_1000": 136
+    "total_dalys_per_1000": 136
   },
   {
     "id": "far_uvc_most_public",
@@ -37,7 +37,7 @@
     "acute": 0.043,
     "lc": 0.079,
     "pasc": 0.129,
-    "dalys_per_1000": 251
+    "total_dalys_per_1000": 251
   },
   {
     "id": "far_uvc_schools_and_daycares",
@@ -45,7 +45,7 @@
     "acute": 0.039,
     "lc": 0.076,
     "pasc": 0.116,
-    "dalys_per_1000": 230
+    "total_dalys_per_1000": 230
   },
   {
     "id": "far_uvc_all_public",
@@ -53,6 +53,6 @@
     "acute": 0.01,
     "lc": 0.054,
     "pasc": 0.03,
-    "dalys_per_1000": 94
+    "total_dalys_per_1000": 94
   }
 ]
