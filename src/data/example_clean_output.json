@@ -1,0 +1,152 @@
+{
+  "condition": "acute_covid",
+  "label": "Acute COVID",
+  "model_type": "acute",
+  "parameters_used": {
+    "label": "Acute COVID",
+    "model_type": "acute",
+    "default_horizon": 10,
+    "disability_weight": 0.015493,
+    "case_fatality_rate": 0.000576,
+    "condition": "acute_covid",
+    "horizon": 10,
+    "age0": 35,
+    "annual_infection_rate": 0.2874
+  },
+  "results": {
+    "totals": {
+      "yld": 0.04430499,
+      "yll": 0.08207747,
+      "daly": 0.12638245,
+      "dalys_per_1000": 126.38245107,
+      "dalys_total_population": 126.38245107
+    },
+    "trace": {},
+    "years": [
+      {
+        "year": 1,
+        "age": 35,
+        "yld": 0.00445046,
+        "yll": 0.00897662,
+        "daly": 0.01342708,
+        "dalys_per_1000": 13.42708085,
+        "dalys_total_population": 13.42708085,
+        "annual_infection_rate": 0.2874,
+        "background_mortality_rate": 0.00190591,
+        "onset_rate": null
+      },
+      {
+        "year": 2,
+        "age": 36,
+        "yld": 0.00444601,
+        "yll": 0.00880449,
+        "daly": 0.01325051,
+        "dalys_per_1000": 13.25050774,
+        "dalys_total_population": 13.25050774,
+        "annual_infection_rate": 0.2874,
+        "background_mortality_rate": 0.00198466,
+        "onset_rate": null
+      },
+      {
+        "year": 3,
+        "age": 37,
+        "yld": 0.00444157,
+        "yll": 0.0086327,
+        "daly": 0.01307427,
+        "dalys_per_1000": 13.07427419,
+        "dalys_total_population": 13.07427419,
+        "annual_infection_rate": 0.2874,
+        "background_mortality_rate": 0.00207594,
+        "onset_rate": null
+      },
+      {
+        "year": 4,
+        "age": 38,
+        "yld": 0.00443713,
+        "yll": 0.00846125,
+        "daly": 0.01289838,
+        "dalys_per_1000": 12.89837969,
+        "dalys_total_population": 12.89837969,
+        "annual_infection_rate": 0.2874,
+        "background_mortality_rate": 0.00218169,
+        "onset_rate": null
+      },
+      {
+        "year": 5,
+        "age": 39,
+        "yld": 0.0044327,
+        "yll": 0.00829013,
+        "daly": 0.01272282,
+        "dalys_per_1000": 12.72282375,
+        "dalys_total_population": 12.72282375,
+        "annual_infection_rate": 0.2874,
+        "background_mortality_rate": 0.00229743,
+        "onset_rate": null
+      },
+      {
+        "year": 6,
+        "age": 40,
+        "yld": 0.00442827,
+        "yll": 0.00811934,
+        "daly": 0.01254761,
+        "dalys_per_1000": 12.54760585,
+        "dalys_total_population": 12.54760585,
+        "annual_infection_rate": 0.2874,
+        "background_mortality_rate": 0.00242725,
+        "onset_rate": null
+      },
+      {
+        "year": 7,
+        "age": 41,
+        "yld": 0.00442384,
+        "yll": 0.00795057,
+        "daly": 0.01237441,
+        "dalys_per_1000": 12.37440797,
+        "dalys_total_population": 12.37440797,
+        "annual_infection_rate": 0.2874,
+        "background_mortality_rate": 0.00256037,
+        "onset_rate": null
+      },
+      {
+        "year": 8,
+        "age": 42,
+        "yld": 0.00441942,
+        "yll": 0.00778213,
+        "daly": 0.01220154,
+        "dalys_per_1000": 12.20154377,
+        "dalys_total_population": 12.20154377,
+        "annual_infection_rate": 0.2874,
+        "background_mortality_rate": 0.00268178,
+        "onset_rate": null
+      },
+      {
+        "year": 9,
+        "age": 43,
+        "yld": 0.004415,
+        "yll": 0.00761401,
+        "daly": 0.01202901,
+        "dalys_per_1000": 12.02901277,
+        "dalys_total_population": 12.02901277,
+        "annual_infection_rate": 0.2874,
+        "background_mortality_rate": 0.00278776,
+        "onset_rate": null
+      },
+      {
+        "year": 10,
+        "age": 44,
+        "yld": 0.00441059,
+        "yll": 0.00744623,
+        "daly": 0.01185681,
+        "dalys_per_1000": 11.85681447,
+        "dalys_total_population": 11.85681447,
+        "annual_infection_rate": 0.2874,
+        "background_mortality_rate": 0.00289184,
+        "onset_rate": null
+      }
+    ]
+  },
+  "annual_infection_rate": 0.2874,
+  "age0": 35,
+  "population_size": 1000,
+  "age_adjusted_mortality": true
+}

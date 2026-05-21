@@ -20,12 +20,12 @@ import {
 
 import chartData from "@/data/datav2.json";
 
-type Condition = {
+export type Condition = {
   condition: string;
   totals: { dalys_per_1000: number };
 };
 
-type Scenario = {
+export type Scenario = {
   id: string;
   label: string;
   conditions: Condition[];

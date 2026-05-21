@@ -21,7 +21,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import dalysData from "@/data/dalys.json";
+import chartData from "@/data/datav2.json";
 import { ScenarioArea } from "@/components/scenario-area";
 import {
   getDefaultSelectedScenarios,
@@ -39,35 +39,40 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-interface dalysDataItem {
-  year: number;
-  baseline: number;
-  HEPAMostCommonSpaces: number;
-  HEPASchoolsAndDaycare: number;
-  HEPAAllPublicIndoor: number;
-  farUVCMostCommonSpaces: number;
-  farUVCSchoolsAndDaycare: number;
-  farUVCAllPublicIndoor: number;
-}
+// import type { Condition, Scenario } from "./bar-chart";
+
+// interface dalysDataItem {
+//   year: number;
+//   baseline: number;
+//   hepa_most_public: number;
+//   hepa_schools_and_daycares: number;
+//   hepa_all_public: number;
+//   far_uvc_most_public: number;
+//   far_uvc_schools_and_daycares: number;
+//   far_uvc_all_public: number;
+// }
 
 /**
  * create the curve of data over 10 years (take the 10th year and show lower numbers leading up to it)
  */
-const chartDataItems = (dalysData as dalysDataItem[]).map(
-  (dalysData, index) => {
-    const entries = Object.entries(dalysData);
+const chartDataItems = chartData.scenarios.map((scenario) => {
+  const byYear = new Map<number, Record<string, number>>();
 
-    const newEntries = entries.map((entry) => {
-      if (entry[0] === "year") {
-        return entry;
-      }
-      let number = entry[1];
-      number *= (index + 1) * 0.1;
-      return [entry[0], number];
-    });
-    return Object.fromEntries(newEntries);
-  },
-);
+  const longCovid = scenario.conditions.find(
+    (c) => c.condition === "long_covid",
+  );
+  if (!longCovid) return;
+  console.log(longCovid);
+
+  for (const point of longCovid.years) {
+    const row = byYear.get(point.year) ?? { year: point.year };
+    row[scenario.id] = point.dalys_per_1000;
+    byYear.set(point.year, row);
+  }
+
+  return [...byYear.values()].sort((a, b) => a.year - b.year);
+});
+// console.log(chartDataItems);
 
 interface LongCovidChartProps {
   selectedScenarios: Set<string>;
