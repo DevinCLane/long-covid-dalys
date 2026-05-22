@@ -39,40 +39,50 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-// import type { Condition, Scenario } from "./bar-chart";
-
-// interface dalysDataItem {
-//   year: number;
-//   baseline: number;
-//   hepa_most_public: number;
-//   hepa_schools_and_daycares: number;
-//   hepa_all_public: number;
-//   far_uvc_most_public: number;
-//   far_uvc_schools_and_daycares: number;
-//   far_uvc_all_public: number;
-// }
+/** One row per year; each scenario id is a column (Recharts wide format). */
+interface DalysDataItem {
+  year: number;
+  baseline: number;
+  hepa_most_public: number;
+  hepa_schools_and_daycares: number;
+  hepa_all_public: number;
+  far_uvc_most_public: number;
+  far_uvc_schools_and_daycares: number;
+  far_uvc_all_public: number;
+}
 
 /**
- * create the curve of data over 10 years (take the 10th year and show lower numbers leading up to it)
+ * Pivot nested datav2 → wide rows for the area chart.
+ * Loop scenarios (not years): each scenario writes into the same year rows.
  */
-const chartDataItems = chartData.scenarios.map((scenario) => {
-  const byYear = new Map<number, Record<string, number>>();
+function longCovidDalysByYear(
+  scenarios: typeof chartData.scenarios,
+): DalysDataItem[] {
+  const byYear = new Map<number, DalysDataItem>();
 
-  const longCovid = scenario.conditions.find(
-    (c) => c.condition === "long_covid",
-  );
-  if (!longCovid) return;
-  console.log(longCovid);
+  for (const scenario of scenarios) {
+    const longCovid = scenario.conditions.find(
+      (condition) => condition.condition === "long_covid",
+    );
+    if (!longCovid?.years.length) continue;
 
-  for (const point of longCovid.years) {
-    const row = byYear.get(point.year) ?? { year: point.year };
-    row[scenario.id] = point.dalys_per_1000;
-    byYear.set(point.year, row);
+    for (const yearPoint of longCovid.years) {
+      const row =
+        byYear.get(yearPoint.year) ??
+        ({ year: yearPoint.year } as DalysDataItem);
+
+      // scenario.id becomes the property name (baseline, hepa_most_public, …)
+      row[scenario.id as keyof Omit<DalysDataItem, "year">] =
+        yearPoint.dalys_per_1000;
+
+      byYear.set(yearPoint.year, row);
+    }
   }
 
   return [...byYear.values()].sort((a, b) => a.year - b.year);
-});
-// console.log(chartDataItems);
+}
+
+const chartDataItems = longCovidDalysByYear(chartData.scenarios);
 
 interface LongCovidChartProps {
   selectedScenarios: Set<string>;
@@ -236,7 +246,7 @@ export function LongCovidChart({
               axisLine={false}
               tick={{ width: 250 }}
               tickMargin={8}
-              domain={[0, 300]}
+              domain={[0, 22]}
               allowDataOverflow={false}
               label={{
                 value: "DALYs per 1000 people",
