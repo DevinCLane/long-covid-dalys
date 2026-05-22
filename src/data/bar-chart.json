@@ -1,0 +1,58 @@
+[
+  {
+    "id": "baseline",
+    "scenario": "Baseline",
+    "acute": 0.049,
+    "lc": 0.083,
+    "pasc": 0.147,
+    "total_dalys_per_1000": 279
+  },
+  {
+    "id": "hepa_most_public",
+    "scenario": "HEPA in most common indoor air",
+    "acute": 0.045,
+    "lc": 0.08,
+    "pasc": 0.135,
+    "total_dalys_per_1000": 261
+  },
+  {
+    "id": "hepa_schools_and_daycares",
+    "scenario": "HEPA schools and daycares",
+    "acute": 0.041,
+    "lc": 0.08,
+    "pasc": 0.123,
+    "total_dalys_per_1000": 244
+  },
+  {
+    "id": "hepa_all_public",
+    "scenario": "HEPA all public indoor air",
+    "acute": 0.019,
+    "lc": 0.061,
+    "pasc": 0.056,
+    "total_dalys_per_1000": 136
+  },
+  {
+    "id": "far_uvc_most_public",
+    "scenario": "Far UVC in most common indoor air",
+    "acute": 0.043,
+    "lc": 0.079,
+    "pasc": 0.129,
+    "total_dalys_per_1000": 251
+  },
+  {
+    "id": "far_uvc_schools_and_daycares",
+    "scenario": "Far UVC schools and daycares",
+    "acute": 0.039,
+    "lc": 0.076,
+    "pasc": 0.116,
+    "total_dalys_per_1000": 230
+  },
+  {
+    "id": "far_uvc_all_public",
+    "scenario": "Far UVC all public indoor air",
+    "acute": 0.01,
+    "lc": 0.054,
+    "pasc": 0.03,
+    "total_dalys_per_1000": 94
+  }
+]

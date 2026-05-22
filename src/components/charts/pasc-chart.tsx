@@ -21,7 +21,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import dalysData from "@/data/dalys.json";
+import chartData from "@/data/datav2.json";
 import { ScenarioArea } from "@/components/scenario-area";
 import {
   getDefaultSelectedScenarios,
@@ -39,7 +39,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-interface dalysDataItem {
+interface DalysDataItem {
   year: number;
   baseline: number;
   HEPAMostCommonSpaces: number;
@@ -51,29 +51,51 @@ interface dalysDataItem {
 }
 
 /**
- * create the curve of data over 10 years (take the 10th year and show lower numbers leading up to it)
+ * Pivot nested datav2 → wide rows for the area chart.
+ * Loop scenarios (not years): each scenario writes into the same year rows.
  */
-const chartDataItems = (dalysData as dalysDataItem[]).map(
-  (dalysData, index) => {
-    const entries = Object.entries(dalysData);
+function pascDalysByYear(
+  scenarios: typeof chartData.scenarios,
+): DalysDataItem[] {
+  const byYear = new Map<number, DalysDataItem>();
 
-    const newEntries = entries.map((entry) => {
-      if (entry[0] === "year") {
-        return entry;
-      }
-      let number = entry[1];
-      number *= (index + 1) * 0.1;
-      return [entry[0], number];
-    });
-    return Object.fromEntries(newEntries);
-  },
-);
+  for (const scenario of scenarios) {
+    const pasc = scenario.conditions.find(
+      (condition) => condition.condition === "pasc",
+    );
+    if (!pasc?.years.length) continue;
 
-export function MainChart() {
+    for (const yearPoint of pasc.years) {
+      const row =
+        byYear.get(yearPoint.year) ??
+        ({ year: yearPoint.year } as DalysDataItem);
+
+      // scenario.id becomes the property name (baseline, hepa_most_public, …)
+      row[scenario.id as keyof Omit<DalysDataItem, "year">] =
+        yearPoint.dalys_per_1000;
+
+      byYear.set(yearPoint.year, row);
+    }
+  }
+
+  return [...byYear.values()].sort((a, b) => a.year - b.year);
+}
+
+const chartDataItems = pascDalysByYear(chartData.scenarios);
+
+interface PascChartProps {
+  selectedScenarios: Set<string>;
+  setSelectedScenarios: React.Dispatch<React.SetStateAction<Set<string>>>;
+}
+
+export function PascChart({
+  selectedScenarios,
+  setSelectedScenarios,
+}: PascChartProps) {
   // Track selected scenarios by their ID
-  const [selectedScenarios, setSelectedScenarios] = React.useState<Set<string>>(
-    getDefaultSelectedScenarios,
-  );
+  // const [selectedScenarios, setSelectedScenarios] = React.useState<Set<string>>(
+  //   getDefaultSelectedScenarios,
+  // );
 
   /**
    * Updates the scenario state to represent what the user has checked.
@@ -177,6 +199,7 @@ export function MainChart() {
       {/* chart header */}
       <CardHeader className="flex items-center gap-2 space-y-0 border-b sm:flex-row">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
+          <CardTitle className="text-2xl text-pretty">PASC</CardTitle>
           <CardTitle className="text-2xl text-pretty">
             Benefits of air cleaning interventions on COVID-19 infection and
             Long COVID-related disability-adjusted life years: A policy
@@ -227,7 +250,7 @@ export function MainChart() {
               axisLine={false}
               tick={{ width: 250 }}
               tickMargin={8}
-              domain={[0, 300]}
+              domain={[0, 38]}
               allowDataOverflow={false}
               label={{
                 value: "DALYs per 1000 people",

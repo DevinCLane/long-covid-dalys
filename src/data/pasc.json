@@ -1,0 +1,102 @@
+[
+  {
+    "year": 1,
+    "baseline": 13,
+    "HEPAMostCommonSpaces": 246,
+    "HEPASchoolsAndDaycare": 233,
+    "HEPAAllPublicIndoor": 162,
+    "farUVCMostCommonSpaces": 240,
+    "farUVCSchoolsAndDaycare": 226,
+    "farUVCAllPublicIndoor": 131
+  },
+  {
+    "year": 2,
+    "baseline": 25,
+    "HEPAMostCommonSpaces": 246,
+    "HEPASchoolsAndDaycare": 233,
+    "HEPAAllPublicIndoor": 162,
+    "farUVCMostCommonSpaces": 240,
+    "farUVCSchoolsAndDaycare": 226,
+    "farUVCAllPublicIndoor": 131
+  },
+  {
+    "year": 3,
+    "baseline": 43,
+    "HEPAMostCommonSpaces": 246,
+    "HEPASchoolsAndDaycare": 233,
+    "HEPAAllPublicIndoor": 162,
+    "farUVCMostCommonSpaces": 240,
+    "farUVCSchoolsAndDaycare": 226,
+    "farUVCAllPublicIndoor": 131
+  },
+  {
+    "year": 4,
+    "baseline": 258,
+    "HEPAMostCommonSpaces": 246,
+    "HEPASchoolsAndDaycare": 233,
+    "HEPAAllPublicIndoor": 162,
+    "farUVCMostCommonSpaces": 240,
+    "farUVCSchoolsAndDaycare": 226,
+    "farUVCAllPublicIndoor": 131
+  },
+  {
+    "year": 5,
+    "baseline": 258,
+    "HEPAMostCommonSpaces": 246,
+    "HEPASchoolsAndDaycare": 233,
+    "HEPAAllPublicIndoor": 162,
+    "farUVCMostCommonSpaces": 240,
+    "farUVCSchoolsAndDaycare": 226,
+    "farUVCAllPublicIndoor": 131
+  },
+  {
+    "year": 6,
+    "baseline": 66,
+    "HEPAMostCommonSpaces": 246,
+    "HEPASchoolsAndDaycare": 233,
+    "HEPAAllPublicIndoor": 162,
+    "farUVCMostCommonSpaces": 240,
+    "farUVCSchoolsAndDaycare": 226,
+    "farUVCAllPublicIndoor": 131
+  },
+  {
+    "year": 7,
+    "baseline": 90,
+    "HEPAMostCommonSpaces": 246,
+    "HEPASchoolsAndDaycare": 233,
+    "HEPAAllPublicIndoor": 162,
+    "farUVCMostCommonSpaces": 240,
+    "farUVCSchoolsAndDaycare": 226,
+    "farUVCAllPublicIndoor": 131
+  },
+  {
+    "year": 8,
+    "baseline": 110,
+    "HEPAMostCommonSpaces": 246,
+    "HEPASchoolsAndDaycare": 233,
+    "HEPAAllPublicIndoor": 162,
+    "farUVCMostCommonSpaces": 240,
+    "farUVCSchoolsAndDaycare": 226,
+    "farUVCAllPublicIndoor": 131
+  },
+  {
+    "year": 9,
+    "baseline": 258,
+    "HEPAMostCommonSpaces": 246,
+    "HEPASchoolsAndDaycare": 233,
+    "HEPAAllPublicIndoor": 162,
+    "farUVCMostCommonSpaces": 240,
+    "farUVCSchoolsAndDaycare": 226,
+    "farUVCAllPublicIndoor": 131
+  },
+  {
+    "year": 10,
+    "baseline": 120,
+    "HEPAMostCommonSpaces": 246,
+    "HEPASchoolsAndDaycare": 233,
+    "HEPAAllPublicIndoor": 162,
+    "farUVCMostCommonSpaces": 240,
+    "farUVCSchoolsAndDaycare": 226,
+    "farUVCAllPublicIndoor": 131
+  }
+]

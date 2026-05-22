@@ -1,4 +1,4 @@
-import dalys from "@/data/dalys.json";
+import chartData from "@/data/datav2.json";
 
 export interface Scenario {
   id: string;
@@ -11,8 +11,33 @@ export interface Scenario {
   checked: boolean;
 }
 
-// 10th year is the final year of the model (in the 0 indexed list, 9 is the 10th item)
-const FINAL_YEAR = dalys.length - 1;
+const LONG_COVID = "long_covid";
+
+function scenarioGroup(id: string): string {
+  if (id === "baseline") return "baseline";
+  if (id.startsWith("hepa_")) return "hepa";
+  if (id.startsWith("far_uvc_")) return "uvc";
+  return "other";
+}
+
+/**
+ * Each scenario for which we display DALYs.
+ * ids must match datav2 scenario ids (and chart row keys).
+ */
+export const SCENARIOS: Scenario[] = chartData.scenarios.map((scenario) => {
+  const longCovid = scenario.conditions.find(
+    (c) => c.condition === LONG_COVID,
+  )!;
+
+  return {
+    id: scenario.id,
+    dalys: longCovid.totals.dalys_per_1000,
+    infected: Math.round(longCovid.annual_infection_rate * 100),
+    group: scenarioGroup(scenario.id),
+    label: scenario.label,
+    checked: true,
+  };
+});
 
 export const getDefaultSelectedScenarios = (): Set<string> => {
   return new Set(
@@ -22,8 +47,6 @@ export const getDefaultSelectedScenarios = (): Set<string> => {
   );
 };
 
-const dalysEntries = Object.entries(dalys[FINAL_YEAR]);
-
 /**
  * map the single word, lowercase group name to the text to display for the group
  */
@@ -32,58 +55,6 @@ export const groupLabels: Record<string, string> = {
   hepa: "HEPA Filters",
   uvc: "Far UVC Light",
 };
-
-/**
- * Each scenario for which we are displays DALYs
- */
-export const SCENARIOS: Scenario[] = [
-  {
-    id: dalysEntries[1][0],
-    dalys: dalysEntries[1][1],
-    infected: 29,
-    group: "baseline",
-    label: "Long Covid Baseline",
-    sublabel: "No air cleaning intervention.",
-    checked: true,
-  },
-  {
-    id: dalysEntries[3][0],
-    dalys: dalysEntries[3][1],
-    infected: 24,
-    group: "hepa",
-    label: "HEPA schools and daycares",
-    sublabel:
-      "HEPA filters implemented in all K-12 schools, preschools, and daycare settings.",
-    checked: false,
-  },
-  {
-    id: dalysEntries[4][0],
-    dalys: dalysEntries[4][1],
-    infected: 11,
-    group: "hepa",
-    label: "HEPA all public indoor air",
-    sublabel: "HEPA filters implemented in all public indoor spaces.",
-    checked: false,
-  },
-  {
-    id: dalysEntries[6][0],
-    dalys: dalysEntries[6][1],
-    infected: 23,
-    group: "uvc",
-    label: "Far UVC schools and daycares",
-    sublabel: "Far UVC in schools and daycares.",
-    checked: false,
-  },
-  {
-    id: dalysEntries[7][0],
-    dalys: dalysEntries[7][1],
-    infected: 6,
-    group: "uvc",
-    label: "Far UVC all public indoor air",
-    sublabel: "Far UVC in all public indoor spaces.",
-    checked: false,
-  },
-];
 
 export const groupedScenarios = SCENARIOS.reduce(
   (acc, scenario) => {

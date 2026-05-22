@@ -2,8 +2,8 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Header } from "@/components/header";
 import { SiteFooter } from "@/components/site-footer";
 import { WorkInProgressAlert } from "@/components/work-in-progress-alert";
-import { MainChart } from "@/components/main-chart";
 import { NavBar } from "./components/nav-bar";
+import TabsArea from "./components/tabs-area";
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
         <NavBar />
         <WorkInProgressAlert />
         <Header />
-        <MainChart />
+        <TabsArea />
         <SiteFooter />
       </div>
     </ThemeProvider>
