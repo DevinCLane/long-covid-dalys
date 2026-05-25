@@ -25,22 +25,22 @@ export default function TabsArea() {
         <TabsTrigger value="pasc">PASC</TabsTrigger>
         <TabsTrigger value="acute">Acute COVID</TabsTrigger>
       </TabsList>
-      <TabsContent value="overview">
+      <TabsContent value="overview" className="w-full">
         <BarChartStacked />
       </TabsContent>
-      <TabsContent value="lc">
+      <TabsContent value="lc" className="w-full">
         <LongCovidChart
           selectedScenarios={lcScenarios}
           setSelectedScenarios={setLcScenarios}
         />
       </TabsContent>
-      <TabsContent value="pasc">
+      <TabsContent value="pasc" className="w-full">
         <PascChart
           selectedScenarios={pascScenarios}
           setSelectedScenarios={setPascScenarios}
         />
       </TabsContent>
-      <TabsContent value="acute">
+      <TabsContent value="acute" className="w-full">
         <AcuteCovidChart
           selectedScenarios={acuteScenarios}
           setSelectedScenarios={setAcuteScenarios}
