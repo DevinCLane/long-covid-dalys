@@ -18,7 +18,7 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart";
 
-import chartData from "@/data/datav2.json";
+import chartData from "@/data/results_detailed_age39_10yr_adjusted.json";
 
 export type Condition = {
   condition: string;
@@ -72,7 +72,7 @@ export function BarChartStacked() {
       <CardHeader className="flex items-center gap-2 space-y-0 border-b sm:flex-row">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
           <CardTitle className="text-2xl text-pretty">
-            5-year DALYs for Acute COVID, Long COVID and PASC
+            10-year DALYs for Acute COVID, Long COVID and PASC
           </CardTitle>
           <CardDescription>
             This scenario simulator shows the result of synthesizing existing

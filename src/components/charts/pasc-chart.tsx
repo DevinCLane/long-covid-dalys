@@ -21,7 +21,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import chartData from "@/data/datav2.json";
+import chartData from "@/data/results_detailed_age39_10yr_adjusted.json";
 import { ScenarioArea } from "@/components/scenario-area";
 import {
   getDefaultSelectedScenarios,
@@ -199,11 +199,8 @@ export function PascChart({
       {/* chart header */}
       <CardHeader className="flex items-center gap-2 space-y-0 border-b sm:flex-row">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
-          <CardTitle className="text-2xl text-pretty">PASC</CardTitle>
           <CardTitle className="text-2xl text-pretty">
-            Benefits of air cleaning interventions on COVID-19 infection and
-            Long COVID-related disability-adjusted life years: A policy
-            simulation
+            10-year DALYs for post-acute sequelae of COVID-19 (PASC) by scenario
           </CardTitle>
           <CardDescription>
             This scenario simulator shows the result of synthesizing existing
@@ -250,7 +247,7 @@ export function PascChart({
               axisLine={false}
               tick={{ width: 250 }}
               tickMargin={8}
-              domain={[0, 38]}
+              domain={[0, 190]}
               allowDataOverflow={false}
               label={{
                 value: "DALYs per 1000 people",
