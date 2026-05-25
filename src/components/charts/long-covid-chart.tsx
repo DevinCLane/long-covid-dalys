@@ -18,6 +18,8 @@ import {
 import {
   ChartConfig,
   ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
@@ -251,7 +253,11 @@ export function LongCovidChart({
                 position: "insideLeft",
               }}
             />
-
+            <ChartLegend
+              content={<ChartLegendContent />}
+              verticalAlign="top"
+              className="mb-8 ml-8 grid grid-cols-1 md:grid-cols-3 md:justify-items-center"
+            />
             <ChartTooltip
               cursor={false}
               content={
@@ -285,7 +291,7 @@ export function LongCovidChart({
               <text
                 className="left-2 text-2xl font-bold tracking-widest opacity-50 lg:text-5xl"
                 x={window.innerWidth < 640 ? "60%" : "50%"}
-                y={window.innerWidth < 640 ? "50%" : "50%"}
+                y={window.innerWidth < 640 ? "80%" : "50%"}
                 textAnchor="middle"
               >
                 TEST DATA
