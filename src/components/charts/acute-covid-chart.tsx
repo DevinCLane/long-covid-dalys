@@ -8,13 +8,7 @@ import {
   ZIndexLayer,
 } from "recharts";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
@@ -201,27 +195,9 @@ export function AcuteCovidChart({
       {/* chart header */}
       <CardHeader className="flex items-center gap-2 space-y-0 border-b sm:flex-row">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
-          <CardTitle className="text-2xl text-pretty">
+          <CardTitle className="text-l text-pretty md:text-2xl">
             10-year DALYs for Acute COVID
           </CardTitle>
-          <CardDescription>
-            This scenario simulator shows the result of synthesizing existing
-            evidence to model the potential impact of population-level air
-            cleaning interventions, like HEPA filtration and far germicidal UVC
-            light, on Long COVID-related{" "}
-            <a
-              href="https://en.wikipedia.org/wiki/Disability-adjusted_life_year"
-              target="_blank"
-              rel="noreferrer"
-              className="font-medium underline underline-offset-4"
-            >
-              disability-adjusted life years (DALYs)
-            </a>
-            . Each DALY represents one year of healthy life lost to illness.
-          </CardDescription>
-          <CardDescription>
-            Select a scenario to view the resulting DALYs
-          </CardDescription>
         </div>
       </CardHeader>
       <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
@@ -249,7 +225,7 @@ export function AcuteCovidChart({
               axisLine={false}
               tick={{ width: 250 }}
               tickMargin={8}
-              domain={[0, 11]}
+              domain={[0, 12]}
               allowDataOverflow={false}
               label={{
                 value: "DALYs per 1000 people",
