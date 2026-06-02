@@ -193,13 +193,16 @@ export function LongCovidChart({
     <Card>
       {/* chart header */}
       <CardHeader className="flex items-center gap-2 space-y-0 border-b sm:flex-row">
-        <div className="grid flex-1 gap-1 text-center sm:text-left">
-          <CardTitle className="text-l text-pretty md:text-2xl">
-            10-year DALYs for Long COVID by scenario
-          </CardTitle>
-        </div>
+        <CardTitle className="text-l text-pretty md:text-2xl">
+          10-year DALYs for Long COVID by scenario
+        </CardTitle>
       </CardHeader>
-      <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
+      <CardContent>
+        <div
+          ref={setLegendPortal}
+          data-chart="chart-long-covid-dalys"
+          className="text-xs"
+        />
         <ChartContainer
           id="long-covid-dalys"
           config={chartConfig}
@@ -241,7 +244,7 @@ export function LongCovidChart({
                 portal={legendPortal}
                 content={<ChartLegendContent />}
                 verticalAlign="top"
-                className="mt-4 grid grid-cols-1 gap-x-4 gap-y-2 md:grid-cols-3 md:justify-items-center"
+                className="grid grid-cols-1 gap-x-4 gap-y-2 md:grid-cols-3 md:justify-items-center"
               />
             ) : null}
             <ChartTooltip
@@ -285,11 +288,6 @@ export function LongCovidChart({
             </ZIndexLayer>
           </AreaChart>
         </ChartContainer>
-        <div
-          ref={setLegendPortal}
-          data-chart="chart-long-covid-dalys"
-          className="text-xs"
-        />
 
         <Accordion type="multiple" defaultValue={["scenarios"]}>
           {/* scenario selector */}

@@ -121,8 +121,8 @@ export function BarChartStacked() {
             <ChartTooltip content={<ChartTooltipContent hideLabel />} />
             <ChartLegend
               content={<ChartLegendContent />}
-              verticalAlign="bottom"
-              className="mt-4"
+              verticalAlign={window.innerWidth < 640 ? "bottom" : "top"}
+              className="mt-4 md:mt-0"
             />
             <Bar
               dataKey="acute_covid"
