@@ -119,7 +119,11 @@ export function BarChartStacked() {
               width={140}
             />
             <ChartTooltip content={<ChartTooltipContent hideLabel />} />
-            <ChartLegend content={<ChartLegendContent />} verticalAlign="top" />
+            <ChartLegend
+              content={<ChartLegendContent />}
+              verticalAlign="bottom"
+              className="mt-4"
+            />
             <Bar
               dataKey="acute_covid"
               stackId="a"
