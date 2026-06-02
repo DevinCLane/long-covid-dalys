@@ -88,6 +88,8 @@ export function AcuteCovidChart({
   selectedScenarios,
   setSelectedScenarios,
 }: AcuteCovidChartProps) {
+  const [legendPortal, setLegendPortal] =
+    React.useState<HTMLDivElement | null>(null);
   // Track selected scenarios by their ID
   // const [selectedScenarios, setSelectedScenarios] = React.useState<Set<string>>(
   //   getDefaultSelectedScenarios,
@@ -201,7 +203,11 @@ export function AcuteCovidChart({
         </div>
       </CardHeader>
       <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
-        <ChartContainer config={chartConfig} className="h-100 w-full md:h-150">
+        <ChartContainer
+          id="acute-covid-dalys"
+          config={chartConfig}
+          className="h-100 w-full md:h-150"
+        >
           <AreaChart
             data={chartDataItems}
             margin={{
@@ -234,11 +240,14 @@ export function AcuteCovidChart({
               }}
             />
 
-            <ChartLegend
-              content={<ChartLegendContent />}
-              verticalAlign="top"
-              className="mb-8 ml-8 grid grid-cols-1 md:grid-cols-3 md:justify-items-center"
-            />
+            {legendPortal ? (
+              <ChartLegend
+                portal={legendPortal}
+                content={<ChartLegendContent />}
+                verticalAlign="top"
+                className="mt-4 grid grid-cols-1 gap-x-4 gap-y-2 md:grid-cols-3 md:justify-items-center"
+              />
+            ) : null}
             <ChartTooltip
               cursor={false}
               content={
@@ -280,6 +289,11 @@ export function AcuteCovidChart({
             </ZIndexLayer>
           </AreaChart>
         </ChartContainer>
+        <div
+          ref={setLegendPortal}
+          data-chart="chart-acute-covid-dalys"
+          className="text-xs"
+        />
 
         <Accordion type="multiple" defaultValue={["scenarios"]}>
           {/* scenario selector */}

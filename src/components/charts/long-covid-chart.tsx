@@ -89,6 +89,9 @@ export function LongCovidChart({
   selectedScenarios,
   setSelectedScenarios,
 }: LongCovidChartProps) {
+  const [legendPortal, setLegendPortal] = React.useState<HTMLDivElement | null>(
+    null,
+  );
   /**
    * Updates the scenario state to represent what the user has checked.
    * Creates a new Set each time there is a new scenario selected so React knows to update.
@@ -197,7 +200,11 @@ export function LongCovidChart({
         </div>
       </CardHeader>
       <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
-        <ChartContainer config={chartConfig} className="h-100 w-full md:h-150">
+        <ChartContainer
+          id="long-covid-dalys"
+          config={chartConfig}
+          className="h-100 w-full md:h-150"
+        >
           <AreaChart
             data={chartDataItems}
             margin={{
@@ -229,11 +236,14 @@ export function LongCovidChart({
                 position: "insideLeft",
               }}
             />
-            <ChartLegend
-              content={<ChartLegendContent />}
-              verticalAlign="top"
-              className="ml-8 grid grid-cols-1 md:mb-6 md:grid-cols-3 md:justify-items-center"
-            />
+            {legendPortal ? (
+              <ChartLegend
+                portal={legendPortal}
+                content={<ChartLegendContent />}
+                verticalAlign="top"
+                className="mt-4 grid grid-cols-1 gap-x-4 gap-y-2 md:grid-cols-3 md:justify-items-center"
+              />
+            ) : null}
             <ChartTooltip
               cursor={false}
               content={
@@ -275,6 +285,11 @@ export function LongCovidChart({
             </ZIndexLayer>
           </AreaChart>
         </ChartContainer>
+        <div
+          ref={setLegendPortal}
+          data-chart="chart-long-covid-dalys"
+          className="text-xs"
+        />
 
         <Accordion type="multiple" defaultValue={["scenarios"]}>
           {/* scenario selector */}
