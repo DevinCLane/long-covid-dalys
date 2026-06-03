@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/chart";
 
 import chartData from "@/data/results_detailed_age39_10yr_adjusted.json";
+import React from "react";
 
 export type Condition = {
   condition: string;
@@ -66,6 +67,9 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function BarChartStacked() {
+  const [legendPortal, setLegendPortal] = React.useState<HTMLDivElement | null>(
+    null,
+  );
   return (
     <Card>
       {/* chart header */}
@@ -92,51 +96,65 @@ export function BarChartStacked() {
         </div>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig} className="h-100 w-full md:h-150">
-          <BarChart
-            accessibilityLayer
-            data={chartRows}
-            layout="vertical"
-            margin={{
-              bottom: 15,
-            }}
+        <div className="flex flex-col">
+          <ChartContainer
+            config={chartConfig}
+            className="order-2 h-100 w-full md:h-150"
+            id="bar-chart"
           >
-            <CartesianGrid horizontal={false} />
-            <XAxis
-              type="number"
-              label={{
-                value: "DALYS per 1000 people",
-                position: "bottom",
+            <BarChart
+              accessibilityLayer
+              data={chartRows}
+              layout="vertical"
+              margin={{
+                bottom: 15,
               }}
-              width="auto"
-              tickMargin={8}
-            />
-            <YAxis
-              dataKey="label"
-              axisLine={false}
-              tickLine={false}
-              type="category"
-              width={140}
-            />
-            <ChartTooltip content={<ChartTooltipContent hideLabel />} />
-            <ChartLegend
-              content={<ChartLegendContent />}
-              verticalAlign={window.innerWidth < 640 ? "bottom" : "top"}
-              className="mt-4 md:mt-0"
-            />
-            <Bar
-              dataKey="acute_covid"
-              stackId="a"
-              fill="var(--color-acute_covid)"
-            />
-            <Bar
-              dataKey="long_covid"
-              stackId="a"
-              fill="var(--color-long_covid)"
-            />
-            <Bar dataKey="pasc" stackId="a" fill="var(--color-pasc)" />
-          </BarChart>
-        </ChartContainer>
+            >
+              <CartesianGrid horizontal={false} />
+              <XAxis
+                type="number"
+                label={{
+                  value: "DALYS per 1000 people",
+                  position: "bottom",
+                }}
+                width="auto"
+                tickMargin={8}
+              />
+              <YAxis
+                dataKey="label"
+                axisLine={false}
+                tickLine={false}
+                type="category"
+                width={140}
+              />
+              <ChartTooltip content={<ChartTooltipContent hideLabel />} />
+              {legendPortal ? (
+                <ChartLegend
+                  portal={legendPortal}
+                  content={<ChartLegendContent />}
+                  verticalAlign="top"
+                  className="mt-4 grid grid-cols-1 gap-x-4 gap-y-2 md:mt-0 md:flex md:justify-center"
+                />
+              ) : null}
+              <Bar
+                dataKey="acute_covid"
+                stackId="a"
+                fill="var(--color-acute_covid)"
+              />
+              <Bar
+                dataKey="long_covid"
+                stackId="a"
+                fill="var(--color-long_covid)"
+              />
+              <Bar dataKey="pasc" stackId="a" fill="var(--color-pasc)" />
+            </BarChart>
+          </ChartContainer>
+          <div
+            ref={setLegendPortal}
+            data-chart="chart-bar-chart"
+            className="order-3 text-xs md:order-1"
+          />
+        </div>
         <CardDescription className="mt-3 block md:hidden">
           This scenario simulator shows the result of synthesizing existing
           evidence to model the potential impact of population-level air
