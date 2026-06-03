@@ -88,8 +88,9 @@ export function AcuteCovidChart({
   selectedScenarios,
   setSelectedScenarios,
 }: AcuteCovidChartProps) {
-  const [legendPortal, setLegendPortal] =
-    React.useState<HTMLDivElement | null>(null);
+  const [legendPortal, setLegendPortal] = React.useState<HTMLDivElement | null>(
+    null,
+  );
   // Track selected scenarios by their ID
   // const [selectedScenarios, setSelectedScenarios] = React.useState<Set<string>>(
   //   getDefaultSelectedScenarios,
@@ -202,98 +203,100 @@ export function AcuteCovidChart({
           </CardTitle>
         </div>
       </CardHeader>
-      <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
-        <ChartContainer
-          id="acute-covid-dalys"
-          config={chartConfig}
-          className="h-100 w-full md:h-150"
-        >
-          <AreaChart
-            data={chartDataItems}
-            margin={{
-              bottom: 15,
-            }}
+      <CardContent>
+        <div className="flex flex-col">
+          <ChartContainer
+            id="acute-covid-dalys"
+            config={chartConfig}
+            className="order-2 h-100 w-full md:h-150"
           >
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="year"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-              minTickGap={32}
-              interval={"preserveStartEnd"}
-              label={{
-                value: "Years",
-                position: "bottom",
+            <AreaChart
+              data={chartDataItems}
+              margin={{
+                bottom: 15,
               }}
-            />
-            <YAxis
-              axisLine={false}
-              tick={{ width: 250 }}
-              tickMargin={8}
-              domain={[0, 12]}
-              allowDataOverflow={false}
-              label={{
-                value: "DALYs per 1000 people",
-                angle: -90,
-                position: "insideLeft",
-              }}
-            />
-
-            {legendPortal ? (
-              <ChartLegend
-                portal={legendPortal}
-                content={<ChartLegendContent />}
-                verticalAlign="top"
-                className="mt-4 grid grid-cols-1 gap-x-4 gap-y-2 md:grid-cols-3 md:justify-items-center"
+            >
+              <CartesianGrid vertical={false} />
+              <XAxis
+                dataKey="year"
+                tickLine={false}
+                axisLine={false}
+                tickMargin={8}
+                minTickGap={32}
+                interval={"preserveStartEnd"}
+                label={{
+                  value: "Years",
+                  position: "bottom",
+                }}
               />
-            ) : null}
-            <ChartTooltip
-              cursor={false}
-              content={
-                <ChartTooltipContent
-                  className="bg-card px-4 py-2"
-                  labelFormatter={(value) => `Year ${value}`}
-                  indicator="dot"
+              <YAxis
+                axisLine={false}
+                tick={{ width: 250 }}
+                tickMargin={8}
+                domain={[0, 12]}
+                allowDataOverflow={false}
+                label={{
+                  value: "DALYs per 1000 people",
+                  angle: -90,
+                  position: "insideLeft",
+                }}
+              />
+
+              {legendPortal ? (
+                <ChartLegend
+                  portal={legendPortal}
+                  content={<ChartLegendContent />}
+                  verticalAlign="top"
+                  className="mt-4 grid grid-cols-1 gap-x-4 gap-y-2 md:mt-0 md:grid-cols-3 md:justify-items-center"
                 />
-              }
-            />
-
-            {/* area charts (these are the main graphs on the chart) */}
-            {sortedScenarios.map((scenario, index) => {
-              const shouldAnimate = newlySelectedScenarios.has(scenario.id);
-
-              return (
-                <ZIndexLayer key={index} zIndex={index}>
-                  <Area
-                    key={scenario.id}
-                    dataKey={scenario.id}
-                    isAnimationActive={shouldAnimate}
-                    fill={`var(--color-${scenario.id})`}
-                    stroke={`var(--color-${scenario.id})`}
+              ) : null}
+              <ChartTooltip
+                cursor={false}
+                content={
+                  <ChartTooltipContent
+                    className="bg-card px-4 py-2"
+                    labelFormatter={(value) => `Year ${value}`}
+                    indicator="dot"
                   />
-                </ZIndexLayer>
-              );
-            })}
+                }
+              />
 
-            {/* test data watermark  */}
-            <ZIndexLayer zIndex={9999}>
-              <text
-                className="left-2 text-2xl font-bold tracking-widest opacity-50 lg:text-5xl"
-                x={window.innerWidth < 640 ? "60%" : "50%"}
-                y={window.innerWidth < 640 ? "80%" : "50%"}
-                textAnchor="middle"
-              >
-                TEST DATA
-              </text>
-            </ZIndexLayer>
-          </AreaChart>
-        </ChartContainer>
-        <div
-          ref={setLegendPortal}
-          data-chart="chart-acute-covid-dalys"
-          className="text-xs"
-        />
+              {/* area charts (these are the main graphs on the chart) */}
+              {sortedScenarios.map((scenario, index) => {
+                const shouldAnimate = newlySelectedScenarios.has(scenario.id);
+
+                return (
+                  <ZIndexLayer key={index} zIndex={index}>
+                    <Area
+                      key={scenario.id}
+                      dataKey={scenario.id}
+                      isAnimationActive={shouldAnimate}
+                      fill={`var(--color-${scenario.id})`}
+                      stroke={`var(--color-${scenario.id})`}
+                    />
+                  </ZIndexLayer>
+                );
+              })}
+
+              {/* test data watermark  */}
+              <ZIndexLayer zIndex={9999}>
+                <text
+                  className="left-2 text-2xl font-bold tracking-widest opacity-50 lg:text-5xl"
+                  x={window.innerWidth < 640 ? "60%" : "50%"}
+                  y={window.innerWidth < 640 ? "80%" : "50%"}
+                  textAnchor="middle"
+                >
+                  TEST DATA
+                </text>
+              </ZIndexLayer>
+            </AreaChart>
+          </ChartContainer>
+          <div
+            ref={setLegendPortal}
+            data-chart="chart-acute-covid-dalys"
+            className="order-3 text-xs md:order-1"
+          />
+        </div>
 
         <Accordion type="multiple" defaultValue={["scenarios"]}>
           {/* scenario selector */}
