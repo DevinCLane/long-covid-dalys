@@ -34,6 +34,26 @@ export type Scenario = {
 
 export const description = "A stacked bar chart with a legend";
 
+function ChartDescriptionBody() {
+  return (
+    <>
+      This scenario simulator shows the result of synthesizing existing evidence
+      to model the potential impact of population-level air cleaning
+      interventions, like HEPA filtration and far germicidal UVC light, on Long
+      COVID-related{" "}
+      <a
+        href="https://en.wikipedia.org/wiki/Disability-adjusted_life_year"
+        target="_blank"
+        rel="noreferrer"
+        className="font-medium underline underline-offset-4"
+      >
+        disability-adjusted life years (DALYs)
+      </a>
+      . Each DALY represents one year of healthy life lost to illness.
+    </>
+  );
+}
+
 const chartRows = chartData.scenarios.map((scenario: Scenario) => {
   const byCondition = Object.fromEntries(
     scenario.conditions.map((condition) => [
@@ -79,19 +99,7 @@ export function BarChartStacked() {
             10-year DALYs for Acute COVID, Long COVID and PASC
           </CardTitle>
           <CardDescription className="hidden md:block">
-            This scenario simulator shows the result of synthesizing existing
-            evidence to model the potential impact of population-level air
-            cleaning interventions, like HEPA filtration and far germicidal UVC
-            light, on Long COVID-related{" "}
-            <a
-              href="https://en.wikipedia.org/wiki/Disability-adjusted_life_year"
-              target="_blank"
-              rel="noreferrer"
-              className="font-medium underline underline-offset-4"
-            >
-              disability-adjusted life years (DALYs)
-            </a>
-            . Each DALY represents one year of healthy life lost to illness.
+            <ChartDescriptionBody />
           </CardDescription>
         </div>
       </CardHeader>
@@ -156,19 +164,7 @@ export function BarChartStacked() {
           />
         </div>
         <CardDescription className="mt-3 block md:hidden">
-          This scenario simulator shows the result of synthesizing existing
-          evidence to model the potential impact of population-level air
-          cleaning interventions, like HEPA filtration and far germicidal UVC
-          light, on Long COVID-related{" "}
-          <a
-            href="https://en.wikipedia.org/wiki/Disability-adjusted_life_year"
-            target="_blank"
-            rel="noreferrer"
-            className="font-medium underline underline-offset-4"
-          >
-            disability-adjusted life years (DALYs)
-          </a>
-          . Each DALY represents one year of healthy life lost to illness.
+          <ChartDescriptionBody />
         </CardDescription>
       </CardContent>
     </Card>
