@@ -132,6 +132,7 @@ function ChartTooltipContent({
   active,
   payload,
   className,
+  itemClassName,
   indicator = "dot",
   hideLabel = false,
   hideIndicator = false,
@@ -149,6 +150,7 @@ function ChartTooltipContent({
     indicator?: "line" | "dot" | "dashed";
     nameKey?: string;
     labelKey?: string;
+    itemClassName?: string;
   } & Omit<
     RechartsPrimitive.DefaultTooltipContentProps<ValueType, NameType>,
     "accessibilityLayer"
@@ -251,8 +253,9 @@ function ChartTooltipContent({
                     )}
                     <div
                       className={cn(
-                        "flex flex-1 justify-between leading-none",
+                        "flex flex-1 justify-between gap-3 leading-none",
                         nestLabel ? "items-end" : "items-center",
+                        itemClassName,
                       )}
                     >
                       <div className="grid gap-1.5">
