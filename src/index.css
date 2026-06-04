@@ -32,6 +32,16 @@ layer(base);
   --ring: hsl(0 0% 3.9%);
   --radius: 0.5rem;
   /* Chart colors */
+
+  /* 
+  perhaps nmore color blind accessible?
+  --color-1: #0088FE;
+  --color-2: #00C49F;
+  --color-3: #FFBB28;
+  --color-4: #FF8042;
+  --color-5: #8884d8;
+  --color-6: #1852ed;
+  */
   /* rose 600 */
   --chart-1: hsl(346.8 77.2% 49.8%);
   /* Base rose color */
