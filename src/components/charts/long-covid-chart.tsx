@@ -227,7 +227,7 @@ export function LongCovidChart({
                 axisLine={false}
                 tick={{ width: 250 }}
                 tickMargin={8}
-                domain={[0, 45]}
+                domain={[0, 24]}
                 allowDataOverflow={false}
                 label={{
                   value: "DALYs per 1000 people",

@@ -233,7 +233,7 @@ export function PascChart({
                 axisLine={false}
                 tick={{ width: 250 }}
                 tickMargin={8}
-                domain={[0, 78]}
+                domain={[0, 56]}
                 allowDataOverflow={false}
                 label={{
                   value: "DALYs per 1000 people",

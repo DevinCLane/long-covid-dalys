@@ -233,7 +233,7 @@ export function AcuteCovidChart({
                 axisLine={false}
                 tick={{ width: 250 }}
                 tickMargin={8}
-                domain={[0, 12]}
+                domain={[0, 11]}
                 allowDataOverflow={false}
                 label={{
                   value: "DALYs per 1000 people",
