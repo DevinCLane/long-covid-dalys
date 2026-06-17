@@ -199,7 +199,7 @@ export function AcuteCovidChart({
       <CardHeader className="flex items-center gap-2 space-y-0 border-b sm:flex-row">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
           <CardTitle className="text-l text-pretty md:text-2xl">
-            10-year DALYs for Acute COVID
+            5-year DALYs for Acute COVID
           </CardTitle>
         </div>
       </CardHeader>
