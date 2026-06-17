@@ -18,7 +18,7 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart";
 
-import chartData from "@/data/results_detailed_with_pasc_components_age39_4_10yr_adjusted.json";
+import chartData from "@/data/data.json";
 import React from "react";
 
 export type Condition = {

@@ -1,0 +1,4542 @@
+{
+  "generated_at": "2026-06-04",
+  "parameters_used": {
+    "label": "Acute COVID, Long COVID, aggregate PASC, and PASC components",
+    "horizon": 5,
+    "age0": 39.4,
+    "annual_infection_rate": 0.2874,
+    "age_adjusted_mortality": true,
+    "pasc_components_included": [
+      "pasc_mi",
+      "pasc_diabetes",
+      "pasc_heart_failure",
+      "pasc_dementia",
+      "pasc_stroke",
+      "pasc_pe"
+    ]
+  },
+  "scenarios": [
+    {
+      "id": "baseline",
+      "label": "Baseline",
+      "dalys_per_1000_total": 300,
+      "conditions": [
+        {
+          "condition": "acute_covid",
+          "label": "Acute COVID",
+          "annual_infection_rate": 0.2874,
+          "totals": {
+            "daly": 0.052,
+            "dalys_per_1000": 52
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00255483,
+              "yll": 0.00826251,
+              "daly": 0.01081733,
+              "dalys_per_1000": 10.817331,
+              "dalys_total_population": 10.817331,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": null
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00255483,
+              "yll": 0.00809978,
+              "daly": 0.0106546,
+              "dalys_per_1000": 10.65460387,
+              "dalys_total_population": 10.65460387,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": null
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00255483,
+              "yll": 0.00793807,
+              "daly": 0.01049289,
+              "dalys_per_1000": 10.49289285,
+              "dalys_total_population": 10.49289285,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": null
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00255483,
+              "yll": 0.00777636,
+              "daly": 0.01033118,
+              "dalys_per_1000": 10.33118182,
+              "dalys_total_population": 10.33118182,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": null
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00255483,
+              "yll": 0.00761465,
+              "daly": 0.01016947,
+              "dalys_per_1000": 10.1694708,
+              "dalys_total_population": 10.1694708,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": null
+            }
+          ]
+        },
+        {
+          "condition": "long_covid",
+          "label": "Long COVID",
+          "annual_infection_rate": 0.2874,
+          "totals": {
+            "daly": 0.083,
+            "dalys_per_1000": 83
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.0098455,
+              "yll": 6.34e-6,
+              "daly": 0.00985185,
+              "dalys_per_1000": 9.85184663,
+              "dalys_total_population": 9.85184663,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.025
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.01305837,
+              "yll": 0.00001505,
+              "daly": 0.01307342,
+              "dalys_per_1000": 13.07341868,
+              "dalys_total_population": 13.07341868,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.025
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.01645283,
+              "yll": 0.00002006,
+              "daly": 0.01647288,
+              "dalys_per_1000": 16.47288165,
+              "dalys_total_population": 16.47288165,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.025
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.01997667,
+              "yll": 0.00002554,
+              "daly": 0.02000221,
+              "dalys_per_1000": 20.00220583,
+              "dalys_total_population": 20.00220583,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.025
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.02365168,
+              "yll": 0.00003133,
+              "daly": 0.023683,
+              "dalys_per_1000": 23.68300452,
+              "dalys_total_population": 23.68300452,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.025
+            }
+          ]
+        },
+        {
+          "condition": "pasc",
+          "label": "PASC",
+          "annual_infection_rate": 0.2874,
+          "totals": {
+            "daly": 0.164,
+            "dalys_per_1000": 164
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.0005077,
+              "yll": 0.00506253,
+              "daly": 0.00557024,
+              "dalys_per_1000": 5.57023731,
+              "dalys_total_population": 5.57023731,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00008622
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00145188,
+              "yll": 0.01857825,
+              "daly": 0.02003013,
+              "dalys_per_1000": 20.03012737,
+              "dalys_total_population": 20.03012737,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00008622
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00227622,
+              "yll": 0.03337102,
+              "daly": 0.03564725,
+              "dalys_per_1000": 35.64724743,
+              "dalys_total_population": 35.64724743,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00008622
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00301767,
+              "yll": 0.04431629,
+              "daly": 0.04733397,
+              "dalys_per_1000": 47.33396625,
+              "dalys_total_population": 47.33396625,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00008622
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.0037099,
+              "yll": 0.05215522,
+              "daly": 0.05586513,
+              "dalys_per_1000": 55.86512616,
+              "dalys_total_population": 55.86512616,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00008622
+            }
+          ]
+        },
+        {
+          "condition": "pasc_mi",
+          "label": "PASC: acute myocardial infarction",
+          "annual_infection_rate": 0.2874,
+          "totals": {
+            "daly": 0.003,
+            "dalys_per_1000": 3
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 2.5e-7,
+              "yll": 0.00014534,
+              "daly": 0.00014559,
+              "dalys_per_1000": 0.14559037,
+              "dalys_total_population": 0.14559037,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00008622
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 5.7e-7,
+              "yll": 0.00044006,
+              "daly": 0.00044063,
+              "dalys_per_1000": 0.44062992,
+              "dalys_total_population": 0.44062992,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00008622
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 6.6e-7,
+              "yll": 0.00063971,
+              "daly": 0.00064038,
+              "dalys_per_1000": 0.64037523,
+              "dalys_total_population": 0.64037523,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00008622
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 6.8e-7,
+              "yll": 0.00070718,
+              "daly": 0.00070786,
+              "dalys_per_1000": 0.70785681,
+              "dalys_total_population": 0.70785681,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00008622
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 6.8e-7,
+              "yll": 0.00073027,
+              "daly": 0.00073095,
+              "dalys_per_1000": 0.73095305,
+              "dalys_total_population": 0.73095305,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00008622
+            }
+          ]
+        },
+        {
+          "condition": "pasc_diabetes",
+          "label": "PASC: diabetes",
+          "annual_infection_rate": 0.2874,
+          "totals": {
+            "daly": 0.009,
+            "dalys_per_1000": 9
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00029932,
+              "yll": 0.00003897,
+              "daly": 0.00033829,
+              "dalys_per_1000": 0.3382851,
+              "dalys_total_population": 0.3382851,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.0077598
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00089344,
+              "yll": 0.00015916,
+              "daly": 0.0010526,
+              "dalys_per_1000": 1.05259758,
+              "dalys_total_population": 1.05259758,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.0077598
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00147844,
+              "yll": 0.00032516,
+              "daly": 0.00180359,
+              "dalys_per_1000": 1.80359358,
+              "dalys_total_population": 1.80359358,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.0077598
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.0020542,
+              "yll": 0.00049623,
+              "daly": 0.00255043,
+              "dalys_per_1000": 2.55043236,
+              "dalys_total_population": 2.55043236,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.0077598
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00262791,
+              "yll": 0.00066917,
+              "daly": 0.00329708,
+              "dalys_per_1000": 3.29707543,
+              "dalys_total_population": 3.29707543,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.0077598
+            }
+          ]
+        },
+        {
+          "condition": "pasc_heart_failure",
+          "label": "PASC: heart failure",
+          "annual_infection_rate": 0.2874,
+          "totals": {
+            "daly": 0.113,
+            "dalys_per_1000": 113
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.0000561,
+              "yll": 0.00357972,
+              "daly": 0.00363582,
+              "dalys_per_1000": 3.63582263,
+              "dalys_total_population": 3.63582263,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00117834
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00015315,
+              "yll": 0.01336334,
+              "daly": 0.01351649,
+              "dalys_per_1000": 13.51648997,
+              "dalys_total_population": 13.51648997,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00117834
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00022271,
+              "yll": 0.02435244,
+              "daly": 0.02457515,
+              "dalys_per_1000": 24.57514842,
+              "dalys_total_population": 24.57514842,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00117834
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00027033,
+              "yll": 0.03260652,
+              "daly": 0.03287685,
+              "dalys_per_1000": 32.87685276,
+              "dalys_total_population": 32.87685276,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00117834
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00030193,
+              "yll": 0.03844129,
+              "daly": 0.03874323,
+              "dalys_per_1000": 38.74322547,
+              "dalys_total_population": 38.74322547,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00117834
+            }
+          ]
+        },
+        {
+          "condition": "pasc_dementia",
+          "label": "PASC: dementia",
+          "annual_infection_rate": 0.2874,
+          "totals": {
+            "daly": 0.011,
+            "dalys_per_1000": 11
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00003509,
+              "yll": 0.00026867,
+              "daly": 0.00030376,
+              "dalys_per_1000": 0.3037611,
+              "dalys_total_population": 0.3037611,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00031039
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.0001023,
+              "yll": 0.00107216,
+              "daly": 0.00117447,
+              "dalys_per_1000": 1.1744661,
+              "dalys_total_population": 1.1744661,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00031039
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00016354,
+              "yll": 0.00212517,
+              "daly": 0.00228871,
+              "dalys_per_1000": 2.2887128,
+              "dalys_total_population": 2.2887128,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00031039
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00021884,
+              "yll": 0.00312937,
+              "daly": 0.0033482,
+              "dalys_per_1000": 3.34820379,
+              "dalys_total_population": 3.34820379,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00031039
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00026908,
+              "yll": 0.00406114,
+              "daly": 0.00433022,
+              "dalys_per_1000": 4.33022418,
+              "dalys_total_population": 4.33022418,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00031039
+            }
+          ]
+        },
+        {
+          "condition": "pasc_stroke",
+          "label": "PASC: stroke",
+          "annual_infection_rate": 0.2874,
+          "totals": {
+            "daly": 0.023,
+            "dalys_per_1000": 23
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00010805,
+              "yll": 0.00077659,
+              "daly": 0.00088463,
+              "dalys_per_1000": 0.88463334,
+              "dalys_total_population": 0.88463334,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00091393
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00028152,
+              "yll": 0.00275027,
+              "daly": 0.00303179,
+              "dalys_per_1000": 3.03179092,
+              "dalys_total_population": 3.03179092,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00091393
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00038581,
+              "yll": 0.00473252,
+              "daly": 0.00511833,
+              "dalys_per_1000": 5.11833208,
+              "dalys_total_population": 5.11833208,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00091393
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00044717,
+              "yll": 0.00601634,
+              "daly": 0.0064635,
+              "dalys_per_1000": 6.46350407,
+              "dalys_total_population": 6.46350407,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00091393
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00048337,
+              "yll": 0.00682243,
+              "daly": 0.0073058,
+              "dalys_per_1000": 7.30580467,
+              "dalys_total_population": 7.30580467,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00091393
+            }
+          ]
+        },
+        {
+          "condition": "pasc_pe",
+          "label": "PASC: pulmonary embolism",
+          "annual_infection_rate": 0.2874,
+          "totals": {
+            "daly": 0.005,
+            "dalys_per_1000": 5
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 8.89e-6,
+              "yll": 0.00025325,
+              "daly": 0.00026214,
+              "dalys_per_1000": 0.26214478,
+              "dalys_total_population": 0.26214478,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00095417
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.0000209,
+              "yll": 0.00079326,
+              "daly": 0.00081415,
+              "dalys_per_1000": 0.81415288,
+              "dalys_total_population": 0.81415288,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00095417
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00002507,
+              "yll": 0.00119601,
+              "daly": 0.00122109,
+              "dalys_per_1000": 1.22108533,
+              "dalys_total_population": 1.22108533,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00095417
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00002646,
+              "yll": 0.00136066,
+              "daly": 0.00138712,
+              "dalys_per_1000": 1.38711647,
+              "dalys_total_population": 1.38711647,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00095417
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00002692,
+              "yll": 0.00143092,
+              "daly": 0.00145784,
+              "dalys_per_1000": 1.45784335,
+              "dalys_total_population": 1.45784335,
+              "annual_infection_rate": 0.2874,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00095417
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hepa_most_public",
+      "label": "HEPA in most common indoor air",
+      "dalys_per_1000_total": 280,
+      "conditions": [
+        {
+          "condition": "acute_covid",
+          "label": "Acute COVID",
+          "annual_infection_rate": 0.2644,
+          "totals": {
+            "daly": 0.048,
+            "dalys_per_1000": 48
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00235037,
+              "yll": 0.00760128,
+              "daly": 0.00995164,
+              "dalys_per_1000": 9.95164341,
+              "dalys_total_population": 9.95164341,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": null
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00235037,
+              "yll": 0.00745157,
+              "daly": 0.00980194,
+              "dalys_per_1000": 9.80193898,
+              "dalys_total_population": 9.80193898,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": null
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00235037,
+              "yll": 0.0073028,
+              "daly": 0.00965317,
+              "dalys_per_1000": 9.65316934,
+              "dalys_total_population": 9.65316934,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": null
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00235037,
+              "yll": 0.00715403,
+              "daly": 0.0095044,
+              "dalys_per_1000": 9.5043997,
+              "dalys_total_population": 9.5043997,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": null
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00235037,
+              "yll": 0.00700526,
+              "daly": 0.00935563,
+              "dalys_per_1000": 9.35563006,
+              "dalys_total_population": 9.35563006,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": null
+            }
+          ]
+        },
+        {
+          "condition": "long_covid",
+          "label": "Long COVID",
+          "annual_infection_rate": 0.2644,
+          "totals": {
+            "daly": 0.08,
+            "dalys_per_1000": 80
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00974354,
+              "yll": 6.29e-6,
+              "daly": 0.00974983,
+              "dalys_per_1000": 9.74982877,
+              "dalys_total_population": 9.74982877,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.0229993
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.01274208,
+              "yll": 0.00001479,
+              "daly": 0.01275687,
+              "dalys_per_1000": 12.75687426,
+              "dalys_total_population": 12.75687426,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.0229993
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.01590446,
+              "yll": 0.0000195,
+              "daly": 0.01592397,
+              "dalys_per_1000": 15.92396582,
+              "dalys_total_population": 15.92396582,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.0229993
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.01918402,
+              "yll": 0.00002464,
+              "daly": 0.01920867,
+              "dalys_per_1000": 19.20866552,
+              "dalys_total_population": 19.20866552,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.0229993
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.02260399,
+              "yll": 0.00003005,
+              "daly": 0.02263405,
+              "dalys_per_1000": 22.63404775,
+              "dalys_total_population": 22.63404775,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.0229993
+            }
+          ]
+        },
+        {
+          "condition": "pasc",
+          "label": "PASC",
+          "annual_infection_rate": 0.2644,
+          "totals": {
+            "daly": 0.151,
+            "dalys_per_1000": 151
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00046716,
+              "yll": 0.00465753,
+              "daly": 0.00512469,
+              "dalys_per_1000": 5.12469236,
+              "dalys_total_population": 5.12469236,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00007932
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00133614,
+              "yll": 0.0170925,
+              "daly": 0.01842864,
+              "dalys_per_1000": 18.42863838,
+              "dalys_total_population": 18.42863838,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00007932
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00209522,
+              "yll": 0.03070352,
+              "daly": 0.03279874,
+              "dalys_per_1000": 32.7987402,
+              "dalys_total_population": 32.7987402,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00007932
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00277837,
+              "yll": 0.04077593,
+              "daly": 0.0435543,
+              "dalys_per_1000": 43.55429857,
+              "dalys_total_population": 43.55429857,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00007932
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00341656,
+              "yll": 0.04799129,
+              "daly": 0.05140784,
+              "dalys_per_1000": 51.40784372,
+              "dalys_total_population": 51.40784372,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00007932
+            }
+          ]
+        },
+        {
+          "condition": "pasc_mi",
+          "label": "PASC: acute myocardial infarction",
+          "annual_infection_rate": 0.2644,
+          "totals": {
+            "daly": 0.002,
+            "dalys_per_1000": 2
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 2.3e-7,
+              "yll": 0.00013371,
+              "daly": 0.00013394,
+              "dalys_per_1000": 0.13393935,
+              "dalys_total_population": 0.13393935,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00007932
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 5.3e-7,
+              "yll": 0.00040484,
+              "daly": 0.00040537,
+              "dalys_per_1000": 0.40536867,
+              "dalys_total_population": 0.40536867,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00007932
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 6.1e-7,
+              "yll": 0.00058852,
+              "daly": 0.00058913,
+              "dalys_per_1000": 0.58913048,
+              "dalys_total_population": 0.58913048,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00007932
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 6.3e-7,
+              "yll": 0.00065059,
+              "daly": 0.00065121,
+              "dalys_per_1000": 0.65121308,
+              "dalys_total_population": 0.65121308,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00007932
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 6.3e-7,
+              "yll": 0.00067183,
+              "daly": 0.00067246,
+              "dalys_per_1000": 0.67246213,
+              "dalys_total_population": 0.67246213,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00007932
+            }
+          ]
+        },
+        {
+          "condition": "pasc_diabetes",
+          "label": "PASC: diabetes",
+          "annual_infection_rate": 0.2644,
+          "totals": {
+            "daly": 0.008,
+            "dalys_per_1000": 8
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00027545,
+              "yll": 0.00003585,
+              "daly": 0.00031131,
+              "dalys_per_1000": 0.3113057,
+              "dalys_total_population": 0.3113057,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.0071388
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00082236,
+              "yll": 0.00014648,
+              "daly": 0.00096885,
+              "dalys_per_1000": 0.96884533,
+              "dalys_total_population": 0.96884533,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.0071388
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00136122,
+              "yll": 0.00029934,
+              "daly": 0.00166055,
+              "dalys_per_1000": 1.66055134,
+              "dalys_total_population": 1.66055134,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.0071388
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00189189,
+              "yll": 0.00045696,
+              "daly": 0.00234885,
+              "dalys_per_1000": 2.34885359,
+              "dalys_total_population": 2.34885359,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.0071388
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.002421,
+              "yll": 0.00061639,
+              "daly": 0.0030374,
+              "dalys_per_1000": 3.0373984,
+              "dalys_total_population": 3.0373984,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.0071388
+            }
+          ]
+        },
+        {
+          "condition": "pasc_heart_failure",
+          "label": "PASC: heart failure",
+          "annual_infection_rate": 0.2644,
+          "totals": {
+            "daly": 0.104,
+            "dalys_per_1000": 104
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00005162,
+              "yll": 0.00329335,
+              "daly": 0.00334496,
+              "dalys_per_1000": 3.344964,
+              "dalys_total_population": 3.344964,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00108404
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00014091,
+              "yll": 0.01229471,
+              "daly": 0.01243562,
+              "dalys_per_1000": 12.43561672,
+              "dalys_total_population": 12.43561672,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00108404
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00020491,
+              "yll": 0.02240606,
+              "daly": 0.02261097,
+              "dalys_per_1000": 22.61097451,
+              "dalys_total_population": 22.61097451,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00108404
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00024875,
+              "yll": 0.03000211,
+              "daly": 0.03025085,
+              "dalys_per_1000": 30.25085238,
+              "dalys_total_population": 30.25085238,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00108404
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00027784,
+              "yll": 0.03537303,
+              "daly": 0.03565087,
+              "dalys_per_1000": 35.65087392,
+              "dalys_total_population": 35.65087392,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00108404
+            }
+          ]
+        },
+        {
+          "condition": "pasc_dementia",
+          "label": "PASC: dementia",
+          "annual_infection_rate": 0.2644,
+          "totals": {
+            "daly": 0.011,
+            "dalys_per_1000": 11
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00003228,
+              "yll": 0.00024717,
+              "daly": 0.00027945,
+              "dalys_per_1000": 0.27945422,
+              "dalys_total_population": 0.27945422,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00028555
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00009412,
+              "yll": 0.00098638,
+              "daly": 0.00108049,
+              "dalys_per_1000": 1.0804947,
+              "dalys_total_population": 1.0804947,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00028555
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00015046,
+              "yll": 0.00195515,
+              "daly": 0.00210561,
+              "dalys_per_1000": 2.10561108,
+              "dalys_total_population": 2.10561108,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00028555
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00020133,
+              "yll": 0.00287905,
+              "daly": 0.00308038,
+              "dalys_per_1000": 3.08037921,
+              "dalys_total_population": 3.08037921,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00028555
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00024756,
+              "yll": 0.00373634,
+              "daly": 0.0039839,
+              "dalys_per_1000": 3.98390008,
+              "dalys_total_population": 3.98390008,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00028555
+            }
+          ]
+        },
+        {
+          "condition": "pasc_stroke",
+          "label": "PASC: stroke",
+          "annual_infection_rate": 0.2644,
+          "totals": {
+            "daly": 0.021,
+            "dalys_per_1000": 21
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.0000994,
+              "yll": 0.00071445,
+              "daly": 0.00081386,
+              "dalys_per_1000": 0.8138579,
+              "dalys_total_population": 0.8138579,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00084079
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.000259,
+              "yll": 0.00253028,
+              "daly": 0.00278929,
+              "dalys_per_1000": 2.78928722,
+              "dalys_total_population": 2.78928722,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00084079
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00035496,
+              "yll": 0.00435409,
+              "daly": 0.00470905,
+              "dalys_per_1000": 4.70904856,
+              "dalys_total_population": 4.70904856,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00084079
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00041142,
+              "yll": 0.00553538,
+              "daly": 0.00594681,
+              "dalys_per_1000": 5.94680785,
+              "dalys_total_population": 5.94680785,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00084079
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00044475,
+              "yll": 0.00627719,
+              "daly": 0.00672193,
+              "dalys_per_1000": 6.72193483,
+              "dalys_total_population": 6.72193483,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00084079
+            }
+          ]
+        },
+        {
+          "condition": "pasc_pe",
+          "label": "PASC: pulmonary embolism",
+          "annual_infection_rate": 0.2644,
+          "totals": {
+            "daly": 0.005,
+            "dalys_per_1000": 5
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 8.18e-6,
+              "yll": 0.00023299,
+              "daly": 0.00024117,
+              "dalys_per_1000": 0.24117119,
+              "dalys_total_population": 0.24117119,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00087781
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00001922,
+              "yll": 0.0007298,
+              "daly": 0.00074903,
+              "dalys_per_1000": 0.74902573,
+              "dalys_total_population": 0.74902573,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00087781
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00002307,
+              "yll": 0.00110036,
+              "daly": 0.00112342,
+              "dalys_per_1000": 1.12342423,
+              "dalys_total_population": 1.12342423,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00087781
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00002434,
+              "yll": 0.00125185,
+              "daly": 0.00127619,
+              "dalys_per_1000": 1.27619247,
+              "dalys_total_population": 1.27619247,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00087781
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00002477,
+              "yll": 0.0013165,
+              "daly": 0.00134127,
+              "dalys_per_1000": 1.34127437,
+              "dalys_total_population": 1.34127437,
+              "annual_infection_rate": 0.2644,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00087781
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hepa_schools_and_daycares",
+      "label": "HEPA schools and daycares",
+      "dalys_per_1000_total": 259,
+      "conditions": [
+        {
+          "condition": "acute_covid",
+          "label": "Acute COVID",
+          "annual_infection_rate": 0.2404,
+          "totals": {
+            "daly": 0.044,
+            "dalys_per_1000": 44
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00213702,
+              "yll": 0.0069113,
+              "daly": 0.00904832,
+              "dalys_per_1000": 9.04831723,
+              "dalys_total_population": 9.04831723,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": null
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00213702,
+              "yll": 0.00677518,
+              "daly": 0.0089122,
+              "dalys_per_1000": 8.91220171,
+              "dalys_total_population": 8.91220171,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": null
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00213702,
+              "yll": 0.00663991,
+              "daly": 0.00877694,
+              "dalys_per_1000": 8.77693612,
+              "dalys_total_population": 8.77693612,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": null
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00213702,
+              "yll": 0.00650465,
+              "daly": 0.00864167,
+              "dalys_per_1000": 8.64167053,
+              "dalys_total_population": 8.64167053,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": null
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00213702,
+              "yll": 0.00636938,
+              "daly": 0.0085064,
+              "dalys_per_1000": 8.50640494,
+              "dalys_total_population": 8.50640494,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": null
+            }
+          ]
+        },
+        {
+          "condition": "long_covid",
+          "label": "Long COVID",
+          "annual_infection_rate": 0.2404,
+          "totals": {
+            "daly": 0.077,
+            "dalys_per_1000": 77
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00963694,
+              "yll": 6.23e-6,
+              "daly": 0.00964317,
+              "dalys_per_1000": 9.64317042,
+              "dalys_total_population": 9.64317042,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.02091162
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.01241101,
+              "yll": 0.00001453,
+              "daly": 0.01242554,
+              "dalys_per_1000": 12.42554216,
+              "dalys_total_population": 12.42554216,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.02091162
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.0153296,
+              "yll": 0.00001893,
+              "daly": 0.01534853,
+              "dalys_per_1000": 15.34852638,
+              "dalys_total_population": 15.34852638,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.02091162
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.01835184,
+              "yll": 0.0000237,
+              "daly": 0.01837554,
+              "dalys_per_1000": 18.37554211,
+              "dalys_total_population": 18.37554211,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.02091162
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.02150248,
+              "yll": 0.00002872,
+              "daly": 0.0215312,
+              "dalys_per_1000": 21.53119709,
+              "dalys_total_population": 21.53119709,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.02091162
+            }
+          ]
+        },
+        {
+          "condition": "pasc",
+          "label": "PASC",
+          "annual_infection_rate": 0.2404,
+          "totals": {
+            "daly": 0.138,
+            "dalys_per_1000": 138
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00042485,
+              "yll": 0.00423489,
+              "daly": 0.00465973,
+              "dalys_per_1000": 4.65973344,
+              "dalys_total_population": 4.65973344,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00007212
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00121529,
+              "yll": 0.01554196,
+              "daly": 0.01675725,
+              "dalys_per_1000": 16.75724557,
+              "dalys_total_population": 16.75724557,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00007212
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00190613,
+              "yll": 0.02791946,
+              "daly": 0.0298256,
+              "dalys_per_1000": 29.82559552,
+              "dalys_total_population": 29.82559552,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00007212
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00252825,
+              "yll": 0.0370805,
+              "daly": 0.03960875,
+              "dalys_per_1000": 39.60875025,
+              "dalys_total_population": 39.60875025,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00007212
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00310981,
+              "yll": 0.04364447,
+              "daly": 0.04675428,
+              "dalys_per_1000": 46.7542755,
+              "dalys_total_population": 46.7542755,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00007212
+            }
+          ]
+        },
+        {
+          "condition": "pasc_mi",
+          "label": "PASC: acute myocardial infarction",
+          "annual_infection_rate": 0.2404,
+          "totals": {
+            "daly": 0.002,
+            "dalys_per_1000": 2
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 2.1e-7,
+              "yll": 0.00012157,
+              "daly": 0.00012178,
+              "dalys_per_1000": 0.12178172,
+              "dalys_total_population": 0.12178172,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00007212
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 4.8e-7,
+              "yll": 0.0003681,
+              "daly": 0.00036857,
+              "dalys_per_1000": 0.36857406,
+              "dalys_total_population": 0.36857406,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00007212
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 5.5e-7,
+              "yll": 0.0005351,
+              "daly": 0.00053566,
+              "dalys_per_1000": 0.53565713,
+              "dalys_total_population": 0.53565713,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00007212
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 5.7e-7,
+              "yll": 0.00059154,
+              "daly": 0.00059211,
+              "dalys_per_1000": 0.59210575,
+              "dalys_total_population": 0.59210575,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00007212
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 5.7e-7,
+              "yll": 0.00061086,
+              "daly": 0.00061143,
+              "dalys_per_1000": 0.61142707,
+              "dalys_total_population": 0.61142707,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00007212
+            }
+          ]
+        },
+        {
+          "condition": "pasc_diabetes",
+          "label": "PASC: diabetes",
+          "annual_infection_rate": 0.2404,
+          "totals": {
+            "daly": 0.008,
+            "dalys_per_1000": 8
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00025053,
+              "yll": 0.00003261,
+              "daly": 0.00028314,
+              "dalys_per_1000": 0.2831361,
+              "dalys_total_population": 0.2831361,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.0064908
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00074812,
+              "yll": 0.00013325,
+              "daly": 0.00088136,
+              "dalys_per_1000": 0.88136209,
+              "dalys_total_population": 0.88136209,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.0064908
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.0012387,
+              "yll": 0.00027236,
+              "daly": 0.00151105,
+              "dalys_per_1000": 1.51105096,
+              "dalys_total_population": 1.51105096,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.0064908
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00172215,
+              "yll": 0.0004159,
+              "daly": 0.00213805,
+              "dalys_per_1000": 2.13804544,
+              "dalys_total_population": 2.13804544,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.0064908
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00220448,
+              "yll": 0.00056118,
+              "daly": 0.00276566,
+              "dalys_per_1000": 2.76566314,
+              "dalys_total_population": 2.76566314,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.0064908
+            }
+          ]
+        },
+        {
+          "condition": "pasc_heart_failure",
+          "label": "PASC: heart failure",
+          "annual_infection_rate": 0.2404,
+          "totals": {
+            "daly": 0.095,
+            "dalys_per_1000": 95
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00004693,
+              "yll": 0.00299451,
+              "daly": 0.00304144,
+              "dalys_per_1000": 3.04143925,
+              "dalys_total_population": 3.04143925,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00098564
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00012813,
+              "yll": 0.01117947,
+              "daly": 0.0113076,
+              "dalys_per_1000": 11.30759656,
+              "dalys_total_population": 11.30759656,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00098564
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00018634,
+              "yll": 0.0203746,
+              "daly": 0.02056093,
+              "dalys_per_1000": 20.56093429,
+              "dalys_total_population": 20.56093429,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00098564
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00022621,
+              "yll": 0.02728353,
+              "daly": 0.02750974,
+              "dalys_per_1000": 27.50974,
+              "dalys_total_population": 27.50974,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00098564
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00025269,
+              "yll": 0.03216986,
+              "daly": 0.03242256,
+              "dalys_per_1000": 32.42255635,
+              "dalys_total_population": 32.42255635,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00098564
+            }
+          ]
+        },
+        {
+          "condition": "pasc_dementia",
+          "label": "PASC: dementia",
+          "annual_infection_rate": 0.2404,
+          "totals": {
+            "daly": 0.01,
+            "dalys_per_1000": 10
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00002935,
+              "yll": 0.00022474,
+              "daly": 0.00025409,
+              "dalys_per_1000": 0.25409006,
+              "dalys_total_population": 0.25409006,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00025963
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00008558,
+              "yll": 0.00089686,
+              "daly": 0.00098243,
+              "dalys_per_1000": 0.98243414,
+              "dalys_total_population": 0.98243414,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00025963
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00013681,
+              "yll": 0.00177773,
+              "daly": 0.00191454,
+              "dalys_per_1000": 1.91453747,
+              "dalys_total_population": 1.91453747,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00025963
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00018307,
+              "yll": 0.00261782,
+              "daly": 0.00280089,
+              "dalys_per_1000": 2.80088691,
+              "dalys_total_population": 2.80088691,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00025963
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.0002251,
+              "yll": 0.00339738,
+              "daly": 0.00362248,
+              "dalys_per_1000": 3.62247865,
+              "dalys_total_population": 3.62247865,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00025963
+            }
+          ]
+        },
+        {
+          "condition": "pasc_stroke",
+          "label": "PASC: stroke",
+          "annual_infection_rate": 0.2404,
+          "totals": {
+            "daly": 0.019,
+            "dalys_per_1000": 19
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00009038,
+              "yll": 0.00064962,
+              "daly": 0.00074,
+              "dalys_per_1000": 0.74000158,
+              "dalys_total_population": 0.74000158,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00076447
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00023551,
+              "yll": 0.00230071,
+              "daly": 0.00253622,
+              "dalys_per_1000": 2.5362169,
+              "dalys_total_population": 2.5362169,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00076447
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00032277,
+              "yll": 0.00395914,
+              "daly": 0.00428191,
+              "dalys_per_1000": 4.28190975,
+              "dalys_total_population": 4.28190975,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00076447
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00037412,
+              "yll": 0.00503342,
+              "daly": 0.00540754,
+              "dalys_per_1000": 5.40754203,
+              "dalys_total_population": 5.40754203,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00076447
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00040443,
+              "yll": 0.0057081,
+              "daly": 0.00611253,
+              "dalys_per_1000": 6.11253148,
+              "dalys_total_population": 6.11253148,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00076447
+            }
+          ]
+        },
+        {
+          "condition": "pasc_pe",
+          "label": "PASC: pulmonary embolism",
+          "annual_infection_rate": 0.2404,
+          "totals": {
+            "daly": 0.004,
+            "dalys_per_1000": 4
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 7.44e-6,
+              "yll": 0.00021185,
+              "daly": 0.00021928,
+              "dalys_per_1000": 0.21928472,
+              "dalys_total_population": 0.21928472,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00079813
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00001748,
+              "yll": 0.00066358,
+              "daly": 0.00068106,
+              "dalys_per_1000": 0.68106182,
+              "dalys_total_population": 0.68106182,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00079813
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00002097,
+              "yll": 0.00100053,
+              "daly": 0.00102151,
+              "dalys_per_1000": 1.02150592,
+              "dalys_total_population": 1.02150592,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00079813
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00002213,
+              "yll": 0.0011383,
+              "daly": 0.00116043,
+              "dalys_per_1000": 1.16043013,
+              "dalys_total_population": 1.16043013,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00079813
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00002253,
+              "yll": 0.00119709,
+              "daly": 0.00121962,
+              "dalys_per_1000": 1.2196188,
+              "dalys_total_population": 1.2196188,
+              "annual_infection_rate": 0.2404,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00079813
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hepa_all_public",
+      "label": "HEPA all public indoor air",
+      "dalys_per_1000_total": 144,
+      "conditions": [
+        {
+          "condition": "acute_covid",
+          "label": "Acute COVID",
+          "annual_infection_rate": 0.1099,
+          "totals": {
+            "daly": 0.02,
+            "dalys_per_1000": 20
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00097695,
+              "yll": 0.00315953,
+              "daly": 0.00413648,
+              "dalys_per_1000": 4.13648113,
+              "dalys_total_population": 4.13648113,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": null
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00097695,
+              "yll": 0.00309731,
+              "daly": 0.00407426,
+              "dalys_per_1000": 4.07425527,
+              "dalys_total_population": 4.07425527,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": null
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00097695,
+              "yll": 0.00303547,
+              "daly": 0.00401242,
+              "dalys_per_1000": 4.01241797,
+              "dalys_total_population": 4.01241797,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": null
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00097695,
+              "yll": 0.00297363,
+              "daly": 0.00395058,
+              "dalys_per_1000": 3.95058066,
+              "dalys_total_population": 3.95058066,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": null
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00097695,
+              "yll": 0.00291179,
+              "daly": 0.00388874,
+              "dalys_per_1000": 3.88874336,
+              "dalys_total_population": 3.88874336,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": null
+            }
+          ]
+        },
+        {
+          "condition": "long_covid",
+          "label": "Long COVID",
+          "annual_infection_rate": 0.1099,
+          "totals": {
+            "daly": 0.061,
+            "dalys_per_1000": 61
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00905364,
+              "yll": 5.9e-6,
+              "daly": 0.00905953,
+              "dalys_per_1000": 9.05953454,
+              "dalys_total_population": 9.05953454,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00955985
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.01059236,
+              "yll": 0.00001309,
+              "daly": 0.01060544,
+              "dalys_per_1000": 10.60544349,
+              "dalys_total_population": 10.60544349,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00955985
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.01215571,
+              "yll": 0.00001575,
+              "daly": 0.01217146,
+              "dalys_per_1000": 12.17145662,
+              "dalys_total_population": 12.17145662,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00955985
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.01373456,
+              "yll": 0.0000185,
+              "daly": 0.01375305,
+              "dalys_per_1000": 13.75305378,
+              "dalys_total_population": 13.75305378,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00955985
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.0153619,
+              "yll": 0.00002127,
+              "daly": 0.01538317,
+              "dalys_per_1000": 15.38316874,
+              "dalys_total_population": 15.38316874,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00955985
+            }
+          ]
+        },
+        {
+          "condition": "pasc",
+          "label": "PASC",
+          "annual_infection_rate": 0.1099,
+          "totals": {
+            "daly": 0.063,
+            "dalys_per_1000": 63
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00019444,
+              "yll": 0.00193632,
+              "daly": 0.00213076,
+              "dalys_per_1000": 2.13075997,
+              "dalys_total_population": 2.13075997,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00003297
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00055664,
+              "yll": 0.0071075,
+              "daly": 0.00766415,
+              "dalys_per_1000": 7.66414637,
+              "dalys_total_population": 7.66414637,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00003297
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00087414,
+              "yll": 0.01277085,
+              "daly": 0.01364499,
+              "dalys_per_1000": 13.64498962,
+              "dalys_total_population": 13.64498962,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00003297
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.001161,
+              "yll": 0.01696611,
+              "daly": 0.01812711,
+              "dalys_per_1000": 18.12711217,
+              "dalys_total_population": 18.12711217,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00003297
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.0014301,
+              "yll": 0.01997574,
+              "daly": 0.02140584,
+              "dalys_per_1000": 21.40584356,
+              "dalys_total_population": 21.40584356,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00003297
+            }
+          ]
+        },
+        {
+          "condition": "pasc_mi",
+          "label": "PASC: acute myocardial infarction",
+          "annual_infection_rate": 0.1099,
+          "totals": {
+            "daly": 0.001,
+            "dalys_per_1000": 1
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 1e-7,
+              "yll": 0.00005558,
+              "daly": 0.00005567,
+              "dalys_per_1000": 0.05567372,
+              "dalys_total_population": 0.05567372,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00003297
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 2.2e-7,
+              "yll": 0.00016828,
+              "daly": 0.0001685,
+              "dalys_per_1000": 0.16849871,
+              "dalys_total_population": 0.16849871,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00003297
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 2.5e-7,
+              "yll": 0.00024463,
+              "daly": 0.00024489,
+              "dalys_per_1000": 0.2448855,
+              "dalys_total_population": 0.2448855,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00003297
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 2.6e-7,
+              "yll": 0.00027043,
+              "daly": 0.00027069,
+              "dalys_per_1000": 0.27069462,
+              "dalys_total_population": 0.27069462,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00003297
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 2.6e-7,
+              "yll": 0.00027927,
+              "daly": 0.00027953,
+              "dalys_per_1000": 0.27953016,
+              "dalys_total_population": 0.27953016,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00003297
+            }
+          ]
+        },
+        {
+          "condition": "pasc_diabetes",
+          "label": "PASC: diabetes",
+          "annual_infection_rate": 0.1099,
+          "totals": {
+            "daly": 0.003,
+            "dalys_per_1000": 3
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00011473,
+              "yll": 0.00001492,
+              "daly": 0.00012966,
+              "dalys_per_1000": 0.12965632,
+              "dalys_total_population": 0.12965632,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.0029673
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00034301,
+              "yll": 0.00006106,
+              "daly": 0.00040407,
+              "dalys_per_1000": 0.40406601,
+              "dalys_total_population": 0.40406601,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.0029673
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00056887,
+              "yll": 0.00012499,
+              "daly": 0.00069385,
+              "dalys_per_1000": 0.69385393,
+              "dalys_total_population": 0.69385393,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.0029673
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00079224,
+              "yll": 0.00019117,
+              "daly": 0.00098342,
+              "dalys_per_1000": 0.98341547,
+              "dalys_total_population": 0.98341547,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.0029673
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00101588,
+              "yll": 0.0002584,
+              "daly": 0.00127428,
+              "dalys_per_1000": 1.27427714,
+              "dalys_total_population": 1.27427714,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.0029673
+            }
+          ]
+        },
+        {
+          "condition": "pasc_heart_failure",
+          "label": "PASC: heart failure",
+          "annual_infection_rate": 0.1099,
+          "totals": {
+            "daly": 0.043,
+            "dalys_per_1000": 43
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00002146,
+              "yll": 0.0013692,
+              "daly": 0.00139066,
+              "dalys_per_1000": 1.39066406,
+              "dalys_total_population": 1.39066406,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00045059
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.0000586,
+              "yll": 0.00511266,
+              "daly": 0.00517126,
+              "dalys_per_1000": 5.17126128,
+              "dalys_total_population": 5.17126128,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00045059
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00008525,
+              "yll": 0.00932023,
+              "daly": 0.00940548,
+              "dalys_per_1000": 9.40548056,
+              "dalys_total_population": 9.40548056,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00045059
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00010353,
+              "yll": 0.01248463,
+              "daly": 0.01258816,
+              "dalys_per_1000": 12.58816001,
+              "dalys_total_population": 12.58816001,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00045059
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00011569,
+              "yll": 0.01472576,
+              "daly": 0.01484145,
+              "dalys_per_1000": 14.841453,
+              "dalys_total_population": 14.841453,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00045059
+            }
+          ]
+        },
+        {
+          "condition": "pasc_dementia",
+          "label": "PASC: dementia",
+          "annual_infection_rate": 0.1099,
+          "totals": {
+            "daly": 0.004,
+            "dalys_per_1000": 4
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00001342,
+              "yll": 0.00010274,
+              "daly": 0.00011616,
+              "dalys_per_1000": 0.11616429,
+              "dalys_total_population": 0.11616429,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00011869
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00003913,
+              "yll": 0.00041004,
+              "daly": 0.00044917,
+              "dalys_per_1000": 0.44916824,
+              "dalys_total_population": 0.44916824,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00011869
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00006255,
+              "yll": 0.00081283,
+              "daly": 0.00087538,
+              "dalys_per_1000": 0.87537908,
+              "dalys_total_population": 0.87537908,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00011869
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00008371,
+              "yll": 0.00119702,
+              "daly": 0.00128073,
+              "dalys_per_1000": 1.28073341,
+              "dalys_total_population": 1.28073341,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00011869
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00010294,
+              "yll": 0.0015536,
+              "daly": 0.00165654,
+              "dalys_per_1000": 1.65653901,
+              "dalys_total_population": 1.65653901,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00011869
+            }
+          ]
+        },
+        {
+          "condition": "pasc_stroke",
+          "label": "PASC: stroke",
+          "annual_infection_rate": 0.1099,
+          "totals": {
+            "daly": 0.009,
+            "dalys_per_1000": 9
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00004133,
+              "yll": 0.00029701,
+              "daly": 0.00033834,
+              "dalys_per_1000": 0.33834205,
+              "dalys_total_population": 0.33834205,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00034948
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.0001077,
+              "yll": 0.00105204,
+              "daly": 0.00115974,
+              "dalys_per_1000": 1.15973604,
+              "dalys_total_population": 1.15973604,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00034948
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00014762,
+              "yll": 0.00181064,
+              "daly": 0.00195826,
+              "dalys_per_1000": 1.95826341,
+              "dalys_total_population": 1.95826341,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00034948
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00017113,
+              "yll": 0.00230228,
+              "daly": 0.00247341,
+              "dalys_per_1000": 2.47341449,
+              "dalys_total_population": 2.47341449,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00034948
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00018502,
+              "yll": 0.00261123,
+              "daly": 0.00279626,
+              "dalys_per_1000": 2.79625597,
+              "dalys_total_population": 2.79625597,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00034948
+            }
+          ]
+        },
+        {
+          "condition": "pasc_pe",
+          "label": "PASC: pulmonary embolism",
+          "annual_infection_rate": 0.1099,
+          "totals": {
+            "daly": 0.002,
+            "dalys_per_1000": 2
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 3.4e-6,
+              "yll": 0.00009686,
+              "daly": 0.00010026,
+              "dalys_per_1000": 0.10025953,
+              "dalys_total_population": 0.10025953,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00036487
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 7.99e-6,
+              "yll": 0.00030342,
+              "daly": 0.00031142,
+              "dalys_per_1000": 0.31141608,
+              "dalys_total_population": 0.31141608,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00036487
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 9.59e-6,
+              "yll": 0.00045754,
+              "daly": 0.00046713,
+              "dalys_per_1000": 0.46712715,
+              "dalys_total_population": 0.46712715,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00036487
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00001012,
+              "yll": 0.00052057,
+              "daly": 0.00053069,
+              "dalys_per_1000": 0.53069417,
+              "dalys_total_population": 0.53069417,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00036487
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.0000103,
+              "yll": 0.00054749,
+              "daly": 0.00055779,
+              "dalys_per_1000": 0.55778828,
+              "dalys_total_population": 0.55778828,
+              "annual_infection_rate": 0.1099,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00036487
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "far_uvc_most_public",
+      "label": "Far UVC in most common indoor air",
+      "dalys_per_1000_total": 270,
+      "conditions": [
+        {
+          "condition": "acute_covid",
+          "label": "Acute COVID",
+          "annual_infection_rate": 0.2529,
+          "totals": {
+            "daly": 0.046,
+            "dalys_per_1000": 46
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00224814,
+              "yll": 0.00727066,
+              "daly": 0.0095188,
+              "dalys_per_1000": 9.51879961,
+              "dalys_total_population": 9.51879961,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": null
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00224814,
+              "yll": 0.00712747,
+              "daly": 0.00937561,
+              "dalys_per_1000": 9.37560654,
+              "dalys_total_population": 9.37560654,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": null
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00224814,
+              "yll": 0.00698517,
+              "daly": 0.00923331,
+              "dalys_per_1000": 9.23330759,
+              "dalys_total_population": 9.23330759,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": null
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00224814,
+              "yll": 0.00684287,
+              "daly": 0.00909101,
+              "dalys_per_1000": 9.09100864,
+              "dalys_total_population": 9.09100864,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": null
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00224814,
+              "yll": 0.00670057,
+              "daly": 0.00894871,
+              "dalys_per_1000": 8.94870969,
+              "dalys_total_population": 8.94870969,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": null
+            }
+          ]
+        },
+        {
+          "condition": "long_covid",
+          "label": "Long COVID",
+          "annual_infection_rate": 0.2529,
+          "totals": {
+            "daly": 0.079,
+            "dalys_per_1000": 79
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00969249,
+              "yll": 6.26e-6,
+              "daly": 0.00969875,
+              "dalys_per_1000": 9.69874778,
+              "dalys_total_population": 9.69874778,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.02199896
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.01258357,
+              "yll": 0.00001467,
+              "daly": 0.01259824,
+              "dalys_per_1000": 12.59824179,
+              "dalys_total_population": 12.59824179,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.02199896
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.01562935,
+              "yll": 0.00001923,
+              "daly": 0.01564857,
+              "dalys_per_1000": 15.64857395,
+              "dalys_total_population": 15.64857395,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.02199896
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.01878592,
+              "yll": 0.00002419,
+              "daly": 0.01881011,
+              "dalys_per_1000": 18.81011024,
+              "dalys_total_population": 18.81011024,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.02199896
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.02207725,
+              "yll": 0.00002941,
+              "daly": 0.02210666,
+              "dalys_per_1000": 22.10665887,
+              "dalys_total_population": 22.10665887,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.02199896
+            }
+          ]
+        },
+        {
+          "condition": "pasc",
+          "label": "PASC",
+          "annual_infection_rate": 0.2529,
+          "totals": {
+            "daly": 0.145,
+            "dalys_per_1000": 145
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00044689,
+              "yll": 0.00445502,
+              "daly": 0.0049019,
+              "dalys_per_1000": 4.90190496,
+              "dalys_total_population": 4.90190496,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00007587
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00127824,
+              "yll": 0.01634956,
+              "daly": 0.0176278,
+              "dalys_per_1000": 17.62779756,
+              "dalys_total_population": 17.62779756,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00007587
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00200464,
+              "yll": 0.02936957,
+              "daly": 0.03137421,
+              "dalys_per_1000": 31.37420899,
+              "dalys_total_population": 31.37420899,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00007587
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00265857,
+              "yll": 0.03900535,
+              "daly": 0.04166392,
+              "dalys_per_1000": 41.6639206,
+              "dalys_total_population": 41.6639206,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00007587
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00326966,
+              "yll": 0.04590867,
+              "daly": 0.04917833,
+              "dalys_per_1000": 49.17832657,
+              "dalys_total_population": 49.17832657,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00007587
+            }
+          ]
+        },
+        {
+          "condition": "pasc_mi",
+          "label": "PASC: acute myocardial infarction",
+          "annual_infection_rate": 0.2529,
+          "totals": {
+            "daly": 0.002,
+            "dalys_per_1000": 2
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 2.2e-7,
+              "yll": 0.00012789,
+              "daly": 0.00012811,
+              "dalys_per_1000": 0.12811383,
+              "dalys_total_population": 0.12811383,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00007587
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 5e-7,
+              "yll": 0.00038724,
+              "daly": 0.00038774,
+              "dalys_per_1000": 0.38773795,
+              "dalys_total_population": 0.38773795,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00007587
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 5.8e-7,
+              "yll": 0.00056293,
+              "daly": 0.00056351,
+              "dalys_per_1000": 0.56350791,
+              "dalys_total_population": 0.56350791,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00007587
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 6e-7,
+              "yll": 0.00062229,
+              "daly": 0.00062289,
+              "dalys_per_1000": 0.62289093,
+              "dalys_total_population": 0.62289093,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00007587
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 6e-7,
+              "yll": 0.00064261,
+              "daly": 0.00064322,
+              "dalys_per_1000": 0.6432163,
+              "dalys_total_population": 0.6432163,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00007587
+            }
+          ]
+        },
+        {
+          "condition": "pasc_diabetes",
+          "label": "PASC: diabetes",
+          "annual_infection_rate": 0.2529,
+          "totals": {
+            "daly": 0.008,
+            "dalys_per_1000": 8
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00026351,
+              "yll": 0.0000343,
+              "daly": 0.00029781,
+              "dalys_per_1000": 0.29780996,
+              "dalys_total_population": 0.29780996,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.0068283
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.0007868,
+              "yll": 0.00014014,
+              "daly": 0.00092694,
+              "dalys_per_1000": 0.9269377,
+              "dalys_total_population": 0.9269377,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.0068283
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00130253,
+              "yll": 0.00028641,
+              "daly": 0.00158895,
+              "dalys_per_1000": 1.58894621,
+              "dalys_total_population": 1.58894621,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.0068283
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.0018106,
+              "yll": 0.0004373,
+              "daly": 0.0022479,
+              "dalys_per_1000": 2.24790068,
+              "dalys_total_population": 2.24790068,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.0068283
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00231733,
+              "yll": 0.00058996,
+              "daly": 0.00290729,
+              "dalys_per_1000": 2.90728992,
+              "dalys_total_population": 2.90728992,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.0068283
+            }
+          ]
+        },
+        {
+          "condition": "pasc_heart_failure",
+          "label": "PASC: heart failure",
+          "annual_infection_rate": 0.2529,
+          "totals": {
+            "daly": 0.1,
+            "dalys_per_1000": 100
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00004937,
+              "yll": 0.00315015,
+              "daly": 0.00319953,
+              "dalys_per_1000": 3.19952762,
+              "dalys_total_population": 3.19952762,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00103689
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00013479,
+              "yll": 0.01176034,
+              "daly": 0.01189513,
+              "dalys_per_1000": 11.89512649,
+              "dalys_total_population": 11.89512649,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00103689
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00019601,
+              "yll": 0.02143271,
+              "daly": 0.02162872,
+              "dalys_per_1000": 21.62872315,
+              "dalys_total_population": 21.62872315,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00103689
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00023795,
+              "yll": 0.02869957,
+              "daly": 0.02893752,
+              "dalys_per_1000": 28.93752226,
+              "dalys_total_population": 28.93752226,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00103689
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00026579,
+              "yll": 0.03383837,
+              "daly": 0.03410416,
+              "dalys_per_1000": 34.10416498,
+              "dalys_total_population": 34.10416498,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00103689
+            }
+          ]
+        },
+        {
+          "condition": "pasc_dementia",
+          "label": "PASC: dementia",
+          "annual_infection_rate": 0.2529,
+          "totals": {
+            "daly": 0.01,
+            "dalys_per_1000": 10
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00003088,
+              "yll": 0.00023642,
+              "daly": 0.0002673,
+              "dalys_per_1000": 0.26730062,
+              "dalys_total_population": 0.26730062,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00027313
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00009002,
+              "yll": 0.00094348,
+              "daly": 0.00103351,
+              "dalys_per_1000": 1.03350779,
+              "dalys_total_population": 1.03350779,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00027313
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00014392,
+              "yll": 0.00187014,
+              "daly": 0.00201406,
+              "dalys_per_1000": 2.01405637,
+              "dalys_total_population": 2.01405637,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00027313
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00019258,
+              "yll": 0.00275388,
+              "daly": 0.00294646,
+              "dalys_per_1000": 2.94645877,
+              "dalys_total_population": 2.94645877,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00027313
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.0002368,
+              "yll": 0.00357392,
+              "daly": 0.00381072,
+              "dalys_per_1000": 3.81072404,
+              "dalys_total_population": 3.81072404,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00027313
+            }
+          ]
+        },
+        {
+          "condition": "pasc_stroke",
+          "label": "PASC: stroke",
+          "annual_infection_rate": 0.2529,
+          "totals": {
+            "daly": 0.02,
+            "dalys_per_1000": 20
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00009508,
+              "yll": 0.00068339,
+              "daly": 0.00077847,
+              "dalys_per_1000": 0.77846888,
+              "dalys_total_population": 0.77846888,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00080422
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00024774,
+              "yll": 0.00242028,
+              "daly": 0.00266803,
+              "dalys_per_1000": 2.66802729,
+              "dalys_total_population": 2.66802729,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00080422
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00033954,
+              "yll": 0.00416485,
+              "daly": 0.00450439,
+              "dalys_per_1000": 4.50438557,
+              "dalys_total_population": 4.50438557,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00080422
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00039355,
+              "yll": 0.00529487,
+              "daly": 0.00568842,
+              "dalys_per_1000": 5.68842297,
+              "dalys_total_population": 5.68842297,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00080422
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00042543,
+              "yll": 0.00600452,
+              "daly": 0.00642995,
+              "dalys_per_1000": 6.4299479,
+              "dalys_total_population": 6.4299479,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00080422
+            }
+          ]
+        },
+        {
+          "condition": "pasc_pe",
+          "label": "PASC: pulmonary embolism",
+          "annual_infection_rate": 0.2529,
+          "totals": {
+            "daly": 0.005,
+            "dalys_per_1000": 5
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 7.82e-6,
+              "yll": 0.00022286,
+              "daly": 0.00023068,
+              "dalys_per_1000": 0.23068405,
+              "dalys_total_population": 0.23068405,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00083963
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00001839,
+              "yll": 0.00069807,
+              "daly": 0.00071646,
+              "dalys_per_1000": 0.71646034,
+              "dalys_total_population": 0.71646034,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00083963
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00002206,
+              "yll": 0.00105253,
+              "daly": 0.00107459,
+              "dalys_per_1000": 1.07458978,
+              "dalys_total_population": 1.07458978,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00083963
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00002328,
+              "yll": 0.00119744,
+              "daly": 0.00122072,
+              "dalys_per_1000": 1.220725,
+              "dalys_total_population": 1.220725,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00083963
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.0000237,
+              "yll": 0.00125929,
+              "daly": 0.00128298,
+              "dalys_per_1000": 1.28298341,
+              "dalys_total_population": 1.28298341,
+              "annual_infection_rate": 0.2529,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00083963
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "far_uvc_schools_and_daycares",
+      "label": "Far UVC schools and daycares",
+      "dalys_per_1000_total": 246,
+      "conditions": [
+        {
+          "condition": "acute_covid",
+          "label": "Acute COVID",
+          "annual_infection_rate": 0.2263,
+          "totals": {
+            "daly": 0.041,
+            "dalys_per_1000": 41
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00201168,
+              "yll": 0.00650593,
+              "daly": 0.00851761,
+              "dalys_per_1000": 8.5176131,
+              "dalys_total_population": 8.5176131,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": null
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00201168,
+              "yll": 0.0063778,
+              "daly": 0.00838948,
+              "dalys_per_1000": 8.38948106,
+              "dalys_total_population": 8.38948106,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": null
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00201168,
+              "yll": 0.00625047,
+              "daly": 0.00826215,
+              "dalys_per_1000": 8.2621491,
+              "dalys_total_population": 8.2621491,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": null
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00201168,
+              "yll": 0.00612314,
+              "daly": 0.00813482,
+              "dalys_per_1000": 8.13481714,
+              "dalys_total_population": 8.13481714,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": null
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00201168,
+              "yll": 0.0059958,
+              "daly": 0.00800749,
+              "dalys_per_1000": 8.00748518,
+              "dalys_total_population": 8.00748518,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": null
+            }
+          ]
+        },
+        {
+          "condition": "long_covid",
+          "label": "Long COVID",
+          "annual_infection_rate": 0.2263,
+          "totals": {
+            "daly": 0.076,
+            "dalys_per_1000": 76
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00957422,
+              "yll": 6.19e-6,
+              "daly": 0.00958041,
+              "dalys_per_1000": 9.58041089,
+              "dalys_total_population": 9.58041089,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.01968511
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.01221602,
+              "yll": 0.00001438,
+              "daly": 0.01223039,
+              "dalys_per_1000": 12.23039498,
+              "dalys_total_population": 12.23039498,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.01968511
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.0149906,
+              "yll": 0.00001859,
+              "daly": 0.01500918,
+              "dalys_per_1000": 15.00918438,
+              "dalys_total_population": 15.00918438,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.01968511
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.0178605,
+              "yll": 0.00002315,
+              "daly": 0.01788365,
+              "dalys_per_1000": 17.88364798,
+              "dalys_total_population": 17.88364798,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.01968511
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.02085137,
+              "yll": 0.00002792,
+              "daly": 0.0208793,
+              "dalys_per_1000": 20.87929701,
+              "dalys_total_population": 20.87929701,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.01968511
+            }
+          ]
+        },
+        {
+          "condition": "pasc",
+          "label": "PASC",
+          "annual_infection_rate": 0.2263,
+          "totals": {
+            "daly": 0.13,
+            "dalys_per_1000": 130
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00039998,
+              "yll": 0.00398657,
+              "daly": 0.00438655,
+              "dalys_per_1000": 4.38654985,
+              "dalys_total_population": 4.38654985,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00006789
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00114424,
+              "yll": 0.01463093,
+              "daly": 0.01577517,
+              "dalys_per_1000": 15.77517181,
+              "dalys_total_population": 15.77517181,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00006789
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00179494,
+              "yll": 0.02628355,
+              "daly": 0.0280785,
+              "dalys_per_1000": 28.0784969,
+              "dalys_total_population": 28.0784969,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00006789
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00238111,
+              "yll": 0.03490889,
+              "daly": 0.03729,
+              "dalys_per_1000": 37.29000315,
+              "dalys_total_population": 37.29000315,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00006789
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00292928,
+              "yll": 0.04108984,
+              "daly": 0.04401912,
+              "dalys_per_1000": 44.01911669,
+              "dalys_total_population": 44.01911669,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00006789
+            }
+          ]
+        },
+        {
+          "condition": "pasc_mi",
+          "label": "PASC: acute myocardial infarction",
+          "annual_infection_rate": 0.2263,
+          "totals": {
+            "daly": 0.002,
+            "dalys_per_1000": 2
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 2e-7,
+              "yll": 0.00011444,
+              "daly": 0.00011464,
+              "dalys_per_1000": 0.11463909,
+              "dalys_total_population": 0.11463909,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00006789
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 4.5e-7,
+              "yll": 0.00034651,
+              "daly": 0.00034696,
+              "dalys_per_1000": 0.34695711,
+              "dalys_total_population": 0.34695711,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00006789
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 5.2e-7,
+              "yll": 0.00050372,
+              "daly": 0.00050424,
+              "dalys_per_1000": 0.50424126,
+              "dalys_total_population": 0.50424126,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00006789
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 5.4e-7,
+              "yll": 0.00055684,
+              "daly": 0.00055738,
+              "dalys_per_1000": 0.55737979,
+              "dalys_total_population": 0.55737979,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00006789
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 5.4e-7,
+              "yll": 0.00057503,
+              "daly": 0.00057557,
+              "dalys_per_1000": 0.57556848,
+              "dalys_total_population": 0.57556848,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00006789
+            }
+          ]
+        },
+        {
+          "condition": "pasc_diabetes",
+          "label": "PASC: diabetes",
+          "annual_infection_rate": 0.2263,
+          "totals": {
+            "daly": 0.007,
+            "dalys_per_1000": 7
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00023588,
+              "yll": 0.0000307,
+              "daly": 0.00026658,
+              "dalys_per_1000": 0.26657828,
+              "dalys_total_population": 0.26657828,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.0061101
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00070446,
+              "yll": 0.00012546,
+              "daly": 0.00082992,
+              "dalys_per_1000": 0.82992297,
+              "dalys_total_population": 0.82992297,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.0061101
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00116662,
+              "yll": 0.00025649,
+              "daly": 0.00142311,
+              "dalys_per_1000": 1.42310552,
+              "dalys_total_population": 1.42310552,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.0061101
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00162224,
+              "yll": 0.00039174,
+              "daly": 0.00201397,
+              "dalys_per_1000": 2.01397371,
+              "dalys_total_population": 2.01397371,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.0061101
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00207697,
+              "yll": 0.00052868,
+              "daly": 0.00260565,
+              "dalys_per_1000": 2.60565206,
+              "dalys_total_population": 2.60565206,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.0061101
+            }
+          ]
+        },
+        {
+          "condition": "pasc_heart_failure",
+          "label": "PASC: heart failure",
+          "annual_infection_rate": 0.2263,
+          "totals": {
+            "daly": 0.089,
+            "dalys_per_1000": 89
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00004418,
+              "yll": 0.00281893,
+              "daly": 0.00286311,
+              "dalys_per_1000": 2.86310888,
+              "dalys_total_population": 2.86310888,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00092783
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00012062,
+              "yll": 0.01052419,
+              "daly": 0.01064481,
+              "dalys_per_1000": 10.6448121,
+              "dalys_total_population": 10.6448121,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00092783
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00017542,
+              "yll": 0.01918089,
+              "daly": 0.01935631,
+              "dalys_per_1000": 19.356313,
+              "dalys_total_population": 19.356313,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00092783
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00021297,
+              "yll": 0.02568592,
+              "daly": 0.02589889,
+              "dalys_per_1000": 25.89888959,
+              "dalys_total_population": 25.89888959,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00092783
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00023791,
+              "yll": 0.03028729,
+              "daly": 0.0305252,
+              "dalys_per_1000": 30.52519753,
+              "dalys_total_population": 30.52519753,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00092783
+            }
+          ]
+        },
+        {
+          "condition": "pasc_dementia",
+          "label": "PASC: dementia",
+          "annual_infection_rate": 0.2263,
+          "totals": {
+            "daly": 0.009,
+            "dalys_per_1000": 9
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00002763,
+              "yll": 0.00021156,
+              "daly": 0.00023919,
+              "dalys_per_1000": 0.2391884,
+              "dalys_total_population": 0.2391884,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.0002444
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00008056,
+              "yll": 0.00084426,
+              "daly": 0.00092482,
+              "dalys_per_1000": 0.92482192,
+              "dalys_total_population": 0.92482192,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.0002444
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00012878,
+              "yll": 0.00167349,
+              "daly": 0.00180228,
+              "dalys_per_1000": 1.80227651,
+              "dalys_total_population": 1.80227651,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.0002444
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00017233,
+              "yll": 0.00246434,
+              "daly": 0.00263667,
+              "dalys_per_1000": 2.63667415,
+              "dalys_total_population": 2.63667415,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.0002444
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00021191,
+              "yll": 0.00319822,
+              "daly": 0.00341012,
+              "dalys_per_1000": 3.41012464,
+              "dalys_total_population": 3.41012464,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.0002444
+            }
+          ]
+        },
+        {
+          "condition": "pasc_stroke",
+          "label": "PASC: stroke",
+          "annual_infection_rate": 0.2263,
+          "totals": {
+            "daly": 0.018,
+            "dalys_per_1000": 18
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00008508,
+              "yll": 0.00061152,
+              "daly": 0.00069661,
+              "dalys_per_1000": 0.69660924,
+              "dalys_total_population": 0.69660924,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00071963
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.0002217,
+              "yll": 0.00216583,
+              "daly": 0.00238753,
+              "dalys_per_1000": 2.38752714,
+              "dalys_total_population": 2.38752714,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00071963
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00030385,
+              "yll": 0.00372708,
+              "daly": 0.00403094,
+              "dalys_per_1000": 4.03093696,
+              "dalys_total_population": 4.03093696,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00071963
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.0003522,
+              "yll": 0.00473847,
+              "daly": 0.00509067,
+              "dalys_per_1000": 5.09067356,
+              "dalys_total_population": 5.09067356,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00071963
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00038074,
+              "yll": 0.0053737,
+              "daly": 0.00575444,
+              "dalys_per_1000": 5.75443657,
+              "dalys_total_population": 5.75443657,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00071963
+            }
+          ]
+        },
+        {
+          "condition": "pasc_pe",
+          "label": "PASC: pulmonary embolism",
+          "annual_infection_rate": 0.2263,
+          "totals": {
+            "daly": 0.004,
+            "dalys_per_1000": 4
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 7e-6,
+              "yll": 0.00019943,
+              "daly": 0.00020643,
+              "dalys_per_1000": 0.20642596,
+              "dalys_total_population": 0.20642596,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00075132
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00001646,
+              "yll": 0.00062467,
+              "daly": 0.00064113,
+              "dalys_per_1000": 0.64113057,
+              "dalys_total_population": 0.64113057,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00075132
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00001974,
+              "yll": 0.00094188,
+              "daly": 0.00096162,
+              "dalys_per_1000": 0.96162364,
+              "dalys_total_population": 0.96162364,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00075132
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00002084,
+              "yll": 0.00107158,
+              "daly": 0.00109241,
+              "dalys_per_1000": 1.09241234,
+              "dalys_total_population": 1.09241234,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00075132
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00002121,
+              "yll": 0.00112693,
+              "daly": 0.00114814,
+              "dalys_per_1000": 1.14813741,
+              "dalys_total_population": 1.14813741,
+              "annual_infection_rate": 0.2263,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00075132
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "far_uvc_all_public",
+      "label": "Far UVC all public indoor air",
+      "dalys_per_1000_total": 96,
+      "conditions": [
+        {
+          "condition": "acute_covid",
+          "label": "Acute COVID",
+          "annual_infection_rate": 0.0553,
+          "totals": {
+            "daly": 0.01,
+            "dalys_per_1000": 10
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00049159,
+              "yll": 0.00158983,
+              "daly": 0.00208141,
+              "dalys_per_1000": 2.08141407,
+              "dalys_total_population": 2.08141407,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": null
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00049159,
+              "yll": 0.00155852,
+              "daly": 0.0020501,
+              "dalys_per_1000": 2.05010297,
+              "dalys_total_population": 2.05010297,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": null
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00049159,
+              "yll": 0.0015274,
+              "daly": 0.00201899,
+              "dalys_per_1000": 2.01898739,
+              "dalys_total_population": 2.01898739,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": null
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00049159,
+              "yll": 0.00149629,
+              "daly": 0.00198787,
+              "dalys_per_1000": 1.9878718,
+              "dalys_total_population": 1.9878718,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": null
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00049159,
+              "yll": 0.00146517,
+              "daly": 0.00195676,
+              "dalys_per_1000": 1.95675621,
+              "dalys_total_population": 1.95675621,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": null
+            }
+          ]
+        },
+        {
+          "condition": "long_covid",
+          "label": "Long COVID",
+          "annual_infection_rate": 0.0553,
+          "totals": {
+            "daly": 0.054,
+            "dalys_per_1000": 54
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00880773,
+              "yll": 5.76e-6,
+              "daly": 0.00881349,
+              "dalys_per_1000": 8.81349059,
+              "dalys_total_population": 8.81349059,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00481037
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.0098221,
+              "yll": 0.00001247,
+              "daly": 0.00983457,
+              "dalys_per_1000": 9.83457141,
+              "dalys_total_population": 9.83457141,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00481037
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.01080332,
+              "yll": 0.00001439,
+              "daly": 0.01081771,
+              "dalys_per_1000": 10.81771367,
+              "dalys_total_population": 10.81771367,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00481037
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.01175553,
+              "yll": 0.00001627,
+              "daly": 0.01177181,
+              "dalys_per_1000": 11.7718074,
+              "dalys_total_population": 11.7718074,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00481037
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.01271508,
+              "yll": 0.00001807,
+              "daly": 0.01273316,
+              "dalys_per_1000": 12.73315909,
+              "dalys_total_population": 12.73315909,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00481037
+            }
+          ]
+        },
+        {
+          "condition": "pasc",
+          "label": "PASC",
+          "annual_infection_rate": 0.0553,
+          "totals": {
+            "daly": 0.032,
+            "dalys_per_1000": 32
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00009788,
+              "yll": 0.0009744,
+              "daly": 0.00107228,
+              "dalys_per_1000": 1.07227977,
+              "dalys_total_population": 1.07227977,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00001659
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00028032,
+              "yll": 0.0035769,
+              "daly": 0.00385722,
+              "dalys_per_1000": 3.85721737,
+              "dalys_total_population": 3.85721737,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00001659
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00044043,
+              "yll": 0.00642764,
+              "daly": 0.00686808,
+              "dalys_per_1000": 6.86807541,
+              "dalys_total_population": 6.86807541,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00001659
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.0005853,
+              "yll": 0.00854016,
+              "daly": 0.00912546,
+              "dalys_per_1000": 9.12546076,
+              "dalys_total_population": 9.12546076,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00001659
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.0007214,
+              "yll": 0.01005644,
+              "daly": 0.01077783,
+              "dalys_per_1000": 10.77783095,
+              "dalys_total_population": 10.77783095,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00001659
+            }
+          ]
+        },
+        {
+          "condition": "pasc_mi",
+          "label": "PASC: acute myocardial infarction",
+          "annual_infection_rate": 0.0553,
+          "totals": {
+            "daly": 0.001,
+            "dalys_per_1000": 1
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 5e-8,
+              "yll": 0.00002797,
+              "daly": 0.00002801,
+              "dalys_per_1000": 0.0280143,
+              "dalys_total_population": 0.0280143,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00001659
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 1.1e-7,
+              "yll": 0.00008468,
+              "daly": 0.00008479,
+              "dalys_per_1000": 0.08478668,
+              "dalys_total_population": 0.08478668,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00001659
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 1.3e-7,
+              "yll": 0.0001231,
+              "daly": 0.00012322,
+              "dalys_per_1000": 0.12322418,
+              "dalys_total_population": 0.12322418,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00001659
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 1.3e-7,
+              "yll": 0.00013608,
+              "daly": 0.00013621,
+              "dalys_per_1000": 0.13621164,
+              "dalys_total_population": 0.13621164,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00001659
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 1.3e-7,
+              "yll": 0.00014053,
+              "daly": 0.00014066,
+              "dalys_per_1000": 0.14065812,
+              "dalys_total_population": 0.14065812,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00001659
+            }
+          ]
+        },
+        {
+          "condition": "pasc_diabetes",
+          "label": "PASC: diabetes",
+          "annual_infection_rate": 0.0553,
+          "totals": {
+            "daly": 0.002,
+            "dalys_per_1000": 2
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.00005777,
+              "yll": 7.51e-6,
+              "daly": 0.00006529,
+              "dalys_per_1000": 0.06528732,
+              "dalys_total_population": 0.06528732,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.0014931
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00017281,
+              "yll": 0.00003075,
+              "daly": 0.00020356,
+              "dalys_per_1000": 0.20356206,
+              "dalys_total_population": 0.20356206,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.0014931
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00028679,
+              "yll": 0.00006299,
+              "daly": 0.00034979,
+              "dalys_per_1000": 0.34978581,
+              "dalys_total_population": 0.34978581,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.0014931
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00039969,
+              "yll": 0.00009642,
+              "daly": 0.00049611,
+              "dalys_per_1000": 0.49610986,
+              "dalys_total_population": 0.49610986,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.0014931
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00051289,
+              "yll": 0.00013041,
+              "daly": 0.00064331,
+              "dalys_per_1000": 0.64330547,
+              "dalys_total_population": 0.64330547,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.0014931
+            }
+          ]
+        },
+        {
+          "condition": "pasc_heart_failure",
+          "label": "PASC: heart failure",
+          "annual_infection_rate": 0.0553,
+          "totals": {
+            "daly": 0.022,
+            "dalys_per_1000": 22
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.0000108,
+              "yll": 0.00068901,
+              "daly": 0.00069981,
+              "dalys_per_1000": 0.69981473,
+              "dalys_total_population": 0.69981473,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00022673
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00002949,
+              "yll": 0.00257301,
+              "daly": 0.00260251,
+              "dalys_per_1000": 2.60250818,
+              "dalys_total_population": 2.60250818,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00022673
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00004291,
+              "yll": 0.00469104,
+              "daly": 0.00473395,
+              "dalys_per_1000": 4.73394785,
+              "dalys_total_population": 4.73394785,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00022673
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00005212,
+              "yll": 0.00628457,
+              "daly": 0.00633669,
+              "dalys_per_1000": 6.33668809,
+              "dalys_total_population": 6.33668809,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00022673
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00005825,
+              "yll": 0.00741382,
+              "daly": 0.00747207,
+              "dalys_per_1000": 7.47206596,
+              "dalys_total_population": 7.47206596,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00022673
+            }
+          ]
+        },
+        {
+          "condition": "pasc_dementia",
+          "label": "PASC: dementia",
+          "annual_infection_rate": 0.0553,
+          "totals": {
+            "daly": 0.002,
+            "dalys_per_1000": 2
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 6.75e-6,
+              "yll": 0.0000517,
+              "daly": 0.00005845,
+              "dalys_per_1000": 0.05845332,
+              "dalys_total_population": 0.05845332,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00005972
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.00001969,
+              "yll": 0.00020634,
+              "daly": 0.00022602,
+              "dalys_per_1000": 0.22602382,
+              "dalys_total_population": 0.22602382,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00005972
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.00003148,
+              "yll": 0.00040903,
+              "daly": 0.00044051,
+              "dalys_per_1000": 0.44050668,
+              "dalys_total_population": 0.44050668,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00005972
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00004213,
+              "yll": 0.00060238,
+              "daly": 0.00064451,
+              "dalys_per_1000": 0.64450753,
+              "dalys_total_population": 0.64450753,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00005972
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00005181,
+              "yll": 0.00078185,
+              "daly": 0.00083365,
+              "dalys_per_1000": 0.8336516,
+              "dalys_total_population": 0.8336516,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00005972
+            }
+          ]
+        },
+        {
+          "condition": "pasc_stroke",
+          "label": "PASC: stroke",
+          "annual_infection_rate": 0.0553,
+          "totals": {
+            "daly": 0.004,
+            "dalys_per_1000": 4
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 0.0000208,
+              "yll": 0.00014946,
+              "daly": 0.00017026,
+              "dalys_per_1000": 0.17025841,
+              "dalys_total_population": 0.17025841,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.00017585
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 0.0000542,
+              "yll": 0.00052943,
+              "daly": 0.00058362,
+              "dalys_per_1000": 0.58362304,
+              "dalys_total_population": 0.58362304,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.00017585
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 0.0000743,
+              "yll": 0.00091123,
+              "daly": 0.00098553,
+              "dalys_per_1000": 0.98552998,
+              "dalys_total_population": 0.98552998,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.00017585
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 0.00008613,
+              "yll": 0.00115873,
+              "daly": 0.00124486,
+              "dalys_per_1000": 1.24486473,
+              "dalys_total_population": 1.24486473,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.00017585
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 0.00009313,
+              "yll": 0.0013143,
+              "daly": 0.00140743,
+              "dalys_per_1000": 1.40743001,
+              "dalys_total_population": 1.40743001,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.00017585
+            }
+          ]
+        },
+        {
+          "condition": "pasc_pe",
+          "label": "PASC: pulmonary embolism",
+          "annual_infection_rate": 0.0553,
+          "totals": {
+            "daly": 0.001,
+            "dalys_per_1000": 1
+          },
+          "years": [
+            {
+              "year": 1,
+              "age": 39.4,
+              "yld": 1.71e-6,
+              "yll": 0.00004874,
+              "daly": 0.00005045,
+              "dalys_per_1000": 0.05045169,
+              "dalys_total_population": 0.05045169,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.00234936,
+              "onset_rate": 0.0001836
+            },
+            {
+              "year": 2,
+              "age": 40.4,
+              "yld": 4.02e-6,
+              "yll": 0.00015269,
+              "daly": 0.00015671,
+              "dalys_per_1000": 0.15671359,
+              "dalys_total_population": 0.15671359,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.0024805,
+              "onset_rate": 0.0001836
+            },
+            {
+              "year": 3,
+              "age": 41.4,
+              "yld": 4.83e-6,
+              "yll": 0.00023025,
+              "daly": 0.00023508,
+              "dalys_per_1000": 0.23508091,
+              "dalys_total_population": 0.23508091,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.00260894,
+              "onset_rate": 0.0001836
+            },
+            {
+              "year": 4,
+              "age": 42.4,
+              "yld": 5.09e-6,
+              "yll": 0.00026198,
+              "daly": 0.00026708,
+              "dalys_per_1000": 0.2670789,
+              "dalys_total_population": 0.2670789,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.00272417,
+              "onset_rate": 0.0001836
+            },
+            {
+              "year": 5,
+              "age": 43.4,
+              "yld": 5.18e-6,
+              "yll": 0.00027554,
+              "daly": 0.00028072,
+              "dalys_per_1000": 0.28071978,
+              "dalys_total_population": 0.28071978,
+              "annual_infection_rate": 0.0553,
+              "background_mortality_rate": 0.00282939,
+              "onset_rate": 0.0001836
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
