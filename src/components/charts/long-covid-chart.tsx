@@ -217,6 +217,7 @@ export function LongCovidChart({
                 axisLine={false}
                 tickMargin={8}
                 minTickGap={32}
+                tickFormatter={(value) => 2026 + value}
                 interval={"preserveStartEnd"}
                 label={{
                   value: "Years",

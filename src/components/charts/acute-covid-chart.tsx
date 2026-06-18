@@ -224,6 +224,7 @@ export function AcuteCovidChart({
                 tickMargin={8}
                 minTickGap={32}
                 interval={"preserveStartEnd"}
+                tickFormatter={(value) => 2026 + value}
                 label={{
                   value: "Years",
                   position: "bottom",
