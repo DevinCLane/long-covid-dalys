@@ -1,13 +1,36 @@
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/fork/github/DevinCLane/long-covid-dalys)
 
-# Long Covid DALYs
+[https://longcoviddalys.netlify.app/](https://longcoviddalys.netlify.app/)
 
-A research project to explore how different public health interventions could improve or worsen the burden of long covid, post-acute sequelae of COVID-19 (PASC), and acute COVID, as measured in [Disability Adjusted Life Years](https://en.wikipedia.org/wiki/Disability-adjusted_life_year)
+# [Long Covid DALYs](https://longcoviddalys.netlify.app/)
+
+An interactive data visualization tool that compares potential impact of population-level air cleaning interventions on Long COVID-related [disability-adjusted life years](https://en.wikipedia.org/wiki/Disability-adjusted_life_year).
 
 ## Affiliated Organizations
 
 - [PolyBio](https://polybio.org/)
 - [University of California, San Francisco](https://www.ucsf.edu/)
+
+## Tech stack
+
+- React
+- TypeScript
+- [Recharts](https://recharts.org/en-US) (React and [D3](https://d3js.org/)) for the charts
+- [Shadcn](https://ui.shadcn.com/), [OriginUI](https://originui.com/) for UI components
+
+## Tech stack
+
+| Area                 | Technology                          | Usage                                                                                                               |
+| -------------------- | ----------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| Application          | React 19, TypeScript 6              | Component architecture, state management, and strict type checking                                                  |
+| Build tooling        | Vite 7                              | Local development, optimized production builds, and hot module replacement                                          |
+| Visualization        | Recharts 3                          | Responsive stacked bar and area-chart visualizations                                                                |
+| UI and accessibility | Tailwind CSS 4, shadcn, OriginUI    | Accessibiliy, keyboard navigation, responsive design                                                                |
+| Data pipeline        | Versioned JSON datasets             | Reading flat JSON files removes need for a server. Keeps presentation logic separate from data model implementation |
+| Code quality         | ESLint, Prettier, strict TypeScript | Static analysis and consistent formatting                                                                           |
+| Deployment           | Netlify                             | Automated builds and pull-request deploy previews                                                                   |
+
+## Contributing / Running this project locally
 
 ### Prerequisites
 
@@ -17,7 +40,7 @@ A research project to explore how different public health interventions could im
 - Git set up:
   https://docs.github.com/en/get-started/git-basics/set-up-git
 
-## Setup
+### Setup
 
 1. Fork the repository
    https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo#forking-a-repository
@@ -44,22 +67,14 @@ A research project to explore how different public health interventions could im
 
    The site will be available at `http://localhost:5173`
 
-## 📈 Data overview
+### 📈 Data overview
 
 - Data lives in `src/data/` directory
-  - chart is currently reading from `src/data/results_detailed_age39_10yr_adjusted.json` (to update this to a simpler title once data is finalized)
+  - the 4 charts read from `src/data/data.json`
 
-### Update Data
+#### Update Data
 
-**To update:** Replace `src/data/results_detailed_age39_10yr_adjusted.json` with your updated projections that match the above format. The chart will use the new data.
-
-- Easiest method: use the GitHub web interface to replace the `src/data/results_detailed_age39_10yr_adjusted.json` file.
-  - to do this, click through to the DALYs file [here](https://github.com/DevinCLane/long-covid-dalys/blob/main/src/data/results_detailed_age39_10yr_adjusted.json) and then click [edit](https://github.com/DevinCLane/long-covid-dalys/edit/main/src/data/results_detailed_age39_10yr_adjusted.json)
-  - once you've updated the file, and the formatting matches, click "Commit changes".
-  - Write a description of what you've changed
-  - You can click "Commit directly to the main branch". For increased safety to check if your changes work, click "Create a new branch for this commit and start a pull request". Then you will view the pull request and Netlify will reploy a deploy preview where you can view what your changes look like. Then you will have to merge that pull request for it to deploy the new site on the main domain.
-
-Format for `src/data/DALYS.json`:
+Format for `src/data/data.json`:
 
 ```json
 {
@@ -177,18 +192,29 @@ Format for `src/data/DALYS.json`:
     },
 ```
 
+A few explanations of the data fields:
+
 - scenarios => label: the intervention scenario you're modeling (e.g., putting HEPA filters in buildings)
 - scenarios => conditions => condition: the outcome health condition for which DALYs are calculated (Long COVID, PASC, and acute COVID in this case)
 
-## Testing Your Changes (if working locally)
+**To update:** Replace `src/data/data.json` with your updated projections that match same data structure. The chart will use the new data.
+
+- Easiest method: use the GitHub web interface to replace the `src/data/data.json` file.
+  - to do this, click through to the DALYs file [here](https://github.com/DevinCLane/long-covid-dalys/blob/main/src/data/data.json) and then click [edit](https://github.com/DevinCLane/long-covid-dalys/edit/main/src/data/data.json)
+  - once you've updated the file, and the formatting matches, click "Commit changes".
+  - Write a description of what you've changed
+  - You can click "Commit directly to the main branch". For increased safety to check if your changes work, click "Create a new branch for this commit and start a pull request".
+    - Find the [Pull Requests page](https://github.com/DevinCLane/long-covid-dalys/pulls), and you will see that Netlify has created a deploy preview where you can view what your changes look like, and make sure that everything works. Then you will have to merge that pull request for it to deploy the new site on the main domain. You'll likely see a button that says "merge pull request".
+
+### Testing Your Changes (if working locally)
 
 After updating data files:
 
 1. **Development mode:** `npm run dev` - See changes immediately with hot reload
-2. **Production build:** `npm run build` - Create optimized build for deployment (not required to do)
+2. **Production build:** `npm run build` - Create optimized build for deployment. Not required to do if using Netlify from this repository. This step might be needed if you'd like to see what the built site looks like locally. Or you would need this step if you are going to send a zipped file of all the code over to someone who is managing a server where you'd like to deploy the site.
 3. **Preview build:** `npm run preview` - Test the production build locally (not required to do)
 
-## Deployment
+### Deployment
 
 After updating data files and verifying they work:
 
@@ -196,61 +222,3 @@ After updating data files and verifying they work:
 2. Push to your repository: `git push`
 3. Open a pull request against the "upstream" repo: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork
 4. Once merged, the application will automatically rebuild and deploy to Netlify
-
-## React + TypeScript + Vite
-
-This project bootstrapped from the following Vite template: React + TypeScript + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-### Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from "eslint-plugin-react";
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: "18.3" } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs["jsx-runtime"].rules,
-  },
-});
-```
-
-## Prior Art and Libraries Used
-
-- UI components from [Shadcn](https://ui.shadcn.com/), [OriginUI](https://originui.com/)
-- Charts built using [Recharts](https://recharts.org/en-US)
