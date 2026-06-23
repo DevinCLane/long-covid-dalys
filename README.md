@@ -13,22 +13,15 @@ An interactive data visualization tool that compares potential impact of populat
 
 ## Tech stack
 
-- React
-- TypeScript
-- [Recharts](https://recharts.org/en-US) (React and [D3](https://d3js.org/)) for the charts
-- [Shadcn](https://ui.shadcn.com/), [OriginUI](https://originui.com/) for UI components
-
-## Tech stack
-
-| Area                 | Technology                          | Usage                                                                                                               |
-| -------------------- | ----------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| Application          | React 19, TypeScript 6              | Component architecture, state management, and strict type checking                                                  |
-| Build tooling        | Vite 7                              | Local development, optimized production builds, and hot module replacement                                          |
-| Visualization        | Recharts 3                          | Responsive stacked bar and area-chart visualizations                                                                |
-| UI and accessibility | Tailwind CSS 4, shadcn, OriginUI    | Accessibiliy, keyboard navigation, responsive design                                                                |
-| Data pipeline        | Versioned JSON datasets             | Reading flat JSON files removes need for a server. Keeps presentation logic separate from data model implementation |
-| Code quality         | ESLint, Prettier, strict TypeScript | Static analysis and consistent formatting                                                                           |
-| Deployment           | Netlify                             | Automated builds and pull-request deploy previews                                                                   |
+| Technology                              | Area                 | Usage                                                                                                               |
+| --------------------------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| React 19, TypeScript                    | Application          | Interactivity, state management, type checking                                                                      |
+| Vite 7                                  | Build tooling        | Local development, React setup, optimized production builds, hot module replacement                                 |
+| [Recharts](https://recharts.github.io/) | Charts               | Charts, visualization. React library built on D3.                                                                   |
+| Tailwind CSS, shadcn, OriginUI          | UI and accessibility | Accessibiliy, keyboard navigation, responsive design, utility-first CSS                                             |
+| JSON backend                            | Data pipeline        | Reading flat JSON files removes need for a server. Keeps presentation logic separate from data model implementation |
+| ESLint, Prettier, TypeScript            | Code quality         | Static analysis, consistent formatting                                                                              |
+| Netlify                                 | Deployment           | Automated builds, pull request deploy previews                                                                      |
 
 ## Contributing / Running this project locally
 
