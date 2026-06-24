@@ -5,6 +5,7 @@ import { PascChart } from "@/components/charts/pasc-chart";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { getDefaultSelectedScenarios } from "@/config/scenarios";
 import { BarChartStacked } from "@/components/charts/bar-chart";
+import { DetailedBarChart } from "@/components/charts/detailed-bar-chart";
 
 export default function TabsArea() {
   const [lcScenarios, setLcScenarios] = useState<Set<string>>(
@@ -21,12 +22,16 @@ export default function TabsArea() {
     <Tabs defaultValue="overview" className="items-center">
       <TabsList>
         <TabsTrigger value="overview">Overview</TabsTrigger>
+        <TabsTrigger value="detailed">Detailed</TabsTrigger>
         <TabsTrigger value="lc">Long COVID</TabsTrigger>
         <TabsTrigger value="pasc">PASC</TabsTrigger>
         <TabsTrigger value="acute">Acute COVID</TabsTrigger>
       </TabsList>
       <TabsContent value="overview" className="w-full">
         <BarChartStacked />
+      </TabsContent>
+      <TabsContent value="detailed" className="w-full">
+        <DetailedBarChart scenarioId={"baseline"} />
       </TabsContent>
       <TabsContent value="lc" className="w-full">
         <LongCovidChart
