@@ -86,7 +86,11 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function BarChartStacked() {
+interface BarChartStackedProps {
+  onScenarioSelect?: (scenarioId: string) => void;
+}
+
+export function BarChartStacked({ onScenarioSelect }: BarChartStackedProps) {
   const [legendPortal, setLegendPortal] = React.useState<HTMLDivElement | null>(
     null,
   );
@@ -148,13 +152,23 @@ export function BarChartStacked() {
                 dataKey="acute_covid"
                 stackId="a"
                 fill="var(--color-acute_covid)"
+                cursor="pointer"
+                onClick={(data) => onScenarioSelect?.(data.payload.id)}
               />
               <Bar
                 dataKey="long_covid"
                 stackId="a"
                 fill="var(--color-long_covid)"
+                cursor="pointer"
+                onClick={(data) => onScenarioSelect?.(data.payload.id)}
               />
-              <Bar dataKey="pasc" stackId="a" fill="var(--color-pasc)" />
+              <Bar
+                dataKey="pasc"
+                stackId="a"
+                fill="var(--color-pasc)"
+                cursor="pointer"
+                onClick={(data) => onScenarioSelect?.(data.payload.id)}
+              />
             </BarChart>
           </ChartContainer>
           <div

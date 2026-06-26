@@ -21,22 +21,7 @@ import {
 import chartData from "@/data/data.json";
 import React from "react";
 
-export type Condition = {
-  condition: string;
-  totals: { dalys_per_1000: number };
-};
-
-export type Scenario = {
-  id: string;
-  label: string;
-  conditions: Condition[];
-};
-
-export const description = "A stacked bar chart with a legend";
-
-function ChartDescriptionBody() {
-  return <div>This is the detailed view of a component</div>;
-}
+export type Scenario = (typeof chartData.scenarios)[number];
 
 const chartConfig = {
   acute_covid: {
@@ -61,6 +46,20 @@ interface DetailedBarChartProps {
   scenarioId: Scenario["id"];
 }
 
+interface ChartDescriptionBodyProps {
+  scenario: Scenario;
+}
+
+function ChartDescriptionBody({ scenario }: ChartDescriptionBodyProps) {
+  return (
+    <div>
+      For the scenario "{scenario.label}", shows a side-by-side comparison of
+      the DALYs for each outcome condition: Acute COVID, Long COVID, PASC, and
+      their sum total
+    </div>
+  );
+}
+
 export function DetailedBarChart({ scenarioId }: DetailedBarChartProps) {
   const [legendPortal, setLegendPortal] = React.useState<HTMLDivElement | null>(
     null,
@@ -74,17 +73,33 @@ export function DetailedBarChart({ scenarioId }: DetailedBarChartProps) {
     (scenario) => scenario.id === scenarioId,
   );
 
-  const conditionRows =
-    scenario?.conditions
-      // filter out the pasc components
-      .filter((condition) => includedConditions.has(condition.condition))
-      // create the shape needed for this chart
-      .map((condition) => ({
-        key: condition.condition,
-        label: condition.label,
-        dalys: condition.totals.dalys_per_1000,
-        fill: `var(--color-${condition.condition})`,
-      })) ?? [];
+  if (!scenario) {
+    return (
+      <Card>
+        <CardHeader className="flex items-center gap-2 space-y-0 border-b sm:flex-row">
+          <div className="grid flex-1 gap-1 text-center sm:text-left">
+            <CardTitle className="text-l text-pretty md:text-2xl">
+              Detailed 5-year DALYs
+            </CardTitle>
+            <CardDescription>
+              No scenario found for "{scenarioId}".
+            </CardDescription>
+          </div>
+        </CardHeader>
+      </Card>
+    );
+  }
+
+  const conditionRows = scenario.conditions
+    // filter out the pasc components
+    .filter((condition) => includedConditions.has(condition.condition))
+    // create the shape needed for this chart
+    .map((condition) => ({
+      key: condition.condition,
+      label: condition.label,
+      dalys: condition.totals.dalys_per_1000,
+      fill: `var(--color-${condition.condition})`,
+    }));
 
   // sum up the total dalys between acute, long covid, and pasc
   const totalDalys = conditionRows.reduce((sum, row) => sum + row.dalys, 0);
@@ -103,18 +118,16 @@ export function DetailedBarChart({ scenarioId }: DetailedBarChartProps) {
         ]
       : [];
 
-  console.log(detailedData);
-
   return (
     <Card>
       {/* chart header */}
       <CardHeader className="flex items-center gap-2 space-y-0 border-b sm:flex-row">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
           <CardTitle className="text-l text-pretty md:text-2xl">
-            5 year DALYs detailed view
+            5-year DALYs by outcome for the scenario: {scenario.label}
           </CardTitle>
           <CardDescription className="hidden md:block">
-            <ChartDescriptionBody />
+            <ChartDescriptionBody scenario={scenario} />
           </CardDescription>
         </div>
       </CardHeader>
@@ -169,7 +182,7 @@ export function DetailedBarChart({ scenarioId }: DetailedBarChartProps) {
           />
         </div>
         <CardDescription className="mt-3 block md:hidden">
-          <ChartDescriptionBody />
+          <ChartDescriptionBody scenario={scenario} />
         </CardDescription>
       </CardContent>
     </Card>
