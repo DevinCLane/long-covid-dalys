@@ -124,7 +124,7 @@ export function DetailedBarChart({ scenarioId }: DetailedBarChartProps) {
       <CardHeader className="flex items-center gap-2 space-y-0 border-b sm:flex-row">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
           <CardTitle className="text-l text-pretty md:text-2xl">
-            5-year DALYs by outcome for the scenario: {scenario.label}
+            {scenario.label}: 5-year DALYs by outcome
           </CardTitle>
           <CardDescription className="hidden md:block">
             <ChartDescriptionBody scenario={scenario} />

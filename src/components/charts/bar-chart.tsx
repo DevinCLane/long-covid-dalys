@@ -71,6 +71,33 @@ const chartRows = chartData.scenarios.map((scenario: Scenario) => {
   };
 });
 
+const scenarioLabelsById = new Map(
+  chartRows.map((scenario) => [scenario.id, scenario.label]),
+);
+
+// formatting/text wrapping for the y axis labels
+const Y_AXIS_LABEL_MAX_CHARS = 17;
+const Y_AXIS_LABEL_WIDTH = 132;
+const Y_AXIS_LABEL_LINE_HEIGHT = 13;
+
+function wrapScenarioLabel(label: string) {
+  const lines: string[] = [];
+  const words = label.split(" ");
+
+  for (const word of words) {
+    const currentLine = lines[lines.length - 1];
+    const nextLine = currentLine ? `${currentLine} ${word}` : word;
+
+    if (!currentLine || nextLine.length > Y_AXIS_LABEL_MAX_CHARS) {
+      lines.push(word);
+    } else {
+      lines[lines.length - 1] = nextLine;
+    }
+  }
+
+  return lines;
+}
+
 const chartConfig = {
   acute_covid: {
     label: "Acute COVID",
@@ -88,6 +115,89 @@ const chartConfig = {
 
 interface BarChartStackedProps {
   onScenarioSelect?: (scenarioId: string) => void;
+}
+
+interface ScenarioYAxisTickProps {
+  x?: string | number;
+  y?: string | number;
+  payload?: {
+    value?: string | number;
+  };
+  onScenarioSelect?: (scenarioId: string) => void;
+}
+
+// this is what makes the labels for the y axis clickable
+function ScenarioYAxisTick({
+  x = 0,
+  y = 0,
+  payload,
+  onScenarioSelect,
+}: ScenarioYAxisTickProps) {
+  const [isFocused, setIsFocused] = React.useState(false);
+  const scenarioId = String(payload?.value ?? "");
+  const label = scenarioLabelsById.get(scenarioId) ?? scenarioId;
+  const labelLines = wrapScenarioLabel(label);
+  const isClickable = Boolean(scenarioId && onScenarioSelect);
+  const labelHeight = labelLines.length * Y_AXIS_LABEL_LINE_HEIGHT + 6;
+  const firstLineDy =
+    labelLines.length === 1
+      ? 4
+      : 4 - ((labelLines.length - 1) * Y_AXIS_LABEL_LINE_HEIGHT) / 2;
+
+  function handleSelect() {
+    if (scenarioId) {
+      onScenarioSelect?.(scenarioId);
+    }
+  }
+
+  function handleKeyDown(event: React.KeyboardEvent<SVGGElement>) {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      handleSelect();
+    }
+  }
+
+  return (
+    <g
+      transform={`translate(${x},${y})`}
+      role={isClickable ? "button" : undefined}
+      tabIndex={isClickable ? 0 : undefined}
+      aria-label={isClickable ? `View details for ${label}` : undefined}
+      className={isClickable ? "cursor-pointer outline-none" : undefined}
+      onClick={isClickable ? handleSelect : undefined}
+      onKeyDown={isClickable ? handleKeyDown : undefined}
+      onFocus={isClickable ? () => setIsFocused(true) : undefined}
+      onBlur={isClickable ? () => setIsFocused(false) : undefined}
+    >
+      <rect
+        x={-Y_AXIS_LABEL_WIDTH - 4}
+        y={-(labelHeight / 2)}
+        width={Y_AXIS_LABEL_WIDTH + 8}
+        height={labelHeight}
+        rx={4}
+        fill="transparent"
+        stroke={isFocused ? "var(--ring)" : "transparent"}
+        strokeWidth={1.5}
+        pointerEvents="all"
+      />
+      <text
+        x={0}
+        y={0}
+        textAnchor="end"
+        className="fill-muted-foreground hover:fill-foreground text-xs"
+      >
+        {labelLines.map((line, index) => (
+          <tspan
+            key={`${line}-${index}`}
+            x={0}
+            dy={index === 0 ? firstLineDy : Y_AXIS_LABEL_LINE_HEIGHT}
+          >
+            {line}
+          </tspan>
+        ))}
+      </text>
+    </g>
+  );
 }
 
 export function BarChartStacked({ onScenarioSelect }: BarChartStackedProps) {
@@ -133,11 +243,17 @@ export function BarChartStacked({ onScenarioSelect }: BarChartStackedProps) {
                 tickMargin={8}
               />
               <YAxis
-                dataKey="label"
+                dataKey="id"
                 axisLine={false}
                 tickLine={false}
                 type="category"
-                width={140}
+                width={150}
+                tick={(props) => (
+                  <ScenarioYAxisTick
+                    {...props}
+                    onScenarioSelect={onScenarioSelect}
+                  />
+                )}
               />
               <ChartTooltip content={<ChartTooltipContent hideLabel />} />
               {legendPortal ? (
