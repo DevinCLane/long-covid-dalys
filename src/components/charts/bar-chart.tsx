@@ -204,6 +204,7 @@ export function BarChartStacked({ onScenarioSelect }: BarChartStackedProps) {
   const [legendPortal, setLegendPortal] = React.useState<HTMLDivElement | null>(
     null,
   );
+
   return (
     <Card>
       {/* chart header */}
@@ -255,7 +256,15 @@ export function BarChartStacked({ onScenarioSelect }: BarChartStackedProps) {
                   />
                 )}
               />
-              <ChartTooltip content={<ChartTooltipContent hideLabel />} />
+              <ChartTooltip
+                content={
+                  <ChartTooltipContent
+                    labelFormatter={(label, payload) => {
+                      return payload[0]?.payload?.label ?? label;
+                    }}
+                  />
+                }
+              />
               {legendPortal ? (
                 <ChartLegend
                   portal={legendPortal}
