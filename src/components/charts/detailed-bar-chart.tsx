@@ -11,15 +11,12 @@ import {
 } from "@/components/ui/card";
 import {
   ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart";
 
 import chartData from "@/data/data.json";
-import React from "react";
 
 export type Scenario = (typeof chartData.scenarios)[number];
 
@@ -39,6 +36,9 @@ const chartConfig = {
   total: {
     label: "Total",
     color: "var(--chart-4)",
+  },
+  dalys: {
+    label: "DALYs",
   },
 } satisfies ChartConfig;
 
@@ -61,10 +61,6 @@ function ChartDescriptionBody({ scenario }: ChartDescriptionBodyProps) {
 }
 
 export function DetailedBarChart({ scenarioId }: DetailedBarChartProps) {
-  const [legendPortal, setLegendPortal] = React.useState<HTMLDivElement | null>(
-    null,
-  );
-
   // exclude the pasc components from this chart
   const includedConditions = new Set(["acute_covid", "long_covid", "pasc"]);
 
@@ -163,23 +159,10 @@ export function DetailedBarChart({ scenarioId }: DetailedBarChartProps) {
                 tickLine={false}
                 width={140}
               />
-              <ChartTooltip content={<ChartTooltipContent hideLabel />} />
-              {legendPortal ? (
-                <ChartLegend
-                  portal={legendPortal}
-                  content={<ChartLegendContent />}
-                  verticalAlign="top"
-                  className="mt-4 grid grid-cols-1 gap-x-4 gap-y-2 md:mt-0 md:flex md:justify-center"
-                />
-              ) : null}
+              <ChartTooltip content={<ChartTooltipContent />} />
               <Bar dataKey="dalys" />
             </BarChart>
           </ChartContainer>
-          <div
-            ref={setLegendPortal}
-            data-chart="chart-bar-chart"
-            className="order-3 text-xs md:order-1"
-          />
         </div>
         <CardDescription className="mt-3 block md:hidden">
           <ChartDescriptionBody scenario={scenario} />
