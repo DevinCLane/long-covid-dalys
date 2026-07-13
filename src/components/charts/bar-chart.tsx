@@ -19,7 +19,8 @@ import {
 } from "@/components/ui/chart";
 
 import chartData from "@/data/data.json";
-import React from "react";
+import React, { useState } from "react";
+import { BreakdownCheckbox } from "../breakdown-checkbox";
 
 export type Condition = {
   condition: string;
@@ -30,6 +31,7 @@ export type Scenario = {
   id: string;
   label: string;
   conditions: Condition[];
+  dalys_per_1000_total: number;
 };
 
 export const description = "A stacked bar chart with a legend";
@@ -55,6 +57,7 @@ function ChartDescriptionBody() {
 }
 
 const chartRows = chartData.scenarios.map((scenario: Scenario) => {
+  const total = scenario.dalys_per_1000_total;
   const byCondition = Object.fromEntries(
     scenario.conditions.map((condition) => [
       condition.condition,
@@ -68,6 +71,7 @@ const chartRows = chartData.scenarios.map((scenario: Scenario) => {
     acute_covid: byCondition.acute_covid,
     long_covid: byCondition.long_covid,
     pasc: byCondition.pasc,
+    total: total,
   };
 });
 
@@ -201,9 +205,8 @@ function ScenarioYAxisTick({
 }
 
 export function BarChartStacked({ onScenarioSelect }: BarChartStackedProps) {
-  const [legendPortal, setLegendPortal] = React.useState<HTMLDivElement | null>(
-    null,
-  );
+  const [legendPortal, setLegendPortal] = useState<HTMLDivElement | null>(null);
+  const [breakdownChecked, setBreakdownChecked] = useState(false);
 
   return (
     <Card>
@@ -220,6 +223,11 @@ export function BarChartStacked({ onScenarioSelect }: BarChartStackedProps) {
       </CardHeader>
       <CardContent>
         <div className="flex flex-col">
+          <BreakdownCheckbox
+            className="order-4 justify-center text-xs md:order-1"
+            checked={breakdownChecked}
+            onCheckedChange={setBreakdownChecked}
+          />
           <ChartContainer
             config={chartConfig}
             className="order-2 h-100 w-full md:h-150"
@@ -265,7 +273,7 @@ export function BarChartStacked({ onScenarioSelect }: BarChartStackedProps) {
                   />
                 }
               />
-              {legendPortal ? (
+              {legendPortal && breakdownChecked ? (
                 <ChartLegend
                   portal={legendPortal}
                   content={<ChartLegendContent />}
@@ -273,27 +281,39 @@ export function BarChartStacked({ onScenarioSelect }: BarChartStackedProps) {
                   className="mt-4 grid grid-cols-1 gap-x-4 gap-y-2 md:mt-0 md:flex md:justify-center"
                 />
               ) : null}
-              <Bar
-                dataKey="acute_covid"
-                stackId="a"
-                fill="var(--color-acute_covid)"
-                cursor="pointer"
-                onClick={(data) => onScenarioSelect?.(data.payload.id)}
-              />
-              <Bar
-                dataKey="long_covid"
-                stackId="a"
-                fill="var(--color-long_covid)"
-                cursor="pointer"
-                onClick={(data) => onScenarioSelect?.(data.payload.id)}
-              />
-              <Bar
-                dataKey="pasc"
-                stackId="a"
-                fill="var(--color-pasc)"
-                cursor="pointer"
-                onClick={(data) => onScenarioSelect?.(data.payload.id)}
-              />
+
+              {breakdownChecked ? (
+                <>
+                  <Bar
+                    dataKey="acute_covid"
+                    stackId="a"
+                    fill="var(--color-acute_covid)"
+                    cursor="pointer"
+                    onClick={(data) => onScenarioSelect?.(data.payload.id)}
+                  />
+                  <Bar
+                    dataKey="long_covid"
+                    stackId="a"
+                    fill="var(--color-long_covid)"
+                    cursor="pointer"
+                    onClick={(data) => onScenarioSelect?.(data.payload.id)}
+                  />
+                  <Bar
+                    dataKey="pasc"
+                    stackId="a"
+                    fill="var(--color-pasc)"
+                    cursor="pointer"
+                    onClick={(data) => onScenarioSelect?.(data.payload.id)}
+                  />
+                </>
+              ) : (
+                <Bar
+                  dataKey="total"
+                  fill="var(--color-long_covid)"
+                  cursor="pointer"
+                  onClick={(data) => onScenarioSelect?.(data.payload.id)}
+                />
+              )}
             </BarChart>
           </ChartContainer>
           <div
