@@ -21,6 +21,7 @@ import {
 import chartData from "@/data/data.json";
 import React, { useState } from "react";
 import { BreakdownCheckbox } from "../breakdown-checkbox";
+import { cn } from "@/lib/utils";
 
 export type Condition = {
   condition: string;
@@ -224,7 +225,7 @@ export function BarChartStacked({ onScenarioSelect }: BarChartStackedProps) {
       <CardContent>
         <div className="flex flex-col">
           <BreakdownCheckbox
-            className="order-4 justify-center text-xs md:order-1"
+            className="order-3 mt-4 justify-center text-xs md:order-1"
             checked={breakdownChecked}
             onCheckedChange={setBreakdownChecked}
           />
@@ -273,12 +274,15 @@ export function BarChartStacked({ onScenarioSelect }: BarChartStackedProps) {
                   />
                 }
               />
-              {legendPortal && breakdownChecked ? (
+              {legendPortal ? (
                 <ChartLegend
                   portal={legendPortal}
                   content={<ChartLegendContent />}
                   verticalAlign="top"
-                  className="mt-4 grid grid-cols-1 gap-x-4 gap-y-2 md:mt-0 md:flex md:justify-center"
+                  className={cn(
+                    "grid grid-cols-1 gap-x-4 gap-y-2 md:mt-0 md:flex md:justify-center",
+                    !breakdownChecked && "invisible",
+                  )}
                 />
               ) : null}
 
@@ -319,7 +323,7 @@ export function BarChartStacked({ onScenarioSelect }: BarChartStackedProps) {
           <div
             ref={setLegendPortal}
             data-chart="chart-bar-chart"
-            className="order-3 text-xs md:order-1"
+            className="order-4 text-xs md:order-1"
           />
         </div>
         <CardDescription className="mt-3 block md:hidden">
