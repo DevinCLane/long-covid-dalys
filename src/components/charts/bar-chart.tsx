@@ -116,6 +116,10 @@ const chartConfig = {
     label: "PASC",
     color: "var(--chart-3)",
   },
+  total: {
+    label: "DALYs",
+    color: "var(--chart-4)",
+  },
 } satisfies ChartConfig;
 
 interface BarChartStackedProps {
