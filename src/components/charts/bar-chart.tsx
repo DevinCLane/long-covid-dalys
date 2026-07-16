@@ -57,6 +57,17 @@ function ChartDescriptionBody() {
   );
 }
 
+function findBaselineTotalDalys() {
+  const baseline = chartData.scenarios.find(
+    (scenario: Scenario) => scenario.id === "baseline",
+  );
+  if (baseline === undefined) {
+    throw new Error("couldn't find the baseline scenario in the data");
+  }
+  return baseline.dalys_per_1000_total;
+}
+const baselineTotalDalys = findBaselineTotalDalys();
+
 const chartRows = chartData.scenarios.map((scenario: Scenario) => {
   const total = scenario.dalys_per_1000_total;
   const byCondition = Object.fromEntries(
@@ -73,12 +84,29 @@ const chartRows = chartData.scenarios.map((scenario: Scenario) => {
     long_covid: byCondition.long_covid,
     pasc: byCondition.pasc,
     total: total,
+    percent_reduction: (
+      ((baselineTotalDalys - total) / baselineTotalDalys) *
+      100
+    ).toFixed(2),
   };
 });
+
+console.log(chartRows);
 
 const scenarioLabelsById = new Map(
   chartRows.map((scenario) => [scenario.id, scenario.label]),
 );
+
+// // calculate the % reduction in DALYs when compared to baseline
+// const percentReductionDalys = () => {
+//   const totalBaselineDalys = chartRows.find(
+//     (row) => row.id === "baseline",
+//   )?.total;
+//   if (totalBaselineDalys !== undefined) {
+//     return chartRows.map((row) => 100 - (row.total / totalBaselineDalys) * 100);
+//   }
+// };
+// console.log(percentReductionDalys());
 
 // formatting/text wrapping for the y axis labels
 const Y_AXIS_LABEL_MAX_CHARS = 17;
