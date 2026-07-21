@@ -20,7 +20,7 @@ import {
 
 import chartData from "@/data/data.json";
 import React, { useState } from "react";
-import { BreakdownCheckbox } from "../breakdown-checkbox";
+import { ChartModifierCheckbox } from "../chart-modifier-checkbox";
 import { cn } from "@/lib/utils";
 
 export type Condition = {
@@ -258,10 +258,11 @@ export function BarChartStacked({ onScenarioSelect }: BarChartStackedProps) {
       </CardHeader>
       <CardContent>
         <div className="flex flex-col">
-          <BreakdownCheckbox
+          <ChartModifierCheckbox
             className="order-3 mt-4 justify-center text-xs md:order-1"
             checked={breakdownChecked}
             onCheckedChange={setBreakdownChecked}
+            title="Show breakdown by Acute, Long COVID, PASC"
           />
           <ChartContainer
             config={chartConfig}
