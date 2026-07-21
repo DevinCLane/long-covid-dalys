@@ -15,7 +15,7 @@ export function ChartModifierCheckbox({
   onCheckedChange,
 }: ChartModifierCheckbox) {
   return (
-    <div className={cn("mb-2 flex items-center gap-2", className)}>
+    <div className={cn("flex items-center gap-2", className)}>
       <Checkbox checked={checked} onCheckedChange={onCheckedChange} />
       <p className="text-sm font-normal">{title}</p>
     </div>

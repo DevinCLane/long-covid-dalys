@@ -146,9 +146,13 @@ const chartConfig = {
     label: "PASC",
     color: "var(--chart-3)",
   },
+  percent_reduction: {
+    label: "Percent reduction",
+    color: "var(--chart-6)",
+  },
   total: {
     label: "DALYs",
-    color: "var(--chart-4)",
+    color: "var(--chart-5)",
   },
 } satisfies ChartConfig;
 
@@ -242,6 +246,7 @@ function ScenarioYAxisTick({
 export function BarChartStacked({ onScenarioSelect }: BarChartStackedProps) {
   const [legendPortal, setLegendPortal] = useState<HTMLDivElement | null>(null);
   const [breakdownChecked, setBreakdownChecked] = useState(false);
+  const [percentReductionChecked, setPercentReductionChecked] = useState(false);
 
   return (
     <Card>
@@ -260,6 +265,12 @@ export function BarChartStacked({ onScenarioSelect }: BarChartStackedProps) {
         <div className="flex flex-col">
           <ChartModifierCheckbox
             className="order-3 mt-4 justify-center text-xs md:order-1"
+            checked={percentReductionChecked}
+            onCheckedChange={setPercentReductionChecked}
+            title="Show percent reduction of DALYs"
+          />
+          <ChartModifierCheckbox
+            className="order-3 mt-4 mb-2 justify-center text-xs md:order-1"
             checked={breakdownChecked}
             onCheckedChange={setBreakdownChecked}
             title="Show breakdown by Acute, Long COVID, PASC"
@@ -280,10 +291,18 @@ export function BarChartStacked({ onScenarioSelect }: BarChartStackedProps) {
               <CartesianGrid horizontal={false} />
               <XAxis
                 type="number"
-                label={{
-                  value: "DALYS per 1000 people",
-                  position: "bottom",
-                }}
+                label={
+                  percentReductionChecked
+                    ? {
+                        value:
+                          "Percent reduction of DALYs relative to baseline",
+                        position: "bottom",
+                      }
+                    : {
+                        value: "DALYS per 1000 people",
+                        position: "bottom",
+                      }
+                }
                 width="auto"
                 tickMargin={8}
               />
@@ -347,8 +366,14 @@ export function BarChartStacked({ onScenarioSelect }: BarChartStackedProps) {
                 </>
               ) : (
                 <Bar
-                  dataKey="total"
-                  fill="var(--color-long_covid)"
+                  dataKey={
+                    percentReductionChecked ? "percent_reduction" : "total"
+                  }
+                  fill={
+                    percentReductionChecked
+                      ? "var(--color-percent_reduction)"
+                      : "var(--color-long_covid)"
+                  }
                   cursor="pointer"
                   onClick={(data) => onScenarioSelect?.(data.payload.id)}
                 />
