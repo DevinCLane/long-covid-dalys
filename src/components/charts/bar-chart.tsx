@@ -70,6 +70,11 @@ const baselineTotalDalys = findBaselineTotalDalys();
 
 const chartRows = chartData.scenarios.map((scenario: Scenario) => {
   const total = scenario.dalys_per_1000_total;
+  const percentReduction = (
+    ((baselineTotalDalys - total) / baselineTotalDalys) *
+    100
+  ).toFixed(2);
+
   const byCondition = Object.fromEntries(
     scenario.conditions.map((condition) => [
       condition.condition,
@@ -84,10 +89,7 @@ const chartRows = chartData.scenarios.map((scenario: Scenario) => {
     long_covid: byCondition.long_covid,
     pasc: byCondition.pasc,
     total: total,
-    percent_reduction: (
-      ((baselineTotalDalys - total) / baselineTotalDalys) *
-      100
-    ).toFixed(2),
+    percent_reduction: percentReduction,
   };
 });
 
