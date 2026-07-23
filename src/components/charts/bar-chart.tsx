@@ -296,7 +296,7 @@ export function BarChartStacked({ onScenarioSelect }: BarChartStackedProps) {
       </CardHeader>
       <CardContent>
         <div className="flex flex-col">
-          <FieldGroup className="order-3 text-xs md:order-1">
+          <FieldGroup className="order-3 gap-2 md:order-1">
             <ChartModifierCheckbox
               checked={percentReductionChecked}
               onCheckedChange={setPercentReductionChecked}
