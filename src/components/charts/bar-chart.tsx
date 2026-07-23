@@ -22,6 +22,7 @@ import chartData from "@/data/data.json";
 import React, { useState } from "react";
 import { ChartModifierCheckbox } from "../chart-modifier-checkbox";
 import { cn } from "@/lib/utils";
+import { FieldGroup } from "../ui/field";
 
 export type Condition = {
   condition: string;
@@ -57,24 +58,66 @@ function ChartDescriptionBody() {
   );
 }
 
-function findBaselineTotalDalys() {
+function findBaselineDalyBreakdown() {
   const baseline = chartData.scenarios.find(
     (scenario: Scenario) => scenario.id === "baseline",
   );
   if (baseline === undefined) {
     throw new Error("couldn't find the baseline scenario in the data");
   }
-  return baseline.dalys_per_1000_total;
+
+  const acuteCovid = baseline.conditions.find(
+    (condition) => condition.condition === "acute_covid",
+  )?.totals.dalys_per_1000;
+  if (acuteCovid === undefined) {
+    throw new Error("couldn't find acute covid data");
+  }
+
+  const longCovid = baseline.conditions.find(
+    (condition) => condition.condition === "long_covid",
+  )?.totals.dalys_per_1000;
+  if (longCovid === undefined) {
+    throw new Error("couldn't find long covid data");
+  }
+
+  const pasc = baseline.conditions.find(
+    (condition) => condition.condition === "pasc",
+  )?.totals.dalys_per_1000;
+  if (pasc === undefined) {
+    throw new Error("couldn't find pasc data");
+  }
+
+  return {
+    total: baseline.dalys_per_1000_total,
+    acute_covid: acuteCovid,
+    long_covid: longCovid,
+    pasc: pasc,
+  };
 }
-const baselineTotalDalys = findBaselineTotalDalys();
+
+const baselineTotalDalys = findBaselineDalyBreakdown();
 
 const chartRows = chartData.scenarios.map((scenario: Scenario) => {
   const total = scenario.dalys_per_1000_total;
-  const percentReduction = (
-    ((baselineTotalDalys - total) / baselineTotalDalys) *
+  const acuteCovid = scenario.conditions.find(
+    (condition) => condition.condition === "acute_covid",
+  )?.totals.dalys_per_1000;
+  if (acuteCovid === undefined) {
+    throw new Error("couldn't find acute covid data");
+  }
+
+  const percentReductionTotal = (
+    ((baselineTotalDalys.total - total) / baselineTotalDalys.total) *
+    100
+  ).toFixed(2);
+  const percentReductionAcute = (
+    ((baselineTotalDalys.acute_covid - acuteCovid) /
+      baselineTotalDalys.acute_covid) *
     100
   ).toFixed(2);
 
+  // percentReductionLongCovid
+  // percentReductionPasc
   const byCondition = Object.fromEntries(
     scenario.conditions.map((condition) => [
       condition.condition,
@@ -89,26 +132,16 @@ const chartRows = chartData.scenarios.map((scenario: Scenario) => {
     long_covid: byCondition.long_covid,
     pasc: byCondition.pasc,
     total: total,
-    percent_reduction: percentReduction,
+    percent_reduction: percentReductionTotal,
+    percent_reduction_acute: percentReductionAcute,
+    // percent_reduction_long_covid
+    // percent_reduction_pasc
   };
 });
-
-console.log(chartRows);
 
 const scenarioLabelsById = new Map(
   chartRows.map((scenario) => [scenario.id, scenario.label]),
 );
-
-// // calculate the % reduction in DALYs when compared to baseline
-// const percentReductionDalys = () => {
-//   const totalBaselineDalys = chartRows.find(
-//     (row) => row.id === "baseline",
-//   )?.total;
-//   if (totalBaselineDalys !== undefined) {
-//     return chartRows.map((row) => 100 - (row.total / totalBaselineDalys) * 100);
-//   }
-// };
-// console.log(percentReductionDalys());
 
 // formatting/text wrapping for the y axis labels
 const Y_AXIS_LABEL_MAX_CHARS = 17;
@@ -263,18 +296,18 @@ export function BarChartStacked({ onScenarioSelect }: BarChartStackedProps) {
       </CardHeader>
       <CardContent>
         <div className="flex flex-col">
-          <ChartModifierCheckbox
-            className="order-3 mt-4 justify-center text-xs md:order-1"
-            checked={percentReductionChecked}
-            onCheckedChange={setPercentReductionChecked}
-            title="Show percent reduction of DALYs"
-          />
-          <ChartModifierCheckbox
-            className="order-3 mt-4 mb-2 justify-center text-xs md:order-1"
-            checked={breakdownChecked}
-            onCheckedChange={setBreakdownChecked}
-            title="Show breakdown by Acute, Long COVID, PASC"
-          />
+          <FieldGroup className="order-3 text-xs md:order-1">
+            <ChartModifierCheckbox
+              checked={percentReductionChecked}
+              onCheckedChange={setPercentReductionChecked}
+              title="Show percent reduction of DALYs"
+            />
+            <ChartModifierCheckbox
+              checked={breakdownChecked}
+              onCheckedChange={setBreakdownChecked}
+              title="Show breakdown by Acute, Long COVID, PASC"
+            />
+          </FieldGroup>
           <ChartContainer
             config={chartConfig}
             className="order-2 h-100 w-full md:h-150"

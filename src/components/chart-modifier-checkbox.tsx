@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Checkbox } from "./ui/checkbox";
+import { Field, FieldLabel } from "./ui/field";
 
 interface ChartModifierCheckbox {
   className?: string;
@@ -15,9 +16,15 @@ export function ChartModifierCheckbox({
   onCheckedChange,
 }: ChartModifierCheckbox) {
   return (
-    <div className={cn("flex items-center gap-2", className)}>
-      <Checkbox checked={checked} onCheckedChange={onCheckedChange} />
-      <p className="text-sm font-normal">{title}</p>
-    </div>
+    <Field orientation="horizontal" className={cn(className)}>
+      <FieldLabel className="cursor-pointer text-sm font-normal">
+        <Checkbox
+          checked={checked}
+          onCheckedChange={onCheckedChange}
+          className="border-foreground"
+        />
+        {title}
+      </FieldLabel>
+    </Field>
   );
 }
