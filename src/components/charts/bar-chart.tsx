@@ -296,14 +296,16 @@ export function BarChartStacked({ onScenarioSelect }: BarChartStackedProps) {
       </CardHeader>
       <CardContent>
         <div className="flex flex-col">
-          <FieldGroup className="order-3 gap-2 md:order-1">
+          <FieldGroup className="order-3 items-center gap-2 md:order-1">
             <ChartModifierCheckbox
               checked={percentReductionChecked}
+              className="w-fit"
               onCheckedChange={setPercentReductionChecked}
               title="Show percent reduction of DALYs"
             />
             <ChartModifierCheckbox
               checked={breakdownChecked}
+              className="w-fit"
               onCheckedChange={setBreakdownChecked}
               title="Show breakdown by Acute, Long COVID, PASC"
             />
