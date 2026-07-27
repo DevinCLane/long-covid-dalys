@@ -97,6 +97,10 @@ function findBaselineDalyBreakdown() {
 
 const baselineTotalDalys = findBaselineDalyBreakdown();
 
+function calculatePercentReduction(baseline: number, current: number) {
+  return Number((((baseline - current) / baseline) * 100).toFixed(2));
+}
+
 const chartRows = chartData.scenarios.map((scenario: Scenario) => {
   const total = scenario.dalys_per_1000_total;
   const acuteCovid = scenario.conditions.find(
@@ -106,18 +110,6 @@ const chartRows = chartData.scenarios.map((scenario: Scenario) => {
     throw new Error("couldn't find acute covid data");
   }
 
-  const percentReductionTotal = (
-    ((baselineTotalDalys.total - total) / baselineTotalDalys.total) *
-    100
-  ).toFixed(2);
-  const percentReductionAcute = (
-    ((baselineTotalDalys.acute_covid - acuteCovid) /
-      baselineTotalDalys.acute_covid) *
-    100
-  ).toFixed(2);
-
-  // percentReductionLongCovid
-  // percentReductionPasc
   const byCondition = Object.fromEntries(
     scenario.conditions.map((condition) => [
       condition.condition,
@@ -125,17 +117,39 @@ const chartRows = chartData.scenarios.map((scenario: Scenario) => {
     ]),
   );
 
+  const longCovid = byCondition.long_covid;
+  if (longCovid === undefined) {
+    throw new Error("couldn't find long covid data");
+  }
+
+  const pasc = byCondition.pasc;
+  if (pasc === undefined) {
+    throw new Error("couldn't find pasc data");
+  }
+
   return {
     id: scenario.id,
     label: scenario.label,
     acute_covid: byCondition.acute_covid,
-    long_covid: byCondition.long_covid,
-    pasc: byCondition.pasc,
+    long_covid: longCovid,
+    pasc: pasc,
     total: total,
-    percent_reduction: percentReductionTotal,
-    percent_reduction_acute: percentReductionAcute,
-    // percent_reduction_long_covid
-    // percent_reduction_pasc
+    percent_reduction: calculatePercentReduction(
+      baselineTotalDalys.total,
+      total,
+    ),
+    percent_reduction_acute_covid: calculatePercentReduction(
+      baselineTotalDalys.acute_covid,
+      acuteCovid,
+    ),
+    percent_reduction_long_covid: calculatePercentReduction(
+      baselineTotalDalys.long_covid,
+      longCovid,
+    ),
+    percent_reduction_pasc: calculatePercentReduction(
+      baselineTotalDalys.pasc,
+      pasc,
+    ),
   };
 });
 
@@ -182,6 +196,18 @@ const chartConfig = {
   percent_reduction: {
     label: "Percent reduction",
     color: "var(--chart-6)",
+  },
+  percent_reduction_acute_covid: {
+    label: "Acute COVID",
+    color: "var(--chart-1)",
+  },
+  percent_reduction_long_covid: {
+    label: "Long COVID",
+    color: "var(--chart-2)",
+  },
+  percent_reduction_pasc: {
+    label: "PASC",
+    color: "var(--chart-3)",
   },
   total: {
     label: "DALYs",
@@ -280,6 +306,8 @@ export function BarChartStacked({ onScenarioSelect }: BarChartStackedProps) {
   const [legendPortal, setLegendPortal] = useState<HTMLDivElement | null>(null);
   const [breakdownChecked, setBreakdownChecked] = useState(false);
   const [percentReductionChecked, setPercentReductionChecked] = useState(false);
+  const usePercentReductionBreakdown =
+    breakdownChecked && percentReductionChecked;
 
   return (
     <Card>
@@ -378,23 +406,47 @@ export function BarChartStacked({ onScenarioSelect }: BarChartStackedProps) {
               {breakdownChecked ? (
                 <>
                   <Bar
-                    dataKey="acute_covid"
+                    dataKey={
+                      usePercentReductionBreakdown
+                        ? "percent_reduction_acute_covid"
+                        : "acute_covid"
+                    }
                     stackId="a"
-                    fill="var(--color-acute_covid)"
+                    fill={
+                      usePercentReductionBreakdown
+                        ? "var(--color-percent_reduction_acute_covid)"
+                        : "var(--color-acute_covid)"
+                    }
                     cursor="pointer"
                     onClick={(data) => onScenarioSelect?.(data.payload.id)}
                   />
                   <Bar
-                    dataKey="long_covid"
+                    dataKey={
+                      usePercentReductionBreakdown
+                        ? "percent_reduction_long_covid"
+                        : "long_covid"
+                    }
                     stackId="a"
-                    fill="var(--color-long_covid)"
+                    fill={
+                      usePercentReductionBreakdown
+                        ? "var(--color-percent_reduction_long_covid)"
+                        : "var(--color-long_covid)"
+                    }
                     cursor="pointer"
                     onClick={(data) => onScenarioSelect?.(data.payload.id)}
                   />
                   <Bar
-                    dataKey="pasc"
+                    dataKey={
+                      usePercentReductionBreakdown
+                        ? "percent_reduction_pasc"
+                        : "pasc"
+                    }
                     stackId="a"
-                    fill="var(--color-pasc)"
+                    fill={
+                      usePercentReductionBreakdown
+                        ? "var(--color-percent_reduction_pasc)"
+                        : "var(--color-pasc)"
+                    }
                     cursor="pointer"
                     onClick={(data) => onScenarioSelect?.(data.payload.id)}
                   />
