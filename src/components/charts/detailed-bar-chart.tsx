@@ -86,7 +86,7 @@ export function DetailedBarChart({
       <Card>
         <CardHeader className="flex items-center gap-2 space-y-0 border-b sm:flex-row">
           <div className="grid flex-1 gap-1 text-center sm:text-left">
-            <CardTitle className="text-l text-pretty md:text-2xl">
+            <CardTitle className="text-lg text-pretty md:text-2xl">
               Detailed 5-year DALYs
             </CardTitle>
             <CardDescription>
@@ -131,32 +131,36 @@ export function DetailedBarChart({
       {/* chart header */}
       <CardHeader className="flex items-center gap-2 space-y-0 border-b sm:flex-row">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
-          <div className="mb-4 flex items-center">
-            <CardTitle className="text-l text-pretty md:text-2xl">
+          <div className="align-center mb-4 flex flex-col gap-2 sm:flex-row sm:justify-between sm:gap-0">
+            <CardTitle className="text-lg text-pretty md:text-2xl">
               Detailed view per scenario
             </CardTitle>
-            <Select value={scenarioId} onValueChange={onScenarioSelect}>
-              <SelectTrigger
-                className="hidden w-60 rounded-lg font-medium sm:ml-auto sm:flex"
-                aria-label="Select a value"
-              >
-                <SelectValue placeholder="Last 3 months" />
-              </SelectTrigger>
-              <SelectContent className="rounded-xl">
-                {chartData.scenarios.map((scenario) => (
-                  <SelectItem value={scenario.id}>{scenario.label}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <div>
+              <Select value={scenarioId} onValueChange={onScenarioSelect}>
+                <SelectTrigger
+                  className="w-full rounded-lg font-medium sm:ml-auto sm:flex sm:w-60"
+                  aria-label="Select a value"
+                >
+                  <SelectValue placeholder="Last 3 months" />
+                </SelectTrigger>
+                <SelectContent className="w-full rounded-xl">
+                  {chartData.scenarios.map((scenario) => (
+                    <SelectItem value={scenario.id}>
+                      {scenario.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
-          <CardDescription className="mb-4">
+          <CardDescription className="mb-4 hidden md:block">
             Select a scenario from the dropdown menu to show side-by-side
             comparison of DALYs associated with acute COVID-19 infection, Long
             COVID, and other post-acute sequelae of COVID-19 infection in that
             intervention scenario.
           </CardDescription>
           <Separator />
-          <CardTitle className="md:text-l mt-4 text-pretty">
+          <CardTitle className="mt-4 text-sm text-pretty sm:text-lg">
             {scenario.label}: 5-year DALYs by outcome
           </CardTitle>
           <CardDescription className="hidden md:block">
@@ -201,6 +205,13 @@ export function DetailedBarChart({
             </BarChart>
           </ChartContainer>
         </div>
+        <CardDescription className="mt-4 mb-4 block md:hidden">
+          Select a scenario from the dropdown menu to show side-by-side
+          comparison of DALYs associated with acute COVID-19 infection, Long
+          COVID, and other post-acute sequelae of COVID-19 infection in that
+          intervention scenario.
+        </CardDescription>
+        <Separator />
         <CardDescription className="mt-3 block md:hidden">
           <ChartDescriptionBody scenario={scenario} />
         </CardDescription>
