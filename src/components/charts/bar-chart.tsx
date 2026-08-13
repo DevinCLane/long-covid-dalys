@@ -182,7 +182,7 @@ function wrapScenarioLabel(label: string) {
 
 const chartConfig = {
   acute_covid: {
-    label: "Acute COVID-19",
+    label: "acute COVID-19",
     color: "var(--chart-1)",
   },
   long_covid: {
@@ -190,7 +190,7 @@ const chartConfig = {
     color: "var(--chart-2)",
   },
   pasc: {
-    label: "PASC",
+    label: "other post-acute sequelae of COVID-19 infection",
     color: "var(--chart-3)",
   },
   percent_reduction: {
@@ -198,7 +198,7 @@ const chartConfig = {
     color: "var(--chart-6)",
   },
   percent_reduction_acute_covid: {
-    label: "Acute COVID-19",
+    label: "acute COVID-19",
     color: "var(--chart-1)",
   },
   percent_reduction_long_covid: {
@@ -206,7 +206,7 @@ const chartConfig = {
     color: "var(--chart-2)",
   },
   percent_reduction_pasc: {
-    label: "PASC",
+    label: "other post-acute sequelae of COVID-19 infection",
     color: "var(--chart-3)",
   },
   total: {
@@ -334,9 +334,9 @@ export function BarChartStacked({ onScenarioSelect }: BarChartStackedProps) {
             />
             <ChartModifierCheckbox
               checked={breakdownChecked}
-              className="w-fit"
+              className="w-fit max-w-100"
               onCheckedChange={setBreakdownChecked}
-              title="Show breakdown by Acute, Long COVID, PASC"
+              title="Show breakdown by DALYs associated with acute COVID-19 infection, Long COVID, and other post-acute sequelae of COVID-19 infection"
             />
           </FieldGroup>
           <ChartContainer
