@@ -22,7 +22,7 @@ export type Scenario = (typeof chartData.scenarios)[number];
 
 const chartConfig = {
   acute_covid: {
-    label: "Acute COVID",
+    label: "Acute COVID-19",
     color: "var(--chart-1)",
   },
   long_covid: {
@@ -54,8 +54,8 @@ function ChartDescriptionBody({ scenario }: ChartDescriptionBodyProps) {
   return (
     <div>
       For the scenario "{scenario.label}", shows a side-by-side comparison of
-      the DALYs for each outcome condition: Acute COVID, Long COVID, PASC, and
-      their sum total
+      the DALYs for each outcome condition: Acute COVID-19, Long COVID, PASC,
+      and their sum total
     </div>
   );
 }

@@ -182,7 +182,7 @@ function wrapScenarioLabel(label: string) {
 
 const chartConfig = {
   acute_covid: {
-    label: "Acute COVID",
+    label: "Acute COVID-19",
     color: "var(--chart-1)",
   },
   long_covid: {
@@ -198,7 +198,7 @@ const chartConfig = {
     color: "var(--chart-6)",
   },
   percent_reduction_acute_covid: {
-    label: "Acute COVID",
+    label: "Acute COVID-19",
     color: "var(--chart-1)",
   },
   percent_reduction_long_covid: {

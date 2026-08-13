@@ -39,7 +39,7 @@ export default function TabsArea() {
         <TabsTrigger value="detailed">Detailed</TabsTrigger>
         <TabsTrigger value="lc">Long COVID</TabsTrigger>
         <TabsTrigger value="pasc">PASC</TabsTrigger>
-        <TabsTrigger value="acute">Acute COVID</TabsTrigger>
+        <TabsTrigger value="acute">Acute COVID-19</TabsTrigger>
       </TabsList>
       <TabsContent value="overview" className="w-full">
         <BarChartStacked onScenarioSelect={openDetailedScenario} />
