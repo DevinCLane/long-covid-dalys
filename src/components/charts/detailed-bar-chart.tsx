@@ -17,6 +17,14 @@ import {
 } from "@/components/ui/chart";
 
 import chartData from "@/data/data.json";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { Separator } from "../ui/separator";
 
 export type Scenario = (typeof chartData.scenarios)[number];
 
@@ -44,6 +52,7 @@ const chartConfig = {
 
 interface DetailedBarChartProps {
   scenarioId: Scenario["id"];
+  onScenarioSelect: (scenarioId: string) => void;
 }
 
 interface ChartDescriptionBodyProps {
@@ -60,7 +69,10 @@ function ChartDescriptionBody({ scenario }: ChartDescriptionBodyProps) {
   );
 }
 
-export function DetailedBarChart({ scenarioId }: DetailedBarChartProps) {
+export function DetailedBarChart({
+  scenarioId,
+  onScenarioSelect,
+}: DetailedBarChartProps) {
   // exclude the pasc components from this chart
   const includedConditions = new Set(["acute_covid", "long_covid", "pasc"]);
 
@@ -119,7 +131,32 @@ export function DetailedBarChart({ scenarioId }: DetailedBarChartProps) {
       {/* chart header */}
       <CardHeader className="flex items-center gap-2 space-y-0 border-b sm:flex-row">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
-          <CardTitle className="text-l text-pretty md:text-2xl">
+          <div className="mb-4 flex items-center">
+            <CardTitle className="text-l text-pretty md:text-2xl">
+              Detailed view per scenario
+            </CardTitle>
+            <Select value={scenarioId} onValueChange={onScenarioSelect}>
+              <SelectTrigger
+                className="hidden w-60 rounded-lg font-medium sm:ml-auto sm:flex"
+                aria-label="Select a value"
+              >
+                <SelectValue placeholder="Last 3 months" />
+              </SelectTrigger>
+              <SelectContent className="rounded-xl">
+                {chartData.scenarios.map((scenario) => (
+                  <SelectItem value={scenario.id}>{scenario.label}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <CardDescription className="mb-4">
+            Select a scenario from the dropdown menu to show side-by-side
+            comparison of DALYs associated with acute COVID-19 infection, Long
+            COVID, and other post-acute sequelae of COVID-19 infection in that
+            intervention scenario.
+          </CardDescription>
+          <Separator />
+          <CardTitle className="md:text-l mt-4 text-pretty">
             {scenario.label}: 5-year DALYs by outcome
           </CardTitle>
           <CardDescription className="hidden md:block">

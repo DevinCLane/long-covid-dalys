@@ -22,6 +22,10 @@ export default function TabsArea() {
   const [activeTab, setActiveTab] = useState("overview");
   const [detailedScenarioId, setDetailedScenarioId] = useState("baseline");
 
+  function selectDetailedScenario(scenarioId: string) {
+    setDetailedScenarioId(scenarioId);
+  }
+
   function openDetailedScenario(scenarioId: string) {
     setDetailedScenarioId(scenarioId);
     setActiveTab("detailed");
@@ -45,7 +49,10 @@ export default function TabsArea() {
         <BarChartStacked onScenarioSelect={openDetailedScenario} />
       </TabsContent>
       <TabsContent value="detailed" className="w-full">
-        <DetailedBarChart scenarioId={detailedScenarioId} />
+        <DetailedBarChart
+          scenarioId={detailedScenarioId}
+          onScenarioSelect={selectDetailedScenario}
+        />
       </TabsContent>
       <TabsContent value="lc" className="w-full">
         <LongCovidChart
