@@ -38,12 +38,14 @@ export default function TabsArea() {
       value={activeTab}
       onValueChange={setActiveTab}
     >
-      <TabsList>
-        <TabsTrigger value="overview">Overview</TabsTrigger>
-        <TabsTrigger value="detailed">Detailed</TabsTrigger>
-        <TabsTrigger value="lc">Long COVID</TabsTrigger>
-        <TabsTrigger value="pasc">other sequelae</TabsTrigger>
-        <TabsTrigger value="acute">acute COVID-19</TabsTrigger>
+      <TabsList variant="line" className="mb-4 sm:mb-0">
+        <div className="">
+          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="detailed">Detailed</TabsTrigger>
+          <TabsTrigger value="lc">Long COVID</TabsTrigger>
+          <TabsTrigger value="pasc">other sequelae</TabsTrigger>
+          <TabsTrigger value="acute">acute COVID-19</TabsTrigger>
+        </div>
       </TabsList>
       <TabsContent value="overview" className="w-full">
         <BarChartStacked onScenarioSelect={openDetailedScenario} />
