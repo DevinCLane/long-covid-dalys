@@ -198,7 +198,7 @@ export function DetailedBarChart({
                 type="category"
                 axisLine={false}
                 tickLine={false}
-                width={140}
+                width={85}
               />
               <ChartTooltip content={<ChartTooltipContent />} />
               <Bar dataKey="dalys" />

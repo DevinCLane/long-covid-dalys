@@ -375,7 +375,7 @@ export function BarChartStacked({ onScenarioSelect }: BarChartStackedProps) {
                 axisLine={false}
                 tickLine={false}
                 type="category"
-                width={150}
+                width={115}
                 tick={(props) => (
                   <ScenarioYAxisTick
                     {...props}

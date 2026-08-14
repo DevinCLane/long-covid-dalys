@@ -43,8 +43,8 @@ export default function TabsArea() {
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="detailed">Detailed</TabsTrigger>
           <TabsTrigger value="lc">Long COVID</TabsTrigger>
-          <TabsTrigger value="pasc">other sequelae</TabsTrigger>
-          <TabsTrigger value="acute">acute COVID-19</TabsTrigger>
+          <TabsTrigger value="pasc">Other Sequelae</TabsTrigger>
+          <TabsTrigger value="acute">Acute COVID-19</TabsTrigger>
         </div>
       </TabsList>
       <TabsContent value="overview" className="w-full">
