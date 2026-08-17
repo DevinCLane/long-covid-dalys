@@ -41,10 +41,10 @@ export default function TabsArea() {
       <TabsList variant="line" className="mt-2 mb-6 sm:m-0">
         <div className="">
           <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="detailed">Breakdown by outcome</TabsTrigger>
-          <TabsTrigger value="lc">Long COVID</TabsTrigger>
-          <TabsTrigger value="pasc">Other Sequelae</TabsTrigger>
-          <TabsTrigger value="acute">Acute COVID-19</TabsTrigger>
+          <TabsTrigger value="detailed">Detailed</TabsTrigger>
+          <TabsTrigger value="air">Air Cleaning</TabsTrigger>
+          <TabsTrigger value="pharmaceuticals">Pharmaceuticals</TabsTrigger>
+          <TabsTrigger value="pharmaceuticals"></TabsTrigger>
         </div>
       </TabsList>
       <TabsContent value="overview" className="w-full">
