@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
-import { BarChartStacked } from "@/components/charts/bar-chart";
+import { OverviewChart } from "@/components/charts/overview-chart";
 import { DetailedBarChart } from "@/components/charts/detailed-bar-chart";
 
 export default function TabsArea() {
@@ -34,7 +34,7 @@ export default function TabsArea() {
         </div>
       </TabsList>
       <TabsContent value="overview" className="w-full">
-        <BarChartStacked onScenarioSelect={openDetailedScenario} />
+        <OverviewChart onScenarioSelect={openDetailedScenario} />
       </TabsContent>
       <TabsContent value="detailed" className="w-full">
         <DetailedBarChart
@@ -43,7 +43,7 @@ export default function TabsArea() {
         />
       </TabsContent>
       <TabsContent value="air" className="w-full">
-        <BarChartStacked onScenarioSelect={openDetailedScenario} />
+        <OverviewChart onScenarioSelect={openDetailedScenario} />
       </TabsContent>
       <TabsContent value="pharmaceuticals" className="w-full">
         <div>Coming soon</div>

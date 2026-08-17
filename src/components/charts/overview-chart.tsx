@@ -302,7 +302,7 @@ function ScenarioYAxisTick({
   );
 }
 
-export function BarChartStacked({ onScenarioSelect }: BarChartStackedProps) {
+export function OverviewChart({ onScenarioSelect }: BarChartStackedProps) {
   const [legendPortal, setLegendPortal] = useState<HTMLDivElement | null>(null);
   const [breakdownChecked, setBreakdownChecked] = useState(false);
   const [percentReductionChecked, setPercentReductionChecked] = useState(false);
