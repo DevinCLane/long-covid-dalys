@@ -25,6 +25,14 @@ import {
   SelectValue,
 } from "../ui/select";
 import { Separator } from "../ui/separator";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "../ui/accordion";
+import { ASSUMPTIONS } from "@/config/assumptions";
+import { AssumptionArea } from "../assumption-area";
 
 export type Scenario = (typeof chartData.scenarios)[number];
 
@@ -215,6 +223,31 @@ export function DetailedBarChart({
         <CardDescription className="mt-3 block md:hidden">
           <ChartDescriptionBody scenario={scenario} />
         </CardDescription>
+        <Accordion type="single" collapsible>
+          <AccordionItem value="modelAssumptions">
+            <AccordionTrigger className="text-xl">
+              Model Assumptions
+            </AccordionTrigger>
+            <AccordionContent className="flex flex-col gap-4 text-balance">
+              <div className="grid grid-cols-1 gap-x-8 gap-y-2 md:grid-cols-2">
+                {ASSUMPTIONS.map((assumption) => (
+                  <AssumptionArea
+                    key={assumption.key}
+                    sliderLabel={assumption.sliderLabel}
+                    sliderSubLabel={assumption.sliderSubLabel}
+                    sliderMin={assumption.sliderMin}
+                    sliderMax={assumption.sliderMax}
+                    sliderStep={assumption.sliderStep}
+                    sliderInitialValue={assumption.defaultValue}
+                    sliderDefaultValue={assumption.defaultValue}
+                    sliderDisabled={false}
+                    onSliderChange={([value]) => value}
+                  />
+                ))}
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
       </CardContent>
     </Card>
   );
