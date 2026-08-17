@@ -211,7 +211,7 @@ export function DetailedBarChart({
           COVID, and other post-acute sequelae of COVID-19 infection in that
           intervention scenario.
         </CardDescription>
-        <Separator />
+        <Separator className="mt-3 block md:hidden" />
         <CardDescription className="mt-3 block md:hidden">
           <ChartDescriptionBody scenario={scenario} />
         </CardDescription>
