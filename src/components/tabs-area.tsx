@@ -44,7 +44,7 @@ export default function TabsArea() {
           <TabsTrigger value="detailed">Detailed</TabsTrigger>
           <TabsTrigger value="air">Air Cleaning</TabsTrigger>
           <TabsTrigger value="pharmaceuticals">Pharmaceuticals</TabsTrigger>
-          <TabsTrigger value="pharmaceuticals"></TabsTrigger>
+          <TabsTrigger value="publicHealth">Public Health</TabsTrigger>
         </div>
       </TabsList>
       <TabsContent value="overview" className="w-full">
