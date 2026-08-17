@@ -158,7 +158,7 @@ const scenarioLabelsById = new Map(
 );
 
 // formatting/text wrapping for the y axis labels
-const Y_AXIS_LABEL_MAX_CHARS = 17;
+const Y_AXIS_LABEL_MAX_CHARS = 2;
 const Y_AXIS_LABEL_WIDTH = 132;
 const Y_AXIS_LABEL_LINE_HEIGHT = 13;
 
@@ -240,11 +240,11 @@ function ScenarioYAxisTick({
   const label = scenarioLabelsById.get(scenarioId) ?? scenarioId;
   const labelLines = wrapScenarioLabel(label);
   const isClickable = Boolean(scenarioId && onScenarioSelect);
-  const labelHeight = labelLines.length * Y_AXIS_LABEL_LINE_HEIGHT + 6;
-  const firstLineDy =
-    labelLines.length === 1
-      ? 4
-      : 4 - ((labelLines.length - 1) * Y_AXIS_LABEL_LINE_HEIGHT) / 2;
+  const labelHeight = labelLines.length * Y_AXIS_LABEL_LINE_HEIGHT + 16;
+  const firstLineDy = 0;
+  // labelLines.length === 1
+  //   ? 4
+  //   : 4 - ((labelLines.length - 1) * Y_AXIS_LABEL_LINE_HEIGHT) / 2;
 
   function handleSelect() {
     if (scenarioId) {
@@ -261,7 +261,7 @@ function ScenarioYAxisTick({
 
   return (
     <g
-      transform={`translate(${x},${y})`}
+      transform={`translate(${x},${y + 10})`}
       role={isClickable ? "button" : undefined}
       tabIndex={isClickable ? 0 : undefined}
       aria-label={isClickable ? `View details for ${label}` : undefined}
@@ -285,7 +285,7 @@ function ScenarioYAxisTick({
       <text
         x={0}
         y={0}
-        textAnchor="end"
+        textAnchor="middle"
         className="fill-muted-foreground hover:fill-foreground text-xs"
       >
         {labelLines.map((line, index) => (
@@ -294,6 +294,7 @@ function ScenarioYAxisTick({
             x={0}
             dy={index === 0 ? firstLineDy : Y_AXIS_LABEL_LINE_HEIGHT}
           >
+            {/* test */}
             {line}
           </tspan>
         ))}
@@ -347,41 +348,44 @@ export function BarChartStacked({ onScenarioSelect }: BarChartStackedProps) {
             <BarChart
               accessibilityLayer
               data={chartRows}
-              layout="vertical"
+              layout="horizontal"
               margin={{
-                bottom: 15,
+                bottom: 90,
               }}
             >
               <CartesianGrid horizontal={false} />
-              <XAxis
+              <YAxis
                 type="number"
                 label={
                   percentReductionChecked
                     ? {
                         value:
                           "Percent reduction of DALYs relative to baseline",
-                        position: "bottom",
+                        position: "left",
                       }
                     : {
                         value: "DALYS per 1000 people",
-                        position: "bottom",
+                        position: "left",
                       }
                 }
-                width="auto"
-                tickMargin={8}
+                width={28}
+                tickMargin={0}
               />
-              <YAxis
+              <XAxis
                 dataKey="id"
                 axisLine={false}
                 tickLine={false}
                 type="category"
-                width={115}
-                tick={(props) => (
-                  <ScenarioYAxisTick
-                    {...props}
-                    onScenarioSelect={onScenarioSelect}
-                  />
-                )}
+                interval={0}
+                angle={-90}
+                textAnchor="end"
+                height={110}
+                // tick={(props) => (
+                //   <ScenarioYAxisTick
+                //     {...props}
+                //     onScenarioSelect={onScenarioSelect}
+                //   />
+                // )}
               />
               <ChartTooltip
                 content={
