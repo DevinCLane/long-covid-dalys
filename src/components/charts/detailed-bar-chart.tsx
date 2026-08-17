@@ -229,6 +229,7 @@ export function DetailedBarChart({
               Model Assumptions
             </AccordionTrigger>
             <AccordionContent className="flex flex-col gap-4 text-balance">
+              Sliders not hooked into live data
               <div className="grid grid-cols-1 gap-x-8 gap-y-2 md:grid-cols-2">
                 {ASSUMPTIONS.map((assumption) => (
                   <AssumptionArea
