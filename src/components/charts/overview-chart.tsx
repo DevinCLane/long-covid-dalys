@@ -46,19 +46,26 @@ export type Scenario = {
 
 function ChartDescriptionBody() {
   return (
-    <>
-      This simulation shows the result of synthesizing existing evidence to
-      model the potential impact of several interventions on COVID-19-related{" "}
-      <a
-        href="https://en.wikipedia.org/wiki/Disability-adjusted_life_year"
-        target="_blank"
-        rel="noreferrer"
-        className="font-medium underline underline-offset-4"
-      >
-        disability-adjusted life years (DALYs)
-      </a>
-      . Each DALY represents one year of healthy life lost to illness.
-    </>
+    <div className="mt-2">
+      <p>
+        This simulation shows the result of synthesizing existing evidence to
+        model the potential impact of several interventions on COVID-19-related{" "}
+        <a
+          href="https://en.wikipedia.org/wiki/Disability-adjusted_life_year"
+          target="_blank"
+          rel="noreferrer"
+          className="font-medium underline underline-offset-4"
+        >
+          disability-adjusted life years (DALYs)
+        </a>
+        . Each DALY represents one year of healthy life lost to illness.
+      </p>
+      <p className="mt-2">
+        The status quo scenario reflects the number of COVID-19-related DALYs
+        assuming no public health action is taken to mitigate COVID-19 infection
+        at the population level.
+      </p>
+    </div>
   );
 }
 
@@ -474,7 +481,7 @@ export function OverviewChart({ onScenarioSelect }: BarChartStackedProps) {
           <div
             ref={setLegendPortal}
             data-chart="chart-bar-chart"
-            className="order-4 text-xs md:order-1"
+            className="order-4 mt-2 text-xs md:order-1"
           />
         </div>
         <CardDescription className="mt-3 block md:hidden">
