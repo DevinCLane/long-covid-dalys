@@ -333,7 +333,7 @@ export function OverviewChart({ onScenarioSelect }: BarChartStackedProps) {
       </CardHeader>
       <CardContent>
         <div className="flex flex-col">
-          <FieldGroup className="order-3 items-center gap-2 md:order-1">
+          <FieldGroup className="order-3 mt-4 mb-2 items-center gap-2 sm:mt-0 sm:mb-0 md:order-1">
             <ChartModifierCheckbox
               checked={percentReductionChecked}
               className="w-fit"
