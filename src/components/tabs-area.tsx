@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { OverviewChart } from "@/components/charts/overview-chart";
 import { DetailedBarChart } from "@/components/charts/detailed-bar-chart";
+import { AirCleaningChart } from "./charts/air-cleaning-chart";
 
 export default function TabsArea() {
   // active tabs for the detailed views
@@ -43,7 +44,7 @@ export default function TabsArea() {
         />
       </TabsContent>
       <TabsContent value="air" className="w-full">
-        <OverviewChart onScenarioSelect={openDetailedScenario} />
+        <AirCleaningChart onScenarioSelect={openDetailedScenario} />
       </TabsContent>
       <TabsContent value="pharmaceuticals" className="w-full">
         <div>Coming soon</div>
