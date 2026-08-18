@@ -110,12 +110,22 @@ export function DetailedBarChart({
     // filter out the pasc components
     .filter((condition) => includedConditions.has(condition.condition))
     // create the shape needed for this chart
-    .map((condition) => ({
-      key: condition.condition,
-      label: condition.label,
-      dalys: condition.totals.dalys_per_1000,
-      fill: `var(--color-${condition.condition})`,
-    }));
+    .map((condition) => {
+      if (condition.condition === "pasc") {
+        return {
+          key: condition.condition,
+          label: "other sequelae",
+          dalys: condition.totals.dalys_per_1000,
+          fill: `var(--color-${condition.condition})`,
+        };
+      } else
+        return {
+          key: condition.condition,
+          label: condition.label,
+          dalys: condition.totals.dalys_per_1000,
+          fill: `var(--color-${condition.condition})`,
+        };
+    });
 
   // sum up the total dalys between acute, long covid, and pasc
   const totalDalys = conditionRows.reduce((sum, row) => sum + row.dalys, 0);
@@ -206,7 +216,7 @@ export function DetailedBarChart({
                 type="category"
                 axisLine={false}
                 tickLine={false}
-                width={85}
+                width={95}
               />
               <ChartTooltip content={<ChartTooltipContent />} />
               <Bar dataKey="dalys" />
