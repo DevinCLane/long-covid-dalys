@@ -47,10 +47,8 @@ export type Scenario = {
 function ChartDescriptionBody() {
   return (
     <>
-      This scenario simulator shows the result of synthesizing existing evidence
-      to model the potential impact of population-level air cleaning
-      interventions, like HEPA filtration and far germicidal UVC light, on Long
-      COVID-related{" "}
+      This simulation shows the result of synthesizing existing evidence to
+      model the potential impact of several interventions on COVID-19-related{" "}
       <a
         href="https://en.wikipedia.org/wiki/Disability-adjusted_life_year"
         target="_blank"
@@ -321,8 +319,7 @@ export function OverviewChart({ onScenarioSelect }: BarChartStackedProps) {
       <CardHeader className="flex items-center gap-2 space-y-0 border-b sm:flex-row">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
           <CardTitle className="text-l text-pretty md:text-2xl">
-            How might air cleaning interventions affect COVID-associated
-            disability?
+            What interventions might affect COVID-19-associated disability?
           </CardTitle>
           <CardDescription className="hidden md:block">
             <ChartDescriptionBody />
