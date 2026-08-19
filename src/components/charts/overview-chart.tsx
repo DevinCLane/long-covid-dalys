@@ -317,17 +317,17 @@ function ScenarioYAxisTick({
 export function OverviewChart({ onScenarioSelect }: BarChartStackedProps) {
   const [legendPortal, setLegendPortal] = useState<HTMLDivElement | null>(null);
   const [breakdownChecked, setBreakdownChecked] = useState(false);
-  const [totalDalysChecked, setTotalDalysChecked] = useState(false);
+  const [dalysPer1000, setDalysPer1000] = useState(false);
   const [allHepaChecked, setAllHepaChecked] = useState(false);
   const [allUvcChecked, setAllUvcChecked] = useState(false);
-  const usePercentReductionBreakdown = breakdownChecked && !totalDalysChecked;
+  const usePercentReductionBreakdown = breakdownChecked && !dalysPer1000;
 
   const visibleRows = chartRows.filter((row) => {
     if (row.id === "hepa_all_public" || row.id === "far_uvc_all_public")
       return true;
     if (allHepaChecked && row.id.startsWith("hepa_")) return true;
     if (allUvcChecked && row.id.startsWith("far_uvc_")) return true;
-    if (totalDalysChecked && row.id.startsWith("baseline")) return true;
+    if (dalysPer1000 && row.id.startsWith("baseline")) return true;
     return false;
   });
 
@@ -364,9 +364,9 @@ export function OverviewChart({ onScenarioSelect }: BarChartStackedProps) {
             <Separator />
             <div className="flex items-center gap-4">
               <ChartModifierCheckbox
-                checked={totalDalysChecked}
+                checked={dalysPer1000}
                 className="w-fit"
-                onCheckedChange={setTotalDalysChecked}
+                onCheckedChange={setDalysPer1000}
                 title="Show DALYs per 1000 people"
               />
               <ChartModifierCheckbox
@@ -394,7 +394,7 @@ export function OverviewChart({ onScenarioSelect }: BarChartStackedProps) {
               <XAxis
                 type="number"
                 label={
-                  totalDalysChecked
+                  dalysPer1000
                     ? {
                         value: "DALYS per 1000 people",
                         position: "bottom",
@@ -492,9 +492,9 @@ export function OverviewChart({ onScenarioSelect }: BarChartStackedProps) {
                 </>
               ) : (
                 <Bar
-                  dataKey={totalDalysChecked ? "total" : "percent_reduction"}
+                  dataKey={dalysPer1000 ? "total" : "percent_reduction"}
                   fill={
-                    totalDalysChecked
+                    dalysPer1000
                       ? "var(--color-percent_reduction)"
                       : "var(--color-long_covid)"
                   }
