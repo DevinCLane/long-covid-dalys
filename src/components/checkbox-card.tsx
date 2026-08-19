@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { CircleCheck, Ruler, Smile, SwatchBook } from "lucide-react";
+import { CircleCheck } from "lucide-react";
 import { Checkbox as CheckboxPrimitive } from "radix-ui";
 
 const CheckboxCard = ({

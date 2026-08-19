@@ -31,7 +31,6 @@ import {
   AccordionTrigger,
 } from "../ui/accordion";
 import { ASSUMPTIONS } from "@/config/assumptions";
-import CheckboxCard from "../checkbox-card";
 import { Separator } from "../ui/separator";
 
 export type Condition = {
@@ -319,7 +318,17 @@ export function OverviewChart({ onScenarioSelect }: BarChartStackedProps) {
   const [legendPortal, setLegendPortal] = useState<HTMLDivElement | null>(null);
   const [breakdownChecked, setBreakdownChecked] = useState(false);
   const [rawDalysChecked, setRawDalysChecked] = useState(false);
+  const [allHepaChecked, setAllHepaChecked] = useState(false);
+  const [allUvcChecked, setAllUvcChecked] = useState(false);
   const usePercentReductionBreakdown = breakdownChecked && !rawDalysChecked;
+
+  const visibleRows = chartRows.filter((row) => {
+    if (row.id === "hepa_all_public" || row.id === "far_uvc_all_public")
+      return true;
+    if (allHepaChecked && row.id.startsWith("hepa_")) return true;
+    if (allUvcChecked && row.id.startsWith("far_uvc_")) return true;
+    return false;
+  });
 
   return (
     <Card>
@@ -341,13 +350,13 @@ export function OverviewChart({ onScenarioSelect }: BarChartStackedProps) {
               <ChartModifierCheckbox
                 checked={rawDalysChecked}
                 className="w-fit"
-                onCheckedChange={setRawDalysChecked}
+                onCheckedChange={setAllHepaChecked}
                 title="Show all HEPA"
               />
               <ChartModifierCheckbox
                 checked={rawDalysChecked}
                 className="w-fit"
-                onCheckedChange={setRawDalysChecked}
+                onCheckedChange={setAllUvcChecked}
                 title="Show all UVC"
               />
             </div>
@@ -374,7 +383,7 @@ export function OverviewChart({ onScenarioSelect }: BarChartStackedProps) {
           >
             <BarChart
               accessibilityLayer
-              data={chartRows}
+              data={visibleRows}
               layout="vertical"
               margin={{
                 bottom: 15,
