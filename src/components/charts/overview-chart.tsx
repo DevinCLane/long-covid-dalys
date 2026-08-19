@@ -348,13 +348,13 @@ export function OverviewChart({ onScenarioSelect }: BarChartStackedProps) {
           <FieldGroup className="order-3 mt-4 mb-2 gap-4 sm:mt-0 sm:mb-0 sm:w-80 md:order-1">
             <div className="flex justify-center gap-4">
               <ChartModifierCheckbox
-                checked={rawDalysChecked}
+                checked={allHepaChecked}
                 className="w-fit"
                 onCheckedChange={setAllHepaChecked}
                 title="Show all HEPA"
               />
               <ChartModifierCheckbox
-                checked={rawDalysChecked}
+                checked={allUvcChecked}
                 className="w-fit"
                 onCheckedChange={setAllUvcChecked}
                 title="Show all UVC"
