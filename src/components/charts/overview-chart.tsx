@@ -346,7 +346,7 @@ export function OverviewChart({ onScenarioSelect }: BarChartStackedProps) {
       </CardHeader>
       <CardContent>
         <div className="flex flex-col items-center">
-          <FieldGroup className="order-3 mt-4 mb-2 gap-4 sm:mt-0 sm:mb-0 sm:w-80 md:order-1">
+          <FieldGroup className="order-3 mt-4 mb-2 gap-4 sm:mt-0 sm:mb-0 sm:w-100 md:order-1">
             <div className="flex justify-center gap-4">
               <ChartModifierCheckbox
                 checked={allHepaChecked}
@@ -362,7 +362,7 @@ export function OverviewChart({ onScenarioSelect }: BarChartStackedProps) {
               />
             </div>
             <Separator />
-            <div className="flex flex-col items-center gap-4">
+            <div className="flex items-center gap-4">
               <ChartModifierCheckbox
                 checked={totalDalysChecked}
                 className="w-fit"
@@ -401,7 +401,7 @@ export function OverviewChart({ onScenarioSelect }: BarChartStackedProps) {
                       }
                     : {
                         value:
-                          "Percent reduction of DALYs relative to baseline",
+                          "Percent reduction of DALYs relative to status quo",
                         position: "bottom",
                       }
                 }
