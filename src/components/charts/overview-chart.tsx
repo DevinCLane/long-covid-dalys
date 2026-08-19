@@ -31,6 +31,8 @@ import {
   AccordionTrigger,
 } from "../ui/accordion";
 import { ASSUMPTIONS } from "@/config/assumptions";
+import CheckboxCard from "../checkbox-card";
+import { Separator } from "../ui/separator";
 
 export type Condition = {
   condition: string;
@@ -316,7 +318,6 @@ function ScenarioYAxisTick({
 export function OverviewChart({ onScenarioSelect }: BarChartStackedProps) {
   const [legendPortal, setLegendPortal] = useState<HTMLDivElement | null>(null);
   const [breakdownChecked, setBreakdownChecked] = useState(false);
-  const [percentReductionChecked, setPercentReductionChecked] = useState(false);
   const [rawDalysChecked, setRawDalysChecked] = useState(false);
   const usePercentReductionBreakdown = breakdownChecked && !rawDalysChecked;
 
@@ -334,26 +335,37 @@ export function OverviewChart({ onScenarioSelect }: BarChartStackedProps) {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="flex flex-col">
-          <FieldGroup className="order-3 mt-4 mb-2 items-center gap-2 sm:mt-0 sm:mb-0 md:order-1">
-            <ChartModifierCheckbox
-              checked={rawDalysChecked}
-              className="w-fit"
-              onCheckedChange={setRawDalysChecked}
-              title="Show raw DALYs"
-            />
-            {/* <ChartModifierCheckbox
-              checked={percentReductionChecked}
-              className="w-fit"
-              onCheckedChange={setPercentReductionChecked}
-              title="Show percent reduction of DALYs"
-            /> */}
-            <ChartModifierCheckbox
-              checked={breakdownChecked}
-              className="w-fit max-w-100"
-              onCheckedChange={setBreakdownChecked}
-              title="Show breakdown by DALYs associated with acute COVID-19 infection, Long COVID, and other post-acute sequelae of COVID-19 infection"
-            />
+        <div className="flex flex-col items-center">
+          <FieldGroup className="order-3 mt-4 mb-2 gap-4 sm:mt-0 sm:mb-0 sm:w-80 md:order-1">
+            <div className="flex justify-center gap-4">
+              <ChartModifierCheckbox
+                checked={rawDalysChecked}
+                className="w-fit"
+                onCheckedChange={setRawDalysChecked}
+                title="Show all HEPA"
+              />
+              <ChartModifierCheckbox
+                checked={rawDalysChecked}
+                className="w-fit"
+                onCheckedChange={setRawDalysChecked}
+                title="Show all UVC"
+              />
+            </div>
+            <Separator />
+            <div className="flex flex-col items-center gap-4">
+              <ChartModifierCheckbox
+                checked={rawDalysChecked}
+                className="w-fit"
+                onCheckedChange={setRawDalysChecked}
+                title="Show raw DALYs"
+              />
+              <ChartModifierCheckbox
+                checked={breakdownChecked}
+                className="w-fit max-w-100"
+                onCheckedChange={setBreakdownChecked}
+                title="Show breakdown by DALYs associated with acute COVID-19 infection, Long COVID, and other post-acute sequelae of COVID-19 infection"
+              />
+            </div>
           </FieldGroup>
           <ChartContainer
             config={chartConfig}
