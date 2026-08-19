@@ -317,8 +317,8 @@ export function OverviewChart({ onScenarioSelect }: BarChartStackedProps) {
   const [legendPortal, setLegendPortal] = useState<HTMLDivElement | null>(null);
   const [breakdownChecked, setBreakdownChecked] = useState(false);
   const [percentReductionChecked, setPercentReductionChecked] = useState(false);
-  const usePercentReductionBreakdown =
-    breakdownChecked && percentReductionChecked;
+  const [rawDalysChecked, setRawDalysChecked] = useState(false);
+  const usePercentReductionBreakdown = breakdownChecked && !rawDalysChecked;
 
   return (
     <Card>
@@ -337,11 +337,17 @@ export function OverviewChart({ onScenarioSelect }: BarChartStackedProps) {
         <div className="flex flex-col">
           <FieldGroup className="order-3 mt-4 mb-2 items-center gap-2 sm:mt-0 sm:mb-0 md:order-1">
             <ChartModifierCheckbox
+              checked={rawDalysChecked}
+              className="w-fit"
+              onCheckedChange={setRawDalysChecked}
+              title="Show raw DALYs"
+            />
+            {/* <ChartModifierCheckbox
               checked={percentReductionChecked}
               className="w-fit"
               onCheckedChange={setPercentReductionChecked}
               title="Show percent reduction of DALYs"
-            />
+            /> */}
             <ChartModifierCheckbox
               checked={breakdownChecked}
               className="w-fit max-w-100"
@@ -366,14 +372,14 @@ export function OverviewChart({ onScenarioSelect }: BarChartStackedProps) {
               <XAxis
                 type="number"
                 label={
-                  percentReductionChecked
+                  rawDalysChecked
                     ? {
-                        value:
-                          "Percent reduction of DALYs relative to baseline",
+                        value: "DALYS per 1000 people",
                         position: "bottom",
                       }
                     : {
-                        value: "DALYS per 1000 people",
+                        value:
+                          "Percent reduction of DALYs relative to baseline",
                         position: "bottom",
                       }
                 }
@@ -464,11 +470,9 @@ export function OverviewChart({ onScenarioSelect }: BarChartStackedProps) {
                 </>
               ) : (
                 <Bar
-                  dataKey={
-                    percentReductionChecked ? "percent_reduction" : "total"
-                  }
+                  dataKey={rawDalysChecked ? "total" : "percent_reduction"}
                   fill={
-                    percentReductionChecked
+                    rawDalysChecked
                       ? "var(--color-percent_reduction)"
                       : "var(--color-long_covid)"
                   }
