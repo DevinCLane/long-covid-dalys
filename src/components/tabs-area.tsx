@@ -29,9 +29,9 @@ export default function TabsArea() {
         <div className="">
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="detailed">Detailed</TabsTrigger>
-          <TabsTrigger value="air">Air Cleaning</TabsTrigger>
+          {/* <TabsTrigger value="air">Air Cleaning</TabsTrigger>
           <TabsTrigger value="pharmaceuticals">Pharmaceuticals</TabsTrigger>
-          <TabsTrigger value="publicHealth">Public Health</TabsTrigger>
+          <TabsTrigger value="publicHealth">Public Health</TabsTrigger> */}
         </div>
       </TabsList>
       <TabsContent value="overview" className="w-full">
