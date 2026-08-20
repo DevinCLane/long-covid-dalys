@@ -323,7 +323,11 @@ export function OverviewChart({ onScenarioSelect }: BarChartStackedProps) {
   const usePercentReductionBreakdown = breakdownChecked && !dalysPer1000;
 
   const visibleRows = chartRows.filter((row) => {
-    if (row.id === "hepa_all_public" || row.id === "far_uvc_all_public")
+    if (
+      !allHepaChecked &&
+      !allUvcChecked &&
+      (row.id === "hepa_all_public" || row.id === "far_uvc_all_public")
+    )
       return true;
     if (allHepaChecked && row.id.startsWith("hepa_")) return true;
     if (allUvcChecked && row.id.startsWith("far_uvc_")) return true;
