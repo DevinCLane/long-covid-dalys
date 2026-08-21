@@ -36,7 +36,7 @@ export default function ShareButton() {
             <TooltipContent className="px-2 py-1 text-xs">Share</TooltipContent>
           </Tooltip>
 
-          <PopoverContent className="w-72 bg-card">
+          <PopoverContent className="bg-card w-72">
             <div className="flex flex-col gap-3 text-center">
               <div className="text-sm font-medium">Share</div>
               <div className="flex flex-wrap justify-center gap-2">
@@ -50,7 +50,7 @@ export default function ShareButton() {
                       aria-label="Share on BlueSky"
                     >
                       <a
-                        href="https://bsky.app/intent/compose?text=https%3A%2F%2Flongcoviddalys.netlify.app%2F%20%40devinlane.com"
+                        href="https://bsky.app/intent/compose?text=https%3A%2F%2Fpolybio.org%2Fdalys%2F%20%40devinlane.com"
                         target="_blank"
                         rel="noreferrer"
                       >
@@ -73,7 +73,7 @@ export default function ShareButton() {
                       aria-label="Share on LinkedIn"
                     >
                       <a
-                        href="https://www.linkedin.com/feed/?linkOrigin=LI_BADGE&shareActive=true&shareUrl=https%3A%2F%2Flongcoviddalys.netlify.app%2F"
+                        href="https://www.linkedin.com/feed/?linkOrigin=LI_BADGE&shareActive=true&shareUrl=https%3A%2F%2Fpolybio.org%2Fdalys%2F"
                         target="_blank"
                         rel="noreferrer"
                       >
@@ -96,7 +96,7 @@ export default function ShareButton() {
                       aria-label="Share on X"
                     >
                       <a
-                        href="https://x.com/intent/post?text=https%3A%2F%2Flongcoviddalys.netlify.app%2F%20%40DevinCLane"
+                        href="https://x.com/intent/post?text=https%3A%2F%2Fpolybio.org%2Fdalys%2F%20%40DevinCLane"
                         target="_blank"
                         rel="noreferrer"
                       >
@@ -120,7 +120,7 @@ export default function ShareButton() {
                       aria-label="Share via email"
                     >
                       <a
-                        href="mailto:?subject=Long Covid DALYs website&amp;body=https://longcoviddalys.netlify.app/"
+                        href="mailto:?subject=Long Covid DALYs website&amp;body=https://polybio.org/dalys/"
                         target="_blank"
                         rel="noreferrer"
                       >
@@ -136,7 +136,7 @@ export default function ShareButton() {
               <div className="space-y-2">
                 <div className="text-sm font-medium">Copy URL to clipboard</div>
                 <CopyableInput
-                  copyableInput="https://longcoviddalys.netlify.app/"
+                  copyableInput="https://polybio.org/dalys/"
                   ariaLabel="url"
                 />
               </div>
