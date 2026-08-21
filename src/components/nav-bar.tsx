@@ -4,7 +4,7 @@ import ShareButton from "@/components/share-button";
 
 export function NavBar() {
   return (
-    <nav className="mb-4 flex justify-end gap-2">
+    <nav className="flex justify-end gap-2">
       <GitHub />
       <ShareButton />
       {/* <DarkLightToggle /> */}
