@@ -2,14 +2,26 @@
 // and Long COVID DALY calculations. PASC is intentionally not implemented
 // pending validation of the R source model.
 
+/**
+ * fraction of adult population expected to catch COVID per year with no intervention
+ */
 export const BASELINE_INFECTION_PROPORTION = 0.2874;
+/**
+ * average annual death rate for adults weighted across age groups
+ */
 export const ADULT_WEIGHTED_BACKGROUND_MORTALITY = 0.011119050095386883;
+/**
+ * average remaining years of life for age weighted adult population
+ */
 export const ADULT_WEIGHTED_REMAINING_LIFE_EXPECTANCY = 41.926785696988041;
 
+/**
+ * lookup table for intervention scenarios
+ */
 export const AIR_CLEANING_SCENARIOS = Object.freeze({
   baseline: Object.freeze({
     label: "Baseline — no air-cleaning intervention",
-    annualInfectionProportion: 0.2874,
+    annualInfectionProportion: BASELINE_INFECTION_PROPORTION,
   }),
   hepa_most_public: Object.freeze({
     label: "HEPA in most common indoor air",
@@ -37,6 +49,9 @@ export const AIR_CLEANING_SCENARIOS = Object.freeze({
   }),
 });
 
+/**
+ * Access annual infection proportion for a given scenario
+ */
 export function infectionForAirCleaningScenario(scenarioId) {
   const scenario = AIR_CLEANING_SCENARIOS[scenarioId];
   if (!scenario)
@@ -44,6 +59,9 @@ export function infectionForAirCleaningScenario(scenarioId) {
   return scenario.annualInfectionProportion;
 }
 
+/**
+ * Shows infection rate given the implementation percentage
+ */
 export function infectionUnderAirCleaningImplementation({
   scenarioId,
   implementation = 1,
@@ -62,23 +80,38 @@ export function infectionUnderAirCleaningImplementation({
   );
 }
 
+/**
+ * long covid disease model parameters
+ */
 export const DEFAULT_LONG_COVID_PARAMETERS = Object.freeze({
   initialState: Object.freeze({ H: 0.956, S1: 0.031, S2: 0.013 }),
+  // H => S1: health person develops Long COVID
   baselineOnsetRate: 0.025,
+  // S1 => H
   recoveryRate: 0.1,
+  // S1 => S2 (sick to sicker)
   progressionRate: 0.1,
+  // S2 => S1 (sicker to sick)
   improvementRate: 0.1,
   mortalityHazardRatioS1: 1.001,
   mortalityHazardRatioS2: 1.005,
+  // GBD-style disability weights:
+  // a year spent in S1 counts as 0.9 of a healthy year
   disabilityWeightS1: 0.1,
   disabilityWeightS2: 0.4,
 });
-
+/**
+ * Parameters for an acute covid infection
+ */
 export const DEFAULT_ACUTE_COVID_PARAMETERS = Object.freeze({
+  // illness duration * disability weight
   durationWeightedDisability: 0.00888944,
   caseFatalityRate: 0.0005760242424,
 });
 
+/**
+ * How pre exposure prophylaxis affects infection proportion
+ */
 export function infectionUnderPreExposureProphylaxis({
   baselineInfectionProportion = BASELINE_INFECTION_PROPORTION,
   adoption = 0,
@@ -93,6 +126,13 @@ export function infectionUnderPreExposureProphylaxis({
   return baselineInfectionProportion * (1 - efficacy * adoption);
 }
 
+/**
+ * H: healthy
+ * S1: sick
+ * S2: sicker
+ * DOC = died of other cause
+ * DS = died from the disease
+ */
 const STATE_INDEX = Object.freeze({ H: 0, S1: 1, S2: 2, DOC: 3, DS: 4 });
 const PADE_COEFFICIENTS = [
   64764752532480000, 32382376266240000, 7771770303897600, 1187353796428800,
