@@ -204,7 +204,9 @@ function oneNorm(matrix) {
   return maximum;
 }
 
-// Solve A * X = B using Gaussian elimination with partial pivoting.
+/**
+ * Solve A * X = B using Gaussian elimination with partial pivoting.
+ */
 function solve(a, b) {
   const n = a.length;
   const rhsColumns = b[0].length;
@@ -245,8 +247,10 @@ function solve(a, b) {
   return augmented.map((row) => row.slice(n));
 }
 
-// Scaling-and-squaring matrix exponential using the order-13 Padé
-// approximation described by Higham. This replaces R's expm::expm(Q).
+/**
+ * Scaling-and-squaring matrix exponential using the order-13 Padé
+ * approximation described by Higham. This replaces R's expm::expm(Q).
+ */
 export function matrixExponential(matrix) {
   const size = matrix.length;
   if (!matrix.every((row) => row.length === size)) {
