@@ -58,7 +58,7 @@ export function AssumptionSlider({
         <div className="md:min-h-20">
           <Label>{label}</Label>
           {sublabel && (
-            <p className="text-sm text-muted-foreground">{sublabel}</p>
+            <p className="text-muted-foreground text-sm">{sublabel}</p>
           )}
         </div>
         <div className="flex items-center gap-1">
@@ -82,7 +82,7 @@ export function AssumptionSlider({
             </Tooltip>
           </TooltipProvider>
           <Input
-            className="h-7 w-12 bg-card px-2 py-0"
+            className="bg-card h-7 w-12 px-2 py-0"
             type="text"
             inputMode="decimal"
             value={inputValues[0]}
@@ -104,7 +104,6 @@ export function AssumptionSlider({
           value={sliderValue}
           onValueChange={(newValue) => {
             handleSliderChange(newValue);
-            onValueChange?.(newValue);
           }}
           min={minValue}
           max={maxValue}

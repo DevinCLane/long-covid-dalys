@@ -227,10 +227,6 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-interface BarChartStackedProps {
-  onScenarioSelect?: (scenarioId: string) => void;
-}
-
 interface ScenarioYAxisTickProps {
   x?: string | number;
   y?: string | number;
@@ -314,7 +310,15 @@ function ScenarioYAxisTick({
   );
 }
 
-export function OverviewChart({ onScenarioSelect }: BarChartStackedProps) {
+interface BarChartStackedProps {
+  onScenarioSelect?: (scenarioId: string) => void;
+  onUpdateImplementationPercentage: (updatedPercentage: number) => void;
+}
+
+export function OverviewChart({
+  onScenarioSelect,
+  onUpdateImplementationPercentage,
+}: BarChartStackedProps) {
   const [legendPortal, setLegendPortal] = useState<HTMLDivElement | null>(null);
   const [breakdownChecked, setBreakdownChecked] = useState(false);
   const [dalysPer1000, setDalysPer1000] = useState(false);
@@ -536,7 +540,9 @@ export function OverviewChart({ onScenarioSelect }: BarChartStackedProps) {
                     sliderInitialValue={assumption.defaultValue}
                     sliderDefaultValue={assumption.defaultValue}
                     sliderDisabled={false}
-                    onSliderChange={([value]) => value}
+                    onSliderChange={([sliderValue]) =>
+                      onUpdateImplementationPercentage(sliderValue)
+                    }
                   />
                 ))}
               </div>

@@ -8,6 +8,12 @@ export default function TabsArea() {
   // active tabs for the detailed views
   const [activeTab, setActiveTab] = useState("overview");
   const [detailedScenarioId, setDetailedScenarioId] = useState("baseline");
+  const [implmentationPercentage, setImplementationPercentage] = useState(100);
+
+  function updateImplementationPercentage(updatedPercentage: number) {
+    console.log({ updatedPercentage });
+    setImplementationPercentage(updatedPercentage);
+  }
 
   function selectDetailedScenario(scenarioId: string) {
     setDetailedScenarioId(scenarioId);
@@ -35,7 +41,10 @@ export default function TabsArea() {
         </div>
       </TabsList>
       <TabsContent value="overview" className="w-full">
-        <OverviewChart onScenarioSelect={openDetailedScenario} />
+        <OverviewChart
+          onScenarioSelect={openDetailedScenario}
+          onUpdateImplementationPercentage={updateImplementationPercentage}
+        />
       </TabsContent>
       <TabsContent value="detailed" className="w-full">
         <DetailedBarChart
