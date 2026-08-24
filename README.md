@@ -1,10 +1,10 @@
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/fork/github/DevinCLane/long-covid-dalys)
 
-[https://longcoviddalys.netlify.app/](https://longcoviddalys.netlify.app/)
+[https://polybio.org/dalys/](https://polybio.org/dalys/)
 
-# [Long Covid DALYs](https://longcoviddalys.netlify.app/)
+# [Long Covid DALYs](https://polybio.org/dalys/)
 
-An interactive data visualization tool that compares potential impact of population-level air cleaning interventions on Long COVID-related [disability-adjusted life years](https://en.wikipedia.org/wiki/Disability-adjusted_life_year).
+An interactive data visualization tool that compares potential impact of population-level public health interventions on COVID-19-related [disability-adjusted life years](https://en.wikipedia.org/wiki/Disability-adjusted_life_year).
 
 ## Affiliated Organizations
 
@@ -15,8 +15,8 @@ An interactive data visualization tool that compares potential impact of populat
 
 | Technology                              | Area                 | Usage                                                                                                               |
 | --------------------------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| React 19, TypeScript                    | Application          | Interactivity, state management, type checking                                                                      |
-| Vite 7                                  | Build tooling        | Local development, React setup, optimized production builds, hot module replacement                                 |
+| React , TypeScript                      | Application          | Interactivity, state management, type checking                                                                      |
+| Vite                                    | Build tooling        | Local development, React setup, optimized production builds, hot module replacement                                 |
 | [Recharts](https://recharts.github.io/) | Charts               | Charts, visualization. React library built on D3.                                                                   |
 | Tailwind CSS, shadcn, OriginUI          | UI and accessibility | Accessibiliy, keyboard navigation, responsive design, utility-first CSS                                             |
 | JSON backend                            | Data pipeline        | Reading flat JSON files removes need for a server. Keeps presentation logic separate from data model implementation |
@@ -63,7 +63,7 @@ An interactive data visualization tool that compares potential impact of populat
 ### 📈 Data overview
 
 - Data lives in `src/data/` directory
-  - the 4 charts read from `src/data/data.json`
+  - the charts read from `src/data/data.json`
 
 #### Update Data
 
