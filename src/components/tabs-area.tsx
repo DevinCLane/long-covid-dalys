@@ -3,6 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { OverviewChart } from "@/components/charts/overview-chart";
 import { DetailedBarChart } from "@/components/charts/detailed-bar-chart";
 import { AirCleaningChart } from "./charts/air-cleaning-chart";
+import { runAcuteCovid } from "@/config/daly-model";
 
 export default function TabsArea() {
   // active tabs for the detailed views

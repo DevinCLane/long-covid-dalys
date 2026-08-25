@@ -52,7 +52,9 @@ export const AIR_CLEANING_SCENARIOS = Object.freeze({
 /**
  * Access annual infection proportion for a given scenario
  */
-export function infectionForAirCleaningScenario(scenarioId) {
+export function infectionForAirCleaningScenario(
+  scenarioId: keyof typeof AIR_CLEANING_SCENARIOS,
+) {
   const scenario = AIR_CLEANING_SCENARIOS[scenarioId];
   if (!scenario)
     throw new RangeError(`Unknown air-cleaning scenario: ${scenarioId}`);
@@ -66,6 +68,10 @@ export function infectionUnderAirCleaningImplementation({
   scenarioId,
   implementation = 1,
   baselineInfectionProportion = BASELINE_INFECTION_PROPORTION,
+}: {
+  scenarioId: keyof typeof AIR_CLEANING_SCENARIOS;
+  implementation: number;
+  baselineInfectionProportion: number;
 }) {
   assertUnitInterval(implementation, "implementation");
   assertUnitInterval(
@@ -100,6 +106,48 @@ export const DEFAULT_LONG_COVID_PARAMETERS = Object.freeze({
   disabilityWeightS1: 0.1,
   disabilityWeightS2: 0.4,
 });
+
+/**
+ * long covid disease model options
+ */
+export const DEFAULT_LONG_COVID_OPTIONS = {
+  horizonYears: 5,
+  annualInfectionProportion: BASELINE_INFECTION_PROPORTION,
+  scaleOnsetByInfection: true,
+  stablePopulation: true,
+  stableReplacement: "H",
+  backgroundMortalityRate: ADULT_WEIGHTED_BACKGROUND_MORTALITY,
+  remainingLifeExpectancy: ADULT_WEIGHTED_REMAINING_LIFE_EXPECTANCY,
+  discountRate: 0.001,
+  populationSize: 1000,
+};
+
+type LongCovidInitialState = {
+  H: number;
+  S1: number;
+  S2: number;
+};
+
+type LongCovidParameters = {
+  initialState: LongCovidInitialState;
+  baselineOnsetRate: number;
+  recoveryRate: number;
+  progressionRate: number;
+  improvementRate: number;
+  mortalityHazardRatioS1: number;
+  mortalityHazardRatioS2: number;
+  disabilityWeightS1: number;
+  disabilityWeightS2: number;
+};
+
+type LongCovidParametersOverride = {
+  initialState?: {
+    H?: number;
+    S1?: number;
+    S2?: number;
+  };
+};
+
 /**
  * Parameters for an acute covid infection
  */
@@ -140,41 +188,41 @@ const PADE_COEFFICIENTS = [
   40840800, 960960, 16380, 182, 1,
 ];
 
-function assertFiniteNonnegative(value, name) {
+function assertFiniteNonnegative(value: number, name: string) {
   if (!Number.isFinite(value) || value < 0) {
     throw new RangeError(`${name} must be a finite, nonnegative number.`);
   }
 }
 
-function assertUnitInterval(value, name) {
+function assertUnitInterval(value: number, name: string) {
   if (!Number.isFinite(value) || value < 0 || value > 1) {
     throw new RangeError(`${name} must be between 0 and 1.`);
   }
 }
 
-function zeros(rows, cols) {
+function zeros(rows: number, cols: number) {
   return Array.from({ length: rows }, () => Array(cols).fill(0));
 }
 
-function identity(size) {
+function identity(size: number) {
   const result = zeros(size, size);
   for (let i = 0; i < size; i += 1) result[i][i] = 1;
   return result;
 }
 
-function add(a, b) {
+function add(a: number[][], b: number[][]) {
   return a.map((row, i) => row.map((value, j) => value + b[i][j]));
 }
 
-function subtract(a, b) {
+function subtract(a: number[][], b: number[][]) {
   return a.map((row, i) => row.map((value, j) => value - b[i][j]));
 }
 
-function scale(a, scalar) {
+function scale(a: number[][], scalar: number) {
   return a.map((row) => row.map((value) => value * scalar));
 }
 
-function multiply(a, b) {
+function multiply(a: number[][], b: number[][]) {
   const result = zeros(a.length, b[0].length);
   for (let i = 0; i < a.length; i += 1) {
     for (let k = 0; k < b.length; k += 1) {
@@ -186,13 +234,13 @@ function multiply(a, b) {
   return result;
 }
 
-function multiplyRowVector(vector, matrix) {
+function multiplyRowVector(vector: number[], matrix: number[][]) {
   return matrix[0].map((_, column) =>
     vector.reduce((sum, value, row) => sum + value * matrix[row][column], 0),
   );
 }
 
-function oneNorm(matrix) {
+function oneNorm(matrix: number[][]) {
   let maximum = 0;
   for (let column = 0; column < matrix[0].length; column += 1) {
     let sum = 0;
@@ -207,7 +255,7 @@ function oneNorm(matrix) {
 /**
  * Solve A * X = B using Gaussian elimination with partial pivoting.
  */
-function solve(a, b) {
+function solve(a: number[][], b: number[][]) {
   const n = a.length;
   const rhsColumns = b[0].length;
   const augmented = a.map((row, i) => [...row, ...b[i]]);
@@ -251,7 +299,7 @@ function solve(a, b) {
  * Scaling-and-squaring matrix exponential using the order-13 Padé
  * approximation described by Higham. This replaces R's expm::expm(Q).
  */
-export function matrixExponential(matrix) {
+export function matrixExponential(matrix: number[][]) {
   const size = matrix.length;
   if (!matrix.every((row) => row.length === size)) {
     throw new TypeError("matrixExponential requires a square matrix.");
@@ -292,12 +340,18 @@ export function matrixExponential(matrix) {
   return result;
 }
 
-function discountedLifeExpectancy(lifeExpectancy, discountRate) {
+function discountedLifeExpectancy(
+  lifeExpectancy: number,
+  discountRate: number,
+) {
   if (discountRate === 0) return lifeExpectancy;
   return -Math.expm1(-discountRate * lifeExpectancy) / discountRate;
 }
 
-function transitionRateMatrix(parameters, backgroundMortalityRate) {
+function transitionRateMatrix(
+  parameters: LongCovidParameters,
+  backgroundMortalityRate: number,
+) {
   const diseaseDeathS1 = Math.max(
     0,
     parameters.mortalityHazardRatioS1 * backgroundMortalityRate -
@@ -326,7 +380,10 @@ function transitionRateMatrix(parameters, backgroundMortalityRate) {
   ];
 }
 
-function validateLongCovidInputs(parameters, options) {
+function validateLongCovidInputs(
+  parameters: LongCovidParameters,
+  options: typeof DEFAULT_LONG_COVID_OPTIONS,
+) {
   const initialValues = Object.values(parameters.initialState);
   initialValues.forEach((value, i) =>
     assertUnitInterval(value, `initialState[${i}]`),
@@ -335,14 +392,16 @@ function validateLongCovidInputs(parameters, options) {
   if (Math.abs(total - 1) > 1e-10) {
     throw new RangeError("Initial H, S1, and S2 proportions must sum to 1.");
   }
-  [
-    "baselineOnsetRate",
-    "recoveryRate",
-    "progressionRate",
-    "improvementRate",
-    "mortalityHazardRatioS1",
-    "mortalityHazardRatioS2",
-  ].forEach((name) => assertFiniteNonnegative(parameters[name], name));
+  (
+    [
+      "baselineOnsetRate",
+      "recoveryRate",
+      "progressionRate",
+      "improvementRate",
+      "mortalityHazardRatioS1",
+      "mortalityHazardRatioS2",
+    ] as const
+  ).forEach((name) => assertFiniteNonnegative(parameters[name], name));
   assertUnitInterval(parameters.disabilityWeightS1, "disabilityWeightS1");
   assertUnitInterval(parameters.disabilityWeightS2, "disabilityWeightS2");
   assertUnitInterval(
@@ -363,7 +422,10 @@ function validateLongCovidInputs(parameters, options) {
   }
 }
 
-export function runLongCovid(userParameters = {}, userOptions = {}) {
+export function runLongCovid(
+  userParameters: LongCovidParametersOverride = {},
+  userOptions = {},
+) {
   const parameters = {
     ...DEFAULT_LONG_COVID_PARAMETERS,
     ...userParameters,
@@ -452,7 +514,7 @@ export function runLongCovid(userParameters = {}, userOptions = {}) {
   return {
     condition: "long_covid",
     parametersUsed: parameters,
-    options,
+    options: options,
     yearly,
     totals: {
       yld,
