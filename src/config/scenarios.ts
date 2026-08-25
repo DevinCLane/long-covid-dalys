@@ -1,4 +1,4 @@
-// // import chartData from "@/data/datav2.json";
+// import chartData from "@/data/data.json";
 
 // export interface Scenario {
 //   id: string;
@@ -27,7 +27,7 @@
 // export const SCENARIOS: Scenario[] = chartData.scenarios.map((scenario) => {
 //   const longCovid = scenario.conditions
 //     .find
-//     // (c) => c.condition === LONG_COVID,
+//     (c) => c.condition === LONG_COVID,
 //     ()!;
 
 //   return {

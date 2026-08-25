@@ -18,7 +18,7 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart";
 
-import chartData from "@/data/data.json";
+import chartData from "@/data/data-2026-08-25.json";
 import React, { useState } from "react";
 import { ChartModifierCheckbox } from "../chart-modifier-checkbox";
 import { cn } from "@/lib/utils";
@@ -32,18 +32,6 @@ import {
 } from "../ui/accordion";
 import { ASSUMPTIONS } from "@/config/assumptions";
 import { Separator } from "../ui/separator";
-
-export type Condition = {
-  condition: string;
-  totals: { dalys_per_1000: number };
-};
-
-export type Scenario = {
-  id: string;
-  label: string;
-  conditions: Condition[];
-  dalys_per_1000_total: number;
-};
 
 function ChartDescriptionBody() {
   return (
@@ -71,36 +59,30 @@ function ChartDescriptionBody() {
 }
 
 function findBaselineDalyBreakdown() {
-  const baseline = chartData.scenarios.find(
-    (scenario: Scenario) => scenario.id === "baseline",
+  const baseline = chartData.main_scenarios.find(
+    (scenario) => scenario.id === "baseline",
   );
   if (baseline === undefined) {
     throw new Error("couldn't find the baseline scenario in the data");
   }
 
-  const acuteCovid = baseline.conditions.find(
-    (condition) => condition.condition === "acute_covid",
-  )?.totals.dalys_per_1000;
+  const acuteCovid = baseline.outcomes.acute_covid.dalys_per_1000
   if (acuteCovid === undefined) {
     throw new Error("couldn't find acute covid data");
   }
 
-  const longCovid = baseline.conditions.find(
-    (condition) => condition.condition === "long_covid",
-  )?.totals.dalys_per_1000;
+  const longCovid = baseline.outcomes.long_covid.dalys_per_1000
   if (longCovid === undefined) {
     throw new Error("couldn't find long covid data");
   }
 
-  const pasc = baseline.conditions.find(
-    (condition) => condition.condition === "pasc",
-  )?.totals.dalys_per_1000;
+  const pasc = baseline.outcomes.pasc.dalys_per_1000
   if (pasc === undefined) {
     throw new Error("couldn't find pasc data");
   }
 
   return {
-    total: baseline.dalys_per_1000_total,
+    total: baseline.outcomes.acute_plus_long_covid_plus_pasc.dalys_per_1000,
     acute_covid: acuteCovid,
     long_covid: longCovid,
     pasc: pasc,
@@ -113,28 +95,19 @@ function calculatePercentReduction(baseline: number, current: number) {
   return Number((((baseline - current) / baseline) * 100).toFixed(2));
 }
 
-const chartRows = chartData.scenarios.map((scenario: Scenario) => {
-  const total = scenario.dalys_per_1000_total;
-  const acuteCovid = scenario.conditions.find(
-    (condition) => condition.condition === "acute_covid",
-  )?.totals.dalys_per_1000;
+const chartRows = chartData.main_scenarios.map((scenario) => {
+  const total = scenario.outcomes.acute_plus_long_covid_plus_pasc.dalys_per_1000
+  const acuteCovid = scenario.outcomes.acute_covid.dalys_per_1000
   if (acuteCovid === undefined) {
     throw new Error("couldn't find acute covid data");
   }
 
-  const byCondition = Object.fromEntries(
-    scenario.conditions.map((condition) => [
-      condition.condition,
-      condition.totals.dalys_per_1000,
-    ]),
-  );
-
-  const longCovid = byCondition.long_covid;
+  const longCovid = scenario.outcomes.long_covid.dalys_per_1000
   if (longCovid === undefined) {
     throw new Error("couldn't find long covid data");
   }
 
-  const pasc = byCondition.pasc;
+  const pasc = scenario.outcomes.pasc.dalys_per_1000
   if (pasc === undefined) {
     throw new Error("couldn't find pasc data");
   }
@@ -142,7 +115,7 @@ const chartRows = chartData.scenarios.map((scenario: Scenario) => {
   return {
     id: scenario.id,
     label: scenario.label,
-    acute_covid: byCondition.acute_covid,
+    acute_covid: acuteCovid,
     long_covid: longCovid,
     pasc: pasc,
     total: total,
