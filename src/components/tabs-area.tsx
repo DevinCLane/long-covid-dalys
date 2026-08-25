@@ -3,17 +3,17 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { OverviewChart } from "@/components/charts/overview-chart";
 import { DetailedBarChart } from "@/components/charts/detailed-bar-chart";
 import { AirCleaningChart } from "./charts/air-cleaning-chart";
-import { runAcuteCovid } from "@/config/daly-model";
+// import { runAcuteCovid } from "@/config/daly-model";
 
 export default function TabsArea() {
   // active tabs for the detailed views
   const [activeTab, setActiveTab] = useState("overview");
   const [detailedScenarioId, setDetailedScenarioId] = useState("baseline");
-  const [implmentationPercentage, setImplementationPercentage] = useState(100);
+  // const [implmentationPercentage, setImplementationPercentage] = useState(100);
 
   function updateImplementationPercentage(updatedPercentage: number) {
     console.log({ updatedPercentage });
-    setImplementationPercentage(updatedPercentage);
+    // setImplementationPercentage(updatedPercentage);
   }
 
   function selectDetailedScenario(scenarioId: string) {
