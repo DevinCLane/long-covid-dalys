@@ -33,31 +33,9 @@ import {
 import { ASSUMPTIONS } from "@/config/assumptions";
 import { Separator } from "../ui/separator";
 
-function ChartDescriptionBody() {
-  return (
-    <div className="mt-2">
-      <p>
-        This simulation shows the result of synthesizing existing evidence to
-        model the potential impact of several interventions on COVID-19-related{" "}
-        <a
-          href="https://en.wikipedia.org/wiki/Disability-adjusted_life_year"
-          target="_blank"
-          rel="noreferrer"
-          className="font-medium underline underline-offset-4"
-        >
-          disability-adjusted life years (DALYs)
-        </a>
-        . Each DALY represents one year of healthy life lost to illness.
-      </p>
-      <p className="mt-2">
-        The status quo scenario reflects the number of COVID-19-related DALYs
-        assuming no public health action is taken to mitigate COVID-19 infection
-        at the population level.
-      </p>
-    </div>
-  );
-}
-
+/**
+ * For the baseline scenario, find the dalys for each outcome (acute, LC, pasc)
+ */
 function findBaselineDalyBreakdown() {
   const baseline = chartData.main_scenarios.find(
     (scenario) => scenario.id === "baseline",
@@ -90,11 +68,15 @@ function findBaselineDalyBreakdown() {
 }
 
 const baselineTotalDalys = findBaselineDalyBreakdown();
-
+/**
+ * calculate the percent reduction of DALYs compared to the baseline scenario
+ */
 function calculatePercentReduction(baseline: number, current: number) {
   return Number((((baseline - current) / baseline) * 100).toFixed(2));
 }
-
+/**
+ * this is the data that the chart consumes
+ */
 const chartRows = chartData.main_scenarios.map((scenario) => {
   const total = scenario.outcomes.acute_plus_long_covid_plus_pasc.dalys_per_1000
   const acuteCovid = scenario.outcomes.acute_covid.dalys_per_1000
@@ -138,6 +120,39 @@ const chartRows = chartData.main_scenarios.map((scenario) => {
   };
 });
 
+/**
+ * Text for the chart description body
+ */
+function ChartDescriptionBody() {
+  return (
+    <div className="mt-2">
+      <p>
+        This simulation shows the result of synthesizing existing evidence to
+        model the potential impact of several interventions on COVID-19-related{" "}
+        <a
+          href="https://en.wikipedia.org/wiki/Disability-adjusted_life_year"
+          target="_blank"
+          rel="noreferrer"
+          className="font-medium underline underline-offset-4"
+        >
+          disability-adjusted life years (DALYs)
+        </a>
+        . Each DALY represents one year of healthy life lost to illness.
+      </p>
+      <p className="mt-2">
+        The status quo scenario reflects the number of COVID-19-related DALYs
+        assuming no public health action is taken to mitigate COVID-19 infection
+        at the population level.
+      </p>
+    </div>
+  );
+}
+
+/*
+
+this section builds the clickable Y axis labels
+
+*/
 const scenarioLabelsById = new Map(
   chartRows.map((scenario) => [scenario.id, scenario.label]),
 );
@@ -165,41 +180,6 @@ function wrapScenarioLabel(label: string) {
   return lines;
 }
 
-const chartConfig = {
-  acute_covid: {
-    label: "acute COVID-19",
-    color: "var(--chart-1)",
-  },
-  long_covid: {
-    label: "Long COVID",
-    color: "var(--chart-2)",
-  },
-  pasc: {
-    label: "other post-acute sequelae of COVID-19 infection",
-    color: "var(--chart-3)",
-  },
-  percent_reduction: {
-    label: "Percent reduction",
-    color: "var(--chart-6)",
-  },
-  percent_reduction_acute_covid: {
-    label: "acute COVID-19",
-    color: "var(--chart-1)",
-  },
-  percent_reduction_long_covid: {
-    label: "Long COVID",
-    color: "var(--chart-2)",
-  },
-  percent_reduction_pasc: {
-    label: "other post-acute sequelae of COVID-19 infection",
-    color: "var(--chart-3)",
-  },
-  total: {
-    label: "DALYs",
-    color: "var(--chart-5)",
-  },
-} satisfies ChartConfig;
-
 interface ScenarioYAxisTickProps {
   x?: string | number;
   y?: string | number;
@@ -209,7 +189,9 @@ interface ScenarioYAxisTickProps {
   onScenarioSelect?: (scenarioId: string) => void;
 }
 
-// this is what makes the labels for the y axis clickable
+/**
+ * build clickable Y axis labels
+ */
 function ScenarioYAxisTick({
   x = 0,
   y = 0,
@@ -282,6 +264,42 @@ function ScenarioYAxisTick({
     </g>
   );
 }
+
+
+const chartConfig = {
+  acute_covid: {
+    label: "acute COVID-19",
+    color: "var(--chart-1)",
+  },
+  long_covid: {
+    label: "Long COVID",
+    color: "var(--chart-2)",
+  },
+  pasc: {
+    label: "other post-acute sequelae of COVID-19 infection",
+    color: "var(--chart-3)",
+  },
+  percent_reduction: {
+    label: "Percent reduction",
+    color: "var(--chart-6)",
+  },
+  percent_reduction_acute_covid: {
+    label: "acute COVID-19",
+    color: "var(--chart-1)",
+  },
+  percent_reduction_long_covid: {
+    label: "Long COVID",
+    color: "var(--chart-2)",
+  },
+  percent_reduction_pasc: {
+    label: "other post-acute sequelae of COVID-19 infection",
+    color: "var(--chart-3)",
+  },
+  total: {
+    label: "DALYs",
+    color: "var(--chart-5)",
+  },
+} satisfies ChartConfig;
 
 interface BarChartStackedProps {
   onScenarioSelect?: (scenarioId: string) => void;
