@@ -60,7 +60,7 @@ An interactive data visualization tool that compares potential impact of populat
 
    The site will be available at `http://localhost:5173`
 
-### 📈 Data overview
+### Data overview
 
 - Data lives in `src/data/` directory
   - the charts read from `src/data/data.json`
@@ -198,6 +198,10 @@ A few explanations of the data fields:
   - Write a description of what you've changed
   - You can click "Commit directly to the main branch". For increased safety to check if your changes work, click "Create a new branch for this commit and start a pull request".
     - Find the [Pull Requests page](https://github.com/DevinCLane/long-covid-dalys/pulls), and you will see that Netlify has created a deploy preview where you can view what your changes look like, and make sure that everything works. Then you will have to merge that pull request for it to deploy the new site on the main domain. You'll likely see a button that says "merge pull request".
+
+### User-adjustable model assumptions running in the browser
+
+[See this documentation for the API to work with user-adjustable model parameters that run in the browser](model-readme.md)
 
 ### Testing Your Changes (if working locally)
 
