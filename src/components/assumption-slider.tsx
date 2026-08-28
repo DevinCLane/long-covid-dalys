@@ -82,7 +82,7 @@ export function AssumptionSlider({
             </Tooltip>
           </TooltipProvider>
           <Input
-            className="bg-card h-7 w-12 px-2 py-0"
+            className="bg-card h-7 w-16 px-2 py-0"
             type="text"
             inputMode="decimal"
             value={inputValues[0]}

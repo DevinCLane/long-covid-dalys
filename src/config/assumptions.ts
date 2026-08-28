@@ -1,5 +1,3 @@
-import reductionFactors from "../data/intervention-reduction-factors.json";
-
 interface Assumption {
   key: string;
   group: keyof typeof GROUP_LABELS;
@@ -36,7 +34,7 @@ export const ASSUMPTIONS: Assumption[] = [
       "Percent of people who develop Long COVID after having acute COVID",
     sliderMin: 0,
     sliderMax: 100,
-    sliderStep: 0.1,
+    sliderStep: 0.01,
     defaultValue: 2.5,
   },
   {
@@ -71,7 +69,7 @@ export const ASSUMPTIONS: Assumption[] = [
     sliderMin: 0,
     sliderMax: 1,
     sliderStep: 0.001,
-    defaultValue: 0.015493,
+    defaultValue: 0.015,
   },
   {
     key: "otherSequelaeDisabilityWeight",
@@ -83,7 +81,7 @@ export const ASSUMPTIONS: Assumption[] = [
     sliderMin: 0,
     sliderMax: 1,
     sliderStep: 0.001,
-    defaultValue: 0.1052,
+    defaultValue: 0.105,
   },
   {
     key: "riskDeathLongCovidMild",
@@ -93,7 +91,7 @@ export const ASSUMPTIONS: Assumption[] = [
       "Proportional annual increased risk of death due to having Long COVID with activity limitations (hazard ratios can technically range from 1 (does not cause incremental risk of death) to infinity; 50 is the hazard ratio for dying from a heart attack)",
     sliderMin: 1,
     sliderMax: 50,
-    sliderStep: 0.001,
+    sliderStep: 0.0001,
     defaultValue: 1.001,
   },
   {
@@ -105,7 +103,7 @@ export const ASSUMPTIONS: Assumption[] = [
       "Proportional annual increased risk of death due to having Long COVID with significant activity limitations",
     sliderMin: 1,
     sliderMax: 50,
-    sliderStep: 0.001,
+    sliderStep: 0.0001,
     defaultValue: 1.005,
   },
   {
@@ -139,7 +137,7 @@ export const ASSUMPTIONS: Assumption[] = [
     sliderSubLabel: "Annual rate of full recovery from Long COVID",
     sliderMin: 0,
     sliderMax: 100,
-    sliderStep: 1,
+    sliderStep: 0.1,
     defaultValue: 10,
   },
   {
@@ -150,7 +148,7 @@ export const ASSUMPTIONS: Assumption[] = [
       "Annual rate of progression from Long COVID with activity limitations to Long COVID with significant activity limitations",
     sliderMin: 0,
     sliderMax: 100,
-    sliderStep: 1,
+    sliderStep: 0.1,
     defaultValue: 10,
   },
   {
@@ -161,7 +159,7 @@ export const ASSUMPTIONS: Assumption[] = [
       "Annual rate of progression from Long COVID with significant activity limitations to Long COVID with activity limitations",
     sliderMin: 0,
     sliderMax: 100,
-    sliderStep: 1,
+    sliderStep: 0.1,
     defaultValue: 10,
   },
   {
@@ -217,7 +215,7 @@ export const ASSUMPTIONS: Assumption[] = [
       "Percent of cases avoided by utilizing pre-exposure prophylaxis",
     sliderMin: 0,
     sliderMax: 100,
-    sliderStep: 0.1,
+    sliderStep: 0.01,
     defaultValue: 70,
   },
   {
@@ -228,7 +226,7 @@ export const ASSUMPTIONS: Assumption[] = [
       "Percent of cases avoided by utilizing post-exposure prophylaxis",
     sliderMin: 0,
     sliderMax: 100,
-    sliderStep: 0.1,
+    sliderStep: 0.01,
     defaultValue: 12.38,
   },
   {
