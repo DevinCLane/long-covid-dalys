@@ -119,7 +119,7 @@ export const ASSUMPTIONS: Assumption[] = [
     defaultValue: 1.005,
   },
   {
-    key: "riskDeathLongCovidSignificant",
+    key: "riskDeathPasc",
     group: "initialStates",
     sliderLabel:
       "Risk of death from other post-acute sequelae of COVID relative to background mortality ",

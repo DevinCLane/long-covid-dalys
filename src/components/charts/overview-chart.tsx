@@ -303,12 +303,12 @@ const chartConfig = {
 
 interface BarChartStackedProps {
   onScenarioSelect?: (scenarioId: string) => void;
-  onUpdateImplementationPercentage: (updatedPercentage: number) => void;
+  onUpdateSlider: (updatedNumber: number) => void;
 }
 
 export function OverviewChart({
   onScenarioSelect,
-  onUpdateImplementationPercentage,
+  onUpdateSlider,
 }: BarChartStackedProps) {
   const [legendPortal, setLegendPortal] = useState<HTMLDivElement | null>(null);
   const [breakdownChecked, setBreakdownChecked] = useState(false);
@@ -514,7 +514,7 @@ export function OverviewChart({
         </CardDescription>
         <Accordion type="single" collapsible>
           <AccordionItem value="modelAssumptions">
-            <AccordionTrigger className="text-xl">
+            <AccordionTrigger className="cursor-pointer text-xl">
               Model Assumptions
             </AccordionTrigger>
             <AccordionContent className="flex flex-col gap-4 text-balance">
@@ -532,7 +532,7 @@ export function OverviewChart({
                     sliderDefaultValue={assumption.defaultValue}
                     sliderDisabled={false}
                     onSliderChange={([sliderValue]) =>
-                      onUpdateImplementationPercentage(sliderValue)
+                      onUpdateSlider(sliderValue)
                     }
                   />
                 ))}

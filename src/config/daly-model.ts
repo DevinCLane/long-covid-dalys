@@ -422,10 +422,30 @@ function validateLongCovidInputs(
   }
 }
 
-export function runLongCovid(
-  userParameters: LongCovidParametersOverride = {},
-  userOptions = {},
-) {
+interface RunLongCovidInputs {
+  userParameters?: {
+    initialState?: {
+      H?: number;
+      S1?: number;
+      S2?: number;
+    };
+  };
+  userOptions?: {
+    horizonYears?: number;
+    annualInfectionProportion?: number;
+    scaleOnsetByInfection?: boolean;
+    stablePopulation?: boolean;
+    backgroundMortalityRate?: number;
+    remainingLifeExpectancy?: number;
+    discountRate?: number;
+    populationSize?: number;
+  };
+}
+
+export function runLongCovid({
+  userParameters,
+  userOptions,
+}: RunLongCovidInputs = {}) {
   const parameters = {
     ...DEFAULT_LONG_COVID_PARAMETERS,
     ...userParameters,
@@ -526,7 +546,22 @@ export function runLongCovid(
   };
 }
 
-export function runAcuteCovid(userParameters = {}, userOptions = {}) {
+export interface AcuteCovidInput {
+  userParameters?: {
+    durationWeightedDisability?: number;
+    caseFatalityRate?: number;
+  };
+  userOptions?: {
+    horizonYears?: number;
+    annualInfectionProportion?: number;
+    remainingLifeExpectancy?: number;
+    populationSize?: number;
+  };
+}
+export function runAcuteCovid({
+  userParameters = {},
+  userOptions = {},
+}: AcuteCovidInput = {}) {
   const parameters = { ...DEFAULT_ACUTE_COVID_PARAMETERS, ...userParameters };
   const options = {
     horizonYears: 5,
