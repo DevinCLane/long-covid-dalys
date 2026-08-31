@@ -35,7 +35,7 @@ export const ASSUMPTIONS: Assumption[] = [
     sliderMin: 0,
     sliderMax: 100,
     sliderStep: 0.01,
-    defaultValue: 2.5,
+    defaultValue: 5,
   },
   {
     key: "disabilityWeightLongCovidMild",

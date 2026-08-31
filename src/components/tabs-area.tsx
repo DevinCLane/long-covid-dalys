@@ -3,6 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { OverviewChart } from "@/components/charts/overview-chart";
 import { DetailedBarChart } from "@/components/charts/detailed-bar-chart";
 import { AirCleaningChart } from "./charts/air-cleaning-chart";
+import { AboutPage } from "@/components/about";
 // import { runAcuteCovid } from "@/config/daly-model";
 
 export default function TabsArea() {
@@ -39,6 +40,7 @@ export default function TabsArea() {
           {/* <TabsTrigger value="air">Air Cleaning</TabsTrigger>
           <TabsTrigger value="pharmaceuticals">Pharmaceuticals</TabsTrigger>
           <TabsTrigger value="publicHealth">Public Health</TabsTrigger> */}
+          <TabsTrigger value="about">About</TabsTrigger>
         </div>
       </TabsList>
       <TabsContent value="overview" className="w-full">
@@ -61,6 +63,9 @@ export default function TabsArea() {
       </TabsContent>
       <TabsContent value="publicHealth" className="w-full">
         <div>Coming soon</div>
+      </TabsContent>
+      <TabsContent value="about" className="w-full">
+        <AboutPage />
       </TabsContent>
     </Tabs>
   );
