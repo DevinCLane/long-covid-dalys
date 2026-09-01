@@ -382,7 +382,7 @@ function transitionRateMatrix(
 
 function validateLongCovidInputs(
   parameters: LongCovidParameters,
-  options: typeof DEFAULT_LONG_COVID_OPTIONS,
+  options: LongCovidOptions,
 ) {
   const initialValues = Object.values(parameters.initialState);
   initialValues.forEach((value, i) =>
@@ -422,28 +422,29 @@ function validateLongCovidInputs(
   }
 }
 
+type LongCovidOptions = {
+  horizonYears: number;
+  annualInfectionProportion: number;
+  scaleOnsetByInfection: boolean;
+  stablePopulation: boolean;
+  stableReplacement: "H";
+  backgroundMortalityRate: number;
+  remainingLifeExpectancy: number;
+  discountRate: number;
+  populationSize: number;
+};
+
+type LongCovidOptionsOverride = Partial<
+  Omit<LongCovidOptions, "stableReplacement">
+>;
+
 interface RunLongCovidInputs {
-  userParameters?: {
-    initialState?: {
-      H?: number;
-      S1?: number;
-      S2?: number;
-    };
-  };
-  userOptions?: {
-    horizonYears?: number;
-    annualInfectionProportion?: number;
-    scaleOnsetByInfection?: boolean;
-    stablePopulation?: boolean;
-    backgroundMortalityRate?: number;
-    remainingLifeExpectancy?: number;
-    discountRate?: number;
-    populationSize?: number;
-  };
+  userParameters?: LongCovidParametersOverride;
+  userOptions?: LongCovidOptionsOverride;
 }
 
 export function runLongCovid({
-  userParameters,
+  userParameters = {},
   userOptions,
 }: RunLongCovidInputs = {}) {
   const parameters = {
@@ -922,7 +923,16 @@ function pascTotals(
   };
 }
 
-export function runPasc(userOptions = {}) {
+interface RunPascInput {
+  userOptions?: {
+    horizonYears?: number;
+    annualInfectionProportion?: number;
+    populationSize?: number;
+    discountRate?: number;
+  };
+}
+
+export function runPasc({ userOptions }: RunPascInput = {}) {
   const options = {
     horizonYears: 5,
     annualInfectionProportion: BASELINE_INFECTION_PROPORTION,
