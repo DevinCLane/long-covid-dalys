@@ -11,7 +11,7 @@ export default function TabsArea() {
   // active tabs for the detailed views
   const [activeTab, setActiveTab] = useState("overview");
   const [detailedScenarioId, setDetailedScenarioId] = useState("baseline");
-  // const [implmentationPercentage, setImplementationPercentage] = useState(100);
+  const [assumptionsSliderData, setAssumptionsSliderData] = useState({});
 
   function updateSliderValue(updatedNumber: number) {
     const percentToDecimal = updatedNumber * 0.01;
@@ -19,8 +19,26 @@ export default function TabsArea() {
     const acuteCovid = runAcuteCovid({
       userOptions: { annualInfectionProportion: percentToDecimal },
     });
-    const longCovid = runLongCovid
-    const newTotals = acuteCovid.totals.dalysPer1000;
+    const longCovid = runLongCovid({
+      userOptions: { annualInfectionProportion: percentToDecimal },
+    });
+    const pasc = runPasc({
+      userOptions: { annualInfectionProportion: percentToDecimal },
+    });
+    const newTotals = {
+      acute_covid: acuteCovid.totals.dalysPer1000,
+      long_covid: longCovid.totals.dalysPer1000,
+      pasc: pasc.totals.dalysPer1000,
+      total_dalys:
+        acuteCovid.totals.dalysPer1000 +
+        longCovid.totals.dalysPer1000 +
+        pasc.totals.dalysPer1000,
+      // percent_reduction:
+      //   percent_reduction_acute_covid:
+      // percent_reduction_long_covid:
+      // percent_reduction_pasc:
+    };
+    setAssumptionsSliderData(newTotals);
   }
 
   function selectDetailedScenario(scenarioId: string) {
@@ -59,6 +77,7 @@ export default function TabsArea() {
         <OverviewChart
           onScenarioSelect={openDetailedScenario}
           onUpdateSlider={updateSliderValue}
+          assumptionsSliderData={assumptionsSliderData}
         />
       </TabsContent>
       <TabsContent value="detailed" className="w-full">
