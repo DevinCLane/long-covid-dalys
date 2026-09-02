@@ -5,45 +5,11 @@ import { DetailedBarChart } from "@/components/charts/detailed-bar-chart";
 import { AirCleaningChart } from "@/components/charts/air-cleaning-chart";
 import { AboutPage } from "@/components/about";
 import { PharmaceuticalChart } from "@/components/charts/pharmaceutical-chart";
-import {
-  infectionUnderAirCleaningImplementation,
-  runAcuteCovid,
-  runLongCovid,
-  runPasc,
-} from "@/config/daly-model";
 
 export default function TabsArea() {
   const [activeTab, setActiveTab] = useState("overview");
   const [detailedScenarioId, setDetailedScenarioId] = useState("baseline");
-  const [assumptionsSliderData, setAssumptionsSliderData] = useState();
-
-  function updateSliderValue(updatedNumber: number) {
-    const percentToDecimal = updatedNumber * 0.01;
-    const acuteCovid = runAcuteCovid({
-      userOptions: { annualInfectionProportion: percentToDecimal },
-    });
-    const longCovid = runLongCovid({
-      userOptions: { annualInfectionProportion: percentToDecimal },
-    });
-    const pasc = runPasc({
-      userOptions: { annualInfectionProportion: percentToDecimal },
-    });
-    const newTotals = {
-      acute_covid: acuteCovid.totals.dalysPer1000,
-      long_covid: longCovid.totals.dalysPer1000,
-      pasc: pasc.totals.dalysPer1000,
-      total:
-        acuteCovid.totals.dalysPer1000 +
-        longCovid.totals.dalysPer1000 +
-        pasc.totals.dalysPer1000,
-      // percent_reduction:
-      //   percent_reduction_acute_covid:
-      // percent_reduction_long_covid:
-      // percent_reduction_pasc:
-    };
-    // console.log({ newTotals });
-    setAssumptionsSliderData(newTotals);
-  }
+  const [annualInfectionRate, setAnnualInfectionRate] = useState(28.74);
 
   function selectDetailedScenario(scenarioId: string) {
     setDetailedScenarioId(scenarioId);
@@ -80,14 +46,16 @@ export default function TabsArea() {
       <TabsContent value="overview" className="w-full">
         <OverviewChart
           onScenarioSelect={openDetailedScenario}
-          onUpdateSlider={updateSliderValue}
-          assumptionsSliderData={assumptionsSliderData}
+          annualInfectionRate={annualInfectionRate}
+          onAnnualInfectionRateChange={setAnnualInfectionRate}
         />
       </TabsContent>
       <TabsContent value="detailed" className="w-full">
         <DetailedBarChart
           scenarioId={detailedScenarioId}
           onScenarioSelect={selectDetailedScenario}
+          annualInfectionRate={annualInfectionRate}
+          onAnnualInfectionRateChange={setAnnualInfectionRate}
         />
       </TabsContent>
       <TabsContent value="air" className="w-full">

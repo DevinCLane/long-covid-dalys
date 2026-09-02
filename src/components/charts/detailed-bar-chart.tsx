@@ -33,6 +33,7 @@ import {
 } from "../ui/accordion";
 import { ASSUMPTIONS } from "@/config/assumptions";
 import { AssumptionArea } from "../assumption-area";
+import { calculateScenarioDalyRows } from "@/config/scenario-daly-calculations";
 
 export type Scenario = (typeof chartData.scenarios)[number];
 
@@ -61,6 +62,8 @@ const chartConfig = {
 interface DetailedBarChartProps {
   scenarioId: Scenario["id"];
   onScenarioSelect: (scenarioId: string) => void;
+  annualInfectionRate: number;
+  onAnnualInfectionRateChange: (updatedNumber: number) => void;
 }
 
 interface ChartDescriptionBodyProps {
@@ -80,16 +83,18 @@ function ChartDescriptionBody({ scenario }: ChartDescriptionBodyProps) {
 export function DetailedBarChart({
   scenarioId,
   onScenarioSelect,
+  annualInfectionRate,
+  onAnnualInfectionRateChange,
 }: DetailedBarChartProps) {
-  // exclude the pasc components from this chart
-  const includedConditions = new Set(["acute_covid", "long_covid", "pasc"]);
-
   // match the scenario that has been clicked by the user
   const scenario = chartData.scenarios.find(
     (scenario) => scenario.id === scenarioId,
   );
+  const calculatedScenario = calculateScenarioDalyRows(
+    annualInfectionRate,
+  ).find((scenario) => scenario.id === scenarioId);
 
-  if (!scenario) {
+  if (!scenario || !calculatedScenario) {
     return (
       <Card>
         <CardHeader className="flex items-center gap-2 space-y-0 border-b sm:flex-row">
@@ -106,43 +111,32 @@ export function DetailedBarChart({
     );
   }
 
-  const conditionRows = scenario.conditions
-    // filter out the pasc components
-    .filter((condition) => includedConditions.has(condition.condition))
-    // create the shape needed for this chart
-    .map((condition) => {
-      if (condition.condition === "pasc") {
-        return {
-          key: condition.condition,
-          label: "other sequelae",
-          dalys: condition.totals.dalys_per_1000,
-          fill: `var(--color-${condition.condition})`,
-        };
-      } else
-        return {
-          key: condition.condition,
-          label: condition.label,
-          dalys: condition.totals.dalys_per_1000,
-          fill: `var(--color-${condition.condition})`,
-        };
-    });
-
-  // sum up the total dalys between acute, long covid, and pasc
-  const totalDalys = conditionRows.reduce((sum, row) => sum + row.dalys, 0);
-
-  const detailedData =
-    conditionRows.length > 0
-      ? [
-          ...conditionRows,
-          // add the total dalys to the data
-          {
-            key: "total",
-            label: "Total",
-            dalys: totalDalys,
-            fill: "var(--color-total)",
-          },
-        ]
-      : [];
+  const detailedData = [
+    {
+      key: "acute_covid",
+      label: "Acute COVID",
+      dalys: calculatedScenario.acute_covid,
+      fill: "var(--color-acute_covid)",
+    },
+    {
+      key: "long_covid",
+      label: "Long COVID",
+      dalys: calculatedScenario.long_covid,
+      fill: "var(--color-long_covid)",
+    },
+    {
+      key: "pasc",
+      label: "other sequelae",
+      dalys: calculatedScenario.pasc,
+      fill: "var(--color-pasc)",
+    },
+    {
+      key: "total",
+      label: "Total",
+      dalys: calculatedScenario.total,
+      fill: "var(--color-total)",
+    },
+  ];
 
   return (
     <Card>
@@ -239,7 +233,8 @@ export function DetailedBarChart({
               Model Assumptions
             </AccordionTrigger>
             <AccordionContent className="flex flex-col gap-4 text-balance">
-              Sliders not hooked into live data
+              Only the annual COVID infection rate slider is connected to live
+              data.
               <div className="grid grid-cols-1 gap-x-8 gap-y-2 md:grid-cols-2">
                 {ASSUMPTIONS.map((assumption) => (
                   <AssumptionArea
@@ -249,10 +244,19 @@ export function DetailedBarChart({
                     sliderMin={assumption.sliderMin}
                     sliderMax={assumption.sliderMax}
                     sliderStep={assumption.sliderStep}
-                    sliderInitialValue={assumption.defaultValue}
+                    sliderInitialValue={
+                      assumption.key === "annualCovidInfectionRate"
+                        ? annualInfectionRate
+                        : assumption.defaultValue
+                    }
                     sliderDefaultValue={assumption.defaultValue}
                     sliderDisabled={false}
-                    onSliderChange={([value]) => value}
+                    onSliderChange={
+                      assumption.key === "annualCovidInfectionRate"
+                        ? ([sliderValue]) =>
+                            onAnnualInfectionRateChange(sliderValue)
+                        : () => {}
+                    }
                   />
                 ))}
               </div>

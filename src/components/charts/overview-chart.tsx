@@ -32,94 +32,7 @@ import {
 } from "../ui/accordion";
 import { ASSUMPTIONS } from "@/config/assumptions";
 import { Separator } from "../ui/separator";
-
-/**
- * For the baseline scenario, find the dalys for each outcome (acute, LC, pasc)
- */
-function findBaselineDalyBreakdown() {
-  const baseline = chartData.main_scenarios.find(
-    (scenario) => scenario.id === "baseline",
-  );
-  if (baseline === undefined) {
-    throw new Error("couldn't find the baseline scenario in the data");
-  }
-
-  const acuteCovid = baseline.outcomes.acute_covid.dalys_per_1000;
-  if (acuteCovid === undefined) {
-    throw new Error("couldn't find acute covid data");
-  }
-
-  const longCovid = baseline.outcomes.long_covid.dalys_per_1000;
-  if (longCovid === undefined) {
-    throw new Error("couldn't find long covid data");
-  }
-
-  const pasc = baseline.outcomes.pasc.dalys_per_1000;
-  if (pasc === undefined) {
-    throw new Error("couldn't find pasc data");
-  }
-
-  return {
-    total: baseline.outcomes.acute_plus_long_covid_plus_pasc.dalys_per_1000,
-    acute_covid: acuteCovid,
-    long_covid: longCovid,
-    pasc: pasc,
-  };
-}
-
-const baselineTotalDalys = findBaselineDalyBreakdown();
-/**
- * calculate the percent reduction of DALYs compared to the baseline scenario
- */
-function calculatePercentReduction(baseline: number, current: number) {
-  return Number((((baseline - current) / baseline) * 100).toFixed(2));
-}
-/**
- * this is the data that the chart consumes
- */
-const chartRows = chartData.main_scenarios.map((scenario) => {
-  const total =
-    scenario.outcomes.acute_plus_long_covid_plus_pasc.dalys_per_1000;
-  const acuteCovid = scenario.outcomes.acute_covid.dalys_per_1000;
-  if (acuteCovid === undefined) {
-    throw new Error("couldn't find acute covid data");
-  }
-
-  const longCovid = scenario.outcomes.long_covid.dalys_per_1000;
-  if (longCovid === undefined) {
-    throw new Error("couldn't find long covid data");
-  }
-
-  const pasc = scenario.outcomes.pasc.dalys_per_1000;
-  if (pasc === undefined) {
-    throw new Error("couldn't find pasc data");
-  }
-
-  return {
-    id: scenario.id,
-    label: scenario.label,
-    acute_covid: acuteCovid,
-    long_covid: longCovid,
-    pasc: pasc,
-    total: total,
-    percent_reduction: calculatePercentReduction(
-      baselineTotalDalys.total,
-      total,
-    ),
-    percent_reduction_acute_covid: calculatePercentReduction(
-      baselineTotalDalys.acute_covid,
-      acuteCovid,
-    ),
-    percent_reduction_long_covid: calculatePercentReduction(
-      baselineTotalDalys.long_covid,
-      longCovid,
-    ),
-    percent_reduction_pasc: calculatePercentReduction(
-      baselineTotalDalys.pasc,
-      pasc,
-    ),
-  };
-});
+import { calculateScenarioDalyRows } from "@/config/scenario-daly-calculations";
 
 /**
  * Text for the chart description body
@@ -155,7 +68,7 @@ this section builds the clickable Y axis labels
 
 */
 const scenarioLabelsById = new Map(
-  chartRows.map((scenario) => [scenario.id, scenario.label]),
+  chartData.main_scenarios.map((scenario) => [scenario.id, scenario.label]),
 );
 
 // formatting/text wrapping for the y axis labels
@@ -303,19 +216,14 @@ const chartConfig = {
 
 interface BarChartStackedProps {
   onScenarioSelect?: (scenarioId: string) => void;
-  onUpdateSlider: (updatedNumber: number) => void;
-  assumptionsSliderData: {
-    acute_covid: number;
-    long_covid: number;
-    pasc: number;
-    total: number;
-  };
+  annualInfectionRate: number;
+  onAnnualInfectionRateChange: (updatedNumber: number) => void;
 }
 
 export function OverviewChart({
   onScenarioSelect,
-  onUpdateSlider,
-  assumptionsSliderData,
+  annualInfectionRate,
+  onAnnualInfectionRateChange,
 }: BarChartStackedProps) {
   const [legendPortal, setLegendPortal] = useState<HTMLDivElement | null>(null);
   const [breakdownChecked, setBreakdownChecked] = useState(false);
@@ -323,19 +231,7 @@ export function OverviewChart({
   const [allHepaChecked, setAllHepaChecked] = useState(false);
   const [allUvcChecked, setAllUvcChecked] = useState(false);
   const usePercentReductionBreakdown = breakdownChecked && !dalysPer1000;
-
-  // chart rows with assumptions applied
-  //
-  if (assumptionsSliderData !== undefined) {
-    const rowsWithModified = chartRows.map((row) => ({
-      ...row,
-      modifiedAcute: assumptionsSliderData.acute_covid,
-      modifiedLongCovid: assumptionsSliderData.long_covid,
-      modifiedPasc: assumptionsSliderData.pasc,
-      modifiedTotal: assumptionsSliderData.total,
-    }));
-    console.log(rowsWithModified);
-  }
+  const chartRows = calculateScenarioDalyRows(annualInfectionRate);
 
   const visibleRows = chartRows.filter((row) => {
     if (
@@ -548,11 +444,18 @@ export function OverviewChart({
                     sliderMin={assumption.sliderMin}
                     sliderMax={assumption.sliderMax}
                     sliderStep={assumption.sliderStep}
-                    sliderInitialValue={assumption.defaultValue}
+                    sliderInitialValue={
+                      assumption.key === "annualCovidInfectionRate"
+                        ? annualInfectionRate
+                        : assumption.defaultValue
+                    }
                     sliderDefaultValue={assumption.defaultValue}
                     sliderDisabled={false}
-                    onSliderChange={([sliderValue]) =>
-                      onUpdateSlider(sliderValue)
+                    onSliderChange={
+                      assumption.key === "annualCovidInfectionRate"
+                        ? ([sliderValue]) =>
+                            onAnnualInfectionRateChange(sliderValue)
+                        : () => {}
                     }
                   />
                 ))}
