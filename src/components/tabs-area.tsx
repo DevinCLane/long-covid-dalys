@@ -5,17 +5,20 @@ import { DetailedBarChart } from "@/components/charts/detailed-bar-chart";
 import { AirCleaningChart } from "@/components/charts/air-cleaning-chart";
 import { AboutPage } from "@/components/about";
 import { PharmaceuticalChart } from "@/components/charts/pharmaceutical-chart";
-import { runAcuteCovid, runLongCovid, runPasc } from "@/config/daly-model";
+import {
+  infectionUnderAirCleaningImplementation,
+  runAcuteCovid,
+  runLongCovid,
+  runPasc,
+} from "@/config/daly-model";
 
 export default function TabsArea() {
-  // active tabs for the detailed views
   const [activeTab, setActiveTab] = useState("overview");
   const [detailedScenarioId, setDetailedScenarioId] = useState("baseline");
-  const [assumptionsSliderData, setAssumptionsSliderData] = useState({});
+  const [assumptionsSliderData, setAssumptionsSliderData] = useState();
 
   function updateSliderValue(updatedNumber: number) {
     const percentToDecimal = updatedNumber * 0.01;
-    // setImplementationPercentage(updatedPercentage);
     const acuteCovid = runAcuteCovid({
       userOptions: { annualInfectionProportion: percentToDecimal },
     });
@@ -29,7 +32,7 @@ export default function TabsArea() {
       acute_covid: acuteCovid.totals.dalysPer1000,
       long_covid: longCovid.totals.dalysPer1000,
       pasc: pasc.totals.dalysPer1000,
-      total_dalys:
+      total:
         acuteCovid.totals.dalysPer1000 +
         longCovid.totals.dalysPer1000 +
         pasc.totals.dalysPer1000,
@@ -38,6 +41,7 @@ export default function TabsArea() {
       // percent_reduction_long_covid:
       // percent_reduction_pasc:
     };
+    // console.log({ newTotals });
     setAssumptionsSliderData(newTotals);
   }
 

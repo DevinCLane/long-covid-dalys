@@ -304,11 +304,18 @@ const chartConfig = {
 interface BarChartStackedProps {
   onScenarioSelect?: (scenarioId: string) => void;
   onUpdateSlider: (updatedNumber: number) => void;
+  assumptionsSliderData: {
+    acute_covid: number;
+    long_covid: number;
+    pasc: number;
+    total: number;
+  };
 }
 
 export function OverviewChart({
   onScenarioSelect,
   onUpdateSlider,
+  assumptionsSliderData,
 }: BarChartStackedProps) {
   const [legendPortal, setLegendPortal] = useState<HTMLDivElement | null>(null);
   const [breakdownChecked, setBreakdownChecked] = useState(false);
@@ -316,6 +323,19 @@ export function OverviewChart({
   const [allHepaChecked, setAllHepaChecked] = useState(false);
   const [allUvcChecked, setAllUvcChecked] = useState(false);
   const usePercentReductionBreakdown = breakdownChecked && !dalysPer1000;
+
+  // chart rows with assumptions applied
+  //
+  if (assumptionsSliderData !== undefined) {
+    const rowsWithModified = chartRows.map((row) => ({
+      ...row,
+      modifiedAcute: assumptionsSliderData.acute_covid,
+      modifiedLongCovid: assumptionsSliderData.long_covid,
+      modifiedPasc: assumptionsSliderData.pasc,
+      modifiedTotal: assumptionsSliderData.total,
+    }));
+    console.log(rowsWithModified);
+  }
 
   const visibleRows = chartRows.filter((row) => {
     if (
