@@ -172,11 +172,11 @@ function ScenarioYAxisTick({
 const chartConfig = {
   percent_reduction: {
     label: "Total DALY reduction",
-    color: "var(--chart-6)",
+    color: "var(--chart-2)",
   },
   total: {
     label: "Total DALYs",
-    color: "var(--chart-5)",
+    color: "var(--chart-6)",
   },
 } satisfies ChartConfig;
 
