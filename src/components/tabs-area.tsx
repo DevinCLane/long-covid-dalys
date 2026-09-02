@@ -33,10 +33,13 @@ export default function TabsArea() {
             <TabsTrigger value="overview" className="cursor-pointer">
               Overview
             </TabsTrigger>
+            <TabsTrigger value="air" className="cursor-pointer">
+              Air Cleaning
+            </TabsTrigger>
             <TabsTrigger value="detailed" className="cursor-pointer">
               Detailed
             </TabsTrigger>
-            {/* <TabsTrigger value="air" className="cursor-pointer">Air Cleaning</TabsTrigger>
+            {/*
           <TabsTrigger value="pharmaceuticals" className="cursor-pointer">Pharmaceuticals</TabsTrigger>
           <TabsTrigger value="publicHealth" className="cursor-pointer">Public Health</TabsTrigger> */}
             <TabsTrigger value="about" className="cursor-pointer">
