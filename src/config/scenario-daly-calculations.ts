@@ -187,6 +187,13 @@ export const OVERVIEW_INTERVENTION_SCENARIO_IDS = new Set([
   "long_covid_disability_reduction",
 ]);
 
+export const PHARMACEUTICAL_INTERVENTION_SCENARIO_IDS = new Set([
+  "preexposure_prophylaxis",
+  "postexposure_prophylaxis",
+  "long_covid_progression_reduction",
+  "long_covid_disability_reduction",
+]);
+
 function calculatePercentReduction(baseline: number, current: number) {
   if (baseline === 0) return 0;
   return Number((((baseline - current) / baseline) * 100).toFixed(2));

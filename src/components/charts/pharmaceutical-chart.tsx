@@ -17,10 +17,16 @@ import {
 } from "@/components/ui/chart";
 
 import React, { useState } from "react";
+import { ChartModifierCheckbox } from "../chart-modifier-checkbox";
 import { ChartMetricToggle, type ChartMetric } from "../chart-metric-toggle";
+import { FieldGroup } from "../ui/field";
+import { Separator } from "../ui/separator";
 import { useDalyModel } from "@/hooks/use-daly-model";
 import { ModelAssumptionsPanel } from "@/components/model-assumptions-panel";
-import { SCENARIO_LABELS_BY_ID } from "@/config/scenario-daly-calculations";
+import {
+  PHARMACEUTICAL_INTERVENTION_SCENARIO_IDS,
+  SCENARIO_LABELS_BY_ID,
+} from "@/config/scenario-daly-calculations";
 
 /**
  * Text for the chart description body
@@ -166,31 +172,38 @@ function ScenarioYAxisTick({
 const chartConfig = {
   percent_reduction: {
     label: "Total DALY reduction",
-    color: "var(--chart-6)",
+    color: "var(--chart-2)",
   },
   total: {
     label: "Total DALYs",
-    color: "var(--chart-5)",
+    color: "var(--chart-6)",
   },
 } satisfies ChartConfig;
 
-interface BarChartStackedProps {
+interface PharmaceuticalChartProps {
   onScenarioSelect?: (scenarioId: string) => void;
 }
 
 export function PharmaceuticalChart({
   onScenarioSelect,
-}: BarChartStackedProps) {
-  const { scenarioRows } = useDalyModel();
+}: PharmaceuticalChartProps) {
+  const { scenarioRows: chartRows } = useDalyModel();
   const [metric, setMetric] = useState<ChartMetric>("percent");
+  const [prophylaxisChecked, setProphylaxisChecked] = useState(false);
+  const [medicationChecked, setMedicationChecked] = useState(false);
   const showDalys = metric === "dalys";
-
-  const visibleRows = scenarioRows.filter(
-    (row) =>
-      row.id === "preexposure_prophylaxis" ||
-      row.id === "postexposure_prophylaxis" ||
-      (showDalys && row.id === "baseline"),
-  );
+  const visibleRows = chartRows.filter((row) => {
+    if (
+      !prophylaxisChecked &&
+      !medicationChecked &&
+      PHARMACEUTICAL_INTERVENTION_SCENARIO_IDS.has(row.id)
+    )
+      return true;
+    if (prophylaxisChecked && row.id.endsWith("prophylaxis")) return true;
+    if (medicationChecked && row.id.startsWith("treatments")) return true;
+    if (showDalys && row.id.startsWith("baseline")) return true;
+    return false;
+  });
 
   return (
     <Card>
@@ -198,7 +211,7 @@ export function PharmaceuticalChart({
       <CardHeader className="flex items-center gap-2 space-y-0 border-b sm:flex-row">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
           <CardTitle className="text-l text-pretty md:text-2xl">
-            Pharmaceutical interventions
+            What interventions might affect COVID-19-associated disability?
           </CardTitle>
           <CardDescription className="hidden md:block">
             <ChartDescriptionBody />
@@ -207,9 +220,26 @@ export function PharmaceuticalChart({
       </CardHeader>
       <CardContent>
         <div className="flex flex-col items-center">
-          <div className="order-3 mt-4 mb-2 sm:mt-0 sm:mb-0 md:order-1">
-            <ChartMetricToggle value={metric} onValueChange={setMetric} />
-          </div>
+          <FieldGroup className="order-3 mt-4 mb-2 gap-4 sm:mt-0 sm:mb-0 sm:w-100 md:order-1">
+            <div className="flex justify-center gap-4">
+              <ChartModifierCheckbox
+                checked={prophylaxisChecked}
+                className="w-fit"
+                onCheckedChange={setProphylaxisChecked}
+                title="Show all prophylaxis"
+              />
+              <ChartModifierCheckbox
+                checked={medicationChecked}
+                className="w-fit"
+                onCheckedChange={setMedicationChecked}
+                title="Show all medication"
+              />
+            </div>
+            <Separator />
+            <div className="flex justify-center">
+              <ChartMetricToggle value={metric} onValueChange={setMetric} />
+            </div>
+          </FieldGroup>
           <ChartContainer
             config={chartConfig}
             className="order-2 h-100 w-full md:h-150"
