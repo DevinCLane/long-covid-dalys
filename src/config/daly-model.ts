@@ -162,6 +162,26 @@ export const DEFAULT_ACUTE_COVID_PARAMETERS = Object.freeze({
   // illness duration * disability weight
   durationWeightedDisability: 0.00888944,
   ifrScenario: "point" as AcuteIfrScenario,
+  // Sensitivity multiplier applied to the age-weighted IFR and YLL.
+  mortalityMultiplier: 1,
+});
+
+export const DEFAULT_PREEXPOSURE_PROPHYLAXIS_EFFICACY = 0.7;
+export const DEFAULT_POSTEXPOSURE_PROPHYLAXIS_MAXIMUM_REDUCTION = 0.1238;
+export const DEFAULT_LONG_COVID_PROGRESSION_REDUCTION = 0.1;
+export const DEFAULT_LONG_COVID_DISABILITY_REDUCTION = 0.1;
+
+type PascParameters = {
+  disabilityWeightMultiplier: number;
+  mortalityMultiplier: number;
+};
+
+export const DEFAULT_PASC_PARAMETERS: Readonly<PascParameters> = Object.freeze({
+  // PASC contains six evidence-reviewed components rather than one aggregate
+  // disability weight or mortality rate. These multipliers provide honest,
+  // dimensionless sensitivity controls without replacing those inputs.
+  disabilityWeightMultiplier: 1,
+  mortalityMultiplier: 1,
 });
 
 /**
@@ -170,7 +190,7 @@ export const DEFAULT_ACUTE_COVID_PARAMETERS = Object.freeze({
 export function infectionUnderPreExposureProphylaxis({
   baselineInfectionProportion = BASELINE_INFECTION_PROPORTION,
   adoption = 0,
-  efficacy = 0.7,
+  efficacy = DEFAULT_PREEXPOSURE_PROPHYLAXIS_EFFICACY,
 } = {}) {
   assertUnitInterval(
     baselineInfectionProportion,
@@ -187,7 +207,7 @@ export function infectionUnderPreExposureProphylaxis({
 export function infectionUnderPostExposureProphylaxis({
   baselineInfectionProportion = BASELINE_INFECTION_PROPORTION,
   implementation = 0,
-  maximumPopulationInfectionReduction = 0.1238,
+  maximumPopulationInfectionReduction = DEFAULT_POSTEXPOSURE_PROPHYLAXIS_MAXIMUM_REDUCTION,
 } = {}) {
   assertUnitInterval(
     baselineInfectionProportion,
@@ -578,6 +598,7 @@ export interface AcuteCovidInput {
   userParameters?: {
     durationWeightedDisability?: number;
     ifrScenario?: AcuteIfrScenario;
+    mortalityMultiplier?: number;
   };
   userOptions?: {
     horizonYears?: number;
@@ -600,6 +621,10 @@ export function runAcuteCovid({
     parameters.durationWeightedDisability,
     "durationWeightedDisability",
   );
+  assertFiniteNonnegative(
+    parameters.mortalityMultiplier,
+    "mortalityMultiplier",
+  );
   if (!ACUTE_IFR_SCENARIOS.includes(parameters.ifrScenario)) {
     throw new RangeError("ifrScenario must be point, lower, or upper.");
   }
@@ -614,8 +639,10 @@ export function runAcuteCovid({
   const annualYld =
     options.annualInfectionProportion * parameters.durationWeightedDisability;
   const mortality = acuteMortalitySummary(parameters.ifrScenario);
+  const effectiveYllPerInfection =
+    mortality.yllPerInfection * parameters.mortalityMultiplier;
   const annualYll =
-    options.annualInfectionProportion * mortality.yllPerInfection;
+    options.annualInfectionProportion * effectiveYllPerInfection;
   const yearly = Array.from({ length: options.horizonYears }, (_, index) => ({
     year: index + 1,
     yld: annualYld,
@@ -630,10 +657,11 @@ export function runAcuteCovid({
     parametersUsed: parameters,
     options: {
       ...options,
-      effectiveCaseFatalityRate: mortality.weightedIfr,
+      effectiveCaseFatalityRate:
+        mortality.weightedIfr * parameters.mortalityMultiplier,
       deathWeightedRemainingLifeExpectancy:
         mortality.deathWeightedLifeExpectancy,
-      yllPerInfection: mortality.yllPerInfection,
+      yllPerInfection: effectiveYllPerInfection,
     },
     yearly,
     totals: {
@@ -783,13 +811,16 @@ function pascOneStateRateMatrix({
   recovery,
   background,
   totalMortality,
+  mortalityMultiplier,
 }: {
   onset: number;
   recovery: number;
   background: number;
   totalMortality: number;
+  mortalityMultiplier: number;
 }) {
-  const diseaseDeath = Math.max(0, totalMortality - background);
+  const diseaseDeath =
+    Math.max(0, totalMortality - background) * mortalityMultiplier;
   return [
     [-(background + onset), onset, 0, background, 0],
     [
@@ -817,6 +848,7 @@ function runPascMarkovStrata({
   excessMortality = null,
   disabilityWeight,
   recoveryRate,
+  mortalityMultiplier,
 }: {
   annualInfectionProportion: number;
   horizonYears: number;
@@ -829,6 +861,7 @@ function runPascMarkovStrata({
   excessMortality?: number | null;
   disabilityWeight: number;
   recoveryRate: number;
+  mortalityMultiplier: number;
 }) {
   const eligibleShare = PASC_AGE_STRATA.reduce(
     (sum, row) => sum + (eligible(row.age) ? row.share : 0),
@@ -857,6 +890,7 @@ function runPascMarkovStrata({
         recovery: recoveryRate,
         background: row.bg,
         totalMortality: mortality,
+        mortalityMultiplier,
       }),
     );
     const discountedLe = discountedLifeExpectancy(row.le, discountRate);
@@ -890,6 +924,7 @@ function runPascTunnelStrata({
   firstYearProbability,
   chronicProbability,
   disabilityWeight,
+  mortalityMultiplier,
 }: {
   annualInfectionProportion: number;
   horizonYears: number;
@@ -900,6 +935,7 @@ function runPascTunnelStrata({
   firstYearProbability: number | ((age: number) => number);
   chronicProbability: number | ((age: number) => number);
   disabilityWeight: number;
+  mortalityMultiplier: number;
 }) {
   const stepsPerYear = 365;
   const dt = 1 / stepsPerYear;
@@ -921,8 +957,10 @@ function runPascTunnelStrata({
       typeof chronicProbability === "function"
         ? chronicProbability(row.age)
         : chronicProbability;
-    const h1 = -Math.log1p(-p1);
-    const hc = -Math.log1p(-pc);
+    const sourceH1 = -Math.log1p(-p1);
+    const sourceHc = -Math.log1p(-pc);
+    const h1 = row.bg + Math.max(0, sourceH1 - row.bg) * mortalityMultiplier;
+    const hc = row.bg + Math.max(0, sourceHc - row.bg) * mortalityMultiplier;
     const recent = Array(stepsPerYear).fill(0);
     let oldest = 0;
     let recentSum = 0;
@@ -1028,6 +1066,7 @@ function pascTotals(
 }
 
 interface RunPascInput {
+  userParameters?: Partial<PascParameters>;
   userOptions?: {
     horizonYears?: number;
     annualInfectionProportion?: number;
@@ -1036,7 +1075,14 @@ interface RunPascInput {
   };
 }
 
-export function runPasc({ userOptions }: RunPascInput = {}) {
+export function runPasc({
+  userParameters = {},
+  userOptions,
+}: RunPascInput = {}) {
+  const parameters = {
+    ...DEFAULT_PASC_PARAMETERS,
+    ...userParameters,
+  };
   const options = {
     horizonYears: 5,
     annualInfectionProportion: BASELINE_INFECTION_PROPORTION,
@@ -1047,6 +1093,14 @@ export function runPasc({ userOptions }: RunPascInput = {}) {
   assertUnitInterval(
     options.annualInfectionProportion,
     "annualInfectionProportion",
+  );
+  assertFiniteNonnegative(
+    parameters.disabilityWeightMultiplier,
+    "disabilityWeightMultiplier",
+  );
+  assertFiniteNonnegative(
+    parameters.mortalityMultiplier,
+    "mortalityMultiplier",
   );
   if (options.horizonYears !== 5) {
     throw new RangeError(
@@ -1062,14 +1116,20 @@ export function runPasc({ userOptions }: RunPascInput = {}) {
     onsetCoefficient: 0.00546,
     firstYearProbability: 0.24,
     chronicProbability: 1 - (0.567 / 0.76) ** 0.25,
-    disabilityWeight: 0.04 * 0.24 + 0.07 * 0.17 + 0.18 * 0.49,
+    disabilityWeight:
+      (0.04 * 0.24 + 0.07 * 0.17 + 0.18 * 0.49) *
+      parameters.disabilityWeightMultiplier,
+    mortalityMultiplier: parameters.mortalityMultiplier,
   });
   const stroke = runPascMarkovStrata({
     ...options,
     onsetCoefficient: 0.00115,
     totalMortality: -Math.log1p(-0.41),
-    disabilityWeight: 0.02 * 0.198 + 0.07 * 0.303 + 0.55 * 0.499,
+    disabilityWeight:
+      (0.02 * 0.198 + 0.07 * 0.303 + 0.55 * 0.499) *
+      parameters.disabilityWeightMultiplier,
     recoveryRate: 0.4,
+    mortalityMultiplier: parameters.mortalityMultiplier,
   });
   const pulmonaryEmbolism = runPascMarkovStrata({
     ...options,
@@ -1078,8 +1138,9 @@ export function runPasc({ userOptions }: RunPascInput = {}) {
     redistribute: true,
     totalMortality: 0,
     excessMortality: -Math.log1p(-0.075) + Math.log1p(-0.016),
-    disabilityWeight: 0.03,
+    disabilityWeight: 0.03 * parameters.disabilityWeightMultiplier,
     recoveryRate: 1,
+    mortalityMultiplier: parameters.mortalityMultiplier,
   });
   const dementia = runPascTunnelStrata({
     ...options,
@@ -1087,7 +1148,10 @@ export function runPasc({ userOptions }: RunPascInput = {}) {
     eligible: (age) => age >= 65,
     firstYearProbability: (age) => pascDementiaMortality(age).oneYear,
     chronicProbability: (age) => pascDementiaMortality(age).chronic,
-    disabilityWeight: 0.069 * 0.504 + 0.377 * 0.303 + 0.449 * 0.193,
+    disabilityWeight:
+      (0.069 * 0.504 + 0.377 * 0.303 + 0.449 * 0.193) *
+      parameters.disabilityWeightMultiplier,
+    mortalityMultiplier: parameters.mortalityMultiplier,
   });
   const diabetes = runPascMarkovStrata({
     ...options,
@@ -1096,8 +1160,9 @@ export function runPasc({ userOptions }: RunPascInput = {}) {
     redistribute: true,
     totalMortality: 0,
     excessMortality: Math.max(0, 0.0152 - adultBackground),
-    disabilityWeight: 0.0778,
+    disabilityWeight: 0.0778 * parameters.disabilityWeightMultiplier,
     recoveryRate: 0,
+    mortalityMultiplier: parameters.mortalityMultiplier,
   });
   const myocardialInfarction = runPascMarkovStrata({
     ...options,
@@ -1106,8 +1171,9 @@ export function runPasc({ userOptions }: RunPascInput = {}) {
     redistribute: true,
     totalMortality: (age) =>
       -Math.log1p(-(age < 50 ? 0.048 : age < 65 ? 0.142 : 0.24)),
-    disabilityWeight: 0.01,
+    disabilityWeight: 0.01 * parameters.disabilityWeightMultiplier,
     recoveryRate: 1,
+    mortalityMultiplier: parameters.mortalityMultiplier,
   });
   const components = {
     heartFailure,
@@ -1134,6 +1200,7 @@ export function runPasc({ userOptions }: RunPascInput = {}) {
     condition: "pasc",
     label: "Post-acute sequelae of COVID-19",
     status: PASC_STATUS,
+    parametersUsed: parameters,
     options,
     components,
     componentRanges: PASC_COMPONENT_RANGES,

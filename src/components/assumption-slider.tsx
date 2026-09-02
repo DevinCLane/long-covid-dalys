@@ -19,10 +19,10 @@ interface AssumptionSliderProps {
   minValue?: number;
   maxValue?: number;
   step?: number;
-  initialValue?: number[];
-  defaultValue?: number[];
+  value?: number;
+  defaultValue?: number;
   disabled?: boolean;
-  onValueChange?: (value: number[]) => void;
+  onValueChange?: (value: number) => void;
 }
 
 export function AssumptionSlider({
@@ -32,14 +32,13 @@ export function AssumptionSlider({
   minValue = 0.0,
   maxValue = 2,
   step,
-  initialValue = [0.5],
-  defaultValue = [0],
+  value = 0.5,
+  defaultValue = 0,
   disabled = false,
   onValueChange,
 }: AssumptionSliderProps) {
   const {
-    sliderValue,
-    inputValues,
+    inputValue,
     validateAndUpdateValue,
     handleInputChange,
     handleSliderChange,
@@ -47,7 +46,8 @@ export function AssumptionSlider({
   } = useSliderWithInput({
     minValue,
     maxValue,
-    initialValue,
+    step,
+    value,
     defaultValue,
     onValueChange,
   });
@@ -85,12 +85,12 @@ export function AssumptionSlider({
             className="bg-card h-7 w-16 px-2 py-0"
             type="text"
             inputMode="decimal"
-            value={inputValues[0]}
-            onChange={(e) => handleInputChange(e, 0)}
-            onBlur={() => validateAndUpdateValue(inputValues[0], 0)}
+            value={inputValue}
+            onChange={(event) => handleInputChange(event.target.value)}
+            onBlur={() => validateAndUpdateValue(inputValue)}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
-                validateAndUpdateValue(inputValues[0], 0);
+                validateAndUpdateValue(inputValue);
               }
             }}
             disabled={disabled}
@@ -101,7 +101,7 @@ export function AssumptionSlider({
       <div className="flex items-center gap-4">
         <Slider
           className={cn("grow", "**:[[role='slider']]:bg-card")}
-          value={sliderValue}
+          value={[value]}
           onValueChange={(newValue) => {
             handleSliderChange(newValue);
           }}

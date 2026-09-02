@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "generate-data": "tsx src/lib/export-mock-data.ts"
+    "generate-data": "tsx src/lib/export-mock-data.ts",
+    "verify:model-assumptions": "tsx scripts/verify-model-assumptions.ts"
   },
   "dependencies": {
     "@icons-pack/react-simple-icons": "^13.8.0",

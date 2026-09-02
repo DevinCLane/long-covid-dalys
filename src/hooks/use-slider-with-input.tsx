@@ -1,100 +1,72 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 type UseSliderWithInputProps = {
-  minValue?: number;
-  maxValue?: number;
-  initialValue?: number[];
-  defaultValue?: number[];
-  onValueChange?: (value: number[]) => void;
+  value: number;
+  minValue: number;
+  maxValue: number;
+  step?: number;
+  defaultValue: number;
+  onValueChange?: (value: number) => void;
 };
 
+function decimalsForStep(step?: number) {
+  if (!step || Number.isInteger(step)) return 0;
+  return Math.min(8, step.toString().split(".")[1]?.length ?? 0);
+}
+
+function formatValue(value: number, step?: number) {
+  return Number(value.toFixed(decimalsForStep(step))).toString();
+}
+
 export function useSliderWithInput({
-  minValue = 0,
-  maxValue = 100,
-  initialValue = [minValue],
-  defaultValue = [minValue],
+  value,
+  minValue,
+  maxValue,
+  step,
+  defaultValue,
   onValueChange,
 }: UseSliderWithInputProps) {
-  const [sliderValue, setSliderValue] = useState(initialValue);
-  const [inputValues, setInputValues] = useState(
-    initialValue.map((v) => v.toString()),
-  );
+  const [inputValue, setInputValue] = useState(() => formatValue(value, step));
+
+  useEffect(() => {
+    setInputValue(formatValue(value, step));
+  }, [step, value]);
 
   const validateAndUpdateValue = useCallback(
-    (rawValue: string, index: number) => {
-      if (rawValue === "" || rawValue === "-") {
-        const newInputValues = [...inputValues];
-        newInputValues[index] = "0";
-        setInputValues(newInputValues);
+    (rawValue: string) => {
+      const parsedValue = Number.parseFloat(rawValue);
+      const nextValue = Number.isFinite(parsedValue)
+        ? Math.min(maxValue, Math.max(minValue, parsedValue))
+        : value;
 
-        const newSliderValues = [...sliderValue];
-        newSliderValues[index] = 0;
-        setSliderValue(newSliderValues);
-        return;
-      }
-
-      const numValue = parseFloat(rawValue);
-
-      if (isNaN(numValue)) {
-        const newInputValues = [...inputValues];
-        newInputValues[index] = sliderValue[index].toString();
-        setInputValues(newInputValues);
-        return;
-      }
-
-      let clampedValue = Math.min(maxValue, Math.max(minValue, numValue));
-
-      if (sliderValue.length > 1) {
-        if (index === 0) {
-          clampedValue = Math.min(clampedValue, sliderValue[1]);
-        } else {
-          clampedValue = Math.max(clampedValue, sliderValue[0]);
-        }
-      }
-
-      const newSliderValues = [...sliderValue];
-      newSliderValues[index] = clampedValue;
-      setSliderValue(newSliderValues);
-
-      const newInputValues = [...inputValues];
-      newInputValues[index] = clampedValue.toString();
-      setInputValues(newInputValues);
-
-      onValueChange?.(newSliderValues);
+      setInputValue(formatValue(nextValue, step));
+      onValueChange?.(nextValue);
     },
-    [sliderValue, inputValues, minValue, maxValue, onValueChange],
+    [maxValue, minValue, onValueChange, step, value],
   );
 
-  const handleInputChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
-      const newValue = e.target.value;
-      if (newValue === "" || /^-?\d*\.?\d*$/.test(newValue)) {
-        const newInputValues = [...inputValues];
-        newInputValues[index] = newValue;
-        setInputValues(newInputValues);
-      }
-    },
-    [inputValues],
-  );
+  const handleInputChange = useCallback((rawValue: string) => {
+    if (rawValue === "" || /^-?\d*\.?\d*$/.test(rawValue)) {
+      setInputValue(rawValue);
+    }
+  }, []);
 
   const handleSliderChange = useCallback(
     (newValue: number[]) => {
-      setSliderValue(newValue);
-      setInputValues(newValue.map((v) => v.toString()));
-      onValueChange?.(newValue);
+      const nextValue = newValue[0] ?? minValue;
+      setInputValue(formatValue(nextValue, step));
+      onValueChange?.(nextValue);
     },
-    [onValueChange],
+    [minValue, onValueChange, step],
   );
 
   const resetToDefault = useCallback(() => {
-    setSliderValue(defaultValue);
-    setInputValues(defaultValue.map((v) => v.toString()));
+    setInputValue(formatValue(defaultValue, step));
     onValueChange?.(defaultValue);
-  }, [defaultValue, onValueChange]);
+  }, [defaultValue, onValueChange, step]);
 
   return {
-    sliderValue,
-    inputValues,
+    inputValue,
     validateAndUpdateValue,
     handleInputChange,
     handleSliderChange,

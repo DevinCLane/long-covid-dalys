@@ -1,4 +1,21 @@
-interface Assumption {
+import {
+  AIR_CLEANING_SCENARIOS,
+  BASELINE_INFECTION_PROPORTION,
+  DEFAULT_ACUTE_COVID_PARAMETERS,
+  DEFAULT_LONG_COVID_DISABILITY_REDUCTION,
+  DEFAULT_LONG_COVID_PARAMETERS,
+  DEFAULT_LONG_COVID_PROGRESSION_REDUCTION,
+  DEFAULT_PASC_PARAMETERS,
+  DEFAULT_POSTEXPOSURE_PROPHYLAXIS_MAXIMUM_REDUCTION,
+  DEFAULT_PREEXPOSURE_PROPHYLAXIS_EFFICACY,
+} from "@/config/daly-model";
+
+export const GROUP_LABELS = {
+  initialStates: "Base Parameters",
+  interventionParameters: "Intervention Parameters",
+} as const;
+
+interface AssumptionDefinition {
   key: string;
   group: keyof typeof GROUP_LABELS;
   sliderLabel: string;
@@ -7,27 +24,39 @@ interface Assumption {
   sliderMax: number;
   sliderStep: number;
   defaultValue: number;
-  reductionFactor?: number;
+}
+
+function toPercent(proportion: number) {
+  return proportion * 100;
+}
+
+function airCleaningReductionPercent(
+  scenarioId: keyof typeof AIR_CLEANING_SCENARIOS,
+) {
+  return toPercent(
+    1 -
+      AIR_CLEANING_SCENARIOS[scenarioId].annualInfectionProportion /
+        BASELINE_INFECTION_PROPORTION,
+  );
 }
 
 /**
- * List of interventions to display. Add or remove interventions here.
+ * UI copy remains intentionally explicit here. Numerical defaults come from
+ * daly-model.ts so a default slider run always reproduces the model.
  */
-export const ASSUMPTIONS: Assumption[] = [
+export const ASSUMPTIONS = [
   {
     key: "annualCovidInfectionRate",
-    // the "group" is the label that organizes multiple interventions of a similar category
     group: "initialStates",
     sliderLabel: "Annual COVID infection rate",
     sliderSubLabel: "Percent of people who contract COVID each year",
     sliderMin: 0,
     sliderMax: 100,
     sliderStep: 0.01,
-    defaultValue: 28.74,
+    defaultValue: toPercent(BASELINE_INFECTION_PROPORTION),
   },
   {
     key: "longCovidRate",
-    // the "group" is the label that organizes multiple interventions of a similar category
     group: "initialStates",
     sliderLabel: "Rate of developing Long COVID",
     sliderSubLabel:
@@ -35,18 +64,20 @@ export const ASSUMPTIONS: Assumption[] = [
     sliderMin: 0,
     sliderMax: 100,
     sliderStep: 0.01,
-    defaultValue: 5,
+    defaultValue: toPercent(
+      DEFAULT_LONG_COVID_PARAMETERS.onsetRiskPerInfection,
+    ),
   },
   {
     key: "disabilityWeightLongCovidMild",
     group: "initialStates",
     sliderLabel: "Disability weight for Long COVID with activity limitations",
     sliderSubLabel:
-      "Disability weights indicate an estimate of the fraction of functionality lost to the health condition (e.g., 0.1 is equivalent to 10% of full health lost)",
+      "Disability weights estimate the fraction of full health lost to a condition.",
     sliderMin: 0,
     sliderMax: 1,
     sliderStep: 0.01,
-    defaultValue: 0.1,
+    defaultValue: DEFAULT_LONG_COVID_PARAMETERS.disabilityWeightS1,
   },
   {
     key: "disabilityWeightLongCovidSignificant",
@@ -54,81 +85,79 @@ export const ASSUMPTIONS: Assumption[] = [
     sliderLabel:
       "Disability weight for Long COVID with significant activity limitations",
     sliderSubLabel:
-      "Fraction of functionality lost due to having significant activity limitations due to Long COVID",
+      "Fraction of full health lost due to significant activity limitations from Long COVID",
     sliderMin: 0,
     sliderMax: 1,
     sliderStep: 0.01,
-    defaultValue: 0.4,
+    defaultValue: DEFAULT_LONG_COVID_PARAMETERS.disabilityWeightS2,
   },
   {
     key: "acuteCovidDisabilityWeight",
     group: "initialStates",
-    sliderLabel: "Acute COVID disability weight",
+    sliderLabel: "Acute COVID duration-weighted disability",
     sliderSubLabel:
-      "Disability weight of an acute COVID infection, accounting for the short portion of the year that most people are affected.",
+      "Acute COVID disability weight adjusted for the portion of a year that an infection lasts.",
     sliderMin: 0,
     sliderMax: 1,
-    sliderStep: 0.001,
-    defaultValue: 0.015,
+    sliderStep: 0.000001,
+    defaultValue: DEFAULT_ACUTE_COVID_PARAMETERS.durationWeightedDisability,
   },
   {
     key: "otherSequelaeDisabilityWeight",
     group: "initialStates",
-    sliderLabel:
-      "Disability weight of other post-acute sequelae of COVID-19 infection",
+    sliderLabel: "PASC disability-weight multiplier",
     sliderSubLabel:
-      "Weighted average disability weight of all other post-acute sequelae of COVID-19 infection",
+      "Multiplier applied to the evidence-reviewed disability weights for all six PASC components",
     sliderMin: 0,
-    sliderMax: 1,
-    sliderStep: 0.001,
-    defaultValue: 0.105,
+    sliderMax: 2,
+    sliderStep: 0.01,
+    defaultValue: DEFAULT_PASC_PARAMETERS.disabilityWeightMultiplier,
   },
   {
     key: "riskDeathLongCovidMild",
     group: "initialStates",
-    sliderLabel: "Risk of death from Long COVID with activity limitations",
+    sliderLabel:
+      "Mortality hazard ratio for Long COVID with activity limitations",
     sliderSubLabel:
-      "Proportional annual increased risk of death due to having Long COVID with activity limitations (hazard ratios can technically range from 1 (does not cause incremental risk of death) to infinity; 50 is the hazard ratio for dying from a heart attack)",
+      "Annual mortality hazard relative to background mortality for Long COVID with activity limitations",
     sliderMin: 1,
     sliderMax: 50,
     sliderStep: 0.0001,
-    defaultValue: 1.001,
+    defaultValue: DEFAULT_LONG_COVID_PARAMETERS.mortalityHazardRatioS1,
   },
   {
     key: "riskDeathLongCovidSignificant",
     group: "initialStates",
     sliderLabel:
-      "Risk of death from Long COVID with significant activity limitations relative to background mortality",
+      "Mortality hazard ratio for Long COVID with significant activity limitations",
     sliderSubLabel:
-      "Proportional annual increased risk of death due to having Long COVID with significant activity limitations",
+      "Annual mortality hazard relative to background mortality for Long COVID with significant activity limitations",
     sliderMin: 1,
     sliderMax: 50,
     sliderStep: 0.0001,
-    defaultValue: 1.005,
+    defaultValue: DEFAULT_LONG_COVID_PARAMETERS.mortalityHazardRatioS2,
   },
   {
     key: "riskDeathAcuteCovid",
     group: "initialStates",
-    sliderLabel:
-      "Risk of death from acute COVID relative to background mortality ",
+    sliderLabel: "Acute COVID mortality multiplier",
     sliderSubLabel:
-      "Proportional increased risk of death due to having an acute (omicron-era) COVID infection relative to background mortality",
-    sliderMin: 1,
-    sliderMax: 50,
-    sliderStep: 0.001,
-    defaultValue: 1.005,
+      "Multiplier applied to the model's age-weighted acute COVID infection fatality risk",
+    sliderMin: 0,
+    sliderMax: 5,
+    sliderStep: 0.01,
+    defaultValue: DEFAULT_ACUTE_COVID_PARAMETERS.mortalityMultiplier,
   },
   {
     key: "riskDeathPasc",
     group: "initialStates",
-    sliderLabel:
-      "Risk of death from other post-acute sequelae of COVID relative to background mortality ",
+    sliderLabel: "PASC excess-mortality multiplier",
     sliderSubLabel:
-      "Weighted average proportional risk of death due to other post-acute sequelae of COVID relative to background mortality.",
-    sliderMin: 1,
-    sliderMax: 50,
-    sliderStep: 0.001,
-    defaultValue: 1.005,
+      "Multiplier applied to disease-attributable mortality in the six PASC component models",
+    sliderMin: 0,
+    sliderMax: 5,
+    sliderStep: 0.01,
+    defaultValue: DEFAULT_PASC_PARAMETERS.mortalityMultiplier,
   },
   {
     key: "rateLongCovidRecovery",
@@ -138,40 +167,40 @@ export const ASSUMPTIONS: Assumption[] = [
     sliderMin: 0,
     sliderMax: 100,
     sliderStep: 0.1,
-    defaultValue: 10,
+    defaultValue: toPercent(DEFAULT_LONG_COVID_PARAMETERS.recoveryRate),
   },
   {
     key: "rateLongCovidProgression",
     group: "initialStates",
     sliderLabel: "Rate of Long COVID progression",
     sliderSubLabel:
-      "Annual rate of progression from Long COVID with activity limitations to Long COVID with significant activity limitations",
+      "Annual rate of progression from activity limitations to significant activity limitations",
     sliderMin: 0,
     sliderMax: 100,
     sliderStep: 0.1,
-    defaultValue: 10,
+    defaultValue: toPercent(DEFAULT_LONG_COVID_PARAMETERS.progressionRate),
   },
   {
     key: "rateLongCovidImprovement",
     group: "initialStates",
     sliderLabel: "Rate of Long COVID improvement",
     sliderSubLabel:
-      "Annual rate of progression from Long COVID with significant activity limitations to Long COVID with activity limitations",
+      "Annual rate of improvement from significant activity limitations to activity limitations",
     sliderMin: 0,
     sliderMax: 100,
     sliderStep: 0.1,
-    defaultValue: 10,
+    defaultValue: toPercent(DEFAULT_LONG_COVID_PARAMETERS.improvementRate),
   },
   {
     key: "initialLongCovidMild",
     group: "initialStates",
     sliderLabel: "Initial population with Long COVID with activity limitations",
     sliderSubLabel:
-      "The proportion of people living with activity limitations due to Long COVID before the proposed intervention begins",
+      "Percent of the population with activity limitations from Long COVID at the start",
     sliderMin: 0,
     sliderMax: 100,
     sliderStep: 0.1,
-    defaultValue: 3.1,
+    defaultValue: toPercent(DEFAULT_LONG_COVID_PARAMETERS.initialState.S1),
   },
   {
     key: "initialLongCovidSignificant",
@@ -179,120 +208,114 @@ export const ASSUMPTIONS: Assumption[] = [
     sliderLabel:
       "Initial population with Long COVID with significant activity limitations",
     sliderSubLabel:
-      "The proportion of people living with significant activity limitations due to Long COVID before the proposed intervention begins",
+      "Percent of the population with significant activity limitations from Long COVID at the start",
     sliderMin: 0,
     sliderMax: 100,
     sliderStep: 0.1,
-    defaultValue: 1.3,
+    defaultValue: toPercent(DEFAULT_LONG_COVID_PARAMETERS.initialState.S2),
   },
   {
     key: "hepa",
     group: "interventionParameters",
-    sliderLabel: "HEPA filtration",
+    sliderLabel: "HEPA filtration maximum case reduction",
     sliderSubLabel:
-      "Percent of COVID-19 cases avoided by utilizing HEPA filters. The following scenarios would result in the following percents reduction: most common spaces indoor air - 8.0%, schools and daycares - 16.4%, all public indoor air 61.7%",
+      "Maximum percent of infections avoided by full HEPA implementation; other HEPA scenarios retain their evidence-based relative intensity",
     sliderMin: 0,
     sliderMax: 100,
-    sliderStep: 0.1,
-    defaultValue: 61.7,
+    sliderStep: 0.01,
+    defaultValue: airCleaningReductionPercent("hepa_all_public"),
   },
   {
     key: "uvc",
     group: "interventionParameters",
-    sliderLabel: "Far UVC irradiation",
+    sliderLabel: "Far-UVC maximum case reduction",
     sliderSubLabel:
-      "Percent of COVID-19 cases avoided by utilizing far UVC. The following scenarios would result in the following percents reduction: most common spaces indoor air - 12.0%, schools and daycares - 21.3%, all public indoor air 80.8%",
+      "Maximum percent of infections avoided by full Far-UVC implementation; other Far-UVC scenarios retain their evidence-based relative intensity",
     sliderMin: 0,
     sliderMax: 100,
-    sliderStep: 0.1,
-    defaultValue: 80.8,
+    sliderStep: 0.01,
+    defaultValue: airCleaningReductionPercent("far_uvc_all_public"),
   },
   {
     key: "preexposureProphylaxis",
     group: "interventionParameters",
-    sliderLabel: "Pre-exposure prophylaxis case reduction",
+    sliderLabel: "Pre-exposure prophylaxis efficacy",
     sliderSubLabel:
-      "Percent of cases avoided by utilizing pre-exposure prophylaxis",
+      "Relative reduction in infection at full adoption of pre-exposure prophylaxis",
     sliderMin: 0,
     sliderMax: 100,
     sliderStep: 0.01,
-    defaultValue: 70,
+    defaultValue: toPercent(DEFAULT_PREEXPOSURE_PROPHYLAXIS_EFFICACY),
   },
   {
     key: "postexposureProphylaxis",
     group: "interventionParameters",
-    sliderLabel: "Post-exposure prophylaxis case reduction",
+    sliderLabel: "Post-exposure prophylaxis maximum case reduction",
     sliderSubLabel:
-      "Percent of cases avoided by utilizing post-exposure prophylaxis",
+      "Maximum population infection reduction at full implementation of post-exposure prophylaxis",
     sliderMin: 0,
     sliderMax: 100,
     sliderStep: 0.01,
-    defaultValue: 12.38,
+    defaultValue: toPercent(DEFAULT_POSTEXPOSURE_PROPHYLAXIS_MAXIMUM_REDUCTION),
   },
   {
     key: "interventionDecreaseProgression",
     group: "interventionParameters",
-    sliderLabel:
-      "Hypothetical intervention that decreases progression of Long COVID",
+    sliderLabel: "Long COVID progression reduction",
     sliderSubLabel:
-      "Percent of Long COVID cases that would be prevented from worsening from “activity limitations” to “significant activity limitations”",
+      "Percent reduction in progression from activity limitations to significant activity limitations",
     sliderMin: 0,
     sliderMax: 100,
     sliderStep: 0.1,
-    defaultValue: 10,
+    defaultValue: toPercent(DEFAULT_LONG_COVID_PROGRESSION_REDUCTION),
   },
   {
     key: "interventionDecreaseSymptoms",
     group: "interventionParameters",
-    sliderLabel:
-      "Hypothetical intervention that decreases symptom burden of Long COVID",
+    sliderLabel: "Long COVID symptom-burden reduction",
     sliderSubLabel:
-      "Percent of Long COVID disability that would be removed based on interventions that decrease symptom burden.",
+      "Percent reduction applied to both Long COVID disability weights in the treatment scenario",
     sliderMin: 0,
     sliderMax: 100,
     sliderStep: 0.1,
-    defaultValue: 10,
+    defaultValue: toPercent(DEFAULT_LONG_COVID_DISABILITY_REDUCTION),
   },
-];
+] as const satisfies readonly AssumptionDefinition[];
 
-/**
- * Takes in a number of DALYs and reduces them by the
- * amount of an intervention multiplied by its reduction factor
- *
- * @param sliderValue  - the value of the slider in the UI
- * @param sliderMax - the max value of the slider
- * @param reductionFactor - the factor by which the intervention reduces DALYs
- * @returns - the reduced DALYs
- */
-export const baseReductionFn = (
-  sliderValue: number,
-  sliderMax: number,
-  reductionFactor: number,
-) => {
-  return (sliderValue / sliderMax) * reductionFactor;
-};
+export type Assumption = (typeof ASSUMPTIONS)[number];
+export type AssumptionKey = Assumption["key"];
+export type AssumptionValues = { [Key in AssumptionKey]: number };
 
-/**
- * Defines categories into which multiple interventions are grouped.
- */
-export const GROUP_LABELS: Record<string, string> = {
-  initialStates: "Base Parameters",
-  interventionParameters: "Intervention Parameters",
-};
+export const ASSUMPTIONS_BY_KEY = Object.fromEntries(
+  ASSUMPTIONS.map((assumption) => [assumption.key, assumption]),
+) as { [Key in AssumptionKey]: Extract<Assumption, { key: Key }> };
 
-/**
- * Groups interventions by their category for display purposes.
- */
+export const DEFAULT_ASSUMPTION_VALUES = Object.fromEntries(
+  ASSUMPTIONS.map((assumption) => [assumption.key, assumption.defaultValue]),
+) as AssumptionValues;
+
+export function getAssumptionSliderMax(
+  key: AssumptionKey,
+  values: AssumptionValues,
+) {
+  if (key === "initialLongCovidMild") {
+    return 100 - values.initialLongCovidSignificant;
+  }
+  if (key === "initialLongCovidSignificant") {
+    return 100 - values.initialLongCovidMild;
+  }
+  return ASSUMPTIONS_BY_KEY[key].sliderMax;
+}
+
 export const groupedInterventions = ASSUMPTIONS.reduce(
-  (acc, intervention) => {
-    if (!acc[intervention.group]) acc[intervention.group] = [];
-    acc[intervention.group].push(intervention);
-    return acc;
+  (groups, assumption) => {
+    groups[assumption.group].push(assumption);
+    return groups;
   },
-  {} as Record<string, Assumption[]>,
+  {
+    initialStates: [] as Assumption[],
+    interventionParameters: [] as Assumption[],
+  },
 );
 
-/**
- * Factor by which interventions lower DALYs. For use with intervention-reduction-factors.json
- */
 export type InterventionReductionFactors = Record<string, number>;

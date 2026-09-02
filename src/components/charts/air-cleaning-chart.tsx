@@ -18,31 +18,13 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart";
 
-import chartData from "@/data/data.json";
 import React, { useState } from "react";
 import { ChartModifierCheckbox } from "../chart-modifier-checkbox";
 import { cn } from "@/lib/utils";
 import { FieldGroup } from "../ui/field";
-import { AssumptionArea } from "../assumption-area";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "../ui/accordion";
-import { ASSUMPTIONS } from "@/config/assumptions";
-
-export type Condition = {
-  condition: string;
-  totals: { dalys_per_1000: number };
-};
-
-export type Scenario = {
-  id: string;
-  label: string;
-  conditions: Condition[];
-  dalys_per_1000_total: number;
-};
+import { useDalyModel } from "@/hooks/use-daly-model";
+import { ModelAssumptionsPanel } from "@/components/model-assumptions-panel";
+import { SCENARIO_LABELS_BY_ID } from "@/config/scenario-daly-calculations";
 
 function ChartDescriptionBody() {
   return (
@@ -69,105 +51,6 @@ function ChartDescriptionBody() {
     </div>
   );
 }
-
-function findBaselineDalyBreakdown() {
-  const baseline = chartData.scenarios.find(
-    (scenario: Scenario) => scenario.id === "baseline",
-  );
-  if (baseline === undefined) {
-    throw new Error("couldn't find the baseline scenario in the data");
-  }
-
-  const acuteCovid = baseline.conditions.find(
-    (condition) => condition.condition === "acute_covid",
-  )?.totals.dalys_per_1000;
-  if (acuteCovid === undefined) {
-    throw new Error("couldn't find acute covid data");
-  }
-
-  const longCovid = baseline.conditions.find(
-    (condition) => condition.condition === "long_covid",
-  )?.totals.dalys_per_1000;
-  if (longCovid === undefined) {
-    throw new Error("couldn't find long covid data");
-  }
-
-  const pasc = baseline.conditions.find(
-    (condition) => condition.condition === "pasc",
-  )?.totals.dalys_per_1000;
-  if (pasc === undefined) {
-    throw new Error("couldn't find pasc data");
-  }
-
-  return {
-    total: baseline.dalys_per_1000_total,
-    acute_covid: acuteCovid,
-    long_covid: longCovid,
-    pasc: pasc,
-  };
-}
-
-const baselineTotalDalys = findBaselineDalyBreakdown();
-
-function calculatePercentReduction(baseline: number, current: number) {
-  return Number((((baseline - current) / baseline) * 100).toFixed(2));
-}
-
-const chartRows = chartData.scenarios.map((scenario: Scenario) => {
-  const total = scenario.dalys_per_1000_total;
-  const acuteCovid = scenario.conditions.find(
-    (condition) => condition.condition === "acute_covid",
-  )?.totals.dalys_per_1000;
-  if (acuteCovid === undefined) {
-    throw new Error("couldn't find acute covid data");
-  }
-
-  const byCondition = Object.fromEntries(
-    scenario.conditions.map((condition) => [
-      condition.condition,
-      condition.totals.dalys_per_1000,
-    ]),
-  );
-
-  const longCovid = byCondition.long_covid;
-  if (longCovid === undefined) {
-    throw new Error("couldn't find long covid data");
-  }
-
-  const pasc = byCondition.pasc;
-  if (pasc === undefined) {
-    throw new Error("couldn't find pasc data");
-  }
-
-  return {
-    id: scenario.id,
-    label: scenario.label,
-    acute_covid: byCondition.acute_covid,
-    long_covid: longCovid,
-    pasc: pasc,
-    total: total,
-    percent_reduction: calculatePercentReduction(
-      baselineTotalDalys.total,
-      total,
-    ),
-    percent_reduction_acute_covid: calculatePercentReduction(
-      baselineTotalDalys.acute_covid,
-      acuteCovid,
-    ),
-    percent_reduction_long_covid: calculatePercentReduction(
-      baselineTotalDalys.long_covid,
-      longCovid,
-    ),
-    percent_reduction_pasc: calculatePercentReduction(
-      baselineTotalDalys.pasc,
-      pasc,
-    ),
-  };
-});
-
-const scenarioLabelsById = new Map(
-  chartRows.map((scenario) => [scenario.id, scenario.label]),
-);
 
 // formatting/text wrapping for the y axis labels
 const Y_AXIS_LABEL_MAX_CHARS = 17;
@@ -249,7 +132,7 @@ function ScenarioYAxisTick({
 }: ScenarioYAxisTickProps) {
   const [isFocused, setIsFocused] = React.useState(false);
   const scenarioId = String(payload?.value ?? "");
-  const label = scenarioLabelsById.get(scenarioId) ?? scenarioId;
+  const label = SCENARIO_LABELS_BY_ID.get(scenarioId) ?? scenarioId;
   const labelLines = wrapScenarioLabel(label);
   const isClickable = Boolean(scenarioId && onScenarioSelect);
   const labelHeight = labelLines.length * Y_AXIS_LABEL_LINE_HEIGHT + 6;
@@ -315,6 +198,13 @@ function ScenarioYAxisTick({
 }
 
 export function AirCleaningChart({ onScenarioSelect }: BarChartStackedProps) {
+  const { scenarioRows } = useDalyModel();
+  const chartRows = scenarioRows.filter(
+    (scenario) =>
+      scenario.id === "baseline" ||
+      scenario.id.startsWith("hepa_") ||
+      scenario.id.startsWith("far_uvc_"),
+  );
   const [legendPortal, setLegendPortal] = useState<HTMLDivElement | null>(null);
   const [breakdownChecked, setBreakdownChecked] = useState(false);
   const [percentReductionChecked, setPercentReductionChecked] = useState(false);
@@ -489,32 +379,7 @@ export function AirCleaningChart({ onScenarioSelect }: BarChartStackedProps) {
         <CardDescription className="mt-3 block md:hidden">
           <ChartDescriptionBody />
         </CardDescription>
-        <Accordion type="single" collapsible>
-          <AccordionItem value="modelAssumptions">
-            <AccordionTrigger className="text-xl">
-              Model Assumptions
-            </AccordionTrigger>
-            <AccordionContent className="flex flex-col gap-4 text-balance">
-              Sliders not hooked into live data
-              <div className="grid grid-cols-1 gap-x-8 gap-y-2 md:grid-cols-2">
-                {ASSUMPTIONS.map((assumption) => (
-                  <AssumptionArea
-                    key={assumption.key}
-                    sliderLabel={assumption.sliderLabel}
-                    sliderSubLabel={assumption.sliderSubLabel}
-                    sliderMin={assumption.sliderMin}
-                    sliderMax={assumption.sliderMax}
-                    sliderStep={assumption.sliderStep}
-                    sliderInitialValue={assumption.defaultValue}
-                    sliderDefaultValue={assumption.defaultValue}
-                    sliderDisabled={false}
-                    onSliderChange={([value]) => value}
-                  />
-                ))}
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
+        <ModelAssumptionsPanel />
       </CardContent>
     </Card>
   );

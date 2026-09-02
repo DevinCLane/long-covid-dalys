@@ -6,10 +6,10 @@ interface AssumptionAreaProps {
   sliderMin: number;
   sliderMax: number;
   sliderStep: number;
-  sliderInitialValue: number;
+  sliderValue: number;
   sliderDefaultValue: number;
   sliderDisabled: boolean;
-  onSliderChange: (value: number[]) => void;
+  onSliderChange: (value: number) => void;
 }
 
 export function AssumptionArea({
@@ -18,7 +18,7 @@ export function AssumptionArea({
   sliderMin,
   sliderMax,
   sliderStep,
-  sliderInitialValue,
+  sliderValue,
   sliderDefaultValue,
   sliderDisabled,
   onSliderChange,
@@ -33,8 +33,8 @@ export function AssumptionArea({
             minValue={sliderMin}
             maxValue={sliderMax}
             step={sliderStep}
-            initialValue={[sliderInitialValue]}
-            defaultValue={[sliderDefaultValue]}
+            value={sliderValue}
+            defaultValue={sliderDefaultValue}
             disabled={sliderDisabled}
             onValueChange={onSliderChange}
           />

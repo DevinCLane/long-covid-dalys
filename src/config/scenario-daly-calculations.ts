@@ -1,5 +1,12 @@
-import chartData from "@/data/data-2026-08-28.json";
-import { runAcuteCovid, runLongCovid, runPasc } from "@/config/daly-model";
+import type { AssumptionValues } from "@/config/assumptions";
+import {
+  infectionUnderPostExposureProphylaxis,
+  infectionUnderPreExposureProphylaxis,
+  runAcuteCovid,
+  runLongCovid,
+  runPasc,
+} from "@/config/daly-model";
+import chartData from "@/data/data-2026-09-02.json";
 
 export interface ScenarioDalyRow {
   id: string;
@@ -25,46 +32,223 @@ interface ScenarioDalyTotals {
   total: number;
 }
 
+type BaseLongCovidParameters = {
+  initialState: { H: number; S1: number; S2: number };
+  onsetRiskPerInfection: number;
+  recoveryRate: number;
+  progressionRate: number;
+  improvementRate: number;
+  mortalityHazardRatioS1: number;
+  mortalityHazardRatioS2: number;
+  disabilityWeightS1: number;
+  disabilityWeightS2: number;
+};
+
+type ScenarioDefinition = {
+  id: string;
+  label: string;
+  annualInfectionProportion: (values: AssumptionValues) => number;
+  transformLongCovidParameters?: (
+    parameters: BaseLongCovidParameters,
+    values: AssumptionValues,
+  ) => BaseLongCovidParameters;
+};
+
+const sourceBaseline = chartData.main_scenarios.find(
+  (scenario) => scenario.id === "baseline",
+);
+
+if (!sourceBaseline) {
+  throw new Error("couldn't find the baseline scenario in the data");
+}
+
+const sourceBaselineInfectionProportion =
+  sourceBaseline.annual_sars_cov_2_infection_proportion;
+
+function toProportion(percent: number) {
+  return percent * 0.01;
+}
+
+function selectedBaseline(values: AssumptionValues) {
+  return toProportion(values.annualCovidInfectionRate);
+}
+
+function sourceReductionForScenario(
+  scenario: (typeof chartData.main_scenarios)[number],
+) {
+  return (
+    1 -
+    scenario.annual_sars_cov_2_infection_proportion /
+      sourceBaselineInfectionProportion
+  );
+}
+
+function airScenarioDefinition(
+  scenario: (typeof chartData.main_scenarios)[number],
+): ScenarioDefinition {
+  if (scenario.id === "baseline") {
+    return {
+      id: scenario.id,
+      label: scenario.label,
+      annualInfectionProportion: selectedBaseline,
+    };
+  }
+
+  const assumptionKey = scenario.id.startsWith("hepa_") ? "hepa" : "uvc";
+  const fullImplementationId =
+    assumptionKey === "hepa" ? "hepa_all_public" : "far_uvc_all_public";
+  const fullImplementationScenario = chartData.main_scenarios.find(
+    (candidate) => candidate.id === fullImplementationId,
+  );
+
+  if (!fullImplementationScenario) {
+    throw new Error(`couldn't find ${fullImplementationId} in the data`);
+  }
+
+  const relativeIntensity =
+    sourceReductionForScenario(scenario) /
+    sourceReductionForScenario(fullImplementationScenario);
+
+  return {
+    id: scenario.id,
+    label: scenario.label,
+    annualInfectionProportion: (values) =>
+      selectedBaseline(values) *
+      (1 - toProportion(values[assumptionKey]) * relativeIntensity),
+  };
+}
+
+/**
+ * Main scenarios come from the validated export. The four additional scenario
+ * rows expose the intervention sensitivities that are also present in that
+ * export, while allowing their selected level to remain live.
+ */
+export const SCENARIO_DEFINITIONS: readonly ScenarioDefinition[] = [
+  ...chartData.main_scenarios.map(airScenarioDefinition),
+  {
+    id: "preexposure_prophylaxis",
+    label: "Pre-exposure prophylaxis (full adoption)",
+    annualInfectionProportion: (values) =>
+      infectionUnderPreExposureProphylaxis({
+        baselineInfectionProportion: selectedBaseline(values),
+        adoption: 1,
+        efficacy: toProportion(values.preexposureProphylaxis),
+      }),
+  },
+  {
+    id: "postexposure_prophylaxis",
+    label: "Post-exposure prophylaxis (full implementation)",
+    annualInfectionProportion: (values) =>
+      infectionUnderPostExposureProphylaxis({
+        baselineInfectionProportion: selectedBaseline(values),
+        implementation: 1,
+        maximumPopulationInfectionReduction: toProportion(
+          values.postexposureProphylaxis,
+        ),
+      }),
+  },
+  {
+    id: "long_covid_progression_reduction",
+    label: "Long COVID progression reduction",
+    annualInfectionProportion: selectedBaseline,
+    transformLongCovidParameters: (parameters, values) => ({
+      ...parameters,
+      progressionRate:
+        parameters.progressionRate *
+        (1 - toProportion(values.interventionDecreaseProgression)),
+    }),
+  },
+  {
+    id: "long_covid_disability_reduction",
+    label: "Long COVID symptom-burden reduction",
+    annualInfectionProportion: selectedBaseline,
+    transformLongCovidParameters: (parameters, values) => {
+      const remainingDisability =
+        1 - toProportion(values.interventionDecreaseSymptoms);
+      return {
+        ...parameters,
+        disabilityWeightS1: parameters.disabilityWeightS1 * remainingDisability,
+        disabilityWeightS2: parameters.disabilityWeightS2 * remainingDisability,
+      };
+    },
+  },
+];
+
+export const SCENARIO_LABELS_BY_ID = new Map(
+  SCENARIO_DEFINITIONS.map((scenario) => [scenario.id, scenario.label]),
+);
+
+export const OVERVIEW_INTERVENTION_SCENARIO_IDS = new Set([
+  "hepa_all_public",
+  "far_uvc_all_public",
+  "preexposure_prophylaxis",
+  "postexposure_prophylaxis",
+  "long_covid_progression_reduction",
+  "long_covid_disability_reduction",
+]);
+
 function calculatePercentReduction(baseline: number, current: number) {
   if (baseline === 0) return 0;
   return Number((((baseline - current) / baseline) * 100).toFixed(2));
 }
 
-/**
- * Recalculate DALYs for every scenario after changing the baseline annual
- * infection rate. Each intervention keeps the same proportional reduction in
- * infections that it has in the source scenario data.
- */
+function buildBaseModelInputs(values: AssumptionValues) {
+  const initialS1 = toProportion(values.initialLongCovidMild);
+  const initialS2 = toProportion(values.initialLongCovidSignificant);
+
+  return {
+    acuteParameters: {
+      durationWeightedDisability: values.acuteCovidDisabilityWeight,
+      mortalityMultiplier: values.riskDeathAcuteCovid,
+    },
+    longCovidParameters: {
+      initialState: {
+        H: 1 - initialS1 - initialS2,
+        S1: initialS1,
+        S2: initialS2,
+      },
+      onsetRiskPerInfection: toProportion(values.longCovidRate),
+      recoveryRate: toProportion(values.rateLongCovidRecovery),
+      progressionRate: toProportion(values.rateLongCovidProgression),
+      improvementRate: toProportion(values.rateLongCovidImprovement),
+      mortalityHazardRatioS1: values.riskDeathLongCovidMild,
+      mortalityHazardRatioS2: values.riskDeathLongCovidSignificant,
+      disabilityWeightS1: values.disabilityWeightLongCovidMild,
+      disabilityWeightS2: values.disabilityWeightLongCovidSignificant,
+    } satisfies BaseLongCovidParameters,
+    pascParameters: {
+      disabilityWeightMultiplier: values.otherSequelaeDisabilityWeight,
+      mortalityMultiplier: values.riskDeathPasc,
+    },
+  };
+}
+
 export function calculateScenarioDalyRows(
-  baselineInfectionRatePercent: number,
+  values: AssumptionValues,
 ): ScenarioDalyRow[] {
-  const sourceBaseline = chartData.main_scenarios.find(
-    (scenario) => scenario.id === "baseline",
-  );
+  const baseInputs = buildBaseModelInputs(values);
 
-  if (!sourceBaseline) {
-    throw new Error("couldn't find the baseline scenario in the data");
-  }
-
-  const selectedBaselineProportion = baselineInfectionRatePercent * 0.01;
-  const sourceBaselineProportion =
-    sourceBaseline.annual_sars_cov_2_infection_proportion;
-
-  const scenarioTotals: ScenarioDalyTotals[] = chartData.main_scenarios.map(
+  const scenarioTotals: ScenarioDalyTotals[] = SCENARIO_DEFINITIONS.map(
     (scenario) => {
-      const scenarioReductionMultiplier =
-        scenario.annual_sars_cov_2_infection_proportion /
-        sourceBaselineProportion;
       const annualInfectionProportion =
-        selectedBaselineProportion * scenarioReductionMultiplier;
+        scenario.annualInfectionProportion(values);
+      const longCovidParameters = scenario.transformLongCovidParameters
+        ? scenario.transformLongCovidParameters(
+            baseInputs.longCovidParameters,
+            values,
+          )
+        : baseInputs.longCovidParameters;
 
       const acuteCovid = runAcuteCovid({
+        userParameters: baseInputs.acuteParameters,
         userOptions: { annualInfectionProportion },
       }).totals.dalysPer1000;
       const longCovid = runLongCovid({
+        userParameters: longCovidParameters,
         userOptions: { annualInfectionProportion },
       }).totals.dalysPer1000;
       const pasc = runPasc({
+        userParameters: baseInputs.pascParameters,
         userOptions: { annualInfectionProportion },
       }).totals.dalysPer1000;
 

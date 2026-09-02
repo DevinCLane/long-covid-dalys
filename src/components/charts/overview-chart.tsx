@@ -18,21 +18,17 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart";
 
-import chartData from "@/data/data-2026-08-28.json";
 import React, { useState } from "react";
 import { ChartModifierCheckbox } from "../chart-modifier-checkbox";
 import { cn } from "@/lib/utils";
 import { FieldGroup } from "../ui/field";
-import { AssumptionArea } from "../assumption-area";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "../ui/accordion";
-import { ASSUMPTIONS } from "@/config/assumptions";
 import { Separator } from "../ui/separator";
-import { calculateScenarioDalyRows } from "@/config/scenario-daly-calculations";
+import { useDalyModel } from "@/hooks/use-daly-model";
+import { ModelAssumptionsPanel } from "@/components/model-assumptions-panel";
+import {
+  OVERVIEW_INTERVENTION_SCENARIO_IDS,
+  SCENARIO_LABELS_BY_ID,
+} from "@/config/scenario-daly-calculations";
 
 /**
  * Text for the chart description body
@@ -67,10 +63,6 @@ function ChartDescriptionBody() {
 this section builds the clickable Y axis labels
 
 */
-const scenarioLabelsById = new Map(
-  chartData.main_scenarios.map((scenario) => [scenario.id, scenario.label]),
-);
-
 // formatting/text wrapping for the y axis labels
 const Y_AXIS_LABEL_MAX_CHARS = 17;
 const Y_AXIS_LABEL_WIDTH = 132;
@@ -114,7 +106,7 @@ function ScenarioYAxisTick({
 }: ScenarioYAxisTickProps) {
   const [isFocused, setIsFocused] = React.useState(false);
   const scenarioId = String(payload?.value ?? "");
-  const label = scenarioLabelsById.get(scenarioId) ?? scenarioId;
+  const label = SCENARIO_LABELS_BY_ID.get(scenarioId) ?? scenarioId;
   const labelLines = wrapScenarioLabel(label);
   const isClickable = Boolean(scenarioId && onScenarioSelect);
   const labelHeight = labelLines.length * Y_AXIS_LABEL_LINE_HEIGHT + 6;
@@ -216,23 +208,16 @@ const chartConfig = {
 
 interface BarChartStackedProps {
   onScenarioSelect?: (scenarioId: string) => void;
-  annualInfectionRate: number;
-  onAnnualInfectionRateChange: (updatedNumber: number) => void;
 }
 
-export function OverviewChart({
-  onScenarioSelect,
-  annualInfectionRate,
-  onAnnualInfectionRateChange,
-}: BarChartStackedProps) {
+export function OverviewChart({ onScenarioSelect }: BarChartStackedProps) {
+  const { scenarioRows: chartRows } = useDalyModel();
   const [legendPortal, setLegendPortal] = useState<HTMLDivElement | null>(null);
   const [breakdownChecked, setBreakdownChecked] = useState(false);
   const [dalysPer1000, setDalysPer1000] = useState(false);
   const [allHepaChecked, setAllHepaChecked] = useState(false);
   const [allUvcChecked, setAllUvcChecked] = useState(false);
   const usePercentReductionBreakdown = breakdownChecked && !dalysPer1000;
-  const chartRows = calculateScenarioDalyRows(annualInfectionRate);
-
   const visibleRows = chartRows.filter((row) => {
     if (
       !allHepaChecked &&
@@ -243,6 +228,7 @@ export function OverviewChart({
     if (allHepaChecked && row.id.startsWith("hepa_")) return true;
     if (allUvcChecked && row.id.startsWith("far_uvc_")) return true;
     if (dalysPer1000 && row.id.startsWith("baseline")) return true;
+    if (OVERVIEW_INTERVENTION_SCENARIO_IDS.has(row.id)) return true;
     return false;
   });
 
@@ -428,41 +414,7 @@ export function OverviewChart({
         <CardDescription className="mt-3 block md:hidden">
           <ChartDescriptionBody />
         </CardDescription>
-        <Accordion type="single" collapsible>
-          <AccordionItem value="modelAssumptions">
-            <AccordionTrigger className="cursor-pointer text-xl">
-              Model Assumptions
-            </AccordionTrigger>
-            <AccordionContent className="flex flex-col gap-4 text-balance">
-              {/* Sliders not hooked into live data */}
-              <div className="grid grid-cols-1 gap-x-8 gap-y-2 md:grid-cols-2">
-                {ASSUMPTIONS.map((assumption) => (
-                  <AssumptionArea
-                    key={assumption.key}
-                    sliderLabel={assumption.sliderLabel}
-                    sliderSubLabel={assumption.sliderSubLabel}
-                    sliderMin={assumption.sliderMin}
-                    sliderMax={assumption.sliderMax}
-                    sliderStep={assumption.sliderStep}
-                    sliderInitialValue={
-                      assumption.key === "annualCovidInfectionRate"
-                        ? annualInfectionRate
-                        : assumption.defaultValue
-                    }
-                    sliderDefaultValue={assumption.defaultValue}
-                    sliderDisabled={false}
-                    onSliderChange={
-                      assumption.key === "annualCovidInfectionRate"
-                        ? ([sliderValue]) =>
-                            onAnnualInfectionRateChange(sliderValue)
-                        : () => {}
-                    }
-                  />
-                ))}
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
+        <ModelAssumptionsPanel />
       </CardContent>
     </Card>
   );

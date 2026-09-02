@@ -16,7 +16,6 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart";
 
-import chartData from "@/data/data.json";
 import {
   Select,
   SelectContent,
@@ -25,17 +24,11 @@ import {
   SelectValue,
 } from "../ui/select";
 import { Separator } from "../ui/separator";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "../ui/accordion";
-import { ASSUMPTIONS } from "@/config/assumptions";
-import { AssumptionArea } from "../assumption-area";
-import { calculateScenarioDalyRows } from "@/config/scenario-daly-calculations";
+import { useDalyModel } from "@/hooks/use-daly-model";
+import { ModelAssumptionsPanel } from "@/components/model-assumptions-panel";
+import type { ScenarioDalyRow } from "@/config/scenario-daly-calculations";
 
-export type Scenario = (typeof chartData.scenarios)[number];
+export type Scenario = ScenarioDalyRow;
 
 const chartConfig = {
   acute_covid: {
@@ -60,10 +53,8 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 interface DetailedBarChartProps {
-  scenarioId: Scenario["id"];
+  scenarioId: string;
   onScenarioSelect: (scenarioId: string) => void;
-  annualInfectionRate: number;
-  onAnnualInfectionRateChange: (updatedNumber: number) => void;
 }
 
 interface ChartDescriptionBodyProps {
@@ -83,18 +74,11 @@ function ChartDescriptionBody({ scenario }: ChartDescriptionBodyProps) {
 export function DetailedBarChart({
   scenarioId,
   onScenarioSelect,
-  annualInfectionRate,
-  onAnnualInfectionRateChange,
 }: DetailedBarChartProps) {
-  // match the scenario that has been clicked by the user
-  const scenario = chartData.scenarios.find(
-    (scenario) => scenario.id === scenarioId,
-  );
-  const calculatedScenario = calculateScenarioDalyRows(
-    annualInfectionRate,
-  ).find((scenario) => scenario.id === scenarioId);
+  const { scenarioRows } = useDalyModel();
+  const scenario = scenarioRows.find((scenario) => scenario.id === scenarioId);
 
-  if (!scenario || !calculatedScenario) {
+  if (!scenario) {
     return (
       <Card>
         <CardHeader className="flex items-center gap-2 space-y-0 border-b sm:flex-row">
@@ -115,25 +99,25 @@ export function DetailedBarChart({
     {
       key: "acute_covid",
       label: "Acute COVID",
-      dalys: calculatedScenario.acute_covid,
+      dalys: scenario.acute_covid,
       fill: "var(--color-acute_covid)",
     },
     {
       key: "long_covid",
       label: "Long COVID",
-      dalys: calculatedScenario.long_covid,
+      dalys: scenario.long_covid,
       fill: "var(--color-long_covid)",
     },
     {
       key: "pasc",
       label: "other sequelae",
-      dalys: calculatedScenario.pasc,
+      dalys: scenario.pasc,
       fill: "var(--color-pasc)",
     },
     {
       key: "total",
       label: "Total",
-      dalys: calculatedScenario.total,
+      dalys: scenario.total,
       fill: "var(--color-total)",
     },
   ];
@@ -156,8 +140,8 @@ export function DetailedBarChart({
                   <SelectValue placeholder="Last 3 months" />
                 </SelectTrigger>
                 <SelectContent className="w-full rounded-xl">
-                  {chartData.scenarios.map((scenario) => (
-                    <SelectItem value={scenario.id}>
+                  {scenarioRows.map((scenario) => (
+                    <SelectItem key={scenario.id} value={scenario.id}>
                       {scenario.label}
                     </SelectItem>
                   ))}
@@ -227,42 +211,7 @@ export function DetailedBarChart({
         <CardDescription className="mt-3 block md:hidden">
           <ChartDescriptionBody scenario={scenario} />
         </CardDescription>
-        <Accordion type="single" collapsible>
-          <AccordionItem value="modelAssumptions">
-            <AccordionTrigger className="text-xl">
-              Model Assumptions
-            </AccordionTrigger>
-            <AccordionContent className="flex flex-col gap-4 text-balance">
-              Only the annual COVID infection rate slider is connected to live
-              data.
-              <div className="grid grid-cols-1 gap-x-8 gap-y-2 md:grid-cols-2">
-                {ASSUMPTIONS.map((assumption) => (
-                  <AssumptionArea
-                    key={assumption.key}
-                    sliderLabel={assumption.sliderLabel}
-                    sliderSubLabel={assumption.sliderSubLabel}
-                    sliderMin={assumption.sliderMin}
-                    sliderMax={assumption.sliderMax}
-                    sliderStep={assumption.sliderStep}
-                    sliderInitialValue={
-                      assumption.key === "annualCovidInfectionRate"
-                        ? annualInfectionRate
-                        : assumption.defaultValue
-                    }
-                    sliderDefaultValue={assumption.defaultValue}
-                    sliderDisabled={false}
-                    onSliderChange={
-                      assumption.key === "annualCovidInfectionRate"
-                        ? ([sliderValue]) =>
-                            onAnnualInfectionRateChange(sliderValue)
-                        : () => {}
-                    }
-                  />
-                ))}
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
+        <ModelAssumptionsPanel />
       </CardContent>
     </Card>
   );

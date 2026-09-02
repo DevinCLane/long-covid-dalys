@@ -1,0 +1,2739 @@
+{
+  "schema_version": "1.4",
+  "generated_on": "2026-09-02",
+  "title": "Five-year COVID DALY model outputs",
+  "scope": {
+    "included_outcomes": ["Acute COVID", "Long COVID", "PASC"],
+    "excluded_outcomes": [],
+    "pasc_note": "PASC is included as an evidence-reviewed six-component aggregate. Its calculations match R; named sensitivity ranges retain scientific uncertainty that is not represented as a confidence interval.",
+    "reporting_unit": "Cumulative five-year DALYs per 1,000 adults",
+    "population_model": "Stable adult population with replacement into H"
+  },
+  "configuration": {
+    "run_date": "2026-09-01",
+    "model_file": "model/daly_model_final.R",
+    "horizon_years": "5",
+    "population_size": "1000",
+    "stable_population": "TRUE",
+    "stable_replacement": "H",
+    "use_population_weighted_age": "TRUE",
+    "aging_of_mortality_and_life_expectancy_across_cycles": "FALSE; adult-population-weighted values are held constant",
+    "discount_rate": "0.001",
+    "long_covid_r_S2S1": "0.1",
+    "included_outcomes": "Acute COVID; Long COVID; PASC",
+    "pasc_status": "Evidence-reviewed six-component aggregate",
+    "adult_weighted_background_mortality_rate": "0.0111190500953869",
+    "adult_weighted_remaining_life_expectancy": "41.926785696988",
+    "acute_duration_weighted_disability": "0.00888944",
+    "acute_case_fatality_rate": "0.000937845720022796",
+    "acute_ifr_method": "Age-specific IFR multiplied by age-specific remaining life expectancy and ACS adult population share, then summed",
+    "acute_yll_per_infection": "0.0160200098776566",
+    "acute_death_weighted_remaining_life_expectancy": "17.0817113472215",
+    "acute_ifr_source": "https://doi.org/10.1038/s41467-024-47199-3; February 2023 England estimates",
+    "baseline_annual_infection_proportion": "0.277",
+    "long_covid_onset_risk_per_infection": "0.05",
+    "baseline_effective_long_covid_onset_rate": "0.01385",
+    "long_covid_onset_formula": "annual infection proportion * Long COVID risk per infection",
+    "reporting_unit": "cumulative five-year DALYs per person and per 1,000 adults",
+    "annual_results_exported": "FALSE"
+  },
+  "main_scenarios": [
+    {
+      "id": "baseline",
+      "label": "Baseline",
+      "annual_sars_cov_2_infection_proportion": 0.277,
+      "horizon_years": 5,
+      "outcomes": {
+        "acute_covid": {
+          "dalys_per_person": 0.0344995880805543,
+          "dalys_per_1000": 34.499588080554297
+        },
+        "long_covid": {
+          "dalys_per_person": 0.0604901147610254,
+          "dalys_per_1000": 60.490114761025403
+        },
+        "pasc": {
+          "status": "evidence_reviewed",
+          "dalys_per_person": 0.134250732800659,
+          "dalys_per_1000": 134.25073280065899
+        },
+        "acute_plus_long_covid": {
+          "dalys_per_person": 0.0949897028415797,
+          "dalys_per_1000": 94.9897028415797,
+          "dalys_averted_per_1000": 0,
+          "percent_reduction_vs_baseline": 0
+        },
+        "acute_plus_long_covid_plus_pasc": {
+          "status": "primary_model_total",
+          "dalys_per_person": 0.229240435642239,
+          "dalys_per_1000": 229.24043564223899,
+          "dalys_averted_per_1000": 0,
+          "percent_reduction_vs_baseline": 0
+        }
+      }
+    },
+    {
+      "id": "hepa_most_public",
+      "label": "HEPA in most common indoor air",
+      "annual_sars_cov_2_infection_proportion": 0.254832289492,
+      "horizon_years": 5,
+      "outcomes": {
+        "acute_covid": {
+          "dalys_per_person": 0.0317386607115472,
+          "dalys_per_1000": 31.738660711547201
+        },
+        "long_covid": {
+          "dalys_per_person": 0.0589614176281558,
+          "dalys_per_1000": 58.9614176281558
+        },
+        "pasc": {
+          "status": "evidence_reviewed",
+          "dalys_per_person": 0.123524959603641,
+          "dalys_per_1000": 123.52495960364099
+        },
+        "acute_plus_long_covid": {
+          "dalys_per_person": 0.09070007833970301,
+          "dalys_per_1000": 90.700078339702998,
+          "dalys_averted_per_1000": 4.28962450187667,
+          "percent_reduction_vs_baseline": 4.51588369428921
+        },
+        "acute_plus_long_covid_plus_pasc": {
+          "status": "primary_model_total",
+          "dalys_per_person": 0.214225037943344,
+          "dalys_per_1000": 214.22503794334401,
+          "dalys_averted_per_1000": 15.0153976988948,
+          "percent_reduction_vs_baseline": 6.55006506894289
+        }
+      }
+    },
+    {
+      "id": "hepa_schools_and_daycares",
+      "label": "HEPA schools and daycares",
+      "annual_sars_cov_2_infection_proportion": 0.231700765484,
+      "horizon_years": 5,
+      "outcomes": {
+        "acute_covid": {
+          "dalys_per_person": 0.0288576930221918,
+          "dalys_per_1000": 28.8576930221918
+        },
+        "long_covid": {
+          "dalys_per_person": 0.0573610145641782,
+          "dalys_per_1000": 57.361014564178198
+        },
+        "pasc": {
+          "status": "evidence_reviewed",
+          "dalys_per_person": 0.112329510297156,
+          "dalys_per_1000": 112.32951029715601
+        },
+        "acute_plus_long_covid": {
+          "dalys_per_person": 0.08621870758637,
+          "dalys_per_1000": 86.218707586370002,
+          "dalys_averted_per_1000": 8.770995255209749,
+          "percent_reduction_vs_baseline": 9.233627427846249
+        },
+        "acute_plus_long_covid_plus_pasc": {
+          "status": "primary_model_total",
+          "dalys_per_person": 0.198548217883526,
+          "dalys_per_1000": 198.54821788352601,
+          "dalys_averted_per_1000": 30.6922177587128,
+          "percent_reduction_vs_baseline": 13.388657927091099
+        }
+      }
+    },
+    {
+      "id": "hepa_all_public",
+      "label": "HEPA all public indoor air",
+      "annual_sars_cov_2_infection_proportion": 0.105923103688,
+      "horizon_years": 5,
+      "outcomes": {
+        "acute_covid": {
+          "dalys_per_person": 0.0131924312110103,
+          "dalys_per_1000": 13.1924312110103
+        },
+        "long_covid": {
+          "dalys_per_person": 0.0485642217276133,
+          "dalys_per_1000": 48.564221727613301
+        },
+        "pasc": {
+          "status": "evidence_reviewed",
+          "dalys_per_person": 0.0513945239356737,
+          "dalys_per_1000": 51.394523935673703
+        },
+        "acute_plus_long_covid": {
+          "dalys_per_person": 0.0617566529386236,
+          "dalys_per_1000": 61.756652938623603,
+          "dalys_averted_per_1000": 33.233049902956097,
+          "percent_reduction_vs_baseline": 34.985949959629799
+        },
+        "acute_plus_long_covid_plus_pasc": {
+          "status": "primary_model_total",
+          "dalys_per_person": 0.113151176874297,
+          "dalys_per_1000": 113.15117687429699,
+          "dalys_averted_per_1000": 116.089258767942,
+          "percent_reduction_vs_baseline": 50.640829765790002
+        }
+      }
+    },
+    {
+      "id": "far_uvc_most_public",
+      "label": "Far UVC in most common indoor air",
+      "annual_sars_cov_2_infection_proportion": 0.243748434238,
+      "horizon_years": 5,
+      "outcomes": {
+        "acute_covid": {
+          "dalys_per_person": 0.0303581970270436,
+          "dalys_per_1000": 30.358197027043602
+        },
+        "long_covid": {
+          "dalys_per_person": 0.058195226981319,
+          "dalys_per_1000": 58.195226981319003
+        },
+        "pasc": {
+          "status": "evidence_reviewed",
+          "dalys_per_person": 0.11816089897202,
+          "dalys_per_1000": 118.16089897201999
+        },
+        "acute_plus_long_covid": {
+          "dalys_per_person": 0.0885534240083627,
+          "dalys_per_1000": 88.553424008362697,
+          "dalys_averted_per_1000": 6.43627883321702,
+          "percent_reduction_vs_baseline": 6.7757647836326
+        },
+        "acute_plus_long_covid_plus_pasc": {
+          "status": "primary_model_total",
+          "dalys_per_person": 0.206714322980383,
+          "dalys_per_1000": 206.714322980383,
+          "dalys_averted_per_1000": 22.526112661855901,
+          "percent_reduction_vs_baseline": 9.82641330215014
+        }
+      }
+    },
+    {
+      "id": "far_uvc_schools_and_daycares",
+      "label": "Far UVC schools and daycares",
+      "annual_sars_cov_2_infection_proportion": 0.218110995129,
+      "horizon_years": 5,
+      "outcomes": {
+        "acute_covid": {
+          "dalys_per_person": 0.0271651245046581,
+          "dalys_per_1000": 27.165124504658099
+        },
+        "long_covid": {
+          "dalys_per_person": 0.0564182733791982,
+          "dalys_per_1000": 56.418273379198197
+        },
+        "pasc": {
+          "status": "evidence_reviewed",
+          "dalys_per_person": 0.10575059345476,
+          "dalys_per_1000": 105.75059345475999
+        },
+        "acute_plus_long_covid": {
+          "dalys_per_person": 0.0835833978838562,
+          "dalys_per_1000": 83.583397883856193,
+          "dalys_averted_per_1000": 11.406304957723499,
+          "percent_reduction_vs_baseline": 12.0079383517458
+        },
+        "acute_plus_long_covid_plus_pasc": {
+          "status": "primary_model_total",
+          "dalys_per_person": 0.189333991338617,
+          "dalys_per_1000": 189.33399133861701,
+          "dalys_averted_per_1000": 39.906444303622202,
+          "percent_reduction_vs_baseline": 17.408117460525901
+        }
+      }
+    },
+    {
+      "id": "far_uvc_all_public",
+      "label": "Far UVC all public indoor air",
+      "annual_sars_cov_2_infection_proportion": 0.0532988865692,
+      "horizon_years": 5,
+      "outcomes": {
+        "acute_covid": {
+          "dalys_per_person": 0.00663822971765195,
+          "dalys_per_1000": 6.63822971765195
+        },
+        "long_covid": {
+          "dalys_per_person": 0.0448357531769343,
+          "dalys_per_1000": 44.835753176934297
+        },
+        "pasc": {
+          "status": "evidence_reviewed",
+          "dalys_per_person": 0.0258699079044776,
+          "dalys_per_1000": 25.8699079044776
+        },
+        "acute_plus_long_covid": {
+          "dalys_per_person": 0.0514739828945862,
+          "dalys_per_1000": 51.4739828945862,
+          "dalys_averted_per_1000": 43.515719946993499,
+          "percent_reduction_vs_baseline": 45.810986501944697
+        },
+        "acute_plus_long_covid_plus_pasc": {
+          "status": "primary_model_total",
+          "dalys_per_person": 0.0773438907990638,
+          "dalys_per_1000": 77.3438907990638,
+          "dalys_averted_per_1000": 151.89654484317501,
+          "percent_reduction_vs_baseline": 66.260799242342401
+        }
+      }
+    }
+  ],
+  "pasc_components": [
+    {
+      "component": "heart_failure",
+      "label": "Heart failure",
+      "five_year_yld_per_1000": 1.56418822936106,
+      "five_year_yll_per_1000": 90.756980418726698,
+      "five_year_dalys_per_1000": 92.321168648087806,
+      "lower_dalys_per_1000": 69.368103457999993,
+      "upper_dalys_per_1000": 102.0494913691,
+      "range_reason": "Heart-failure onset method and chronic mortality after year 1"
+    },
+    {
+      "component": "stroke",
+      "label": "Stroke",
+      "five_year_yld_per_1000": 0.393061472331262,
+      "five_year_yll_per_1000": 28.6817203254658,
+      "five_year_dalys_per_1000": 29.074781797797101,
+      "lower_dalys_per_1000": 20.249960237700002,
+      "upper_dalys_per_1000": 34.803715572800002,
+      "range_reason": "Stroke follow-up annualization and first-year/chronic mortality structure"
+    },
+    {
+      "component": "pulmonary_embolism",
+      "label": "Pulmonary embolism",
+      "five_year_yld_per_1000": 0.100664318835875,
+      "five_year_yll_per_1000": 6.44819947599613,
+      "five_year_dalys_per_1000": 6.548863794832,
+      "lower_dalys_per_1000": 6.548863795,
+      "upper_dalys_per_1000": 8.9139936545,
+      "range_reason": "Pulmonary-embolism onset age distribution"
+    },
+    {
+      "component": "dementia",
+      "label": "Dementia",
+      "five_year_yld_per_1000": 0.318215131508631,
+      "five_year_yll_per_1000": 3.56057485010432,
+      "five_year_dalys_per_1000": 3.87878998161295,
+      "lower_dalys_per_1000": 0,
+      "upper_dalys_per_1000": 8.6281743693,
+      "range_reason": "Dementia causal and eligible-age interpretation"
+    },
+    {
+      "component": "diabetes",
+      "label": "Diabetes",
+      "five_year_yld_per_1000": 0.614889496764338,
+      "five_year_yll_per_1000": 0.675557180202899,
+      "five_year_dalys_per_1000": 1.29044667696724,
+      "lower_dalys_per_1000": 0.6190623419,
+      "upper_dalys_per_1000": 2.0332431487,
+      "range_reason": "Diabetes mortality attribution and onset age distribution"
+    },
+    {
+      "component": "myocardial_infarction",
+      "label": "Acute myocardial infarction",
+      "five_year_yld_per_1000": 0.00285833937917943,
+      "five_year_yll_per_1000": 1.13382356198281,
+      "five_year_dalys_per_1000": 1.13668190136199,
+      "lower_dalys_per_1000": 1.0487779888,
+      "upper_dalys_per_1000": 1.726665284,
+      "range_reason": "Myocardial-infarction onset age distribution and mortality averaging"
+    }
+  ],
+  "pasc_derived_summaries": [
+    {
+      "parameter": "Person-time-weighted PASC disability weight",
+      "value": 0.105175160165288,
+      "derivation": "Sum of disability-weighted condition person-time divided by total condition person-time",
+      "interpretation": "Descriptive five-year baseline summary; not an operational model input"
+    },
+    {
+      "parameter": "Effective PASC mortality ratio relative to age-matched background mortality",
+      "value": 6.09798574598482,
+      "derivation": "One plus condition-attributable deaths divided by expected background deaths during the same age-specific condition person-time",
+      "interpretation": "Descriptive five-year baseline effective ratio; not an operational model input or a pooled study hazard ratio"
+    }
+  ],
+  "interventions": {
+    "air_cleaning": [
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_most_public",
+        "outcome": "Acute COVID",
+        "level": 0,
+        "level_percent": 0,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 34.499588080554297,
+        "dalys_averted_per_1000": 0,
+        "baseline_dalys_per_1000_for_outcome": 34.499588080554297,
+        "percent_dalys_averted_vs_no_intervention": 0
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_most_public",
+        "outcome": "Long COVID",
+        "level": 0,
+        "level_percent": 0,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 60.490114761025403,
+        "dalys_averted_per_1000": 0,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025403,
+        "percent_dalys_averted_vs_no_intervention": 0
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_most_public",
+        "outcome": "PASC",
+        "level": 0,
+        "level_percent": 0,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 134.25073280065899,
+        "dalys_averted_per_1000": 0,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065899,
+        "percent_dalys_averted_vs_no_intervention": 0
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_most_public",
+        "outcome": "Acute COVID",
+        "level": 0.25,
+        "level_percent": 25,
+        "effective_annual_infection_proportion": 0.271458072373,
+        "five_year_dalys_per_1000": 33.809356238302499,
+        "dalys_averted_per_1000": 0.690231842251798,
+        "baseline_dalys_per_1000_for_outcome": 34.499588080554297,
+        "percent_dalys_averted_vs_no_intervention": 2.000695894223872
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_most_public",
+        "outcome": "Long COVID",
+        "level": 0.25,
+        "level_percent": 25,
+        "effective_annual_infection_proportion": 0.271458072373,
+        "five_year_dalys_per_1000": 60.108400267316199,
+        "dalys_averted_per_1000": 0.381714493709204,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025403,
+        "percent_dalys_averted_vs_no_intervention": 0.6310361539521294
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_most_public",
+        "outcome": "PASC",
+        "level": 0.25,
+        "level_percent": 25,
+        "effective_annual_infection_proportion": 0.271458072373,
+        "five_year_dalys_per_1000": 131.56958295929499,
+        "dalys_averted_per_1000": 2.681149841364,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065899,
+        "percent_dalys_averted_vs_no_intervention": 1.99712119660835
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_most_public",
+        "outcome": "Acute COVID",
+        "level": 0.5,
+        "level_percent": 50,
+        "effective_annual_infection_proportion": 0.265916144746,
+        "five_year_dalys_per_1000": 33.1191243960508,
+        "dalys_averted_per_1000": 1.3804636845035,
+        "baseline_dalys_per_1000_for_outcome": 34.499588080554304,
+        "percent_dalys_averted_vs_no_intervention": 4.001391788447465
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_most_public",
+        "outcome": "Long COVID",
+        "level": 0.5,
+        "level_percent": 50,
+        "effective_annual_infection_proportion": 0.265916144746,
+        "five_year_dalys_per_1000": 59.726379441887701,
+        "dalys_averted_per_1000": 0.763735319137702,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025403,
+        "percent_dalys_averted_vs_no_intervention": 1.262578724069122
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_most_public",
+        "outcome": "PASC",
+        "level": 0.5,
+        "level_percent": 50,
+        "effective_annual_infection_proportion": 0.265916144746,
+        "five_year_dalys_per_1000": 128.88823749267999,
+        "dalys_averted_per_1000": 5.362495307979,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065899,
+        "percent_dalys_averted_vs_no_intervention": 3.994388109554272
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_most_public",
+        "outcome": "Acute COVID",
+        "level": 0.75,
+        "level_percent": 75,
+        "effective_annual_infection_proportion": 0.260374217119,
+        "five_year_dalys_per_1000": 32.428892553799002,
+        "dalys_averted_per_1000": 2.07069552675529,
+        "baseline_dalys_per_1000_for_outcome": 34.49958808055429,
+        "percent_dalys_averted_vs_no_intervention": 6.002087682671314
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_most_public",
+        "outcome": "Long COVID",
+        "level": 0.75,
+        "level_percent": 75,
+        "effective_annual_infection_proportion": 0.260374217119,
+        "five_year_dalys_per_1000": 59.3440519928876,
+        "dalys_averted_per_1000": 1.1460627681378,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025403,
+        "percent_dalys_averted_vs_no_intervention": 1.894628192830316
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_most_public",
+        "outcome": "PASC",
+        "level": 0.75,
+        "level_percent": 75,
+        "effective_annual_infection_proportion": 0.260374217119,
+        "five_year_dalys_per_1000": 126.206696381122,
+        "dalys_averted_per_1000": 8.04403641953699,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065899,
+        "percent_dalys_averted_vs_no_intervention": 5.991800753505834
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_most_public",
+        "outcome": "Acute COVID",
+        "level": 1,
+        "level_percent": 100,
+        "effective_annual_infection_proportion": 0.254832289492,
+        "five_year_dalys_per_1000": 31.738660711547201,
+        "dalys_averted_per_1000": 2.7609273690071,
+        "baseline_dalys_per_1000_for_outcome": 34.499588080554304,
+        "percent_dalys_averted_vs_no_intervention": 8.002783576895219
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_most_public",
+        "outcome": "Long COVID",
+        "level": 1,
+        "level_percent": 100,
+        "effective_annual_infection_proportion": 0.254832289492,
+        "five_year_dalys_per_1000": 58.9614176281558,
+        "dalys_averted_per_1000": 1.5286971328696,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025403,
+        "percent_dalys_averted_vs_no_intervention": 2.527185043223889
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_most_public",
+        "outcome": "PASC",
+        "level": 1,
+        "level_percent": 100,
+        "effective_annual_infection_proportion": 0.254832289492,
+        "five_year_dalys_per_1000": 123.52495960364099,
+        "dalys_averted_per_1000": 10.725773197018,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065899,
+        "percent_dalys_averted_vs_no_intervention": 7.989359144090534
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_schools_and_daycares",
+        "outcome": "Acute COVID",
+        "level": 0,
+        "level_percent": 0,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 34.499588080554297,
+        "dalys_averted_per_1000": 0,
+        "baseline_dalys_per_1000_for_outcome": 34.499588080554297,
+        "percent_dalys_averted_vs_no_intervention": 0
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_schools_and_daycares",
+        "outcome": "Long COVID",
+        "level": 0,
+        "level_percent": 0,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 60.490114761025403,
+        "dalys_averted_per_1000": 0,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025403,
+        "percent_dalys_averted_vs_no_intervention": 0
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_schools_and_daycares",
+        "outcome": "PASC",
+        "level": 0,
+        "level_percent": 0,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 134.25073280065899,
+        "dalys_averted_per_1000": 0,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065899,
+        "percent_dalys_averted_vs_no_intervention": 0
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_schools_and_daycares",
+        "outcome": "Acute COVID",
+        "level": 0.25,
+        "level_percent": 25,
+        "effective_annual_infection_proportion": 0.265675191371,
+        "five_year_dalys_per_1000": 33.089114315963698,
+        "dalys_averted_per_1000": 1.4104737645906,
+        "baseline_dalys_per_1000_for_outcome": 34.499588080554297,
+        "percent_dalys_averted_vs_no_intervention": 4.088378566425881
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_schools_and_daycares",
+        "outcome": "Long COVID",
+        "level": 0.25,
+        "level_percent": 25,
+        "effective_annual_infection_proportion": 0.265675191371,
+        "five_year_dalys_per_1000": 59.709762887356,
+        "dalys_averted_per_1000": 0.780351873669403,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025403,
+        "percent_dalys_averted_vs_no_intervention": 1.290048591827427
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_schools_and_daycares",
+        "outcome": "PASC",
+        "level": 0.25,
+        "level_percent": 25,
+        "effective_annual_infection_proportion": 0.265675191371,
+        "five_year_dalys_per_1000": 128.771652816959,
+        "dalys_averted_per_1000": 5.47907998369999,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065899,
+        "percent_dalys_averted_vs_no_intervention": 4.081229107207596
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_schools_and_daycares",
+        "outcome": "Acute COVID",
+        "level": 0.5,
+        "level_percent": 50,
+        "effective_annual_infection_proportion": 0.254350382742,
+        "five_year_dalys_per_1000": 31.678640551373,
+        "dalys_averted_per_1000": 2.8209475291813,
+        "baseline_dalys_per_1000_for_outcome": 34.499588080554304,
+        "percent_dalys_averted_vs_no_intervention": 8.17675713285205
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_schools_and_daycares",
+        "outcome": "Long COVID",
+        "level": 0.5,
+        "level_percent": 50,
+        "effective_annual_infection_proportion": 0.254350382742,
+        "five_year_dalys_per_1000": 58.928130560576001,
+        "dalys_averted_per_1000": 1.5619842004494,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025403,
+        "percent_dalys_averted_vs_no_intervention": 2.582213980945871
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_schools_and_daycares",
+        "outcome": "PASC",
+        "level": 0.5,
+        "level_percent": 50,
+        "effective_annual_infection_proportion": 0.254350382742,
+        "five_year_dalys_per_1000": 123.291755853879,
+        "dalys_averted_per_1000": 10.95897694678,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065899,
+        "percent_dalys_averted_vs_no_intervention": 8.163066761842067
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_schools_and_daycares",
+        "outcome": "Acute COVID",
+        "level": 0.75,
+        "level_percent": 75,
+        "effective_annual_infection_proportion": 0.243025574113,
+        "five_year_dalys_per_1000": 30.268166786782398,
+        "dalys_averted_per_1000": 4.2314212937719,
+        "baseline_dalys_per_1000_for_outcome": 34.499588080554297,
+        "percent_dalys_averted_vs_no_intervention": 12.265135699277934
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_schools_and_daycares",
+        "outcome": "Long COVID",
+        "level": 0.75,
+        "level_percent": 75,
+        "effective_annual_infection_proportion": 0.243025574113,
+        "five_year_dalys_per_1000": 58.145215286152201,
+        "dalys_averted_per_1000": 2.3448994748732,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025403,
+        "percent_dalys_averted_vs_no_intervention": 3.876500291224527
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_schools_and_daycares",
+        "outcome": "PASC",
+        "level": 0.75,
+        "level_percent": 75,
+        "effective_annual_infection_proportion": 0.243025574113,
+        "five_year_dalys_per_1000": 117.81104173812901,
+        "dalys_averted_per_1000": 16.439691062529999,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065899,
+        "percent_dalys_averted_vs_no_intervention": 12.24551309298276
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_schools_and_daycares",
+        "outcome": "Acute COVID",
+        "level": 1,
+        "level_percent": 100,
+        "effective_annual_infection_proportion": 0.231700765484,
+        "five_year_dalys_per_1000": 28.8576930221918,
+        "dalys_averted_per_1000": 5.6418950583625,
+        "baseline_dalys_per_1000_for_outcome": 34.499588080554297,
+        "percent_dalys_averted_vs_no_intervention": 16.353514265703815
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_schools_and_daycares",
+        "outcome": "Long COVID",
+        "level": 1,
+        "level_percent": 100,
+        "effective_annual_infection_proportion": 0.231700765484,
+        "five_year_dalys_per_1000": 57.361014564178198,
+        "dalys_averted_per_1000": 3.1291001968472,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025396,
+        "percent_dalys_averted_vs_no_intervention": 5.172911655415343
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_schools_and_daycares",
+        "outcome": "PASC",
+        "level": 1,
+        "level_percent": 100,
+        "effective_annual_infection_proportion": 0.231700765484,
+        "five_year_dalys_per_1000": 112.32951029715601,
+        "dalys_averted_per_1000": 21.921222503503,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065899,
+        "percent_dalys_averted_vs_no_intervention": 16.328568229160084
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_all_public",
+        "outcome": "Acute COVID",
+        "level": 0,
+        "level_percent": 0,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 34.499588080554297,
+        "dalys_averted_per_1000": 0,
+        "baseline_dalys_per_1000_for_outcome": 34.499588080554297,
+        "percent_dalys_averted_vs_no_intervention": 0
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_all_public",
+        "outcome": "Long COVID",
+        "level": 0,
+        "level_percent": 0,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 60.490114761025403,
+        "dalys_averted_per_1000": 0,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025403,
+        "percent_dalys_averted_vs_no_intervention": 0
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_all_public",
+        "outcome": "PASC",
+        "level": 0,
+        "level_percent": 0,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 134.25073280065899,
+        "dalys_averted_per_1000": 0,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065899,
+        "percent_dalys_averted_vs_no_intervention": 0
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_all_public",
+        "outcome": "Acute COVID",
+        "level": 0.25,
+        "level_percent": 25,
+        "effective_annual_infection_proportion": 0.234230775922,
+        "five_year_dalys_per_1000": 29.1727988631683,
+        "dalys_averted_per_1000": 5.326789217386,
+        "baseline_dalys_per_1000_for_outcome": 34.499588080554297,
+        "percent_dalys_averted_vs_no_intervention": 15.440153096750873
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_all_public",
+        "outcome": "Long COVID",
+        "level": 0.25,
+        "level_percent": 25,
+        "effective_annual_infection_proportion": 0.234230775922,
+        "five_year_dalys_per_1000": 57.536319980309599,
+        "dalys_averted_per_1000": 2.9537947807158,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025396,
+        "percent_dalys_averted_vs_no_intervention": 4.883103284536947
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_all_public",
+        "outcome": "PASC",
+        "level": 0.25,
+        "level_percent": 25,
+        "effective_annual_infection_proportion": 0.234230775922,
+        "five_year_dalys_per_1000": 113.554178656424,
+        "dalys_averted_per_1000": 20.696554144235002,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065899,
+        "percent_dalys_averted_vs_no_intervention": 15.416343518188535
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_all_public",
+        "outcome": "Acute COVID",
+        "level": 0.5,
+        "level_percent": 50,
+        "effective_annual_infection_proportion": 0.191461551844,
+        "five_year_dalys_per_1000": 23.846009645782299,
+        "dalys_averted_per_1000": 10.653578434771999,
+        "baseline_dalys_per_1000_for_outcome": 34.499588080554297,
+        "percent_dalys_averted_vs_no_intervention": 30.880306193501745
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_all_public",
+        "outcome": "Long COVID",
+        "level": 0.5,
+        "level_percent": 50,
+        "effective_annual_infection_proportion": 0.191461551844,
+        "five_year_dalys_per_1000": 54.564163450593497,
+        "dalys_averted_per_1000": 5.9259513104319,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025396,
+        "percent_dalys_averted_vs_no_intervention": 9.796561527190342
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_all_public",
+        "outcome": "PASC",
+        "level": 0.5,
+        "level_percent": 50,
+        "effective_annual_infection_proportion": 0.191461551844,
+        "five_year_dalys_per_1000": 92.845965348437602,
+        "dalys_averted_per_1000": 41.4047674522214,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065899,
+        "percent_dalys_averted_vs_no_intervention": 30.841371654708883
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_all_public",
+        "outcome": "Acute COVID",
+        "level": 0.75,
+        "level_percent": 75,
+        "effective_annual_infection_proportion": 0.148692327766,
+        "five_year_dalys_per_1000": 18.519220428396299,
+        "dalys_averted_per_1000": 15.980367652158,
+        "baseline_dalys_per_1000_for_outcome": 34.499588080554297,
+        "percent_dalys_averted_vs_no_intervention": 46.320459290252622
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_all_public",
+        "outcome": "Long COVID",
+        "level": 0.75,
+        "level_percent": 75,
+        "effective_annual_infection_proportion": 0.148692327766,
+        "five_year_dalys_per_1000": 51.573509594512302,
+        "dalys_averted_per_1000": 8.916605166513101,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025403,
+        "percent_dalys_averted_vs_no_intervention": 14.740598859399404
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_all_public",
+        "outcome": "PASC",
+        "level": 0.75,
+        "level_percent": 75,
+        "effective_annual_infection_proportion": 0.148692327766,
+        "five_year_dalys_per_1000": 72.126083552495402,
+        "dalys_averted_per_1000": 62.1246492481636,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065899,
+        "percent_dalys_averted_vs_no_intervention": 46.275091354926779
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_all_public",
+        "outcome": "Acute COVID",
+        "level": 1,
+        "level_percent": 100,
+        "effective_annual_infection_proportion": 0.105923103688,
+        "five_year_dalys_per_1000": 13.1924312110103,
+        "dalys_averted_per_1000": 21.307156869543999,
+        "baseline_dalys_per_1000_for_outcome": 34.499588080554297,
+        "percent_dalys_averted_vs_no_intervention": 61.760612387003491
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_all_public",
+        "outcome": "Long COVID",
+        "level": 1,
+        "level_percent": 100,
+        "effective_annual_infection_proportion": 0.105923103688,
+        "five_year_dalys_per_1000": 48.564221727613301,
+        "dalys_averted_per_1000": 11.9258930334121,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025403,
+        "percent_dalys_averted_vs_no_intervention": 19.715441242799749
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_all_public",
+        "outcome": "PASC",
+        "level": 1,
+        "level_percent": 100,
+        "effective_annual_infection_proportion": 0.105923103688,
+        "five_year_dalys_per_1000": 51.394523935673703,
+        "dalys_averted_per_1000": 82.856208864985305,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065902,
+        "percent_dalys_averted_vs_no_intervention": 61.717509570702752
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_most_public",
+        "outcome": "Acute COVID",
+        "level": 0,
+        "level_percent": 0,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 34.499588080554297,
+        "dalys_averted_per_1000": 0,
+        "baseline_dalys_per_1000_for_outcome": 34.499588080554297,
+        "percent_dalys_averted_vs_no_intervention": 0
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_most_public",
+        "outcome": "Long COVID",
+        "level": 0,
+        "level_percent": 0,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 60.490114761025403,
+        "dalys_averted_per_1000": 0,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025403,
+        "percent_dalys_averted_vs_no_intervention": 0
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_most_public",
+        "outcome": "PASC",
+        "level": 0,
+        "level_percent": 0,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 134.25073280065899,
+        "dalys_averted_per_1000": 0,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065899,
+        "percent_dalys_averted_vs_no_intervention": 0
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_most_public",
+        "outcome": "Acute COVID",
+        "level": 0.25,
+        "level_percent": 25,
+        "effective_annual_infection_proportion": 0.2686871085595,
+        "five_year_dalys_per_1000": 33.464240317176703,
+        "dalys_averted_per_1000": 1.03534776337759,
+        "baseline_dalys_per_1000_for_outcome": 34.49958808055429,
+        "percent_dalys_averted_vs_no_intervention": 3.001043841335498
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_most_public",
+        "outcome": "Long COVID",
+        "level": 0.25,
+        "level_percent": 25,
+        "effective_annual_infection_proportion": 0.2686871085595,
+        "five_year_dalys_per_1000": 59.917428164300397,
+        "dalys_averted_per_1000": 0.572686596725006,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025403,
+        "percent_dalys_averted_vs_no_intervention": 0.9467441068470177
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_most_public",
+        "outcome": "PASC",
+        "level": 0.25,
+        "level_percent": 25,
+        "effective_annual_infection_proportion": 0.2686871085595,
+        "five_year_dalys_per_1000": 130.228934680375,
+        "dalys_averted_per_1000": 4.02179812028399,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065899,
+        "percent_dalys_averted_vs_no_intervention": 2.995736437622074
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_most_public",
+        "outcome": "Acute COVID",
+        "level": 0.5,
+        "level_percent": 50,
+        "effective_annual_infection_proportion": 0.260374217119,
+        "five_year_dalys_per_1000": 32.428892553799002,
+        "dalys_averted_per_1000": 2.07069552675529,
+        "baseline_dalys_per_1000_for_outcome": 34.49958808055429,
+        "percent_dalys_averted_vs_no_intervention": 6.002087682671314
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_most_public",
+        "outcome": "Long COVID",
+        "level": 0.5,
+        "level_percent": 50,
+        "effective_annual_infection_proportion": 0.260374217119,
+        "five_year_dalys_per_1000": 59.3440519928876,
+        "dalys_averted_per_1000": 1.1460627681378,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025403,
+        "percent_dalys_averted_vs_no_intervention": 1.894628192830316
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_most_public",
+        "outcome": "PASC",
+        "level": 0.5,
+        "level_percent": 50,
+        "effective_annual_infection_proportion": 0.260374217119,
+        "five_year_dalys_per_1000": 126.206696381122,
+        "dalys_averted_per_1000": 8.04403641953699,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065899,
+        "percent_dalys_averted_vs_no_intervention": 5.991800753505834
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_most_public",
+        "outcome": "Acute COVID",
+        "level": 0.75,
+        "level_percent": 75,
+        "effective_annual_infection_proportion": 0.2520613256785,
+        "five_year_dalys_per_1000": 31.393544790421299,
+        "dalys_averted_per_1000": 3.106043290133,
+        "baseline_dalys_per_1000_for_outcome": 34.499588080554297,
+        "percent_dalys_averted_vs_no_intervention": 9.003131524007159
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_most_public",
+        "outcome": "Long COVID",
+        "level": 0.75,
+        "level_percent": 75,
+        "effective_annual_infection_proportion": 0.2520613256785,
+        "five_year_dalys_per_1000": 58.769985261006603,
+        "dalys_averted_per_1000": 1.7201295000188,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025403,
+        "percent_dalys_averted_vs_no_intervention": 2.843653887605289
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_most_public",
+        "outcome": "PASC",
+        "level": 0.75,
+        "level_percent": 75,
+        "effective_annual_infection_proportion": 0.2520613256785,
+        "five_year_dalys_per_1000": 122.18401783435399,
+        "dalys_averted_per_1000": 12.066714966305,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065899,
+        "percent_dalys_averted_vs_no_intervention": 8.988192998709476
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_most_public",
+        "outcome": "Acute COVID",
+        "level": 1,
+        "level_percent": 100,
+        "effective_annual_infection_proportion": 0.243748434238,
+        "five_year_dalys_per_1000": 30.358197027043602,
+        "dalys_averted_per_1000": 4.1413910535107,
+        "baseline_dalys_per_1000_for_outcome": 34.499588080554304,
+        "percent_dalys_averted_vs_no_intervention": 12.004175365342974
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_most_public",
+        "outcome": "Long COVID",
+        "level": 1,
+        "level_percent": 100,
+        "effective_annual_infection_proportion": 0.243748434238,
+        "five_year_dalys_per_1000": 58.195226981319003,
+        "dalys_averted_per_1000": 2.2948877797064,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025403,
+        "percent_dalys_averted_vs_no_intervention": 3.793822823402919
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_most_public",
+        "outcome": "PASC",
+        "level": 1,
+        "level_percent": 100,
+        "effective_annual_infection_proportion": 0.243748434238,
+        "five_year_dalys_per_1000": 118.16089897201999,
+        "dalys_averted_per_1000": 16.089833828639001,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065899,
+        "percent_dalys_averted_vs_no_intervention": 11.98491322392247
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_schools_and_daycares",
+        "outcome": "Acute COVID",
+        "level": 0,
+        "level_percent": 0,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 34.499588080554297,
+        "dalys_averted_per_1000": 0,
+        "baseline_dalys_per_1000_for_outcome": 34.499588080554297,
+        "percent_dalys_averted_vs_no_intervention": 0
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_schools_and_daycares",
+        "outcome": "Long COVID",
+        "level": 0,
+        "level_percent": 0,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 60.490114761025403,
+        "dalys_averted_per_1000": 0,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025403,
+        "percent_dalys_averted_vs_no_intervention": 0
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_schools_and_daycares",
+        "outcome": "PASC",
+        "level": 0,
+        "level_percent": 0,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 134.25073280065899,
+        "dalys_averted_per_1000": 0,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065899,
+        "percent_dalys_averted_vs_no_intervention": 0
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_schools_and_daycares",
+        "outcome": "Acute COVID",
+        "level": 0.25,
+        "level_percent": 25,
+        "effective_annual_infection_proportion": 0.26227774878225,
+        "five_year_dalys_per_1000": 32.665972186580298,
+        "dalys_averted_per_1000": 1.833615893974,
+        "baseline_dalys_per_1000_for_outcome": 34.499588080554297,
+        "percent_dalys_averted_vs_no_intervention": 5.314892136371675
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_schools_and_daycares",
+        "outcome": "Long COVID",
+        "level": 0.25,
+        "level_percent": 25,
+        "effective_annual_infection_proportion": 0.26227774878225,
+        "five_year_dalys_per_1000": 59.475407750292597,
+        "dalys_averted_per_1000": 1.01470701073281,
+        "baseline_dalys_per_1000_for_outcome": 60.49011476102541,
+        "percent_dalys_averted_vs_no_intervention": 1.677475757388709
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_schools_and_daycares",
+        "outcome": "PASC",
+        "level": 0.25,
+        "level_percent": 25,
+        "effective_annual_infection_proportion": 0.26227774878225,
+        "five_year_dalys_per_1000": 127.127769518778,
+        "dalys_averted_per_1000": 7.122963281881,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065899,
+        "percent_dalys_averted_vs_no_intervention": 5.305716500227577
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_schools_and_daycares",
+        "outcome": "Acute COVID",
+        "level": 0.5,
+        "level_percent": 50,
+        "effective_annual_infection_proportion": 0.2475554975645,
+        "five_year_dalys_per_1000": 30.8323562926062,
+        "dalys_averted_per_1000": 3.6672317879481,
+        "baseline_dalys_per_1000_for_outcome": 34.499588080554297,
+        "percent_dalys_averted_vs_no_intervention": 10.62978427274364
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_schools_and_daycares",
+        "outcome": "Long COVID",
+        "level": 0.5,
+        "level_percent": 50,
+        "effective_annual_infection_proportion": 0.2475554975645,
+        "five_year_dalys_per_1000": 58.458535509505502,
+        "dalys_averted_per_1000": 2.0315792515199,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025403,
+        "percent_dalys_averted_vs_no_intervention": 3.358530992288469
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_schools_and_daycares",
+        "outcome": "PASC",
+        "level": 0.5,
+        "level_percent": 50,
+        "effective_annual_infection_proportion": 0.2475554975645,
+        "five_year_dalys_per_1000": 120.003425453689,
+        "dalys_averted_per_1000": 14.24730734697,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065899,
+        "percent_dalys_averted_vs_no_intervention": 10.612461511197104
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_schools_and_daycares",
+        "outcome": "Acute COVID",
+        "level": 0.75,
+        "level_percent": 75,
+        "effective_annual_infection_proportion": 0.23283324634675,
+        "five_year_dalys_per_1000": 28.998740398632201,
+        "dalys_averted_per_1000": 5.5008476819221,
+        "baseline_dalys_per_1000_for_outcome": 34.499588080554304,
+        "percent_dalys_averted_vs_no_intervention": 15.944676409115313
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_schools_and_daycares",
+        "outcome": "Long COVID",
+        "level": 0.75,
+        "level_percent": 75,
+        "effective_annual_infection_proportion": 0.23283324634675,
+        "five_year_dalys_per_1000": 57.439492552863499,
+        "dalys_averted_per_1000": 3.0506222081619,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025396,
+        "percent_dalys_averted_vs_no_intervention": 5.043174773620131
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_schools_and_daycares",
+        "outcome": "PASC",
+        "level": 0.75,
+        "level_percent": 75,
+        "effective_annual_infection_proportion": 0.23283324634675,
+        "five_year_dalys_per_1000": 112.877700225794,
+        "dalys_averted_per_1000": 21.373032574865,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065899,
+        "percent_dalys_averted_vs_no_intervention": 15.920235315661598
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_schools_and_daycares",
+        "outcome": "Acute COVID",
+        "level": 1,
+        "level_percent": 100,
+        "effective_annual_infection_proportion": 0.218110995129,
+        "five_year_dalys_per_1000": 27.165124504658099,
+        "dalys_averted_per_1000": 7.3344635758962,
+        "baseline_dalys_per_1000_for_outcome": 34.499588080554297,
+        "percent_dalys_averted_vs_no_intervention": 21.25956854548728
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_schools_and_daycares",
+        "outcome": "Long COVID",
+        "level": 1,
+        "level_percent": 100,
+        "effective_annual_infection_proportion": 0.218110995129,
+        "five_year_dalys_per_1000": 56.418273379198197,
+        "dalys_averted_per_1000": 4.07184138182721,
+        "baseline_dalys_per_1000_for_outcome": 60.49011476102541,
+        "percent_dalys_averted_vs_no_intervention": 6.731416195709967
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_schools_and_daycares",
+        "outcome": "PASC",
+        "level": 1,
+        "level_percent": 100,
+        "effective_annual_infection_proportion": 0.218110995129,
+        "five_year_dalys_per_1000": 105.75059345475999,
+        "dalys_averted_per_1000": 28.500139345899001,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065899,
+        "percent_dalys_averted_vs_no_intervention": 21.229038196921561
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_all_public",
+        "outcome": "Acute COVID",
+        "level": 0,
+        "level_percent": 0,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 34.499588080554297,
+        "dalys_averted_per_1000": 0,
+        "baseline_dalys_per_1000_for_outcome": 34.499588080554297,
+        "percent_dalys_averted_vs_no_intervention": 0
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_all_public",
+        "outcome": "Long COVID",
+        "level": 0,
+        "level_percent": 0,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 60.490114761025403,
+        "dalys_averted_per_1000": 0,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025403,
+        "percent_dalys_averted_vs_no_intervention": 0
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_all_public",
+        "outcome": "PASC",
+        "level": 0,
+        "level_percent": 0,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 134.25073280065899,
+        "dalys_averted_per_1000": 0,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065899,
+        "percent_dalys_averted_vs_no_intervention": 0
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_all_public",
+        "outcome": "Acute COVID",
+        "level": 0.25,
+        "level_percent": 25,
+        "effective_annual_infection_proportion": 0.2210747216423,
+        "five_year_dalys_per_1000": 27.534248489828698,
+        "dalys_averted_per_1000": 6.9653395907256,
+        "baseline_dalys_per_1000_for_outcome": 34.499588080554297,
+        "percent_dalys_averted_vs_no_intervention": 20.189631176065017
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_all_public",
+        "outcome": "Long COVID",
+        "level": 0.25,
+        "level_percent": 25,
+        "effective_annual_infection_proportion": 0.2210747216423,
+        "five_year_dalys_per_1000": 56.624029541748897,
+        "dalys_averted_per_1000": 3.86608521927651,
+        "baseline_dalys_per_1000_for_outcome": 60.49011476102541,
+        "percent_dalys_averted_vs_no_intervention": 6.391267787389751
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_all_public",
+        "outcome": "PASC",
+        "level": 0.25,
+        "level_percent": 25,
+        "effective_annual_infection_proportion": 0.2210747216423,
+        "five_year_dalys_per_1000": 107.185457619668,
+        "dalys_averted_per_1000": 27.065275180991001,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065899,
+        "percent_dalys_averted_vs_no_intervention": 20.160243908075074
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_all_public",
+        "outcome": "Acute COVID",
+        "level": 0.5,
+        "level_percent": 50,
+        "effective_annual_infection_proportion": 0.1651494432846,
+        "five_year_dalys_per_1000": 20.5689088991031,
+        "dalys_averted_per_1000": 13.9306791814512,
+        "baseline_dalys_per_1000_for_outcome": 34.499588080554304,
+        "percent_dalys_averted_vs_no_intervention": 40.37926235213002
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_all_public",
+        "outcome": "Long COVID",
+        "level": 0.5,
+        "level_percent": 50,
+        "effective_annual_infection_proportion": 0.1651494432846,
+        "five_year_dalys_per_1000": 52.726477589218298,
+        "dalys_averted_per_1000": 7.7636371718071,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025396,
+        "percent_dalys_averted_vs_no_intervention": 12.834555203736063
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_all_public",
+        "outcome": "PASC",
+        "level": 0.5,
+        "level_percent": 50,
+        "effective_annual_infection_proportion": 0.1651494432846,
+        "five_year_dalys_per_1000": 80.100242318227799,
+        "dalys_averted_per_1000": 54.150490482431202,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065899,
+        "percent_dalys_averted_vs_no_intervention": 40.335340711201987
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_all_public",
+        "outcome": "Acute COVID",
+        "level": 0.75,
+        "level_percent": 75,
+        "effective_annual_infection_proportion": 0.1092241649269,
+        "five_year_dalys_per_1000": 13.6035693083775,
+        "dalys_averted_per_1000": 20.896018772176799,
+        "baseline_dalys_per_1000_for_outcome": 34.499588080554297,
+        "percent_dalys_averted_vs_no_intervention": 60.568893528195041
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_all_public",
+        "outcome": "Long COVID",
+        "level": 0.75,
+        "level_percent": 75,
+        "effective_annual_infection_proportion": 0.1092241649269,
+        "five_year_dalys_per_1000": 48.797154640056903,
+        "dalys_averted_per_1000": 11.6929601209685,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025403,
+        "percent_dalys_averted_vs_no_intervention": 19.33036524589706
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_all_public",
+        "outcome": "PASC",
+        "level": 0.75,
+        "level_percent": 75,
+        "effective_annual_infection_proportion": 0.1092241649269,
+        "five_year_dalys_per_1000": 52.995066040216003,
+        "dalys_averted_per_1000": 81.255666760443006,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065902,
+        "percent_dalys_averted_vs_no_intervention": 60.525305944582627
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_all_public",
+        "outcome": "Acute COVID",
+        "level": 1,
+        "level_percent": 100,
+        "effective_annual_infection_proportion": 0.0532988865692,
+        "five_year_dalys_per_1000": 6.63822971765195,
+        "dalys_averted_per_1000": 27.861358362902301,
+        "baseline_dalys_per_1000_for_outcome": 34.499588080554254,
+        "percent_dalys_averted_vs_no_intervention": 80.75852470425987
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_all_public",
+        "outcome": "Long COVID",
+        "level": 1,
+        "level_percent": 100,
+        "effective_annual_infection_proportion": 0.0532988865692,
+        "five_year_dalys_per_1000": 44.835753176934297,
+        "dalys_averted_per_1000": 15.654361584091101,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025396,
+        "percent_dalys_averted_vs_no_intervention": 25.879206290045623
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_all_public",
+        "outcome": "PASC",
+        "level": 1,
+        "level_percent": 100,
+        "effective_annual_infection_proportion": 0.0532988865692,
+        "five_year_dalys_per_1000": 25.8699079044776,
+        "dalys_averted_per_1000": 108.380824896181,
+        "baseline_dalys_per_1000_for_outcome": 134.2507328006586,
+        "percent_dalys_averted_vs_no_intervention": 80.730155162065017
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_most_public",
+        "outcome": "Total",
+        "level": 0,
+        "level_percent": 0,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 229.24043564223899,
+        "dalys_averted_per_1000": 0,
+        "baseline_dalys_per_1000_for_outcome": 229.24043564223899,
+        "percent_dalys_averted_vs_no_intervention": 0
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_most_public",
+        "outcome": "Total",
+        "level": 0.25,
+        "level_percent": 25,
+        "effective_annual_infection_proportion": 0.271458072373,
+        "five_year_dalys_per_1000": 225.48733946491399,
+        "dalys_averted_per_1000": 3.75309617732501,
+        "baseline_dalys_per_1000_for_outcome": 229.24043564223899,
+        "percent_dalys_averted_vs_no_intervention": 1.637187683233262
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_most_public",
+        "outcome": "Total",
+        "level": 0.5,
+        "level_percent": 50,
+        "effective_annual_infection_proportion": 0.265916144746,
+        "five_year_dalys_per_1000": 221.73374133061799,
+        "dalys_averted_per_1000": 7.50669431162021,
+        "baseline_dalys_per_1000_for_outcome": 229.2404356422382,
+        "percent_dalys_averted_vs_no_intervention": 3.274594331750206
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_most_public",
+        "outcome": "Total",
+        "level": 0.75,
+        "level_percent": 75,
+        "effective_annual_infection_proportion": 0.260374217119,
+        "five_year_dalys_per_1000": 217.97964092780899,
+        "dalys_averted_per_1000": 11.2607947144301,
+        "baseline_dalys_per_1000_for_outcome": 229.24043564223908,
+        "percent_dalys_averted_vs_no_intervention": 4.912220081453738
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_most_public",
+        "outcome": "Total",
+        "level": 1,
+        "level_percent": 100,
+        "effective_annual_infection_proportion": 0.254832289492,
+        "five_year_dalys_per_1000": 214.22503794334401,
+        "dalys_averted_per_1000": 15.0153976988947,
+        "baseline_dalys_per_1000_for_outcome": 229.24043564223871,
+        "percent_dalys_averted_vs_no_intervention": 6.550065068942854
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_schools_and_daycares",
+        "outcome": "Total",
+        "level": 0,
+        "level_percent": 0,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 229.24043564223899,
+        "dalys_averted_per_1000": 0,
+        "baseline_dalys_per_1000_for_outcome": 229.24043564223899,
+        "percent_dalys_averted_vs_no_intervention": 0
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_schools_and_daycares",
+        "outcome": "Total",
+        "level": 0.25,
+        "level_percent": 25,
+        "effective_annual_infection_proportion": 0.265675191371,
+        "five_year_dalys_per_1000": 221.57053002027899,
+        "dalys_averted_per_1000": 7.66990562196,
+        "baseline_dalys_per_1000_for_outcome": 229.24043564223899,
+        "percent_dalys_averted_vs_no_intervention": 3.345790894382148
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_schools_and_daycares",
+        "outcome": "Total",
+        "level": 0.5,
+        "level_percent": 50,
+        "effective_annual_infection_proportion": 0.254350382742,
+        "five_year_dalys_per_1000": 213.89852696582801,
+        "dalys_averted_per_1000": 15.3419086764107,
+        "baseline_dalys_per_1000_for_outcome": 229.24043564223871,
+        "percent_dalys_averted_vs_no_intervention": 6.692496737510072
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_schools_and_daycares",
+        "outcome": "Total",
+        "level": 0.75,
+        "level_percent": 75,
+        "effective_annual_infection_proportion": 0.243025574113,
+        "five_year_dalys_per_1000": 206.22442381106401,
+        "dalys_averted_per_1000": 23.016011831175099,
+        "baseline_dalys_per_1000_for_outcome": 229.24043564223911,
+        "percent_dalys_averted_vs_no_intervention": 10.040118693150069
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_schools_and_daycares",
+        "outcome": "Total",
+        "level": 1,
+        "level_percent": 100,
+        "effective_annual_infection_proportion": 0.231700765484,
+        "five_year_dalys_per_1000": 198.54821788352601,
+        "dalys_averted_per_1000": 30.692217758712701,
+        "baseline_dalys_per_1000_for_outcome": 229.24043564223871,
+        "percent_dalys_averted_vs_no_intervention": 13.388657927091073
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_all_public",
+        "outcome": "Total",
+        "level": 0,
+        "level_percent": 0,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 229.24043564223899,
+        "dalys_averted_per_1000": 0,
+        "baseline_dalys_per_1000_for_outcome": 229.24043564223899,
+        "percent_dalys_averted_vs_no_intervention": 0
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_all_public",
+        "outcome": "Total",
+        "level": 0.25,
+        "level_percent": 25,
+        "effective_annual_infection_proportion": 0.234230775922,
+        "five_year_dalys_per_1000": 200.263297499902,
+        "dalys_averted_per_1000": 28.977138142336798,
+        "baseline_dalys_per_1000_for_outcome": 229.24043564223879,
+        "percent_dalys_averted_vs_no_intervention": 12.640500381686417
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_all_public",
+        "outcome": "Total",
+        "level": 0.5,
+        "level_percent": 50,
+        "effective_annual_infection_proportion": 0.191461551844,
+        "five_year_dalys_per_1000": 171.25613844481299,
+        "dalys_averted_per_1000": 57.984297197425299,
+        "baseline_dalys_per_1000_for_outcome": 229.24043564223828,
+        "percent_dalys_averted_vs_no_intervention": 25.29409658247112
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_all_public",
+        "outcome": "Total",
+        "level": 0.75,
+        "level_percent": 75,
+        "effective_annual_infection_proportion": 0.148692327766,
+        "five_year_dalys_per_1000": 142.218813575404,
+        "dalys_averted_per_1000": 87.021622066834695,
+        "baseline_dalys_per_1000_for_outcome": 229.24043564223871,
+        "percent_dalys_averted_vs_no_intervention": 37.960851811782426
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "hepa_all_public",
+        "outcome": "Total",
+        "level": 1,
+        "level_percent": 100,
+        "effective_annual_infection_proportion": 0.105923103688,
+        "five_year_dalys_per_1000": 113.15117687429699,
+        "dalys_averted_per_1000": 116.089258767941,
+        "baseline_dalys_per_1000_for_outcome": 229.240435642238,
+        "percent_dalys_averted_vs_no_intervention": 50.640829765789945
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_most_public",
+        "outcome": "Total",
+        "level": 0,
+        "level_percent": 0,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 229.24043564223899,
+        "dalys_averted_per_1000": 0,
+        "baseline_dalys_per_1000_for_outcome": 229.24043564223899,
+        "percent_dalys_averted_vs_no_intervention": 0
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_most_public",
+        "outcome": "Total",
+        "level": 0.25,
+        "level_percent": 25,
+        "effective_annual_infection_proportion": 0.2686871085595,
+        "five_year_dalys_per_1000": 223.610603161852,
+        "dalys_averted_per_1000": 5.6298324803866,
+        "baseline_dalys_per_1000_for_outcome": 229.24043564223859,
+        "percent_dalys_averted_vs_no_intervention": 2.455863628340304
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_most_public",
+        "outcome": "Total",
+        "level": 0.5,
+        "level_percent": 50,
+        "effective_annual_infection_proportion": 0.260374217119,
+        "five_year_dalys_per_1000": 217.97964092780899,
+        "dalys_averted_per_1000": 11.2607947144301,
+        "baseline_dalys_per_1000_for_outcome": 229.24043564223908,
+        "percent_dalys_averted_vs_no_intervention": 4.912220081453738
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_most_public",
+        "outcome": "Total",
+        "level": 0.75,
+        "level_percent": 75,
+        "effective_annual_infection_proportion": 0.2520613256785,
+        "five_year_dalys_per_1000": 212.34754788578201,
+        "dalys_averted_per_1000": 16.892887756456801,
+        "baseline_dalys_per_1000_for_outcome": 229.24043564223882,
+        "percent_dalys_averted_vs_no_intervention": 7.369069819261935
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_most_public",
+        "outcome": "Total",
+        "level": 1,
+        "level_percent": 100,
+        "effective_annual_infection_proportion": 0.243748434238,
+        "five_year_dalys_per_1000": 206.714322980383,
+        "dalys_averted_per_1000": 22.5261126618561,
+        "baseline_dalys_per_1000_for_outcome": 229.24043564223911,
+        "percent_dalys_averted_vs_no_intervention": 9.826413302150222
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_schools_and_daycares",
+        "outcome": "Total",
+        "level": 0,
+        "level_percent": 0,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 229.24043564223899,
+        "dalys_averted_per_1000": 0,
+        "baseline_dalys_per_1000_for_outcome": 229.24043564223899,
+        "percent_dalys_averted_vs_no_intervention": 0
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_schools_and_daycares",
+        "outcome": "Total",
+        "level": 0.25,
+        "level_percent": 25,
+        "effective_annual_infection_proportion": 0.26227774878225,
+        "five_year_dalys_per_1000": 219.26914945565099,
+        "dalys_averted_per_1000": 9.9712861865878,
+        "baseline_dalys_per_1000_for_outcome": 229.24043564223879,
+        "percent_dalys_averted_vs_no_intervention": 4.349706524790139
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_schools_and_daycares",
+        "outcome": "Total",
+        "level": 0.5,
+        "level_percent": 50,
+        "effective_annual_infection_proportion": 0.2475554975645,
+        "five_year_dalys_per_1000": 209.29431725580099,
+        "dalys_averted_per_1000": 19.946118386437998,
+        "baseline_dalys_per_1000_for_outcome": 229.24043564223899,
+        "percent_dalys_averted_vs_no_intervention": 8.700959902888441
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_schools_and_daycares",
+        "outcome": "Total",
+        "level": 0.75,
+        "level_percent": 75,
+        "effective_annual_infection_proportion": 0.23283324634675,
+        "five_year_dalys_per_1000": 199.31593317728999,
+        "dalys_averted_per_1000": 29.924502464949001,
+        "baseline_dalys_per_1000_for_outcome": 229.24043564223899,
+        "percent_dalys_averted_vs_no_intervention": 13.053762692917873
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_schools_and_daycares",
+        "outcome": "Total",
+        "level": 1,
+        "level_percent": 100,
+        "effective_annual_infection_proportion": 0.218110995129,
+        "five_year_dalys_per_1000": 189.33399133861599,
+        "dalys_averted_per_1000": 39.906444303622401,
+        "baseline_dalys_per_1000_for_outcome": 229.2404356422384,
+        "percent_dalys_averted_vs_no_intervention": 17.408117460526014
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_all_public",
+        "outcome": "Total",
+        "level": 0,
+        "level_percent": 0,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 229.24043564223899,
+        "dalys_averted_per_1000": 0,
+        "baseline_dalys_per_1000_for_outcome": 229.24043564223899,
+        "percent_dalys_averted_vs_no_intervention": 0
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_all_public",
+        "outcome": "Total",
+        "level": 0.25,
+        "level_percent": 25,
+        "effective_annual_infection_proportion": 0.2210747216423,
+        "five_year_dalys_per_1000": 191.34373565124599,
+        "dalys_averted_per_1000": 37.896699990993099,
+        "baseline_dalys_per_1000_for_outcome": 229.24043564223911,
+        "percent_dalys_averted_vs_no_intervention": 16.531420333773948
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_all_public",
+        "outcome": "Total",
+        "level": 0.5,
+        "level_percent": 50,
+        "effective_annual_infection_proportion": 0.1651494432846,
+        "five_year_dalys_per_1000": 153.39562880654901,
+        "dalys_averted_per_1000": 75.844806835689496,
+        "baseline_dalys_per_1000_for_outcome": 229.24043564223851,
+        "percent_dalys_averted_vs_no_intervention": 33.085265530578489
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_all_public",
+        "outcome": "Total",
+        "level": 0.75,
+        "level_percent": 75,
+        "effective_annual_infection_proportion": 0.1092241649269,
+        "five_year_dalys_per_1000": 115.39578998864999,
+        "dalys_averted_per_1000": 113.844645653588,
+        "baseline_dalys_per_1000_for_outcome": 229.240435642238,
+        "percent_dalys_averted_vs_no_intervention": 49.661677415086842
+      },
+      {
+        "intervention_family": "Air cleaning",
+        "intervention": "far_uvc_all_public",
+        "outcome": "Total",
+        "level": 1,
+        "level_percent": 100,
+        "effective_annual_infection_proportion": 0.0532988865692,
+        "five_year_dalys_per_1000": 77.3438907990638,
+        "dalys_averted_per_1000": 151.89654484317501,
+        "baseline_dalys_per_1000_for_outcome": 229.24043564223882,
+        "percent_dalys_averted_vs_no_intervention": 66.260799242342401
+      }
+    ],
+    "preexposure_prophylaxis": [
+      {
+        "intervention_family": "Pre-exposure prophylaxis",
+        "intervention": "70% relative efficacy against infection",
+        "outcome": "Acute COVID",
+        "level": 0,
+        "level_percent": 0,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 34.499588080554297,
+        "dalys_averted_per_1000": 0,
+        "baseline_dalys_per_1000_for_outcome": 34.499588080554297,
+        "percent_dalys_averted_vs_no_intervention": 0
+      },
+      {
+        "intervention_family": "Pre-exposure prophylaxis",
+        "intervention": "70% relative efficacy against infection",
+        "outcome": "Acute COVID",
+        "level": 0.25,
+        "level_percent": 25,
+        "effective_annual_infection_proportion": 0.228525,
+        "five_year_dalys_per_1000": 28.462160166457299,
+        "dalys_averted_per_1000": 6.03742791409701,
+        "baseline_dalys_per_1000_for_outcome": 34.499588080554311,
+        "percent_dalys_averted_vs_no_intervention": 17.500000000000018
+      },
+      {
+        "intervention_family": "Pre-exposure prophylaxis",
+        "intervention": "70% relative efficacy against infection",
+        "outcome": "Acute COVID",
+        "level": 0.5,
+        "level_percent": 50,
+        "effective_annual_infection_proportion": 0.18005,
+        "five_year_dalys_per_1000": 22.4247322523603,
+        "dalys_averted_per_1000": 12.074855828194,
+        "baseline_dalys_per_1000_for_outcome": 34.499588080554304,
+        "percent_dalys_averted_vs_no_intervention": 34.999999999999979
+      },
+      {
+        "intervention_family": "Pre-exposure prophylaxis",
+        "intervention": "70% relative efficacy against infection",
+        "outcome": "Acute COVID",
+        "level": 0.75,
+        "level_percent": 75,
+        "effective_annual_infection_proportion": 0.131575,
+        "five_year_dalys_per_1000": 16.387304338263299,
+        "dalys_averted_per_1000": 18.112283742291002,
+        "baseline_dalys_per_1000_for_outcome": 34.499588080554304,
+        "percent_dalys_averted_vs_no_intervention": 52.499999999999979
+      },
+      {
+        "intervention_family": "Pre-exposure prophylaxis",
+        "intervention": "70% relative efficacy against infection",
+        "outcome": "Acute COVID",
+        "level": 1,
+        "level_percent": 100,
+        "effective_annual_infection_proportion": 0.08309999999999999,
+        "five_year_dalys_per_1000": 10.3498764241663,
+        "dalys_averted_per_1000": 24.149711656388,
+        "baseline_dalys_per_1000_for_outcome": 34.499588080554304,
+        "percent_dalys_averted_vs_no_intervention": 69.999999999999957
+      },
+      {
+        "intervention_family": "Pre-exposure prophylaxis",
+        "intervention": "70% relative efficacy against infection",
+        "outcome": "Long COVID",
+        "level": 0,
+        "level_percent": 0,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 60.490114761025403,
+        "dalys_averted_per_1000": 0,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025403,
+        "percent_dalys_averted_vs_no_intervention": 0
+      },
+      {
+        "intervention_family": "Pre-exposure prophylaxis",
+        "intervention": "70% relative efficacy against infection",
+        "outcome": "Long COVID",
+        "level": 0.25,
+        "level_percent": 25,
+        "effective_annual_infection_proportion": 0.228525,
+        "five_year_dalys_per_1000": 57.140873538823499,
+        "dalys_averted_per_1000": 3.34924122220188,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025382,
+        "percent_dalys_averted_vs_no_intervention": 5.536840582024888
+      },
+      {
+        "intervention_family": "Pre-exposure prophylaxis",
+        "intervention": "70% relative efficacy against infection",
+        "outcome": "Long COVID",
+        "level": 0.5,
+        "level_percent": 50,
+        "effective_annual_infection_proportion": 0.18005,
+        "five_year_dalys_per_1000": 53.768021356890699,
+        "dalys_averted_per_1000": 6.72209340413467,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025367,
+        "percent_dalys_averted_vs_no_intervention": 11.112713921425405
+      },
+      {
+        "intervention_family": "Pre-exposure prophylaxis",
+        "intervention": "70% relative efficacy against infection",
+        "outcome": "Long COVID",
+        "level": 0.75,
+        "level_percent": 75,
+        "effective_annual_infection_proportion": 0.131575,
+        "five_year_dalys_per_1000": 50.371360493567103,
+        "dalys_averted_per_1000": 10.1187542674583,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025403,
+        "percent_dalys_averted_vs_no_intervention": 16.727946884270008
+      },
+      {
+        "intervention_family": "Pre-exposure prophylaxis",
+        "intervention": "70% relative efficacy against infection",
+        "outcome": "Long COVID",
+        "level": 1,
+        "level_percent": 100,
+        "effective_annual_infection_proportion": 0.08309999999999999,
+        "five_year_dalys_per_1000": 46.9506913959965,
+        "dalys_averted_per_1000": 13.539423365028901,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025403,
+        "percent_dalys_averted_vs_no_intervention": 22.382869363892386
+      },
+      {
+        "intervention_family": "Pre-exposure prophylaxis",
+        "intervention": "70% relative efficacy against infection",
+        "outcome": "PASC",
+        "level": 0,
+        "level_percent": 0,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 134.25073280065899,
+        "dalys_averted_per_1000": 0,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065899,
+        "percent_dalys_averted_vs_no_intervention": 0
+      },
+      {
+        "intervention_family": "Pre-exposure prophylaxis",
+        "intervention": "70% relative efficacy against infection",
+        "outcome": "PASC",
+        "level": 0.25,
+        "level_percent": 25,
+        "effective_annual_infection_proportion": 0.228525,
+        "five_year_dalys_per_1000": 110.79220216732899,
+        "dalys_averted_per_1000": 23.458530633330302,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065931,
+        "percent_dalys_averted_vs_no_intervention": 17.473670455238732
+      },
+      {
+        "intervention_family": "Pre-exposure prophylaxis",
+        "intervention": "70% relative efficacy against infection",
+        "outcome": "PASC",
+        "level": 0.5,
+        "level_percent": 50,
+        "effective_annual_infection_proportion": 0.18005,
+        "five_year_dalys_per_1000": 87.318692403206796,
+        "dalys_averted_per_1000": 46.932040397452198,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065899,
+        "percent_dalys_averted_vs_no_intervention": 34.958498488897504
+      },
+      {
+        "intervention_family": "Pre-exposure prophylaxis",
+        "intervention": "70% relative efficacy against infection",
+        "outcome": "PASC",
+        "level": 0.75,
+        "level_percent": 75,
+        "effective_annual_infection_proportion": 0.131575,
+        "five_year_dalys_per_1000": 63.830189929655198,
+        "dalys_averted_per_1000": 70.420542871003903,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065911,
+        "percent_dalys_averted_vs_no_intervention": 52.4544942153628
+      },
+      {
+        "intervention_family": "Pre-exposure prophylaxis",
+        "intervention": "70% relative efficacy against infection",
+        "outcome": "PASC",
+        "level": 1,
+        "level_percent": 100,
+        "effective_annual_infection_proportion": 0.08309999999999999,
+        "five_year_dalys_per_1000": 40.326681153562397,
+        "dalys_averted_per_1000": 93.924051647096704,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065911,
+        "percent_dalys_averted_vs_no_intervention": 69.96166775980204
+      }
+    ],
+    "postexposure_prophylaxis": [
+      {
+        "intervention_family": "Post-exposure prophylaxis",
+        "intervention": "12.38% modeled maximum population infection reduction",
+        "outcome": "Acute COVID",
+        "level": 0,
+        "level_percent": 0,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 34.499588080554297,
+        "dalys_averted_per_1000": 0,
+        "baseline_dalys_per_1000_for_outcome": 34.499588080554297,
+        "percent_dalys_averted_vs_no_intervention": 0
+      },
+      {
+        "intervention_family": "Post-exposure prophylaxis",
+        "intervention": "12.38% modeled maximum population infection reduction",
+        "outcome": "Acute COVID",
+        "level": 0.25,
+        "level_percent": 25,
+        "effective_annual_infection_proportion": 0.26842685,
+        "five_year_dalys_per_1000": 33.431825829461197,
+        "dalys_averted_per_1000": 1.06776225109316,
+        "baseline_dalys_per_1000_for_outcome": 34.499588080554354,
+        "percent_dalys_averted_vs_no_intervention": 3.095000000000008
+      },
+      {
+        "intervention_family": "Post-exposure prophylaxis",
+        "intervention": "12.38% modeled maximum population infection reduction",
+        "outcome": "Acute COVID",
+        "level": 0.5,
+        "level_percent": 50,
+        "effective_annual_infection_proportion": 0.2598537,
+        "five_year_dalys_per_1000": 32.364063578367997,
+        "dalys_averted_per_1000": 2.13552450218631,
+        "baseline_dalys_per_1000_for_outcome": 34.499588080554304,
+        "percent_dalys_averted_vs_no_intervention": 6.189999999999996
+      },
+      {
+        "intervention_family": "Post-exposure prophylaxis",
+        "intervention": "12.38% modeled maximum population infection reduction",
+        "outcome": "Acute COVID",
+        "level": 0.75,
+        "level_percent": 75,
+        "effective_annual_infection_proportion": 0.25128055,
+        "five_year_dalys_per_1000": 31.2963013272749,
+        "dalys_averted_per_1000": 3.20328675327947,
+        "baseline_dalys_per_1000_for_outcome": 34.499588080554368,
+        "percent_dalys_averted_vs_no_intervention": 9.284999999999991
+      },
+      {
+        "intervention_family": "Post-exposure prophylaxis",
+        "intervention": "12.38% modeled maximum population infection reduction",
+        "outcome": "Acute COVID",
+        "level": 1,
+        "level_percent": 100,
+        "effective_annual_infection_proportion": 0.2427074,
+        "five_year_dalys_per_1000": 30.228539076181701,
+        "dalys_averted_per_1000": 4.27104900437263,
+        "baseline_dalys_per_1000_for_outcome": 34.499588080554332,
+        "percent_dalys_averted_vs_no_intervention": 12.38000000000001
+      },
+      {
+        "intervention_family": "Post-exposure prophylaxis",
+        "intervention": "12.38% modeled maximum population infection reduction",
+        "outcome": "Long COVID",
+        "level": 0,
+        "level_percent": 0,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 60.490114761025403,
+        "dalys_averted_per_1000": 0,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025403,
+        "percent_dalys_averted_vs_no_intervention": 0
+      },
+      {
+        "intervention_family": "Post-exposure prophylaxis",
+        "intervention": "12.38% modeled maximum population infection reduction",
+        "outcome": "Long COVID",
+        "level": 0.25,
+        "level_percent": 25,
+        "effective_annual_infection_proportion": 0.26842685,
+        "five_year_dalys_per_1000": 59.899487464566597,
+        "dalys_averted_per_1000": 0.590627296458763,
+        "baseline_dalys_per_1000_for_outcome": 60.49011476102536,
+        "percent_dalys_averted_vs_no_intervention": 0.976403002031189
+      },
+      {
+        "intervention_family": "Post-exposure prophylaxis",
+        "intervention": "12.38% modeled maximum population infection reduction",
+        "outcome": "Long COVID",
+        "level": 0.5,
+        "level_percent": 50,
+        "effective_annual_infection_proportion": 0.2598537,
+        "five_year_dalys_per_1000": 59.3081267065349,
+        "dalys_averted_per_1000": 1.18198805449052,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025417,
+        "percent_dalys_averted_vs_no_intervention": 1.954018535359253
+      },
+      {
+        "intervention_family": "Post-exposure prophylaxis",
+        "intervention": "12.38% modeled maximum population infection reduction",
+        "outcome": "Long COVID",
+        "level": 0.75,
+        "level_percent": 75,
+        "effective_annual_infection_proportion": 0.25128055,
+        "five_year_dalys_per_1000": 58.716031405552698,
+        "dalys_averted_per_1000": 1.77408335547273,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025431,
+        "percent_dalys_averted_vs_no_intervention": 2.932848387677047
+      },
+      {
+        "intervention_family": "Post-exposure prophylaxis",
+        "intervention": "12.38% modeled maximum population infection reduction",
+        "outcome": "Long COVID",
+        "level": 1,
+        "level_percent": 100,
+        "effective_annual_infection_proportion": 0.2427074,
+        "five_year_dalys_per_1000": 58.123200478480001,
+        "dalys_averted_per_1000": 2.36691428254544,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025438,
+        "percent_dalys_averted_vs_no_intervention": 3.912894349591271
+      },
+      {
+        "intervention_family": "Post-exposure prophylaxis",
+        "intervention": "12.38% modeled maximum population infection reduction",
+        "outcome": "PASC",
+        "level": 0,
+        "level_percent": 0,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 134.25073280065899,
+        "dalys_averted_per_1000": 0,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065899,
+        "percent_dalys_averted_vs_no_intervention": 0
+      },
+      {
+        "intervention_family": "Post-exposure prophylaxis",
+        "intervention": "12.38% modeled maximum population infection reduction",
+        "outcome": "PASC",
+        "level": 0.25,
+        "level_percent": 25,
+        "effective_annual_infection_proportion": 0.26842685,
+        "five_year_dalys_per_1000": 130.10301381834299,
+        "dalys_averted_per_1000": 4.14771898231567,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065865,
+        "percent_dalys_averted_vs_no_intervention": 3.089531726038609
+      },
+      {
+        "intervention_family": "Post-exposure prophylaxis",
+        "intervention": "12.38% modeled maximum population infection reduction",
+        "outcome": "PASC",
+        "level": 0.5,
+        "level_percent": 50,
+        "effective_annual_infection_proportion": 0.2598537,
+        "five_year_dalys_per_1000": 125.954826661173,
+        "dalys_averted_per_1000": 8.29590613948592,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065891,
+        "percent_dalys_averted_vs_no_intervention": 6.179412183771114
+      },
+      {
+        "intervention_family": "Post-exposure prophylaxis",
+        "intervention": "12.38% modeled maximum population infection reduction",
+        "outcome": "PASC",
+        "level": 0.75,
+        "level_percent": 75,
+        "effective_annual_infection_proportion": 0.25128055,
+        "five_year_dalys_per_1000": 121.806171254264,
+        "dalys_averted_per_1000": 12.4445615463955,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065951,
+        "percent_dalys_averted_vs_no_intervention": 9.269641428977263
+      },
+      {
+        "intervention_family": "Post-exposure prophylaxis",
+        "intervention": "12.38% modeled maximum population infection reduction",
+        "outcome": "PASC",
+        "level": 1,
+        "level_percent": 100,
+        "effective_annual_infection_proportion": 0.2427074,
+        "five_year_dalys_per_1000": 117.65704752251401,
+        "dalys_averted_per_1000": 16.593685278144999,
+        "baseline_dalys_per_1000_for_outcome": 134.25073280065899,
+        "percent_dalys_averted_vs_no_intervention": 12.360219517597706
+      }
+    ],
+    "long_covid_treatments": [
+      {
+        "intervention_family": "Long COVID treatment",
+        "intervention": "Disability-weight reduction",
+        "outcome": "Long COVID",
+        "level": 0,
+        "level_percent": 0,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 60.490114761025403,
+        "dalys_averted_per_1000": 0,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025403,
+        "percent_dalys_averted_vs_no_intervention": 0
+      },
+      {
+        "intervention_family": "Long COVID treatment",
+        "intervention": "Disability-weight reduction",
+        "outcome": "Long COVID",
+        "level": 0.05,
+        "level_percent": 5,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 57.481480567774,
+        "dalys_averted_per_1000": 3.0086341932514,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025403,
+        "percent_dalys_averted_vs_no_intervention": 4.973761754523738
+      },
+      {
+        "intervention_family": "Long COVID treatment",
+        "intervention": "Disability-weight reduction",
+        "outcome": "Long COVID",
+        "level": 0.1,
+        "level_percent": 10,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 54.472846374522597,
+        "dalys_averted_per_1000": 6.01726838650279,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025389,
+        "percent_dalys_averted_vs_no_intervention": 9.947523509047462
+      },
+      {
+        "intervention_family": "Long COVID treatment",
+        "intervention": "Disability-weight reduction",
+        "outcome": "Long COVID",
+        "level": 0.2,
+        "level_percent": 20,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 48.455577988019797,
+        "dalys_averted_per_1000": 12.0345367730056,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025396,
+        "percent_dalys_averted_vs_no_intervention": 19.895047018094957
+      },
+      {
+        "intervention_family": "Long COVID treatment",
+        "intervention": "Disease-progression reduction",
+        "outcome": "Long COVID",
+        "level": 0,
+        "level_percent": 0,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 60.490114761025403,
+        "dalys_averted_per_1000": 0,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025403,
+        "percent_dalys_averted_vs_no_intervention": 0
+      },
+      {
+        "intervention_family": "Long COVID treatment",
+        "intervention": "Disease-progression reduction",
+        "outcome": "Long COVID",
+        "level": 0.05,
+        "level_percent": 5,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 59.874195644153097,
+        "dalys_averted_per_1000": 0.615919116872256,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025353,
+        "percent_dalys_averted_vs_no_intervention": 1.0182144955511
+      },
+      {
+        "intervention_family": "Long COVID treatment",
+        "intervention": "Disease-progression reduction",
+        "outcome": "Long COVID",
+        "level": 0.1,
+        "level_percent": 10,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 59.250941356755902,
+        "dalys_averted_per_1000": 1.2391734042695,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025403,
+        "percent_dalys_averted_vs_no_intervention": 2.048555221237431
+      },
+      {
+        "intervention_family": "Long COVID treatment",
+        "intervention": "Disease-progression reduction",
+        "outcome": "Long COVID",
+        "level": 0.2,
+        "level_percent": 20,
+        "effective_annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 57.981980382346997,
+        "dalys_averted_per_1000": 2.50813437867834,
+        "baseline_dalys_per_1000_for_outcome": 60.490114761025339,
+        "percent_dalys_averted_vs_no_intervention": 4.146354141642937
+      }
+    ],
+    "implementation_status": [
+      {
+        "analysis": "Air cleaning",
+        "status": "Implemented; outputs saved",
+        "outcomes": "Acute COVID; Long COVID; PASC",
+        "note": "Six HEPA/Far UVC scenarios at 0%, 25%, 50%, 75%, and 100% implementation"
+      },
+      {
+        "analysis": "Pre-exposure prophylaxis",
+        "status": "Implemented; outputs saved",
+        "outcomes": "Acute COVID; Long COVID; PASC",
+        "note": "70% efficacy at 0%, 25%, 50%, 75%, and 100% adoption"
+      },
+      {
+        "analysis": "Long COVID disability-weight reduction",
+        "status": "Implemented; outputs saved",
+        "outcomes": "Long COVID",
+        "note": "0%, 5%, 10%, and 20% reductions in both disability weights"
+      },
+      {
+        "analysis": "Long COVID disease-progression reduction",
+        "status": "Implemented; outputs saved",
+        "outcomes": "Long COVID",
+        "note": "0%, 5%, 10%, and 20% reductions in S1-to-S2 progression"
+      },
+      {
+        "analysis": "Annual infection-rate sensitivity",
+        "status": "Implemented; outputs saved",
+        "outcomes": "Long COVID",
+        "note": "Five-percentage-point grid plus 18%, 27.7%, 38%, and 44%"
+      },
+      {
+        "analysis": "Study-mapped infection rates",
+        "status": "Implemented; outputs saved",
+        "outcomes": "Long COVID",
+        "note": "Seven documented study/scenario values"
+      },
+      {
+        "analysis": "Post-exposure prophylaxis",
+        "status": "Implemented; outputs saved",
+        "outcomes": "Acute COVID; Long COVID; PASC",
+        "note": "PI-specified sensitivity: 12.38% maximum population infection reduction at 0%, 25%, 50%, 75%, and 100% implementation"
+      }
+    ]
+  },
+  "sensitivities": {
+    "annual_infection_proportion": [
+      {
+        "annual_infection_proportion": 0.15,
+        "five_year_dalys_per_1000": 51.665224520083001,
+        "change_vs_reference_per_1000": -8.824890240942389
+      },
+      {
+        "annual_infection_proportion": 0.18,
+        "five_year_dalys_per_1000": 53.764530139050798,
+        "change_vs_reference_per_1000": -6.7255846219746
+      },
+      {
+        "annual_infection_proportion": 0.2,
+        "five_year_dalys_per_1000": 55.158998238387802,
+        "change_vs_reference_per_1000": -5.33111652263755
+      },
+      {
+        "annual_infection_proportion": 0.25,
+        "five_year_dalys_per_1000": 58.627528490404899,
+        "change_vs_reference_per_1000": -1.86258627062053
+      },
+      {
+        "annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 60.490114761025403,
+        "change_vs_reference_per_1000": 0
+      },
+      {
+        "annual_infection_proportion": 0.3,
+        "five_year_dalys_per_1000": 62.071031399221702,
+        "change_vs_reference_per_1000": 1.58091663819627
+      },
+      {
+        "annual_infection_proportion": 0.35,
+        "five_year_dalys_per_1000": 65.489721044383799,
+        "change_vs_reference_per_1000": 4.99960628335845
+      },
+      {
+        "annual_infection_proportion": 0.38,
+        "five_year_dalys_per_1000": 67.529112764017896,
+        "change_vs_reference_per_1000": 7.03899800299255
+      },
+      {
+        "annual_infection_proportion": 0.4,
+        "five_year_dalys_per_1000": 68.883809482499501,
+        "change_vs_reference_per_1000": 8.39369472147407
+      },
+      {
+        "annual_infection_proportion": 0.44,
+        "five_year_dalys_per_1000": 71.581508587014397,
+        "change_vs_reference_per_1000": 11.091393825989
+      },
+      {
+        "annual_infection_proportion": 0.45,
+        "five_year_dalys_per_1000": 72.253506767625794,
+        "change_vs_reference_per_1000": 11.7633920066004
+      }
+    ],
+    "study_mapped_infection_proportions": [
+      {
+        "study_scenario": "Pemivibart placebo group",
+        "annual_infection_proportion": 0.18125,
+        "five_year_dalys_per_1000": 53.851802986520099
+      },
+      {
+        "study_scenario": "UK Winter COVID Infection Study",
+        "annual_infection_proportion": 0.22,
+        "five_year_dalys_per_1000": 56.549427406239403
+      },
+      {
+        "study_scenario": "Irish healthcare workers",
+        "annual_infection_proportion": 0.278878418642718,
+        "five_year_dalys_per_1000": 60.619426207772896
+      },
+      {
+        "study_scenario": "Project reference",
+        "annual_infection_proportion": 0.277,
+        "five_year_dalys_per_1000": 60.490114761025403
+      },
+      {
+        "study_scenario": "Azelastine probability-based conversion",
+        "annual_infection_proportion": 0.364829908427485,
+        "five_year_dalys_per_1000": 66.498958197158601
+      },
+      {
+        "study_scenario": "Cascadia community cohort",
+        "annual_infection_proportion": 0.376994542374807,
+        "five_year_dalys_per_1000": 67.325200466804006
+      },
+      {
+        "study_scenario": "Azelastine linear annualization",
+        "annual_infection_proportion": 0.438420884048687,
+        "five_year_dalys_per_1000": 71.475303737556999
+      }
+    ]
+  },
+  "validation": {
+    "all_checks_passed": true,
+    "check_groups": {
+      "primary_model": [
+        {
+          "check": "Exactly seven scenarios",
+          "passed": true
+        },
+        {
+          "check": "Scenario identifiers are unique",
+          "passed": true
+        },
+        {
+          "check": "Returned Long COVID runs use stable population",
+          "passed": true
+        },
+        {
+          "check": "Returned Long COVID runs replace deaths into H",
+          "passed": true
+        },
+        {
+          "check": "Returned runs use adult-population-weighted inputs",
+          "passed": true
+        },
+        {
+          "check": "Returned Long COVID S2-to-S1 rate equals 0.10",
+          "passed": true
+        },
+        {
+          "check": "Returned PASC aggregate is evidence-reviewed",
+          "passed": true
+        },
+        {
+          "check": "Baseline Long COVID onset equals 0.277 multiplied by 0.05",
+          "passed": true
+        },
+        {
+          "check": "Acute and Long COVID sum to the primary combined total",
+          "passed": true
+        },
+        {
+          "check": "Lower infection proportions correspond to lower primary DALYs",
+          "passed": true
+        },
+        {
+          "check": "Primary output includes PASC and all-outcome total",
+          "passed": true
+        },
+        {
+          "check": "PASC output is explicitly identified",
+          "passed": true
+        }
+      ],
+      "model_functions": [
+        {
+          "check": "Non-baseline Long COVID intervention averts positive DALYs",
+          "passed": true
+        },
+        {
+          "check": "compare_intervention baseline matches direct model run",
+          "passed": true
+        },
+        {
+          "check": "compare_intervention intervention matches direct model run",
+          "passed": true
+        },
+        {
+          "check": "compare_intervention DALYs averted match direct subtraction",
+          "passed": true
+        },
+        {
+          "check": "Helper converts infection-conditioned onset for both runs",
+          "passed": true
+        },
+        {
+          "check": "Lower infection produces lower effective Long COVID onset",
+          "passed": true
+        },
+        {
+          "check": "Default Long COVID horizon is five years",
+          "passed": true
+        },
+        {
+          "check": "Default Acute COVID horizon is five years",
+          "passed": true
+        },
+        {
+          "check": "Default and explicit approved Long COVID settings agree",
+          "passed": true
+        },
+        {
+          "check": "Default Long COVID calls scale onset with infection",
+          "passed": true
+        },
+        {
+          "check": "Lower infection lowers default-call Long COVID DALYs",
+          "passed": true
+        },
+        {
+          "check": "Named initial states are safely reordered",
+          "passed": true
+        },
+        {
+          "check": "Improvement multiplier is rejected when S2-to-S1 is unavailable",
+          "passed": true
+        }
+      ],
+      "acute_covid": [
+        {
+          "check": "All seven R results match an independent age-stratified calculation",
+          "passed": true
+        },
+        {
+          "check": "Adult age shares sum to one",
+          "passed": true
+        },
+        {
+          "check": "Adult-weighted point IFR reproduces 0.09378457 percent",
+          "passed": true
+        },
+        {
+          "check": "YLL uses age-specific IFR times age-specific life expectancy",
+          "passed": true
+        },
+        {
+          "check": "Baseline Acute COVID matches the age-stratified formula at 27.7% infection",
+          "passed": true
+        },
+        {
+          "check": "Lower and upper IFR inputs bracket the point estimate",
+          "passed": true
+        },
+        {
+          "check": "Acute DALYs change proportionally with infection proportion",
+          "passed": true
+        }
+      ],
+      "pasc": [
+        {
+          "check": "Six component primary results are present",
+          "passed": true
+        },
+        {
+          "check": "Baseline component sum equals PASC total",
+          "passed": true
+        },
+        {
+          "check": "Baseline PASC matches a direct model run at 27.7% infection",
+          "passed": true
+        },
+        {
+          "check": "Lower infection proportions produce lower PASC DALYs",
+          "passed": true
+        },
+        {
+          "check": "Every component decreases under the lowest infection scenario",
+          "passed": true
+        },
+        {
+          "check": "All PASC outputs are finite and non-negative",
+          "passed": true
+        },
+        {
+          "check": "Sensitivity endpoints surround each primary estimate",
+          "passed": true
+        },
+        {
+          "check": "Derived weighted PASC summaries are finite and positive",
+          "passed": true
+        },
+        {
+          "check": "Weighted PASC disability weight equals weighted person-time divided by person-time",
+          "passed": true
+        },
+        {
+          "check": "Effective PASC mortality ratio equals one plus attributable over expected deaths",
+          "passed": true
+        }
+      ],
+      "alternative_interventions": [
+        {
+          "check": "PASC outcomes are included for infection-prevention interventions",
+          "passed": true
+        },
+        {
+          "check": "Air cleaning contains six scenarios, five implementation levels, and four outcomes",
+          "passed": true
+        },
+        {
+          "check": "Pre-exposure prophylaxis contains five adoption levels for three outcomes",
+          "passed": true
+        },
+        {
+          "check": "Post-exposure prophylaxis contains five implementation levels for three outcomes",
+          "passed": true
+        },
+        {
+          "check": "Both Long COVID treatment analyses contain four reduction levels",
+          "passed": true
+        },
+        {
+          "check": "All intervention DALYs are finite and non-negative",
+          "passed": true
+        },
+        {
+          "check": "Infection sensitivity DALYs increase with infection proportion",
+          "passed": true
+        },
+        {
+          "check": "Current Long COVID reference matches a direct baseline run",
+          "passed": true
+        },
+        {
+          "check": "Post-exposure prophylaxis is included as a modeled sensitivity",
+          "passed": true
+        }
+      ],
+      "long_covid_treatments": [
+        {
+          "check": "Each sensitivity contains 0%, 5%, 10%, and 20%",
+          "passed": true
+        },
+        {
+          "check": "The two reference rows are identical",
+          "passed": true
+        },
+        {
+          "check": "Reference uses 0.277 multiplied by 0.05 for Long COVID onset",
+          "passed": true
+        },
+        {
+          "check": "Greater disability-weight reductions lower DALYs",
+          "passed": true
+        },
+        {
+          "check": "Greater progression reductions lower DALYs",
+          "passed": true
+        },
+        {
+          "check": "Disability-weight runs change both disability weights only",
+          "passed": true
+        },
+        {
+          "check": "Progression runs change S1-to-S2 progression only",
+          "passed": true
+        },
+        {
+          "check": "Disability-weight reductions leave YLL unchanged",
+          "passed": true
+        },
+        {
+          "check": "S2-to-S1 improvement remains 0.10 in every run",
+          "passed": true
+        },
+        {
+          "check": "DALY equals YLD plus YLL in every run",
+          "passed": true
+        }
+      ],
+      "preexposure_prophylaxis": [
+        {
+          "check": "Acute COVID, Long COVID, and PASC are included",
+          "passed": true
+        },
+        {
+          "check": "Five adoption levels are present for each outcome",
+          "passed": true
+        },
+        {
+          "check": "Annual infection proportion declines with adoption",
+          "passed": true
+        },
+        {
+          "check": "DALYs decline with adoption for all outcomes",
+          "passed": true
+        },
+        {
+          "check": "DALYs averted increase with adoption for all outcomes",
+          "passed": true
+        },
+        {
+          "check": "Full adoption produces a 70% infection reduction",
+          "passed": true
+        },
+        {
+          "check": "Acute COVID reference reproduces the age-stratified primary result",
+          "passed": true
+        },
+        {
+          "check": "Long COVID reference onset equals 0.277 multiplied by 0.05",
+          "passed": true
+        },
+        {
+          "check": "PASC reference matches the current baseline model",
+          "passed": true
+        },
+        {
+          "check": "Long COVID retains S2-to-S1 rate of 0.10",
+          "passed": true
+        }
+      ],
+      "postexposure_prophylaxis": [
+        {
+          "check": "Acute COVID, Long COVID, and PASC are included",
+          "passed": true
+        },
+        {
+          "check": "Five implementation levels are present for each outcome",
+          "passed": true
+        },
+        {
+          "check": "Annual infection proportion declines with implementation",
+          "passed": true
+        },
+        {
+          "check": "DALYs decline with implementation for all outcomes",
+          "passed": true
+        },
+        {
+          "check": "DALYs averted increase with implementation for all outcomes",
+          "passed": true
+        },
+        {
+          "check": "Full implementation produces a 12.38% population infection reduction",
+          "passed": true
+        },
+        {
+          "check": "Document exposure fractions multiply to 18.48%",
+          "passed": true
+        },
+        {
+          "check": "Long COVID onset remains infection proportion times 5%",
+          "passed": true
+        }
+      ]
+    }
+  }
+}
