@@ -1,11 +1,10 @@
-// Browser-compatible JavaScript implementation of the approved Acute COVID
-// and Long COVID DALY calculations. PASC is intentionally not implemented
-// pending validation of the R source model.
+// Browser-compatible JavaScript implementation of the Acute COVID, Long
+// COVID, and evidence-reviewed PASC DALY calculations.
 
 /**
  * fraction of adult population expected to catch COVID per year with no intervention
  */
-export const BASELINE_INFECTION_PROPORTION = 0.2874;
+export const BASELINE_INFECTION_PROPORTION = 0.277;
 /**
  * average annual death rate for adults weighted across age groups
  */
@@ -25,27 +24,27 @@ export const AIR_CLEANING_SCENARIOS = Object.freeze({
   }),
   hepa_most_public: Object.freeze({
     label: "HEPA in most common indoor air",
-    annualInfectionProportion: 0.2644,
+    annualInfectionProportion: 0.254832289492,
   }),
   hepa_schools_and_daycares: Object.freeze({
     label: "HEPA schools and daycares",
-    annualInfectionProportion: 0.2404,
+    annualInfectionProportion: 0.231700765484,
   }),
   hepa_all_public: Object.freeze({
     label: "HEPA all public indoor air",
-    annualInfectionProportion: 0.1099,
+    annualInfectionProportion: 0.105923103688,
   }),
   far_uvc_most_public: Object.freeze({
     label: "Far UVC in most common indoor air",
-    annualInfectionProportion: 0.2529,
+    annualInfectionProportion: 0.243748434238,
   }),
   far_uvc_schools_and_daycares: Object.freeze({
     label: "Far UVC schools and daycares",
-    annualInfectionProportion: 0.2263,
+    annualInfectionProportion: 0.218110995129,
   }),
   far_uvc_all_public: Object.freeze({
     label: "Far UVC all public indoor air",
-    annualInfectionProportion: 0.0553,
+    annualInfectionProportion: 0.0532988865692,
   }),
 });
 
@@ -91,8 +90,8 @@ export function infectionUnderAirCleaningImplementation({
  */
 export const DEFAULT_LONG_COVID_PARAMETERS = Object.freeze({
   initialState: Object.freeze({ H: 0.956, S1: 0.031, S2: 0.013 }),
-  // H => S1: health person develops Long COVID
-  baselineOnsetRate: 0.025,
+  // Risk of Long COVID among people infected
+  onsetRiskPerInfection: 0.05,
   // S1 => H
   recoveryRate: 0.1,
   // S1 => S2 (sick to sicker)
@@ -113,9 +112,8 @@ export const DEFAULT_LONG_COVID_PARAMETERS = Object.freeze({
 export const DEFAULT_LONG_COVID_OPTIONS = {
   horizonYears: 5,
   annualInfectionProportion: BASELINE_INFECTION_PROPORTION,
-  scaleOnsetByInfection: true,
   stablePopulation: true,
-  stableReplacement: "H",
+  stableReplacement: "H" as const,
   backgroundMortalityRate: ADULT_WEIGHTED_BACKGROUND_MORTALITY,
   remainingLifeExpectancy: ADULT_WEIGHTED_REMAINING_LIFE_EXPECTANCY,
   discountRate: 0.001,
@@ -130,7 +128,7 @@ type LongCovidInitialState = {
 
 type LongCovidParameters = {
   initialState: LongCovidInitialState;
-  baselineOnsetRate: number;
+  onsetRiskPerInfection: number;
   recoveryRate: number;
   progressionRate: number;
   improvementRate: number;
@@ -141,12 +139,21 @@ type LongCovidParameters = {
 };
 
 type LongCovidParametersOverride = {
-  initialState?: {
-    H?: number;
-    S1?: number;
-    S2?: number;
+  initialState?: Partial<LongCovidInitialState>;
+  // Compatibility alias for the earlier dashboard field name.
+  baselineOnsetRate?: number;
+} & Partial<
+  Omit<LongCovidParameters, "initialState" | "onsetRiskPerInfection">
+> & {
+    onsetRiskPerInfection?: number;
   };
+
+type EffectiveLongCovidParameters = LongCovidParameters & {
+  effectiveOnsetRate: number;
 };
+
+const ACUTE_IFR_SCENARIOS = ["point", "lower", "upper"] as const;
+type AcuteIfrScenario = (typeof ACUTE_IFR_SCENARIOS)[number];
 
 /**
  * Parameters for an acute covid infection
@@ -154,7 +161,7 @@ type LongCovidParametersOverride = {
 export const DEFAULT_ACUTE_COVID_PARAMETERS = Object.freeze({
   // illness duration * disability weight
   durationWeightedDisability: 0.00888944,
-  caseFatalityRate: 0.0005760242424,
+  ifrScenario: "point" as AcuteIfrScenario,
 });
 
 /**
@@ -172,6 +179,29 @@ export function infectionUnderPreExposureProphylaxis({
   assertUnitInterval(adoption, "adoption");
   assertUnitInterval(efficacy, "efficacy");
   return baselineInfectionProportion * (1 - efficacy * adoption);
+}
+
+/**
+ * How post exposure prophylaxis affects infection proportion
+ */
+export function infectionUnderPostExposureProphylaxis({
+  baselineInfectionProportion = BASELINE_INFECTION_PROPORTION,
+  implementation = 0,
+  maximumPopulationInfectionReduction = 0.1238,
+} = {}) {
+  assertUnitInterval(
+    baselineInfectionProportion,
+    "baselineInfectionProportion",
+  );
+  assertUnitInterval(implementation, "implementation");
+  assertUnitInterval(
+    maximumPopulationInfectionReduction,
+    "maximumPopulationInfectionReduction",
+  );
+  return (
+    baselineInfectionProportion *
+    (1 - maximumPopulationInfectionReduction * implementation)
+  );
 }
 
 /**
@@ -349,7 +379,7 @@ function discountedLifeExpectancy(
 }
 
 function transitionRateMatrix(
-  parameters: LongCovidParameters,
+  parameters: EffectiveLongCovidParameters,
   backgroundMortalityRate: number,
 ) {
   const diseaseDeathS1 = Math.max(
@@ -364,7 +394,7 @@ function transitionRateMatrix(
   );
 
   const {
-    baselineOnsetRate: rHS1,
+    effectiveOnsetRate: rHS1,
     recoveryRate: rS1H,
     progressionRate: rS1S2,
     improvementRate: rS2S1,
@@ -381,7 +411,7 @@ function transitionRateMatrix(
 }
 
 function validateLongCovidInputs(
-  parameters: LongCovidParameters,
+  parameters: EffectiveLongCovidParameters,
   options: LongCovidOptions,
 ) {
   const initialValues = Object.values(parameters.initialState);
@@ -394,7 +424,8 @@ function validateLongCovidInputs(
   }
   (
     [
-      "baselineOnsetRate",
+      "onsetRiskPerInfection",
+      "effectiveOnsetRate",
       "recoveryRate",
       "progressionRate",
       "improvementRate",
@@ -425,7 +456,6 @@ function validateLongCovidInputs(
 type LongCovidOptions = {
   horizonYears: number;
   annualInfectionProportion: number;
-  scaleOnsetByInfection: boolean;
   stablePopulation: boolean;
   stableReplacement: "H";
   backgroundMortalityRate: number;
@@ -447,25 +477,26 @@ export function runLongCovid({
   userParameters = {},
   userOptions,
 }: RunLongCovidInputs = {}) {
-  const parameters = {
+  const onsetRiskPerInfection =
+    userParameters.onsetRiskPerInfection ??
+    userParameters.baselineOnsetRate ??
+    DEFAULT_LONG_COVID_PARAMETERS.onsetRiskPerInfection;
+  const parameterOverrides = { ...userParameters };
+  delete parameterOverrides.baselineOnsetRate;
+  const options = {
+    ...DEFAULT_LONG_COVID_OPTIONS,
+    ...userOptions,
+  };
+  const parameters: EffectiveLongCovidParameters = {
     ...DEFAULT_LONG_COVID_PARAMETERS,
-    ...userParameters,
+    ...parameterOverrides,
+    onsetRiskPerInfection,
+    effectiveOnsetRate:
+      onsetRiskPerInfection * options.annualInfectionProportion,
     initialState: {
       ...DEFAULT_LONG_COVID_PARAMETERS.initialState,
       ...(userParameters.initialState ?? {}),
     },
-  };
-  const options = {
-    horizonYears: 5,
-    annualInfectionProportion: BASELINE_INFECTION_PROPORTION,
-    scaleOnsetByInfection: true,
-    stablePopulation: true,
-    stableReplacement: "H",
-    backgroundMortalityRate: ADULT_WEIGHTED_BACKGROUND_MORTALITY,
-    remainingLifeExpectancy: ADULT_WEIGHTED_REMAINING_LIFE_EXPECTANCY,
-    discountRate: 0.001,
-    populationSize: 1000,
-    ...userOptions,
   };
   if (options.stableReplacement !== "H") {
     throw new RangeError(
@@ -473,10 +504,6 @@ export function runLongCovid({
     );
   }
 
-  if (options.scaleOnsetByInfection) {
-    parameters.baselineOnsetRate *=
-      options.annualInfectionProportion / BASELINE_INFECTION_PROPORTION;
-  }
   validateLongCovidInputs(parameters, options);
 
   let occupancy = [
@@ -550,12 +577,11 @@ export function runLongCovid({
 export interface AcuteCovidInput {
   userParameters?: {
     durationWeightedDisability?: number;
-    caseFatalityRate?: number;
+    ifrScenario?: AcuteIfrScenario;
   };
   userOptions?: {
     horizonYears?: number;
     annualInfectionProportion?: number;
-    remainingLifeExpectancy?: number;
     populationSize?: number;
   };
 }
@@ -567,7 +593,6 @@ export function runAcuteCovid({
   const options = {
     horizonYears: 5,
     annualInfectionProportion: BASELINE_INFECTION_PROPORTION,
-    remainingLifeExpectancy: ADULT_WEIGHTED_REMAINING_LIFE_EXPECTANCY,
     populationSize: 1000,
     ...userOptions,
   };
@@ -575,7 +600,9 @@ export function runAcuteCovid({
     parameters.durationWeightedDisability,
     "durationWeightedDisability",
   );
-  assertUnitInterval(parameters.caseFatalityRate, "caseFatalityRate");
+  if (!ACUTE_IFR_SCENARIOS.includes(parameters.ifrScenario)) {
+    throw new RangeError("ifrScenario must be point, lower, or upper.");
+  }
   assertUnitInterval(
     options.annualInfectionProportion,
     "annualInfectionProportion",
@@ -586,10 +613,9 @@ export function runAcuteCovid({
 
   const annualYld =
     options.annualInfectionProportion * parameters.durationWeightedDisability;
+  const mortality = acuteMortalitySummary(parameters.ifrScenario);
   const annualYll =
-    options.annualInfectionProportion *
-    parameters.caseFatalityRate *
-    options.remainingLifeExpectancy;
+    options.annualInfectionProportion * mortality.yllPerInfection;
   const yearly = Array.from({ length: options.horizonYears }, (_, index) => ({
     year: index + 1,
     yld: annualYld,
@@ -602,7 +628,13 @@ export function runAcuteCovid({
   return {
     condition: "acute_covid",
     parametersUsed: parameters,
-    options,
+    options: {
+      ...options,
+      effectiveCaseFatalityRate: mortality.weightedIfr,
+      deathWeightedRemainingLifeExpectancy:
+        mortality.deathWeightedLifeExpectancy,
+      yllPerInfection: mortality.yllPerInfection,
+    },
     yearly,
     totals: {
       yld,
@@ -621,19 +653,19 @@ export function runAcuteCovid({
 export const PASC_STATUS = "evidence_reviewed";
 export const PASC_COMPONENT_RANGES = Object.freeze({
   heartFailure: Object.freeze({
-    lower: 71.9661030078021,
-    upper: 105.871486196926,
+    lower: 69.368103458,
+    upper: 102.0494913691,
   }),
-  stroke: Object.freeze({ lower: 21.01, upper: 36.11 }),
+  stroke: Object.freeze({ lower: 20.2499602377, upper: 34.8037155728 }),
   pulmonaryEmbolism: Object.freeze({
-    lower: 6.7944611498667,
-    upper: 9.24828878284628,
+    lower: 6.548863795,
+    upper: 8.9139936545,
   }),
-  dementia: Object.freeze({ lower: 0, upper: 8.95179034862977 }),
-  diabetes: Object.freeze({ lower: 0.642218075566604, upper: 2.1092956456018 }),
+  dementia: Object.freeze({ lower: 0, upper: 8.6281743693 }),
+  diabetes: Object.freeze({ lower: 0.6190623419, upper: 2.0332431487 }),
   myocardialInfarction: Object.freeze({
-    lower: 1.08815051316623,
-    upper: 1.79148660150277,
+    lower: 1.0487779888,
+    upper: 1.726665284,
   }),
 });
 
@@ -673,6 +705,78 @@ const PASC_AGE_STRATA = Object.freeze([
   { age: 82, share: 0.02752620634, bg: 0.06010902370842262, le: 11.9393073596 },
   { age: 87.5, share: 0.02374097299, bg: 0.1126319271859598, le: 8.8039530795 },
 ]);
+
+const ACUTE_IFR_BY_AGE = Object.freeze([
+  {
+    min: 6,
+    max: 24,
+    point: 0.0000016,
+    lower: 0.0000004,
+    upper: 0.0000042,
+  },
+  {
+    min: 25,
+    max: 44,
+    point: 0.000037,
+    lower: 0.000022,
+    upper: 0.000063,
+  },
+  {
+    min: 45,
+    max: 54,
+    point: 0.00014,
+    lower: 0.000093,
+    upper: 0.00022,
+  },
+  {
+    min: 55,
+    max: 64,
+    point: 0.00041,
+    lower: 0.00026,
+    upper: 0.00068,
+  },
+  {
+    min: 65,
+    max: 74,
+    point: 0.0014,
+    lower: 0.00089,
+    upper: 0.0022,
+  },
+  {
+    min: 75,
+    max: Infinity,
+    point: 0.0068,
+    lower: 0.0043,
+    upper: 0.0112,
+  },
+]);
+
+function acuteIfrAtAge(age: number, scenario: AcuteIfrScenario = "point") {
+  const group = ACUTE_IFR_BY_AGE.find(
+    (row) => age >= row.min && age <= row.max,
+  );
+  if (!group) throw new RangeError(`No acute COVID IFR group for age ${age}.`);
+  return group[scenario];
+}
+
+export function acuteMortalitySummary(scenario: AcuteIfrScenario = "point") {
+  if (!ACUTE_IFR_SCENARIOS.includes(scenario)) {
+    throw new RangeError("scenario must be point, lower, or upper.");
+  }
+  const weightedIfr = PASC_AGE_STRATA.reduce(
+    (sum, row) => sum + row.share * acuteIfrAtAge(row.age, scenario),
+    0,
+  );
+  const yllPerInfection = PASC_AGE_STRATA.reduce(
+    (sum, row) => sum + row.share * acuteIfrAtAge(row.age, scenario) * row.le,
+    0,
+  );
+  return {
+    weightedIfr,
+    yllPerInfection,
+    deathWeightedLifeExpectancy: yllPerInfection / weightedIfr,
+  };
+}
 
 function pascOneStateRateMatrix({
   onset,
