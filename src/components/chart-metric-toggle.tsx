@@ -20,18 +20,20 @@ export function ChartMetricToggle({
       <Button
         type="button"
         size="sm"
-        variant={value === "percent" ? "secondary" : "ghost"}
+        variant={value === "percent" ? "default" : "ghost"}
         aria-pressed={value === "percent"}
         onClick={() => onValueChange("percent")}
+        className="cursor-pointer"
       >
         Percent reduction
       </Button>
       <Button
         type="button"
         size="sm"
-        variant={value === "dalys" ? "secondary" : "ghost"}
+        variant={value === "dalys" ? "default" : "ghost"}
         aria-pressed={value === "dalys"}
         onClick={() => onValueChange("dalys")}
+        className="cursor-pointer"
       >
         DALYs per 1,000
       </Button>
