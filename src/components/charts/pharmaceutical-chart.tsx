@@ -11,17 +11,13 @@ import {
 } from "@/components/ui/card";
 import {
   ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart";
 
 import React, { useState } from "react";
-import { ChartModifierCheckbox } from "../chart-modifier-checkbox";
-import { cn } from "@/lib/utils";
-import { FieldGroup } from "../ui/field";
+import { ChartMetricToggle, type ChartMetric } from "../chart-metric-toggle";
 import { useDalyModel } from "@/hooks/use-daly-model";
 import { ModelAssumptionsPanel } from "@/components/model-assumptions-panel";
 import { SCENARIO_LABELS_BY_ID } from "@/config/scenario-daly-calculations";
@@ -168,36 +164,12 @@ function ScenarioYAxisTick({
 }
 
 const chartConfig = {
-  acute_covid: {
-    label: "acute COVID-19",
-    color: "var(--chart-1)",
-  },
-  long_covid: {
-    label: "Long COVID",
-    color: "var(--chart-2)",
-  },
-  pasc: {
-    label: "other post-acute sequelae of COVID-19 infection",
-    color: "var(--chart-3)",
-  },
   percent_reduction: {
-    label: "Percent reduction",
+    label: "Total DALY reduction",
     color: "var(--chart-6)",
   },
-  percent_reduction_acute_covid: {
-    label: "acute COVID-19",
-    color: "var(--chart-1)",
-  },
-  percent_reduction_long_covid: {
-    label: "Long COVID",
-    color: "var(--chart-2)",
-  },
-  percent_reduction_pasc: {
-    label: "other post-acute sequelae of COVID-19 infection",
-    color: "var(--chart-3)",
-  },
   total: {
-    label: "DALYs",
+    label: "Total DALYs",
     color: "var(--chart-5)",
   },
 } satisfies ChartConfig;
@@ -210,16 +182,14 @@ export function PharmaceuticalChart({
   onScenarioSelect,
 }: BarChartStackedProps) {
   const { scenarioRows } = useDalyModel();
-  const [legendPortal, setLegendPortal] = useState<HTMLDivElement | null>(null);
-  const [breakdownChecked, setBreakdownChecked] = useState(false);
-  const [dalysPer1000, setDalysPer1000] = useState(false);
-  const usePercentReductionBreakdown = breakdownChecked && !dalysPer1000;
+  const [metric, setMetric] = useState<ChartMetric>("percent");
+  const showDalys = metric === "dalys";
 
   const visibleRows = scenarioRows.filter(
     (row) =>
       row.id === "preexposure_prophylaxis" ||
       row.id === "postexposure_prophylaxis" ||
-      (dalysPer1000 && row.id === "baseline"),
+      (showDalys && row.id === "baseline"),
   );
 
   return (
@@ -237,22 +207,9 @@ export function PharmaceuticalChart({
       </CardHeader>
       <CardContent>
         <div className="flex flex-col items-center">
-          <FieldGroup className="order-3 mt-4 mb-2 gap-4 sm:mt-0 sm:mb-0 sm:w-100 md:order-1">
-            <div className="flex items-center gap-4">
-              <ChartModifierCheckbox
-                checked={dalysPer1000}
-                className="w-fit"
-                onCheckedChange={setDalysPer1000}
-                title="Show DALYs per 1000 people"
-              />
-              <ChartModifierCheckbox
-                checked={breakdownChecked}
-                className="w-fit max-w-100"
-                onCheckedChange={setBreakdownChecked}
-                title="Show breakdown by DALYs associated with acute COVID-19 infection, Long COVID, and other post-acute sequelae of COVID-19 infection"
-              />
-            </div>
-          </FieldGroup>
+          <div className="order-3 mt-4 mb-2 sm:mt-0 sm:mb-0 md:order-1">
+            <ChartMetricToggle value={metric} onValueChange={setMetric} />
+          </div>
           <ChartContainer
             config={chartConfig}
             className="order-2 h-100 w-full md:h-150"
@@ -269,15 +226,15 @@ export function PharmaceuticalChart({
               <CartesianGrid horizontal={false} />
               <XAxis
                 type="number"
+                domain={showDalys ? [0, "auto"] : [0, 100]}
                 label={
-                  dalysPer1000
+                  showDalys
                     ? {
-                        value: "DALYS per 1000 people",
+                        value: "Total DALYs per 1,000 people",
                         position: "bottom",
                       }
                     : {
-                        value:
-                          "Percent reduction of DALYs relative to status quo",
+                        value: "Reduction in total DALYs vs status quo (%)",
                         position: "bottom",
                       }
                 }
@@ -303,88 +260,34 @@ export function PharmaceuticalChart({
                     labelFormatter={(label, payload) => {
                       return payload[0]?.payload?.label ?? label;
                     }}
+                    formatter={(value) => (
+                      <>
+                        <span className="text-muted-foreground">
+                          {showDalys
+                            ? "Total DALYs per 1,000"
+                            : "Total DALY reduction"}
+                        </span>
+                        <span className="text-foreground ml-auto font-mono font-medium tabular-nums">
+                          {Number(value).toLocaleString()}
+                          {showDalys ? "" : "%"}
+                        </span>
+                      </>
+                    )}
                   />
                 }
               />
-              {legendPortal ? (
-                <ChartLegend
-                  portal={legendPortal}
-                  content={<ChartLegendContent />}
-                  verticalAlign="top"
-                  className={cn(
-                    "grid grid-cols-1 gap-x-4 gap-y-2 md:mt-0 md:flex md:justify-center",
-                    !breakdownChecked && "invisible",
-                  )}
-                />
-              ) : null}
-
-              {breakdownChecked ? (
-                <>
-                  <Bar
-                    dataKey={
-                      usePercentReductionBreakdown
-                        ? "percent_reduction_acute_covid"
-                        : "acute_covid"
-                    }
-                    stackId="a"
-                    fill={
-                      usePercentReductionBreakdown
-                        ? "var(--color-percent_reduction_acute_covid)"
-                        : "var(--color-acute_covid)"
-                    }
-                    cursor="pointer"
-                    onClick={(data) => onScenarioSelect?.(data.payload.id)}
-                  />
-                  <Bar
-                    dataKey={
-                      usePercentReductionBreakdown
-                        ? "percent_reduction_long_covid"
-                        : "long_covid"
-                    }
-                    stackId="a"
-                    fill={
-                      usePercentReductionBreakdown
-                        ? "var(--color-percent_reduction_long_covid)"
-                        : "var(--color-long_covid)"
-                    }
-                    cursor="pointer"
-                    onClick={(data) => onScenarioSelect?.(data.payload.id)}
-                  />
-                  <Bar
-                    dataKey={
-                      usePercentReductionBreakdown
-                        ? "percent_reduction_pasc"
-                        : "pasc"
-                    }
-                    stackId="a"
-                    fill={
-                      usePercentReductionBreakdown
-                        ? "var(--color-percent_reduction_pasc)"
-                        : "var(--color-pasc)"
-                    }
-                    cursor="pointer"
-                    onClick={(data) => onScenarioSelect?.(data.payload.id)}
-                  />
-                </>
-              ) : (
-                <Bar
-                  dataKey={dalysPer1000 ? "total" : "percent_reduction"}
-                  fill={
-                    dalysPer1000
-                      ? "var(--color-percent_reduction)"
-                      : "var(--color-long_covid)"
-                  }
-                  cursor="pointer"
-                  onClick={(data) => onScenarioSelect?.(data.payload.id)}
-                />
-              )}
+              <Bar
+                dataKey={showDalys ? "total" : "percent_reduction"}
+                fill={
+                  showDalys
+                    ? "var(--color-total)"
+                    : "var(--color-percent_reduction)"
+                }
+                cursor="pointer"
+                onClick={(data) => onScenarioSelect?.(data.payload.id)}
+              />
             </BarChart>
           </ChartContainer>
-          <div
-            ref={setLegendPortal}
-            data-chart="chart-bar-chart"
-            className="order-4 mt-2 text-xs md:order-1"
-          />
         </div>
         <CardDescription className="mt-3 block md:hidden">
           <ChartDescriptionBody />

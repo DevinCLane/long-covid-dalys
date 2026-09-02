@@ -38,6 +38,31 @@ for (const sourceScenario of chartData.main_scenarios) {
     ) < tolerance,
     `${sourceScenario.id} total default does not match the export`,
   );
+  assert.equal(
+    calculated.percent_reduction,
+    Number(
+      expected.acute_plus_long_covid_plus_pasc.percent_reduction_vs_baseline.toFixed(
+        2,
+      ),
+    ),
+    `${sourceScenario.id} total percent reduction does not match the export`,
+  );
+}
+
+const defaultAirCleaningTotals = chartData.interventions.air_cleaning.filter(
+  (row) => row.outcome === "Total" && row.level === 1,
+);
+
+for (const expected of defaultAirCleaningTotals) {
+  const calculated = defaultRows.find(
+    (scenario) => scenario.id === expected.intervention,
+  );
+  assert(calculated, `Missing calculated scenario ${expected.intervention}`);
+  assert.equal(
+    calculated.percent_reduction,
+    Number(expected.percent_dalys_averted_vs_no_intervention.toFixed(2)),
+    `${expected.intervention} total percentage does not match the exported Total row`,
+  );
 }
 
 type WiringCheck = {
