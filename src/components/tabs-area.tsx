@@ -8,7 +8,7 @@ import { PharmaceuticalChart } from "@/components/charts/pharmaceutical-chart";
 import { DalyModelProvider } from "@/components/daly-model-provider";
 
 export default function TabsArea() {
-  const [activeTab, setActiveTab] = useState("overview");
+  const [activeTab, setActiveTab] = useState("air");
   const [detailedScenarioId, setDetailedScenarioId] = useState("baseline");
 
   function selectDetailedScenario(scenarioId: string) {
@@ -23,16 +23,16 @@ export default function TabsArea() {
   return (
     <DalyModelProvider>
       <Tabs
-        defaultValue="overview"
+        defaultValue="air"
         className="items-center"
         value={activeTab}
         onValueChange={setActiveTab}
       >
         <TabsList variant="line" className="mt-2 mb-6 sm:m-0">
           <div>
-            <TabsTrigger value="overview" className="cursor-pointer">
+            {/*<TabsTrigger value="overview" className="cursor-pointer">
               Overview
-            </TabsTrigger>
+            </TabsTrigger>*/}
             <TabsTrigger value="air" className="cursor-pointer">
               Air Cleaning
             </TabsTrigger>
