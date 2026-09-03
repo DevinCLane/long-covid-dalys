@@ -26,7 +26,7 @@ import {
   PHARMACEUTICAL_INTERVENTION_SCENARIO_IDS,
   SCENARIO_LABELS_BY_ID,
 } from "@/config/scenario-daly-calculations";
-import { ChartModifierRadio } from "../chart-modifier-radio";
+import { ChartModifierRadio, RadioOption } from "../chart-modifier-radio";
 
 /**
  * Text for the chart description body
@@ -190,9 +190,7 @@ export function PharmaceuticalChart({
 }: PharmaceuticalChartProps) {
   const { scenarioRows: chartRows } = useDalyModel();
   const [metric, setMetric] = useState<ChartMetric>("percent");
-  const [chartFilter, setChartFilter] = useState<
-    "all" | "prophylaxis" | "longCovidMedication"
-  >("all");
+  const [chartFilter, setChartFilter] = useState<RadioOption["value"]>("all");
   const showDalys = metric === "dalys";
   const visibleRows = chartRows.filter((row) => {
     if (

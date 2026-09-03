@@ -2,16 +2,16 @@ import { cn } from "@/lib/utils";
 import { Field, FieldLabel } from "./ui/field";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 
-type RadioOption = {
+export interface RadioOption {
   label: string;
   value: "all" | "prophylaxis" | "longCovidMedication";
-};
+}
 
 interface ChartModifierRadioProps {
   className?: string;
   options: RadioOption[];
-  onValueChange: (value: string) => void;
-  value: string;
+  onValueChange: (value: RadioOption["value"]) => void;
+  value: RadioOption["value"];
 }
 
 export function ChartModifierRadio({
@@ -28,7 +28,10 @@ export function ChartModifierRadio({
     >
       <Field orientation="horizontal">
         {options.map((option) => (
-          <FieldLabel className="cursor-pointer text-sm font-normal">
+          <FieldLabel
+            key={option.value}
+            className="cursor-pointer text-sm font-normal"
+          >
             <RadioGroupItem value={option.value} />
             {option.label}
           </FieldLabel>
