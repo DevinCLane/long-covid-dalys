@@ -17,7 +17,6 @@ import {
 } from "@/components/ui/chart";
 
 import React, { useState } from "react";
-import { ChartModifierCheckbox } from "../chart-modifier-checkbox";
 import { ChartMetricToggle, type ChartMetric } from "../chart-metric-toggle";
 import { FieldGroup } from "../ui/field";
 import { Separator } from "../ui/separator";
@@ -27,6 +26,7 @@ import {
   PHARMACEUTICAL_INTERVENTION_SCENARIO_IDS,
   SCENARIO_LABELS_BY_ID,
 } from "@/config/scenario-daly-calculations";
+import { ChartModifierRadio } from "../chart-modifier-radio";
 
 /**
  * Text for the chart description body
@@ -190,18 +190,20 @@ export function PharmaceuticalChart({
 }: PharmaceuticalChartProps) {
   const { scenarioRows: chartRows } = useDalyModel();
   const [metric, setMetric] = useState<ChartMetric>("percent");
-  const [prophylaxisChecked, setProphylaxisChecked] = useState(false);
-  const [medicationChecked, setMedicationChecked] = useState(false);
+  const [chartFilter, setChartFilter] = useState<
+    "all" | "prophylaxis" | "longCovidMedication"
+  >("all");
   const showDalys = metric === "dalys";
   const visibleRows = chartRows.filter((row) => {
     if (
-      !prophylaxisChecked &&
-      !medicationChecked &&
+      chartFilter === "all" &&
       PHARMACEUTICAL_INTERVENTION_SCENARIO_IDS.has(row.id)
     )
       return true;
-    if (prophylaxisChecked && row.id.endsWith("prophylaxis")) return true;
-    if (medicationChecked && row.id.endsWith("reduction")) return true;
+    if (chartFilter === "prophylaxis" && row.id.endsWith("prophylaxis"))
+      return true;
+    if (chartFilter === "longCovidMedication" && row.id.endsWith("reduction"))
+      return true;
     if (showDalys && row.id.startsWith("baseline")) return true;
     return false;
   });
@@ -224,17 +226,23 @@ export function PharmaceuticalChart({
         <div className="flex flex-col items-center">
           <FieldGroup className="order-3 mt-4 mb-2 gap-4 sm:mt-0 sm:mb-0 sm:w-100 md:order-1">
             <div className="flex justify-center gap-4">
-              <ChartModifierCheckbox
-                checked={prophylaxisChecked}
-                className="w-fit"
-                onCheckedChange={setProphylaxisChecked}
-                title="Show only prophylaxis"
-              />
-              <ChartModifierCheckbox
-                checked={medicationChecked}
-                className="w-fit"
-                onCheckedChange={setMedicationChecked}
-                title="Show only medication"
+              <ChartModifierRadio
+                options={[
+                  {
+                    value: "all",
+                    label: "Show all pharmaceutical interventions",
+                  },
+                  {
+                    value: "prophylaxis",
+                    label: "Show only prophylactic medication",
+                  },
+                  {
+                    value: "longCovidMedication",
+                    label: "Show only long COVID medication",
+                  },
+                ]}
+                value={chartFilter}
+                onValueChange={setChartFilter}
               />
             </div>
             <Separator />
