@@ -39,7 +39,7 @@ export function AboutPage() {
             Disease (YLDs). We calculated DALYs by incorporating the
             scenario-specific infection proportions estimated above into a
             previously published Markov state-transition model with five
-            one-year cycles. Cite Graves.{" "}
+            one-year cycles.{" "}
           </p>
           <p>
             We modeled the rates of transitions between five health states: no
