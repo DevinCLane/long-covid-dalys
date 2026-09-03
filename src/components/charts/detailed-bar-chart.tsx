@@ -154,7 +154,7 @@ export function DetailedBarChart({
         <div className="grid flex-1 gap-1 text-center sm:text-left">
           <div className="align-center mb-4 flex flex-col gap-2 sm:flex-row sm:justify-between sm:gap-0">
             <CardTitle className="text-lg text-pretty md:text-2xl">
-              Detailed view per scenario
+              Compare outcome conditions per scenario
             </CardTitle>
             <div>
               <Select value={scenarioId} onValueChange={onScenarioSelect}>

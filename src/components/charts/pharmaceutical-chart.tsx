@@ -36,7 +36,8 @@ function ChartDescriptionBody() {
     <div className="mt-2">
       <p>
         This simulation shows the result of synthesizing existing evidence to
-        model the potential impact of several interventions on COVID-19-related{" "}
+        model the potential impact of pharmaceutical interventions on
+        COVID-19-related{" "}
         <a
           href="https://en.wikipedia.org/wiki/Disability-adjusted_life_year"
           target="_blank"
@@ -200,7 +201,7 @@ export function PharmaceuticalChart({
     )
       return true;
     if (prophylaxisChecked && row.id.endsWith("prophylaxis")) return true;
-    if (medicationChecked && row.id.startsWith("treatments")) return true;
+    if (medicationChecked && row.id.endsWith("reduction")) return true;
     if (showDalys && row.id.startsWith("baseline")) return true;
     return false;
   });
@@ -211,7 +212,8 @@ export function PharmaceuticalChart({
       <CardHeader className="flex items-center gap-2 space-y-0 border-b sm:flex-row">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
           <CardTitle className="text-l text-pretty md:text-2xl">
-            What interventions might affect COVID-19-associated disability?
+            How might pharmaceutical interventions affect COVID-associated
+            disability?
           </CardTitle>
           <CardDescription className="hidden md:block">
             <ChartDescriptionBody />
@@ -226,13 +228,13 @@ export function PharmaceuticalChart({
                 checked={prophylaxisChecked}
                 className="w-fit"
                 onCheckedChange={setProphylaxisChecked}
-                title="Show all prophylaxis"
+                title="Show only prophylaxis"
               />
               <ChartModifierCheckbox
                 checked={medicationChecked}
                 className="w-fit"
                 onCheckedChange={setMedicationChecked}
-                title="Show all medication"
+                title="Show only medication"
               />
             </div>
             <Separator />

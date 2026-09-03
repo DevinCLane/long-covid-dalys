@@ -23,10 +23,7 @@ import { FieldGroup } from "../ui/field";
 import { Separator } from "../ui/separator";
 import { useDalyModel } from "@/hooks/use-daly-model";
 import { ModelAssumptionsPanel } from "@/components/model-assumptions-panel";
-import {
-  OVERVIEW_INTERVENTION_SCENARIO_IDS,
-  SCENARIO_LABELS_BY_ID,
-} from "@/config/scenario-daly-calculations";
+import { SCENARIO_LABELS_BY_ID } from "@/config/scenario-daly-calculations";
 
 /**
  * Text for the chart description body
@@ -36,7 +33,8 @@ function ChartDescriptionBody() {
     <div className="mt-2">
       <p>
         This simulation shows the result of synthesizing existing evidence to
-        model the potential impact of several interventions on COVID-19-related{" "}
+        model the potential impact of air cleaning interventions on
+        COVID-19-related{" "}
         <a
           href="https://en.wikipedia.org/wiki/Disability-adjusted_life_year"
           target="_blank"
@@ -209,7 +207,8 @@ export function AirCleaningChart({ onScenarioSelect }: AirCleaningChartProps) {
       <CardHeader className="flex items-center gap-2 space-y-0 border-b sm:flex-row">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
           <CardTitle className="text-l text-pretty md:text-2xl">
-            What interventions might affect COVID-19-associated disability?
+            How might air cleaning interventions affect COVID-associated
+            disability?
           </CardTitle>
           <CardDescription className="hidden md:block">
             <ChartDescriptionBody />
