@@ -24,9 +24,9 @@ export function ChartModifierRadio({
     <RadioGroup
       value={value}
       onValueChange={onValueChange}
-      className={cn("w-fit", className)}
+      className={cn(className)}
     >
-      <Field orientation="horizontal">
+      <Field className="flex sm:flex-row">
         {options.map((option) => (
           <FieldLabel
             key={option.value}
