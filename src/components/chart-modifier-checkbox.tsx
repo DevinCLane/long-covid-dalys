@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { Checkbox } from "./ui/checkbox";
 import { Field, FieldLabel } from "./ui/field";
 
-interface ChartModifierCheckbox {
+interface ChartModifierCheckboxProps {
   className?: string;
   title?: string;
   checked: boolean;
@@ -14,7 +14,7 @@ export function ChartModifierCheckbox({
   title,
   checked,
   onCheckedChange,
-}: ChartModifierCheckbox) {
+}: ChartModifierCheckboxProps) {
   return (
     <Field orientation="horizontal" className={cn(className)}>
       <FieldLabel className="cursor-pointer text-sm font-normal">
