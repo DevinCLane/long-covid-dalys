@@ -25,6 +25,7 @@ import { ModelAssumptionsPanel } from "@/components/model-assumptions-panel";
 import {
   PHARMACEUTICAL_INTERVENTION_SCENARIO_IDS,
   SCENARIO_LABELS_BY_ID,
+  ScenarioId,
 } from "@/config/scenario-daly-calculations";
 import { ChartModifierRadio, RadioOption } from "../chart-modifier-radio";
 
@@ -91,7 +92,7 @@ interface ScenarioYAxisTickProps {
   payload?: {
     value?: string | number;
   };
-  onScenarioSelect?: (scenarioId: string) => void;
+  onScenarioSelect?: (scenarioId: ScenarioId) => void;
 }
 
 /**
@@ -182,7 +183,7 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 interface PharmaceuticalChartProps {
-  onScenarioSelect?: (scenarioId: string) => void;
+  onScenarioSelect?: (scenarioId: ScenarioId) => void;
 }
 
 export function PharmaceuticalChart({

@@ -23,7 +23,10 @@ import { FieldGroup } from "../ui/field";
 import { Separator } from "../ui/separator";
 import { useDalyModel } from "@/hooks/use-daly-model";
 import { ModelAssumptionsPanel } from "@/components/model-assumptions-panel";
-import { SCENARIO_LABELS_BY_ID } from "@/config/scenario-daly-calculations";
+import {
+  SCENARIO_LABELS_BY_ID,
+  ScenarioId,
+} from "@/config/scenario-daly-calculations";
 
 /**
  * Text for the chart description body
@@ -179,7 +182,7 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 interface AirCleaningChartProps {
-  onScenarioSelect?: (scenarioId: string) => void;
+  onScenarioSelect?: (scenarioId: ScenarioId) => void;
 }
 
 export function AirCleaningChart({ onScenarioSelect }: AirCleaningChartProps) {
