@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
 export type ChartMetric = "percent" | "dalys";
 
@@ -19,17 +20,28 @@ export function ChartMetricToggle({
       aria-label="Chart metric"
       className="bg-muted inline-flex rounded-lg p-1"
     >
-      <Button
-        type="button"
-        size="sm"
-        variant={value === "percent" ? "default" : "ghost"}
-        aria-pressed={value === "percent"}
-        onClick={() => onValueChange("percent")}
-        className="cursor-pointer"
-        disabled={disabled}
-      >
-        Percent reduction
-      </Button>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <span className="inline-block w-fit">
+            <Button
+              type="button"
+              size="sm"
+              variant={value === "percent" ? "default" : "ghost"}
+              aria-pressed={value === "percent"}
+              onClick={() => onValueChange("percent")}
+              className="cursor-pointer"
+              disabled={disabled}
+            >
+              Percent reduction
+            </Button>
+          </span>
+        </TooltipTrigger>
+        {disabled && (
+          <TooltipContent className="px-2 py-1 text-xs">
+            Status quo has 0% reduction relative to itself
+          </TooltipContent>
+        )}
+      </Tooltip>
       <Button
         type="button"
         size="sm"
