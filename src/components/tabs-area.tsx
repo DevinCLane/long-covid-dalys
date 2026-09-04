@@ -1,21 +1,22 @@
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
-import { OverviewChart } from "@/components/charts/overview-chart";
-import { DetailedBarChart } from "@/components/charts/detailed-bar-chart";
+import { OutcomeBreakdownChart } from "@/components/charts/outcome-breakdown-chart";
 import { AirCleaningChart } from "@/components/charts/air-cleaning-chart";
 import { AboutPage } from "@/components/about";
 import { PharmaceuticalChart } from "@/components/charts/pharmaceutical-chart";
 import { DalyModelProvider } from "@/components/daly-model-provider";
+import { ScenarioId } from "@/config/scenario-daly-calculations";
 
 export default function TabsArea() {
   const [activeTab, setActiveTab] = useState("air");
-  const [detailedScenarioId, setDetailedScenarioId] = useState("baseline");
+  const [detailedScenarioId, setDetailedScenarioId] =
+    useState<ScenarioId>("hepa_all_public");
 
-  function selectDetailedScenario(scenarioId: string) {
+  function selectDetailedScenario(scenarioId: ScenarioId) {
     setDetailedScenarioId(scenarioId);
   }
 
-  function openDetailedScenario(scenarioId: string) {
+  function openDetailedScenario(scenarioId: ScenarioId) {
     setDetailedScenarioId(scenarioId);
     setActiveTab("detailed");
   }
@@ -40,7 +41,7 @@ export default function TabsArea() {
               Pharmaceuticals
             </TabsTrigger>
             <TabsTrigger value="detailed" className="cursor-pointer">
-              Detailed
+              Outcome breakdown
             </TabsTrigger>
             {/*
           <TabsTrigger value="publicHealth" className="cursor-pointer">Public Health</TabsTrigger> */}
@@ -49,11 +50,8 @@ export default function TabsArea() {
             </TabsTrigger>
           </div>
         </TabsList>
-        <TabsContent value="overview" className="w-full">
-          <OverviewChart onScenarioSelect={openDetailedScenario} />
-        </TabsContent>
         <TabsContent value="detailed" className="w-full">
-          <DetailedBarChart
+          <OutcomeBreakdownChart
             scenarioId={detailedScenarioId}
             onScenarioSelect={selectDetailedScenario}
           />

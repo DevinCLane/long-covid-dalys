@@ -23,10 +23,7 @@ import { FieldGroup } from "../ui/field";
 import { Separator } from "../ui/separator";
 import { useDalyModel } from "@/hooks/use-daly-model";
 import { ModelAssumptionsPanel } from "@/components/model-assumptions-panel";
-import {
-  OVERVIEW_INTERVENTION_SCENARIO_IDS,
-  SCENARIO_LABELS_BY_ID,
-} from "@/config/scenario-daly-calculations";
+import { SCENARIO_LABELS_BY_ID } from "@/config/scenario-daly-calculations";
 
 /**
  * Text for the chart description body
@@ -200,7 +197,6 @@ export function OverviewChart({ onScenarioSelect }: BarChartStackedProps) {
     if (allHepaChecked && row.id.startsWith("hepa_")) return true;
     if (allUvcChecked && row.id.startsWith("far_uvc_")) return true;
     if (showDalys && row.id.startsWith("baseline")) return true;
-    if (OVERVIEW_INTERVENTION_SCENARIO_IDS.has(row.id)) return true;
     return false;
   });
 

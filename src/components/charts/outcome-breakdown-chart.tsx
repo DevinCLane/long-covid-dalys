@@ -30,7 +30,10 @@ import {
   ChartMetricToggle,
   type ChartMetric,
 } from "@/components/chart-metric-toggle";
-import type { ScenarioDalyRow } from "@/config/scenario-daly-calculations";
+import type {
+  ScenarioDalyRow,
+  ScenarioId,
+} from "@/config/scenario-daly-calculations";
 import { useState } from "react";
 
 export type Scenario = ScenarioDalyRow;
@@ -60,9 +63,9 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-interface DetailedBarChartProps {
-  scenarioId: string;
-  onScenarioSelect: (scenarioId: string) => void;
+interface OutcomeBreakdownChartProps {
+  scenarioId: ScenarioId;
+  onScenarioSelect: (scenarioId: ScenarioId) => void;
 }
 
 interface ChartDescriptionBodyProps {
@@ -91,13 +94,15 @@ function ChartDescriptionBody({ scenario, metric }: ChartDescriptionBodyProps) {
   );
 }
 
-export function DetailedBarChart({
+export function OutcomeBreakdownChart({
   scenarioId,
   onScenarioSelect,
-}: DetailedBarChartProps) {
+}: OutcomeBreakdownChartProps) {
   const { scenarioRows } = useDalyModel();
-  const [metric, setMetric] = useState<ChartMetric>("dalys");
+  const [metric, setMetric] = useState<ChartMetric>("percent");
   const scenario = scenarioRows.find((scenario) => scenario.id === scenarioId);
+  // if the selected scenario is the baseline, show DALYs instead of percent reduction
+  const displayedMetric = scenarioId === "baseline" ? "dalys" : metric;
 
   if (!scenario) {
     return (
@@ -183,17 +188,25 @@ export function DetailedBarChart({
           <Separator />
           <CardTitle className="mt-4 text-sm text-pretty sm:text-lg">
             {scenario.label}: 5-year{" "}
-            {metric === "percent" ? "DALY reduction" : "DALYs"} by outcome
+            {displayedMetric === "percent" ? "DALY reduction" : "DALYs"} by
+            outcome
           </CardTitle>
           <CardDescription className="hidden md:block">
-            <ChartDescriptionBody scenario={scenario} metric={metric} />
+            <ChartDescriptionBody
+              scenario={scenario}
+              metric={displayedMetric}
+            />
           </CardDescription>
         </div>
       </CardHeader>
       <CardContent>
         <div className="flex flex-col items-center">
           <div className="order-3 mt-4 md:order-1 md:mt-0">
-            <ChartMetricToggle value={metric} onValueChange={setMetric} />
+            <ChartMetricToggle
+              value={displayedMetric}
+              onValueChange={setMetric}
+              disabled={scenarioId === "baseline"}
+            />
           </div>
           <ChartContainer
             config={chartConfig}
@@ -211,10 +224,10 @@ export function DetailedBarChart({
               <CartesianGrid horizontal={false} />
               <XAxis
                 type="number"
-                domain={metric === "percent" ? [0, 100] : [0, "auto"]}
+                domain={displayedMetric === "percent" ? [0, 100] : [0, "auto"]}
                 label={{
                   value:
-                    metric === "percent"
+                    displayedMetric === "percent"
                       ? "Reduction in DALYs vs status quo (%)"
                       : "DALYs per 1,000 people",
                   position: "bottom",
@@ -235,13 +248,13 @@ export function DetailedBarChart({
                     formatter={(value) => (
                       <>
                         <span className="text-muted-foreground">
-                          {metric === "percent"
+                          {displayedMetric === "percent"
                             ? "Reduction vs status quo"
                             : "DALYs per 1,000"}
                         </span>
                         <span className="text-foreground ml-auto font-mono font-medium tabular-nums">
                           {Number(value).toLocaleString()}
-                          {metric === "percent" ? "%" : ""}
+                          {displayedMetric === "percent" ? "%" : ""}
                         </span>
                       </>
                     )}
@@ -249,7 +262,9 @@ export function DetailedBarChart({
                 }
               />
               <Bar
-                dataKey={metric === "percent" ? "percentReduction" : "dalys"}
+                dataKey={
+                  displayedMetric === "percent" ? "percentReduction" : "dalys"
+                }
               />
             </BarChart>
           </ChartContainer>
@@ -262,7 +277,7 @@ export function DetailedBarChart({
         </CardDescription>
         <Separator className="mt-3 block md:hidden" />
         <CardDescription className="mt-3 block md:hidden">
-          <ChartDescriptionBody scenario={scenario} metric={metric} />
+          <ChartDescriptionBody scenario={scenario} metric={displayedMetric} />
         </CardDescription>
         <ModelAssumptionsPanel />
       </CardContent>

@@ -5,11 +5,13 @@ export type ChartMetric = "percent" | "dalys";
 interface ChartMetricToggleProps {
   value: ChartMetric;
   onValueChange: (value: ChartMetric) => void;
+  disabled?: boolean;
 }
 
 export function ChartMetricToggle({
   value,
   onValueChange,
+  disabled,
 }: ChartMetricToggleProps) {
   return (
     <div
@@ -24,6 +26,7 @@ export function ChartMetricToggle({
         aria-pressed={value === "percent"}
         onClick={() => onValueChange("percent")}
         className="cursor-pointer"
+        disabled={disabled}
       >
         Percent reduction
       </Button>

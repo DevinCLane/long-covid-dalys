@@ -54,6 +54,22 @@ type ScenarioDefinition = {
   ) => BaseLongCovidParameters;
 };
 
+export const SCENARIO_IDS = [
+  "baseline",
+  "hepa_most_public",
+  "hepa_schools_and_daycares",
+  "hepa_all_public",
+  "far_uvc_most_public",
+  "far_uvc_schools_and_daycares",
+  "far_uvc_all_public",
+  "preexposure_prophylaxis",
+  "postexposure_prophylaxis",
+  "long_covid_progression_reduction",
+  "long_covid_disability_reduction",
+] as const;
+
+export type ScenarioId = (typeof SCENARIO_IDS)[number];
+
 const sourceBaseline = chartData.main_scenarios.find(
   (scenario) => scenario.id === "baseline",
 );
@@ -127,7 +143,7 @@ export const SCENARIO_DEFINITIONS: readonly ScenarioDefinition[] = [
   ...chartData.main_scenarios.map(airScenarioDefinition),
   {
     id: "preexposure_prophylaxis",
-    label: "Pre-exposure prophylaxis (full adoption)",
+    label: "Pre-exposure prophylaxis",
     annualInfectionProportion: (values) =>
       infectionUnderPreExposureProphylaxis({
         baselineInfectionProportion: selectedBaseline(values),
@@ -137,7 +153,7 @@ export const SCENARIO_DEFINITIONS: readonly ScenarioDefinition[] = [
   },
   {
     id: "postexposure_prophylaxis",
-    label: "Post-exposure prophylaxis (full implementation)",
+    label: "Post-exposure prophylaxis",
     annualInfectionProportion: (values) =>
       infectionUnderPostExposureProphylaxis({
         baselineInfectionProportion: selectedBaseline(values),
@@ -177,15 +193,6 @@ export const SCENARIO_DEFINITIONS: readonly ScenarioDefinition[] = [
 export const SCENARIO_LABELS_BY_ID = new Map(
   SCENARIO_DEFINITIONS.map((scenario) => [scenario.id, scenario.label]),
 );
-
-export const OVERVIEW_INTERVENTION_SCENARIO_IDS = new Set([
-  "hepa_all_public",
-  "far_uvc_all_public",
-  "preexposure_prophylaxis",
-  "postexposure_prophylaxis",
-  "long_covid_progression_reduction",
-  "long_covid_disability_reduction",
-]);
 
 export const PHARMACEUTICAL_INTERVENTION_SCENARIO_IDS = new Set([
   "preexposure_prophylaxis",
