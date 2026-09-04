@@ -6,14 +6,12 @@ import TabsArea from "./components/tabs-area";
 
 function App() {
   return (
-    // <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
     <div className="mx-auto flex min-h-screen flex-col px-4 py-2 text-center md:px-8 md:py-6 lg:max-w-6xl">
       <NavBar />
       <Header />
       <TabsArea />
       <SiteFooter />
     </div>
-    // </ThemeProvider>
   );
 }
 

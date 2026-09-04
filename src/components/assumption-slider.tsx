@@ -62,25 +62,23 @@ export function AssumptionSlider({
           )}
         </div>
         <div className="flex items-center gap-1">
-          <TooltipProvider delayDuration={0}>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  size="icon"
-                  variant="ghost"
-                  className="size-7"
-                  aria-label="Reset"
-                  onClick={resetToDefault}
-                  disabled={disabled}
-                >
-                  <RotateCcw size={16} strokeWidth={2} aria-hidden="true" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent className="px-2 py-1 text-xs">
-                Reset to default
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                size="icon"
+                variant="ghost"
+                className="size-7"
+                aria-label="Reset"
+                onClick={resetToDefault}
+                disabled={disabled}
+              >
+                <RotateCcw size={16} strokeWidth={2} aria-hidden="true" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent className="px-2 py-1 text-xs">
+              Reset to default
+            </TooltipContent>
+          </Tooltip>
           <Input
             className="bg-card h-7 w-16 px-2 py-0"
             type="text"
