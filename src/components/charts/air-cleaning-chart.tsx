@@ -24,6 +24,7 @@ import { Separator } from "../ui/separator";
 import { useDalyModel } from "@/hooks/use-daly-model";
 import { ModelAssumptionsPanel } from "@/components/model-assumptions-panel";
 import {
+  SCENARIO_IDS,
   SCENARIO_LABELS_BY_ID,
   ScenarioId,
 } from "@/config/scenario-daly-calculations";
@@ -91,7 +92,7 @@ interface ScenarioYAxisTickProps {
   payload?: {
     value?: string | number;
   };
-  onScenarioSelect?: (scenarioId: string) => void;
+  onScenarioSelect?: (scenarioId: ScenarioId) => void;
 }
 
 /**
@@ -104,8 +105,12 @@ function ScenarioYAxisTick({
   onScenarioSelect,
 }: ScenarioYAxisTickProps) {
   const [isFocused, setIsFocused] = React.useState(false);
-  const scenarioId = String(payload?.value ?? "");
-  const label = SCENARIO_LABELS_BY_ID.get(scenarioId) ?? scenarioId;
+  function isScenarioId(value: string): value is ScenarioId {
+    return SCENARIO_IDS.some((allowedId) => allowedId === value);
+  }
+  const value = String(payload?.value ?? "");
+  const scenarioId = isScenarioId(value) ? value : undefined;
+  const label = SCENARIO_LABELS_BY_ID.get(value) ?? value;
   const labelLines = wrapScenarioLabel(label);
   const isClickable = Boolean(scenarioId && onScenarioSelect);
   const labelHeight = labelLines.length * Y_AXIS_LABEL_LINE_HEIGHT + 6;
