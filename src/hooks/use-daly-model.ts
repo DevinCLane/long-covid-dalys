@@ -6,6 +6,7 @@ import type { ScenarioDalyRow } from "@/config/scenario-daly-calculations";
 export type DalyModelContextValue = {
   assumptions: AssumptionValues;
   scenarioRows: ScenarioDalyRow[];
+  isCustomScenario: boolean;
   setAssumption: (key: AssumptionKey, value: number) => void;
 };
 

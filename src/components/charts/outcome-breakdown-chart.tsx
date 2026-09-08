@@ -1,6 +1,7 @@
 "use client";
 
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import { ModelChartContainer } from "@/components/charts/model-chart-container";
 
 import {
   Card,
@@ -10,7 +11,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
   type ChartConfig,
@@ -208,10 +208,9 @@ export function OutcomeBreakdownChart({
               disabled={scenarioId === "baseline"}
             />
           </div>
-          <ChartContainer
+          <ModelChartContainer
             config={chartConfig}
             className="order-2 h-100 w-full md:h-150"
-            id="bar-chart"
           >
             <BarChart
               accessibilityLayer
@@ -267,7 +266,7 @@ export function OutcomeBreakdownChart({
                 }
               />
             </BarChart>
-          </ChartContainer>
+          </ModelChartContainer>
         </div>
         <CardDescription className="mt-4 mb-4 block md:hidden">
           Select a scenario from the dropdown menu to show side-by-side

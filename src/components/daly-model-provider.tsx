@@ -9,6 +9,7 @@ import {
 } from "react";
 
 import {
+  ASSUMPTIONS,
   ASSUMPTIONS_BY_KEY,
   DEFAULT_ASSUMPTION_VALUES,
   getAssumptionSliderMax,
@@ -46,9 +47,14 @@ export function DalyModelProvider({ children }: { children: ReactNode }) {
     [deferredAssumptions],
   );
 
+  // Match the watermark to the assumptions used by the displayed chart data.
+  const isCustomScenario = ASSUMPTIONS.some(
+    ({ key, defaultValue }) => deferredAssumptions[key] !== defaultValue,
+  );
+
   const contextValue = useMemo(
-    () => ({ assumptions, scenarioRows, setAssumption }),
-    [assumptions, scenarioRows, setAssumption],
+    () => ({ assumptions, scenarioRows, isCustomScenario, setAssumption }),
+    [assumptions, scenarioRows, isCustomScenario, setAssumption],
   );
 
   return (

@@ -1,6 +1,7 @@
 "use client";
 
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import { ModelChartContainer } from "@/components/charts/model-chart-container";
 
 import {
   Card,
@@ -10,7 +11,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
   type ChartConfig,
@@ -245,10 +245,9 @@ export function AirCleaningChart({ onScenarioSelect }: AirCleaningChartProps) {
               <ChartMetricToggle value={metric} onValueChange={setMetric} />
             </div>
           </FieldGroup>
-          <ChartContainer
+          <ModelChartContainer
             config={chartConfig}
             className="order-2 h-100 w-full md:h-150"
-            id="bar-chart"
           >
             <BarChart
               accessibilityLayer
@@ -322,7 +321,7 @@ export function AirCleaningChart({ onScenarioSelect }: AirCleaningChartProps) {
                 onClick={(data) => onScenarioSelect?.(data.payload.id)}
               />
             </BarChart>
-          </ChartContainer>
+          </ModelChartContainer>
         </div>
         <CardDescription className="mt-3 block md:hidden">
           <ChartDescriptionBody />

@@ -22,6 +22,10 @@ export function ModelAssumptionsPanel() {
           Model Assumptions
         </AccordionTrigger>
         <AccordionContent className="flex flex-col gap-6 text-balance">
+          <div className="italic">
+            Modifying assumptions may result in figures that fall outside ranges
+            supported by the literature.
+          </div>
           {Object.entries(GROUP_LABELS).map(([group, groupLabel]) => (
             <section key={group}>
               <h3 className="text-lg font-medium">{groupLabel}</h3>
