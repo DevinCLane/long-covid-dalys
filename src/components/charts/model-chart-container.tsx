@@ -12,9 +12,7 @@ export function ModelChartContainer({
   const { isCustomScenario } = useDalyModel();
 
   return (
-    <div
-      className={cn("relative isolate [container-type:inline-size]", className)}
-    >
+    <div className={cn("relative isolate container", className)}>
       {isCustomScenario && (
         <div className="pointer-events-none absolute inset-0 z-20 overflow-hidden select-none">
           <div className="text-foreground absolute top-1/2 right-[3%] left-[24%] -translate-y-1/2 -rotate-12 text-center opacity-12 dark:opacity-15">
