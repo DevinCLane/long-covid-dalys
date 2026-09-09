@@ -11,9 +11,30 @@ import {
   GROUP_LABELS,
   getAssumptionSliderMax,
 } from "@/config/assumptions";
+import { Button } from "./ui/button";
+import { cn } from "@/lib/utils";
+
+function ResetAll({
+  label,
+  className,
+  onClick,
+}: {
+  label: string;
+  className?: string;
+  onClick: () => void;
+}) {
+  return (
+    <Button
+      className={cn("cursor-pointer hover:bg-gray-500", className)}
+      onClick={onClick}
+    >
+      {label}
+    </Button>
+  );
+}
 
 export function ModelAssumptionsPanel() {
-  const { assumptions, setAssumption } = useDalyModel();
+  const { assumptions, setAssumption, resetAll } = useDalyModel();
 
   return (
     <Accordion type="single" collapsible>
@@ -25,6 +46,9 @@ export function ModelAssumptionsPanel() {
           <div className="italic">
             Modifying assumptions may result in figures that fall outside ranges
             supported by the literature.
+          </div>
+          <div className="text-right">
+            <ResetAll onClick={resetAll} label="Reset All" />
           </div>
           {Object.entries(GROUP_LABELS).map(([group, groupLabel]) => (
             <section key={group}>

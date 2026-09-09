@@ -52,9 +52,20 @@ export function DalyModelProvider({ children }: { children: ReactNode }) {
     ({ key, defaultValue }) => deferredAssumptions[key] !== defaultValue,
   );
 
+  const resetAll = useCallback(
+    () => setAssumptions({ ...DEFAULT_ASSUMPTION_VALUES }),
+    [],
+  );
+
   const contextValue = useMemo(
-    () => ({ assumptions, scenarioRows, isCustomScenario, setAssumption }),
-    [assumptions, scenarioRows, isCustomScenario, setAssumption],
+    () => ({
+      assumptions,
+      scenarioRows,
+      isCustomScenario,
+      setAssumption,
+      resetAll,
+    }),
+    [assumptions, scenarioRows, isCustomScenario, setAssumption, resetAll],
   );
 
   return (
