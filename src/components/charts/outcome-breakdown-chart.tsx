@@ -25,7 +25,7 @@ import {
 } from "../ui/select";
 import { Separator } from "../ui/separator";
 import { useDalyModel } from "@/hooks/use-daly-model";
-import { ModelAssumptionsPanel } from "@/components/model-assumptions-panel";
+import { ModelAssumptionsPanel } from "@/components/assumptions-panel";
 import {
   ChartMetricToggle,
   type ChartMetric,

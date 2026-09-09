@@ -22,7 +22,7 @@ import { ChartMetricToggle, type ChartMetric } from "../chart-metric-toggle";
 import { FieldGroup } from "../ui/field";
 import { Separator } from "../ui/separator";
 import { useDalyModel } from "@/hooks/use-daly-model";
-import { ModelAssumptionsPanel } from "@/components/model-assumptions-panel";
+import { ModelAssumptionsPanel } from "@/components/assumptions-panel";
 import { SCENARIO_LABELS_BY_ID } from "@/config/scenario-daly-calculations";
 
 /**
