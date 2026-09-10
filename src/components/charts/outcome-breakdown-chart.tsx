@@ -43,7 +43,7 @@ export type Scenario = ScenarioDalyRow;
 const chartConfig = {
   acute_covid: {
     label: "acute COVID-19",
-    color: "var(--chart-1)",
+    color: "var(--tableau-6)",
   },
   long_covid: {
     label: "Long COVID",

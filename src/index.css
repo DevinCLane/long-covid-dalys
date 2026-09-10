@@ -71,6 +71,18 @@ layer(base); */
   /* Plum */
   --chart-14: hsl(160 70% 45%);
   /* Emerald */
+
+  /* Tableau Color Blind 10 palette */
+  --tableau-1: hsl(200.9 100% 32.2%); /* Deep blue */
+  --tableau-2: hsl(28.4 100% 52.7%); /* Orange */
+  --tableau-3: hsl(0 0% 67.1%); /* Silver */
+  --tableau-4: hsl(0 0% 34.9%); /* Charcoal */
+  --tableau-5: hsl(206.8 55.3% 59.6%); /* Sky blue */
+  --tableau-6: hsl(24.6 100% 39.2%); /* Burnt orange */
+  --tableau-7: hsl(0 0% 53.7%); /* Medium gray */
+  --tableau-8: hsl(209.2 66.1% 78%); /* Pale blue */
+  --tableau-9: hsl(30 100% 73.7%); /* Apricot */
+  --tableau-10: hsl(0 0% 81.2%); /* Light gray */
 }
 
 .dark {
@@ -165,6 +177,17 @@ layer(base); */
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+
+  --color-tableau-1: var(--tableau-1);
+  --color-tableau-2: var(--tableau-2);
+  --color-tableau-3: var(--tableau-3);
+  --color-tableau-4: var(--tableau-4);
+  --color-tableau-5: var(--tableau-5);
+  --color-tableau-6: var(--tableau-6);
+  --color-tableau-7: var(--tableau-7);
+  --color-tableau-8: var(--tableau-8);
+  --color-tableau-9: var(--tableau-9);
+  --color-tableau-10: var(--tableau-10);
 
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
