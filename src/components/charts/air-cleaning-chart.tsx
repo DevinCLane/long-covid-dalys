@@ -1,6 +1,14 @@
 "use client";
 
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  ReferenceDot,
+  ReferenceLine,
+  XAxis,
+  YAxis,
+} from "recharts";
 import { ModelChartContainer } from "@/components/charts/model-chart-container";
 
 import {
@@ -191,7 +199,11 @@ interface AirCleaningChartProps {
 }
 
 export function AirCleaningChart({ onScenarioSelect }: AirCleaningChartProps) {
-  const { scenarioRows: chartRows } = useDalyModel();
+  const {
+    scenarioRows: chartRows,
+    defaultOutput,
+    isCustomScenario,
+  } = useDalyModel();
   const [metric, setMetric] = useState<ChartMetric>("percent");
   const [allHepaChecked, setAllHepaChecked] = useState(false);
   const [allUvcChecked, setAllUvcChecked] = useState(false);
@@ -320,6 +332,48 @@ export function AirCleaningChart({ onScenarioSelect }: AirCleaningChartProps) {
                 cursor="pointer"
                 onClick={(data) => onScenarioSelect?.(data.payload.id)}
               />
+              {isCustomScenario &&
+                defaultOutput.map(
+                  (originalRow) =>
+                    visibleRows.some((row) => row.id === originalRow.id) && (
+                      <ReferenceDot
+                        key={originalRow.id}
+                        x={
+                          showDalys
+                            ? originalRow.total
+                            : originalRow.percent_reduction
+                        }
+                        y={originalRow.id}
+                        stroke="black"
+                        label={{
+                          value: "Original value",
+                          fill: "black",
+                          // position: "insideBottomRight",
+                          angle: 90,
+                          dx: 20,
+                        }}
+                        shape={(props) => {
+                          if (
+                            props.cx !== undefined &&
+                            props.cy !== undefined
+                          ) {
+                            return (
+                              <line
+                                x1={props.cx}
+                                y1={props.cy + 50}
+                                x2={props.cx}
+                                y2={props.cy - 50}
+                                stroke="black"
+                              ></line>
+                            );
+                          } else {
+                            console.error("can't find props.cx or props.cy");
+                            return <></>;
+                          }
+                        }}
+                      />
+                    ),
+                )}
             </BarChart>
           </ModelChartContainer>
         </div>

@@ -9,6 +9,7 @@ export type DalyModelContextValue = {
   isCustomScenario: boolean;
   setAssumption: (key: AssumptionKey, value: number) => void;
   resetAll: () => void;
+  defaultOutput: ScenarioDalyRow[];
 };
 
 export const DalyModelContext = createContext<DalyModelContextValue | null>(

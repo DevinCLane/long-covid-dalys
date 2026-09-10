@@ -47,6 +47,15 @@ export function DalyModelProvider({ children }: { children: ReactNode }) {
     [deferredAssumptions],
   );
 
+  const defaultOutput = useMemo(
+    () =>
+      calculateScenarioDalyRows({
+        ...DEFAULT_ASSUMPTION_VALUES,
+      }),
+    [],
+  );
+
+  console.log({ defaultOutput, scenarioRows });
   // Match the watermark to the assumptions used by the displayed chart data.
   const isCustomScenario = ASSUMPTIONS.some(
     ({ key, defaultValue }) => deferredAssumptions[key] !== defaultValue,
@@ -64,8 +73,16 @@ export function DalyModelProvider({ children }: { children: ReactNode }) {
       isCustomScenario,
       setAssumption,
       resetAll,
+      defaultOutput,
     }),
-    [assumptions, scenarioRows, isCustomScenario, setAssumption, resetAll],
+    [
+      assumptions,
+      scenarioRows,
+      isCustomScenario,
+      setAssumption,
+      resetAll,
+      defaultOutput,
+    ],
   );
 
   return (
