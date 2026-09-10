@@ -5,7 +5,6 @@ import {
   BarChart,
   CartesianGrid,
   ReferenceDot,
-  ReferenceLine,
   XAxis,
   YAxis,
 } from "recharts";
