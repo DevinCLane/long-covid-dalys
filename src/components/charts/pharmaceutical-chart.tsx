@@ -29,6 +29,7 @@ import {
   ScenarioId,
 } from "@/config/scenario-daly-calculations";
 import { ChartModifierRadio, RadioOption } from "../chart-modifier-radio";
+import { OriginalValueMarker } from "../original-value-marker";
 
 /**
  * Text for the chart description body
@@ -194,7 +195,11 @@ interface PharmaceuticalChartProps {
 export function PharmaceuticalChart({
   onScenarioSelect,
 }: PharmaceuticalChartProps) {
-  const { scenarioRows: chartRows } = useDalyModel();
+  const {
+    scenarioRows: chartRows,
+    defaultOutput,
+    isCustomScenario,
+  } = useDalyModel();
   const [metric, setMetric] = useState<ChartMetric>("percent");
   const [chartFilter, setChartFilter] = useState<RadioOption["value"]>("all");
   const showDalys = metric === "dalys";
@@ -329,6 +334,21 @@ export function PharmaceuticalChart({
                 cursor="pointer"
                 onClick={(data) => onScenarioSelect?.(data.payload.id)}
               />
+              {isCustomScenario &&
+                defaultOutput.map(
+                  (originalRow) =>
+                    visibleRows.some((row) => row.id === originalRow.id) && (
+                      <OriginalValueMarker
+                        key={originalRow.id}
+                        x={
+                          showDalys
+                            ? originalRow.total
+                            : originalRow.percent_reduction
+                        }
+                        y={originalRow.id}
+                      />
+                    ),
+                )}
             </BarChart>
           </ModelChartContainer>
         </div>

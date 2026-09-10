@@ -35,6 +35,7 @@ import type {
   ScenarioId,
 } from "@/config/scenario-daly-calculations";
 import { useState } from "react";
+import { OriginalValueMarker } from "../original-value-marker";
 
 export type Scenario = ScenarioDalyRow;
 
@@ -99,9 +100,14 @@ export function OutcomeBreakdownChart({
   scenarioId,
   onScenarioSelect,
 }: OutcomeBreakdownChartProps) {
-  const { scenarioRows } = useDalyModel();
+  const { scenarioRows, isCustomScenario, defaultOutput } = useDalyModel();
   const [metric, setMetric] = useState<ChartMetric>("percent");
   const scenario = scenarioRows.find((scenario) => scenario.id === scenarioId);
+
+  const defaultScenario = defaultOutput.find(
+    (scenario) => scenario.id === scenarioId,
+  );
+  const showOriginalValues = isCustomScenario && Boolean(defaultScenario);
   // if the selected scenario is the baseline, show DALYs instead of percent reduction
   const displayedMetric = scenarioId === "baseline" ? "dalys" : metric;
 
@@ -128,6 +134,8 @@ export function OutcomeBreakdownChart({
       label: "Acute COVID",
       dalys: scenario.acute_covid,
       percentReduction: scenario.percent_reduction_acute_covid,
+      originalDalys: defaultScenario?.acute_covid,
+      originalPercentReduction: defaultScenario?.percent_reduction_acute_covid,
       fill: "var(--color-acute_covid)",
     },
     {
@@ -135,6 +143,8 @@ export function OutcomeBreakdownChart({
       label: "Long COVID",
       dalys: scenario.long_covid,
       percentReduction: scenario.percent_reduction_long_covid,
+      originalDalys: defaultScenario?.long_covid,
+      originalPercentReduction: defaultScenario?.percent_reduction_long_covid,
       fill: "var(--color-long_covid)",
     },
     {
@@ -142,6 +152,8 @@ export function OutcomeBreakdownChart({
       label: "Other sequelae",
       dalys: scenario.pasc,
       percentReduction: scenario.percent_reduction_pasc,
+      originalDalys: defaultScenario?.pasc,
+      originalPercentReduction: defaultScenario?.percent_reduction_pasc,
       fill: "var(--color-pasc)",
     },
     {
@@ -149,6 +161,8 @@ export function OutcomeBreakdownChart({
       label: "Total",
       dalys: scenario.total,
       percentReduction: scenario.percent_reduction,
+      originalDalys: defaultScenario?.total,
+      originalPercentReduction: defaultScenario?.percent_reduction,
       fill: "var(--color-total)",
     },
   ];
@@ -157,6 +171,17 @@ export function OutcomeBreakdownChart({
   const visibleOutcomeData = detailedData.filter((dataItem) =>
     displayedMetric === "percent" ? dataItem.key !== "total" : true,
   );
+  // Keep original markers in range when adjusted DALYs fall below the defaults,
+  // with room for the marker label at the right edge.
+  const dalyAxisMax = showOriginalValues
+    ? Math.max(
+        1,
+        ...visibleOutcomeData.flatMap((row) => [
+          row.dalys,
+          row.originalDalys ?? 0,
+        ]),
+      ) * 1.1
+    : "auto";
 
   return (
     <Card>
@@ -229,7 +254,9 @@ export function OutcomeBreakdownChart({
               <CartesianGrid horizontal={false} />
               <XAxis
                 type="number"
-                domain={displayedMetric === "percent" ? [0, 100] : [0, "auto"]}
+                domain={
+                  displayedMetric === "percent" ? [0, 100] : [0, dalyAxisMax]
+                }
                 label={{
                   value:
                     displayedMetric === "percent"
@@ -271,6 +298,21 @@ export function OutcomeBreakdownChart({
                   displayedMetric === "percent" ? "percentReduction" : "dalys"
                 }
               />
+              {showOriginalValues &&
+                visibleOutcomeData.map((row) => {
+                  const originalValue =
+                    displayedMetric === "percent"
+                      ? row.originalPercentReduction
+                      : row.originalDalys;
+
+                  return originalValue !== undefined ? (
+                    <OriginalValueMarker
+                      key={row.key}
+                      x={originalValue}
+                      y={row.label}
+                    />
+                  ) : null;
+                })}
             </BarChart>
           </ModelChartContainer>
         </div>

@@ -4,7 +4,6 @@ import {
   Bar,
   BarChart,
   CartesianGrid,
-  ReferenceDot,
   XAxis,
   YAxis,
 } from "recharts";
@@ -35,6 +34,7 @@ import {
   SCENARIO_LABELS_BY_ID,
   ScenarioId,
 } from "@/config/scenario-daly-calculations";
+import { OriginalValueMarker } from "../original-value-marker";
 
 /**
  * Text for the chart description body
@@ -335,7 +335,7 @@ export function AirCleaningChart({ onScenarioSelect }: AirCleaningChartProps) {
                 defaultOutput.map(
                   (originalRow) =>
                     visibleRows.some((row) => row.id === originalRow.id) && (
-                      <ReferenceDot
+                      <OriginalValueMarker
                         key={originalRow.id}
                         x={
                           showDalys
@@ -343,33 +343,6 @@ export function AirCleaningChart({ onScenarioSelect }: AirCleaningChartProps) {
                             : originalRow.percent_reduction
                         }
                         y={originalRow.id}
-                        stroke="black"
-                        label={{
-                          value: "Original value",
-                          fill: "black",
-                          // position: "insideBottomRight",
-                          angle: 90,
-                          dx: 20,
-                        }}
-                        shape={(props) => {
-                          if (
-                            props.cx !== undefined &&
-                            props.cy !== undefined
-                          ) {
-                            return (
-                              <line
-                                x1={props.cx}
-                                y1={props.cy + 50}
-                                x2={props.cx}
-                                y2={props.cy - 50}
-                                stroke="black"
-                              ></line>
-                            );
-                          } else {
-                            console.error("can't find props.cx or props.cy");
-                            return <></>;
-                          }
-                        }}
                       />
                     ),
                 )}
