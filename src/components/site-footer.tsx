@@ -5,18 +5,17 @@ export function SiteFooter() {
     <footer className="p-6">
       <div className="container-wrapper">
         <div className="container py-4">
-          <div className="text-balance text-left text-sm leading-loose text-muted-foreground">
+          <div className="text-muted-foreground text-left text-sm leading-loose text-balance">
             <h4 className="mb-2 text-lg font-semibold">Cite this source</h4>
             <p>
-              Cohen AK, Jaudon TW, Cho O, Lane DC, Vogel JM. Benefits of air
-              cleaning interventions on COVID-19 infection and Long
-              COVID-related disability-adjusted life years: A policy simulation.
+              Cohen AK, Jaudon TW, Cho O, Lane DC, Davis H, Kurakova A, Vogel
+              JM. COVID-19 DALYs Simulator
             </p>
             {/* todo: add .RIS download when available */}
             {/* <a className="flex cursor-pointer justify-center gap-2 hover:underline">
               Download Citation <LucideDownload />
             </a> */}
-            <hr className="mb-2 mt-2" />
+            <hr className="mt-2 mb-2" />
             <p>
               Website by{" "}
               <a
