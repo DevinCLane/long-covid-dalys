@@ -50,21 +50,21 @@ export default function TabsArea() {
             </TabsTrigger>
           </div>
         </TabsList>
-        <TabsContent value="detailed" className="w-full">
-          <OutcomeBreakdownChart
-            scenarioId={detailedScenarioId}
-            onScenarioSelect={selectDetailedScenario}
-          />
-        </TabsContent>
         <TabsContent value="air" className="w-full">
           <AirCleaningChart onScenarioSelect={openDetailedScenario} />
         </TabsContent>
         <TabsContent value="pharmaceuticals" className="w-full">
           <PharmaceuticalChart onScenarioSelect={openDetailedScenario} />
         </TabsContent>
-        <TabsContent value="publicHealth" className="w-full">
-          <div>Coming soon</div>
+        <TabsContent value="detailed" className="w-full">
+          <OutcomeBreakdownChart
+            scenarioId={detailedScenarioId}
+            onScenarioSelect={selectDetailedScenario}
+          />
         </TabsContent>
+        {/*<TabsContent value="publicHealth" className="w-full">
+          <div>Coming soon</div>
+        </TabsContent>*/}
         <TabsContent value="about" className="w-full">
           <AboutPage />
         </TabsContent>

@@ -78,9 +78,10 @@ function ChartDescriptionBody({ scenario, metric }: ChartDescriptionBodyProps) {
     return (
       <div>
         For the scenario "{scenario.label}", each outcome percentage is
-        calculated against that outcome&apos;s status quo DALYs. Total is
+        calculated against that outcome&apos;s status quo DALYs.
+        {/*Total is
         calculated from combined DALYs averted divided by combined status quo
-        DALYs; the percentages are not added together.
+        DALYs; the percentages are not added together.*/}
       </div>
     );
   }
@@ -152,6 +153,11 @@ export function OutcomeBreakdownChart({
     },
   ];
 
+  // remove the "total" from percent reduction view
+  const visibleOutcomeData = detailedData.filter((dataItem) =>
+    displayedMetric === "percent" ? dataItem.key !== "total" : true,
+  );
+
   return (
     <Card>
       {/* chart header */}
@@ -214,7 +220,7 @@ export function OutcomeBreakdownChart({
           >
             <BarChart
               accessibilityLayer
-              data={detailedData}
+              data={visibleOutcomeData}
               layout="vertical"
               margin={{
                 bottom: 15,
