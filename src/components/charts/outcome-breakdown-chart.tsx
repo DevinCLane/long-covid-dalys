@@ -2,6 +2,7 @@
 
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { ModelChartContainer } from "@/components/charts/model-chart-container";
+import { ModelTooltipValues } from "@/components/charts/model-tooltip-values";
 
 import {
   Card,
@@ -277,18 +278,23 @@ export function OutcomeBreakdownChart({
               <ChartTooltip
                 content={
                   <ChartTooltipContent
-                    formatter={(value) => (
-                      <>
-                        <span className="text-muted-foreground">
-                          {displayedMetric === "percent"
+                    formatter={(value, _name, item) => (
+                      <ModelTooltipValues
+                        label={
+                          displayedMetric === "percent"
                             ? "Reduction vs status quo"
-                            : "DALYs per 1,000"}
-                        </span>
-                        <span className="text-foreground ml-auto font-mono font-medium tabular-nums">
-                          {Number(value).toLocaleString()}
-                          {displayedMetric === "percent" ? "%" : ""}
-                        </span>
-                      </>
+                            : "DALYs per 1,000"
+                        }
+                        value={Number(value)}
+                        originalValue={
+                          showOriginalValues
+                            ? displayedMetric === "percent"
+                              ? item.payload.originalPercentReduction
+                              : item.payload.originalDalys
+                            : undefined
+                        }
+                        showPercent={displayedMetric === "percent"}
+                      />
                     )}
                   />
                 }

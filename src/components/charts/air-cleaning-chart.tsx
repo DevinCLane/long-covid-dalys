@@ -8,6 +8,7 @@ import {
   YAxis,
 } from "recharts";
 import { ModelChartContainer } from "@/components/charts/model-chart-container";
+import { ModelTooltipValues } from "@/components/charts/model-tooltip-values";
 
 import {
   Card,
@@ -305,19 +306,28 @@ export function AirCleaningChart({ onScenarioSelect }: AirCleaningChartProps) {
                     labelFormatter={(label, payload) => {
                       return payload[0]?.payload?.label ?? label;
                     }}
-                    formatter={(value) => (
-                      <>
-                        <span className="text-muted-foreground">
-                          {showDalys
-                            ? "Total DALYs per 1,000"
-                            : "Total DALY reduction"}
-                        </span>
-                        <span className="text-foreground ml-auto font-mono font-medium tabular-nums">
-                          {Number(value).toLocaleString()}
-                          {showDalys ? "" : "%"}
-                        </span>
-                      </>
-                    )}
+                    formatter={(value, _name, item) => {
+                      const originalRow = isCustomScenario
+                        ? defaultOutput.find((row) => row.id === item.payload.id)
+                        : undefined;
+
+                      return (
+                        <ModelTooltipValues
+                          label={
+                            showDalys
+                              ? "Total DALYs per 1,000"
+                              : "Total DALY reduction"
+                          }
+                          value={Number(value)}
+                          originalValue={
+                            showDalys
+                              ? originalRow?.total
+                              : originalRow?.percent_reduction
+                          }
+                          showPercent={!showDalys}
+                        />
+                      );
+                    }}
                   />
                 }
               />
