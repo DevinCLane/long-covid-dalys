@@ -3,7 +3,7 @@
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { ModelChartContainer } from "@/components/charts/model-chart-container";
 import { ModelTooltipValues } from "@/components/charts/model-tooltip-values";
-import { getScenarioColor } from "@/components/charts/scenario-color";
+import { getScenarioColor } from "@/config/chart-colors";
 
 import {
   Card,

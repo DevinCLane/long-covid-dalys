@@ -3,6 +3,7 @@
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { ModelChartContainer } from "@/components/charts/model-chart-container";
 import { ModelTooltipValues } from "@/components/charts/model-tooltip-values";
+import { outcomeColors } from "@/config/chart-colors";
 
 import {
   Card,
@@ -43,19 +44,19 @@ export type Scenario = ScenarioDalyRow;
 const chartConfig = {
   acute_covid: {
     label: "acute COVID-19",
-    color: "var(--tableau-6)",
+    color: outcomeColors.acute_covid,
   },
   long_covid: {
     label: "Long COVID",
-    color: "var(--chart-2)",
+    color: outcomeColors.long_covid,
   },
   pasc: {
     label: "other post-acute sequelae of COVID-19 infection",
-    color: "var(--chart-3)",
+    color: outcomeColors.pasc,
   },
   total: {
     label: "Total",
-    color: "var(--chart-4)",
+    color: outcomeColors.total,
   },
   dalys: {
     label: "DALYs per 1,000 people",
