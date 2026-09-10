@@ -3,6 +3,7 @@
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { ModelChartContainer } from "@/components/charts/model-chart-container";
 import { ModelTooltipValues } from "@/components/charts/model-tooltip-values";
+import { getScenarioColor } from "@/components/charts/scenario-color";
 
 import {
   Card,
@@ -181,11 +182,9 @@ function ScenarioYAxisTick({
 const chartConfig = {
   percent_reduction: {
     label: "Total DALY reduction",
-    color: "var(--chart-2)",
   },
   total: {
     label: "Total DALYs",
-    color: "var(--chart-6)",
   },
 } satisfies ChartConfig;
 
@@ -266,7 +265,10 @@ export function PharmaceuticalChart({
           >
             <BarChart
               accessibilityLayer
-              data={visibleRows}
+              data={visibleRows.map((row) => ({
+                ...row,
+                fill: getScenarioColor(row.id),
+              }))}
               layout="vertical"
               margin={{
                 bottom: 15,
@@ -336,11 +338,6 @@ export function PharmaceuticalChart({
               />
               <Bar
                 dataKey={showDalys ? "total" : "percent_reduction"}
-                fill={
-                  showDalys
-                    ? "var(--color-total)"
-                    : "var(--color-percent_reduction)"
-                }
                 cursor="pointer"
                 onClick={(data) => onScenarioSelect?.(data.payload.id)}
               />
