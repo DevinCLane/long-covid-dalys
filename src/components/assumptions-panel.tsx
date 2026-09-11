@@ -25,10 +25,7 @@ function ResetAll({
   onClick: () => void;
 }) {
   return (
-    <Button
-      className={cn("cursor-pointer hover:bg-gray-500", className)}
-      onClick={onClick}
-    >
+    <Button className={cn("hover:bg-gray-500", className)} onClick={onClick}>
       {label}
     </Button>
   );

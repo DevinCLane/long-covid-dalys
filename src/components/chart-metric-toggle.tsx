@@ -29,7 +29,6 @@ export function ChartMetricToggle({
               variant={value === "percent" ? "default" : "ghost"}
               aria-pressed={value === "percent"}
               onClick={() => onValueChange("percent")}
-              className="cursor-pointer"
               disabled={disabled}
             >
               Percent reduction
@@ -48,7 +47,6 @@ export function ChartMetricToggle({
         variant={value === "dalys" ? "default" : "ghost"}
         aria-pressed={value === "dalys"}
         onClick={() => onValueChange("dalys")}
-        className="cursor-pointer"
       >
         DALYs per 1,000
       </Button>
