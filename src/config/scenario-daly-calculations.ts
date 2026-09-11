@@ -105,7 +105,7 @@ function airScenarioDefinition(
   if (scenario.id === "baseline") {
     return {
       id: scenario.id,
-      label: scenario.label,
+      label: "Status quo",
       annualInfectionProportion: selectedBaseline,
     };
   }
