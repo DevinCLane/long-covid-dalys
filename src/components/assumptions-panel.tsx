@@ -8,6 +8,7 @@ import { AssumptionArea } from "@/components/assumption-area";
 import { useDalyModel } from "@/hooks/use-daly-model";
 import {
   ASSUMPTIONS,
+  AssumptionKey,
   GROUP_LABELS,
   getAssumptionSliderMax,
 } from "@/config/assumptions";
@@ -33,7 +34,13 @@ function ResetAll({
   );
 }
 
-export function ModelAssumptionsPanel() {
+interface ModelAssumptionsPanelProps {
+  allowedInterventions: AssumptionKey[];
+}
+
+export function ModelAssumptionsPanel({
+  allowedInterventions,
+}: ModelAssumptionsPanelProps) {
   const { assumptions, setAssumption, resetAll } = useDalyModel();
 
   return (
@@ -55,7 +62,10 @@ export function ModelAssumptionsPanel() {
               <h3 className="text-lg font-medium">{groupLabel}</h3>
               <div className="grid grid-cols-1 gap-x-8 gap-y-2 md:grid-cols-2">
                 {ASSUMPTIONS.filter(
-                  (assumption) => assumption.group === group,
+                  (assumption) =>
+                    assumption.group === group &&
+                    (assumption.group === "initialStates" ||
+                      allowedInterventions.includes(assumption.key)),
                 ).map((assumption) => (
                   <AssumptionArea
                     key={assumption.key}

@@ -313,7 +313,9 @@ export function PharmaceuticalChart({
                     }}
                     formatter={(value, _name, item) => {
                       const originalRow = isCustomScenario
-                        ? defaultOutput.find((row) => row.id === item.payload.id)
+                        ? defaultOutput.find(
+                            (row) => row.id === item.payload.id,
+                          )
                         : undefined;
 
                       return (
@@ -362,7 +364,14 @@ export function PharmaceuticalChart({
         <CardDescription className="mt-3 block md:hidden">
           <ChartDescriptionBody />
         </CardDescription>
-        <ModelAssumptionsPanel />
+        <ModelAssumptionsPanel
+          allowedInterventions={[
+            "preexposureProphylaxis",
+            "postexposureProphylaxis",
+            "longCovidProgressionReduction",
+            "longCovidDisabilityReduction",
+          ]}
+        />
       </CardContent>
     </Card>
   );

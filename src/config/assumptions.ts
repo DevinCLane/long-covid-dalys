@@ -9,6 +9,7 @@ import {
   DEFAULT_POSTEXPOSURE_PROPHYLAXIS_MAXIMUM_REDUCTION,
   DEFAULT_PREEXPOSURE_PROPHYLAXIS_EFFICACY,
 } from "@/config/daly-model";
+import type { ScenarioId } from "./scenario-daly-calculations";
 
 export const GROUP_LABELS = {
   initialStates: "Base Parameters",
@@ -259,7 +260,7 @@ export const ASSUMPTIONS = [
     defaultValue: toPercent(DEFAULT_POSTEXPOSURE_PROPHYLAXIS_MAXIMUM_REDUCTION),
   },
   {
-    key: "interventionDecreaseProgression",
+    key: "longCovidProgressionReduction",
     group: "interventionParameters",
     sliderLabel: "Long COVID progression reduction",
     sliderSubLabel:
@@ -270,7 +271,7 @@ export const ASSUMPTIONS = [
     defaultValue: toPercent(DEFAULT_LONG_COVID_PROGRESSION_REDUCTION),
   },
   {
-    key: "interventionDecreaseSymptoms",
+    key: "longCovidDisabilityReduction",
     group: "interventionParameters",
     sliderLabel: "Long COVID symptom-burden reduction",
     sliderSubLabel:
@@ -319,3 +320,17 @@ export const groupedInterventions = ASSUMPTIONS.reduce(
 );
 
 export type InterventionReductionFactors = Record<string, number>;
+
+export const interventionsByScenario: Record<ScenarioId, AssumptionKey[]> = {
+  baseline: [],
+  hepa_most_public: ["hepa"],
+  hepa_schools_and_daycares: ["hepa"],
+  hepa_all_public: ["hepa"],
+  far_uvc_most_public: ["uvc"],
+  far_uvc_schools_and_daycares: ["uvc"],
+  far_uvc_all_public: ["uvc"],
+  preexposure_prophylaxis: ["preexposureProphylaxis"],
+  postexposure_prophylaxis: ["postexposureProphylaxis"],
+  long_covid_progression_reduction: ["longCovidProgressionReduction"],
+  long_covid_disability_reduction: ["longCovidDisabilityReduction"],
+};

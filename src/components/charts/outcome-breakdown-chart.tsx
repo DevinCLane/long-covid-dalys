@@ -38,6 +38,7 @@ import type {
 } from "@/config/scenario-daly-calculations";
 import { useState } from "react";
 import { OriginalValueMarker } from "../original-value-marker";
+import { interventionsByScenario } from "@/config/assumptions";
 
 export type Scenario = ScenarioDalyRow;
 
@@ -333,7 +334,9 @@ export function OutcomeBreakdownChart({
         <CardDescription className="mt-3 block md:hidden">
           <ChartDescriptionBody scenario={scenario} metric={displayedMetric} />
         </CardDescription>
-        <ModelAssumptionsPanel />
+        <ModelAssumptionsPanel
+          allowedInterventions={interventionsByScenario[scenarioId]}
+        />
       </CardContent>
     </Card>
   );

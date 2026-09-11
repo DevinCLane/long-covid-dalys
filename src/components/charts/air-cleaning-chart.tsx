@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-} from "recharts";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { ModelChartContainer } from "@/components/charts/model-chart-container";
 import { ModelTooltipValues } from "@/components/charts/model-tooltip-values";
 import { getScenarioColor } from "@/config/chart-colors";
@@ -310,7 +304,9 @@ export function AirCleaningChart({ onScenarioSelect }: AirCleaningChartProps) {
                     }}
                     formatter={(value, _name, item) => {
                       const originalRow = isCustomScenario
-                        ? defaultOutput.find((row) => row.id === item.payload.id)
+                        ? defaultOutput.find(
+                            (row) => row.id === item.payload.id,
+                          )
                         : undefined;
 
                       return (
@@ -359,7 +355,7 @@ export function AirCleaningChart({ onScenarioSelect }: AirCleaningChartProps) {
         <CardDescription className="mt-3 block md:hidden">
           <ChartDescriptionBody />
         </CardDescription>
-        <ModelAssumptionsPanel />
+        <ModelAssumptionsPanel allowedInterventions={["hepa", "uvc"]} />
       </CardContent>
     </Card>
   );

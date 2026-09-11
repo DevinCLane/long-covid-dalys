@@ -171,7 +171,7 @@ export const SCENARIO_DEFINITIONS: readonly ScenarioDefinition[] = [
       ...parameters,
       progressionRate:
         parameters.progressionRate *
-        (1 - toProportion(values.interventionDecreaseProgression)),
+        (1 - toProportion(values.longCovidProgressionReduction)),
     }),
   },
   {
@@ -180,7 +180,7 @@ export const SCENARIO_DEFINITIONS: readonly ScenarioDefinition[] = [
     annualInfectionProportion: selectedBaseline,
     transformLongCovidParameters: (parameters, values) => {
       const remainingDisability =
-        1 - toProportion(values.interventionDecreaseSymptoms);
+        1 - toProportion(values.longCovidProgressionReduction);
       return {
         ...parameters,
         disabilityWeightS1: parameters.disabilityWeightS1 * remainingDisability,
