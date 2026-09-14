@@ -13,8 +13,6 @@ scientific parameter uncertainty and are not confidence intervals.
 import { runAcuteCovid, runLongCovid, runPasc } from "./model/daly-model.js";
 
 const baseline = runLongCovid();
-console.log(baseline.totals.dalysPer1000);
-console.log(runPasc().totals.dalysPer1000);
 
 const exploratory = runLongCovid({
   disabilityWeightS1: 0.09,
