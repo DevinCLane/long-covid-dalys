@@ -8,8 +8,8 @@ export function SiteFooter() {
           <div className="text-muted-foreground text-left text-sm leading-loose text-balance">
             <h4 className="mb-2 text-lg font-semibold">Cite this source</h4>
             <p>
-              Cohen AK, Jaudon TW, Cho O, Lane DC, Davis H, Kurakova A, Vogel
-              JM. COVID-19 DALYs Simulator
+              Cohen AK, Jaudon TW, Lane DC, Kurakova A, Davis H, Cho O, Vogel
+              JM. “COVID-19 DALYs simulator.” (2026)
             </p>
             {/* todo: add .RIS download when available */}
             {/* <a className="flex cursor-pointer justify-center gap-2 hover:underline">

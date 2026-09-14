@@ -143,8 +143,7 @@ export default function ShareButton() {
                 Copy Citation to clipboard
               </div>
               <CopyableInput
-                copyableInput="Cohen AK, Jaudon TW, Cho O, Lane DC, Davis H, Kurakova A, Vogel
-                JM. COVID-19 DALYs Simulator"
+                copyableInput="Cohen AK, Jaudon TW, Lane DC, Kurakova A, Davis H, Cho O, Vogel JM. “COVID-19 DALYs simulator.” (2026)"
                 ariaLabel="citation"
               />
             </div>
