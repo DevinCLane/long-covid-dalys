@@ -7,7 +7,6 @@ window.addEventListener("message", (event) => {
   }
 
   const messageData = event.data;
-  console.log({ iframe });
   if (messageData.height) {
     iframe.style.height = messageData.height + "px";
   }

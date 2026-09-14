@@ -12,8 +12,9 @@ function App() {
   useEffect(() => {
     const resizeObserver = new ResizeObserver((entries) => {
       for (const entry of entries) {
-        if (entry.target.clientHeight) {
-          const clientHeight = entry.target.clientHeight;
+        const clientHeight = entry.target.clientHeight;
+        if (clientHeight) {
+          console.log(clientHeight);
           window.parent.postMessage({ height: clientHeight }, targetOrigin);
         }
       }
@@ -29,7 +30,7 @@ function App() {
   return (
     <div
       ref={outerDiv}
-      className="mx-auto flex min-h-screen flex-col px-4 py-2 text-center md:px-8 md:py-6 lg:max-w-6xl"
+      className="mx-auto flex flex-col px-4 py-2 text-center md:px-8 md:py-6 lg:max-w-6xl"
     >
       <NavBar />
       <Header />
