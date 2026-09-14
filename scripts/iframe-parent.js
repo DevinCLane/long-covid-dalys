@@ -1,16 +1,14 @@
-const iframe = document.getElementById("dalys");
-const parentOrigin = "https://longcoviddalys.netlify.app";
-
 window.addEventListener("message", (event) => {
-  console.log(event);
+  const iframe = document.getElementById("dalys");
+  const parentOrigin = "https://longcoviddalys.netlify.app";
+
+  if (event.origin !== parentOrigin) {
+    return;
+  }
+
+  const messageData = event.data;
+  console.log({ iframe });
+  if (messageData.height) {
+    iframe.style.height = messageData.height + "px";
+  }
 });
-
-// if (!e.origin === parentOrigin) {
-//   return;
-// }
-
-// const message = e.data;
-
-// if (message.height) {
-//   iframe.height = message.height + "px";
-// }
