@@ -55,7 +55,6 @@ export function DalyModelProvider({ children }: { children: ReactNode }) {
     [],
   );
 
-  console.log({ defaultOutput, scenarioRows });
   // Match the watermark to the assumptions used by the displayed chart data.
   const isCustomScenario = ASSUMPTIONS.some(
     ({ key, defaultValue }) => deferredAssumptions[key] !== defaultValue,
