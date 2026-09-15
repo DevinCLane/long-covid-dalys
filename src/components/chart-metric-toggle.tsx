@@ -36,8 +36,9 @@ export function ChartMetricToggle({
           </span>
         </TooltipTrigger>
         <TooltipContent className="max-w-64 px-2 py-1 text-xs">
-          Compared with the fixed status quo at 27.7% annual infection and all
-          other default assumptions. Negative values indicate increased DALYs.
+          Percent reduction compared with the status quo scenario of no
+          population-level health interventions. Negative values indicate
+          increased DALYs.
         </TooltipContent>
       </Tooltip>
       <Button
