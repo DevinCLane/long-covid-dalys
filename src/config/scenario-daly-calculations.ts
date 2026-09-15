@@ -1,4 +1,4 @@
-import type { AssumptionValues } from "@/config/assumptions";
+import type { AssumptionKey, AssumptionValues } from "@/config/assumptions";
 import {
   infectionUnderPostExposureProphylaxis,
   infectionUnderPreExposureProphylaxis,
@@ -9,8 +9,11 @@ import {
 } from "@/config/daly-model";
 import chartData from "@/data/data-2026-09-02.json";
 
+// JSON IDs are strings; the loaded definitions provide the runtime catalog.
+export type ScenarioId = (typeof chartData.main_scenarios)[number]["id"];
+
 export interface ScenarioDalyRow {
-  id: string;
+  id: ScenarioId;
   label: string;
   annualInfectionProportion: number;
   acute_covid: number;
@@ -24,7 +27,7 @@ export interface ScenarioDalyRow {
 }
 
 interface ScenarioDalyTotals {
-  id: string;
+  id: ScenarioId;
   label: string;
   annualInfectionProportion: number;
   acute_covid: number;
@@ -46,30 +49,15 @@ type BaseLongCovidParameters = {
 };
 
 type ScenarioDefinition = {
-  id: string;
+  id: ScenarioId;
   label: string;
+  interventions: AssumptionKey[];
   annualInfectionProportion: (values: AssumptionValues) => number;
   transformLongCovidParameters?: (
     parameters: BaseLongCovidParameters,
     values: AssumptionValues,
   ) => BaseLongCovidParameters;
 };
-
-export const SCENARIO_IDS = [
-  "baseline",
-  "hepa_most_public",
-  "hepa_schools_and_daycares",
-  "hepa_all_public",
-  "far_uvc_most_public",
-  "far_uvc_schools_and_daycares",
-  "far_uvc_all_public",
-  "preexposure_prophylaxis",
-  "postexposure_prophylaxis",
-  "long_covid_progression_reduction",
-  "long_covid_disability_reduction",
-] as const;
-
-export type ScenarioId = (typeof SCENARIO_IDS)[number];
 
 const sourceBaseline = chartData.main_scenarios.find(
   (scenario) => scenario.id === "baseline",
@@ -107,11 +95,19 @@ function airScenarioDefinition(
     return {
       id: scenario.id,
       label: "Status quo",
+      interventions: [],
       annualInfectionProportion: selectedBaseline,
     };
   }
 
-  const assumptionKey = scenario.id.startsWith("hepa_") ? "hepa" : "uvc";
+  const assumptionKey = scenario.id.startsWith("hepa_")
+    ? "hepa"
+    : scenario.id.startsWith("far_uvc_")
+      ? "uvc"
+      : undefined;
+  if (!assumptionKey) {
+    throw new Error(`Unsupported air-cleaning scenario: ${scenario.id}`);
+  }
   const fullImplementationId =
     assumptionKey === "hepa" ? "hepa_all_public" : "far_uvc_all_public";
   const fullImplementationScenario = chartData.main_scenarios.find(
@@ -129,6 +125,7 @@ function airScenarioDefinition(
   return {
     id: scenario.id,
     label: scenario.label,
+    interventions: [assumptionKey],
     annualInfectionProportion: (values) =>
       selectedBaseline(values) *
       (1 - toProportion(values[assumptionKey]) * relativeIntensity),
@@ -145,6 +142,7 @@ export const SCENARIO_DEFINITIONS: readonly ScenarioDefinition[] = [
   {
     id: "preexposure_prophylaxis",
     label: "Pre-exposure prophylaxis",
+    interventions: ["preexposureProphylaxis"],
     annualInfectionProportion: (values) =>
       infectionUnderPreExposureProphylaxis({
         baselineInfectionProportion: selectedBaseline(values),
@@ -155,6 +153,7 @@ export const SCENARIO_DEFINITIONS: readonly ScenarioDefinition[] = [
   {
     id: "postexposure_prophylaxis",
     label: "Post-exposure prophylaxis",
+    interventions: ["postexposureProphylaxis"],
     annualInfectionProportion: (values) =>
       infectionUnderPostExposureProphylaxis({
         baselineInfectionProportion: selectedBaseline(values),
@@ -167,6 +166,7 @@ export const SCENARIO_DEFINITIONS: readonly ScenarioDefinition[] = [
   {
     id: "long_covid_progression_reduction",
     label: "Long COVID progression reduction",
+    interventions: ["longCovidProgressionReduction"],
     annualInfectionProportion: selectedBaseline,
     transformLongCovidParameters: (parameters, values) => ({
       ...parameters,
@@ -178,6 +178,7 @@ export const SCENARIO_DEFINITIONS: readonly ScenarioDefinition[] = [
   {
     id: "long_covid_disability_reduction",
     label: "Long COVID symptom-burden reduction",
+    interventions: ["longCovidDisabilityReduction"],
     annualInfectionProportion: selectedBaseline,
     transformLongCovidParameters: (parameters, values) => {
       const remainingDisability =
@@ -191,16 +192,23 @@ export const SCENARIO_DEFINITIONS: readonly ScenarioDefinition[] = [
   },
 ];
 
+export const SCENARIO_IDS = SCENARIO_DEFINITIONS.map((scenario) => scenario.id);
+
+if (new Set(SCENARIO_IDS).size !== SCENARIO_IDS.length) {
+  throw new Error("Scenario identifiers must be unique");
+}
+
 export const SCENARIO_LABELS_BY_ID = new Map(
   SCENARIO_DEFINITIONS.map((scenario) => [scenario.id, scenario.label]),
 );
 
-export const PHARMACEUTICAL_INTERVENTION_SCENARIO_IDS = new Set([
-  "preexposure_prophylaxis",
-  "postexposure_prophylaxis",
-  "long_covid_progression_reduction",
-  "long_covid_disability_reduction",
-]);
+export const PHARMACEUTICAL_INTERVENTION_SCENARIO_IDS = new Set(
+  SCENARIO_DEFINITIONS.filter((scenario) =>
+    scenario.interventions.some(
+      (intervention) => intervention !== "hepa" && intervention !== "uvc",
+    ),
+  ).map((scenario) => scenario.id),
+);
 
 function buildBaseModelInputs(values: AssumptionValues) {
   const initialS1 = toProportion(values.initialLongCovidMild);

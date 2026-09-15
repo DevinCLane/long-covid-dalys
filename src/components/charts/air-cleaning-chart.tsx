@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/chart";
 
 import React, { useState } from "react";
-import { ChartModifierCheckbox } from "@/components/chart-modifier-checkbox";
+import { ChartModifierRadio } from "@/components/chart-modifier-radio";
 import { ChartMetricToggle, type ChartMetric } from "../chart-metric-toggle";
 import { FieldGroup } from "../ui/field";
 import { Separator } from "../ui/separator";
@@ -31,6 +31,7 @@ import {
   ScenarioId,
 } from "@/config/scenario-daly-calculations";
 import { OriginalValueMarker } from "../original-value-marker";
+import { interventionsByScenario } from "@/config/assumptions";
 
 /**
  * Text for the chart description body
@@ -191,6 +192,8 @@ interface AirCleaningChartProps {
   onScenarioSelect?: (scenarioId: ScenarioId) => void;
 }
 
+type RadioOptionAirCleaning = "all" | "hepa" | "uvc";
+
 export function AirCleaningChart({ onScenarioSelect }: AirCleaningChartProps) {
   const {
     scenarioRows: chartRows,
@@ -198,20 +201,15 @@ export function AirCleaningChart({ onScenarioSelect }: AirCleaningChartProps) {
     isCustomScenario,
   } = useDalyModel();
   const [metric, setMetric] = useState<ChartMetric>("percent");
-  const [allHepaChecked, setAllHepaChecked] = useState(false);
-  const [allUvcChecked, setAllUvcChecked] = useState(false);
+  const [interventionType, setInterventionType] =
+    useState<RadioOptionAirCleaning>("all");
   const showDalys = metric === "dalys";
   const visibleRows = chartRows.filter((row) => {
-    if (
-      !allHepaChecked &&
-      !allUvcChecked &&
-      (row.id === "hepa_all_public" || row.id === "far_uvc_all_public")
-    )
-      return true;
-    if (allHepaChecked && row.id.startsWith("hepa_")) return true;
-    if (allUvcChecked && row.id.startsWith("far_uvc_")) return true;
-    if (showDalys && row.id.startsWith("baseline")) return true;
-    return false;
+    if (row.id === "baseline") return showDalys;
+    const interventions = interventionsByScenario[row.id] ?? [];
+    return interventionType === "all"
+      ? interventions.includes("hepa") || interventions.includes("uvc")
+      : interventions.includes(interventionType);
   });
 
   return (
@@ -232,17 +230,23 @@ export function AirCleaningChart({ onScenarioSelect }: AirCleaningChartProps) {
         <div className="flex flex-col items-center">
           <FieldGroup className="order-3 mt-4 mb-2 gap-4 sm:mt-0 sm:mb-0 sm:w-100 md:order-1">
             <div className="flex justify-center gap-4">
-              <ChartModifierCheckbox
-                checked={allHepaChecked}
-                className="w-fit"
-                onCheckedChange={setAllHepaChecked}
-                title="Show all HEPA"
-              />
-              <ChartModifierCheckbox
-                checked={allUvcChecked}
-                className="w-fit"
-                onCheckedChange={setAllUvcChecked}
-                title="Show all UVC"
+              <ChartModifierRadio
+                options={[
+                  {
+                    value: "all",
+                    label: "Show all air cleaning interventions",
+                  },
+                  {
+                    value: "hepa",
+                    label: "Show only HEPA filter interventions",
+                  },
+                  {
+                    value: "uvc",
+                    label: "Show only Far UVC interventions",
+                  },
+                ]}
+                value={interventionType}
+                onValueChange={setInterventionType}
               />
             </div>
             <Separator />

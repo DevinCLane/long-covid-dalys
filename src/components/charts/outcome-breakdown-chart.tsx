@@ -334,7 +334,7 @@ export function OutcomeBreakdownChart({
           <ChartDescriptionBody scenario={scenario} metric={displayedMetric} />
         </CardDescription>
         <ModelAssumptionsPanel
-          allowedInterventions={interventionsByScenario[scenarioId]}
+          allowedInterventions={interventionsByScenario[scenarioId] ?? []}
         />
       </CardContent>
     </Card>

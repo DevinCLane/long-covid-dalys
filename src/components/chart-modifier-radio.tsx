@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { Field, FieldLabel } from "./ui/field";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 
-export interface RadioOption<T extends string> {
+interface RadioOption<T extends string> {
   label: string;
   value: T;
 }
