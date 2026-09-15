@@ -35,11 +35,10 @@ export function ChartMetricToggle({
             </Button>
           </span>
         </TooltipTrigger>
-        {disabled && (
-          <TooltipContent className="px-2 py-1 text-xs">
-            Status quo has 0% reduction relative to itself
-          </TooltipContent>
-        )}
+        <TooltipContent className="max-w-64 px-2 py-1 text-xs">
+          Compared with the fixed status quo at 27.7% annual infection and all
+          other default assumptions. Negative values indicate increased DALYs.
+        </TooltipContent>
       </Tooltip>
       <Button
         type="button"

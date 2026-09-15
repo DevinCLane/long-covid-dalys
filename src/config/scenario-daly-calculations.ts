@@ -2,6 +2,7 @@ import type { AssumptionValues } from "@/config/assumptions";
 import {
   infectionUnderPostExposureProphylaxis,
   infectionUnderPreExposureProphylaxis,
+  outcomePercentReductionsVsApprovedStatusQuo,
   runAcuteCovid,
   runLongCovid,
   runPasc,
@@ -201,11 +202,6 @@ export const PHARMACEUTICAL_INTERVENTION_SCENARIO_IDS = new Set([
   "long_covid_disability_reduction",
 ]);
 
-function calculatePercentReduction(baseline: number, current: number) {
-  if (baseline === 0) return 0;
-  return Number((((baseline - current) / baseline) * 100).toFixed(2));
-}
-
 function buildBaseModelInputs(values: AssumptionValues) {
   const initialS1 = toProportion(values.initialLongCovidMild);
   const initialS2 = toProportion(values.initialLongCovidSignificant);
@@ -278,31 +274,18 @@ export function calculateScenarioDalyRows(
     },
   );
 
-  const baselineTotals = scenarioTotals.find(
-    (scenario) => scenario.id === "baseline",
-  );
-
-  if (!baselineTotals) {
-    throw new Error("couldn't calculate the baseline scenario");
-  }
-
-  return scenarioTotals.map((scenario) => ({
-    ...scenario,
-    percent_reduction: calculatePercentReduction(
-      baselineTotals.total,
-      scenario.total,
-    ),
-    percent_reduction_acute_covid: calculatePercentReduction(
-      baselineTotals.acute_covid,
-      scenario.acute_covid,
-    ),
-    percent_reduction_long_covid: calculatePercentReduction(
-      baselineTotals.long_covid,
-      scenario.long_covid,
-    ),
-    percent_reduction_pasc: calculatePercentReduction(
-      baselineTotals.pasc,
-      scenario.pasc,
-    ),
-  }));
+  return scenarioTotals.map((scenario) => {
+    const reductions = outcomePercentReductionsVsApprovedStatusQuo({
+      acuteCovid: scenario.acute_covid,
+      longCovid: scenario.long_covid,
+      pasc: scenario.pasc,
+    });
+    return {
+      ...scenario,
+      percent_reduction: Number(reductions.total.toFixed(2)),
+      percent_reduction_acute_covid: Number(reductions.acuteCovid.toFixed(2)),
+      percent_reduction_long_covid: Number(reductions.longCovid.toFixed(2)),
+      percent_reduction_pasc: Number(reductions.pasc.toFixed(2)),
+    };
+  });
 }

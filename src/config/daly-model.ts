@@ -1,4 +1,4 @@
-// Browser-compatible JavaScript implementation of the Acute COVID, Long
+// Browser-compatible TypeScript implementation of the Acute COVID, Long
 // COVID, and evidence-reviewed PASC DALY calculations.
 
 /**
@@ -1207,3 +1207,76 @@ export function runPasc({
     ...pascTotals(yearly, options.populationSize),
   };
 }
+
+type OutcomeDalysPer1000 = {
+  acuteCovid: number;
+  longCovid: number;
+  pasc: number;
+};
+
+// Capture the default model once. Changes to dashboard assumptions must not
+// move the denominator, and slider updates should not rerun the reference PASC
+// model for every scenario.
+const APPROVED_STATUS_QUO_DALYS_PER_1000 = (() => {
+  const acuteCovid = runAcuteCovid().totals.dalysPer1000;
+  const longCovid = runLongCovid().totals.dalysPer1000;
+  const pasc = runPasc().totals.dalysPer1000;
+  return Object.freeze({
+    acuteCovid,
+    longCovid,
+    pasc,
+    total: acuteCovid + longCovid + pasc,
+  });
+})();
+
+/** Fixed reference at 27.7% annual infection and all other default inputs. */
+export function approvedStatusQuoDalysPer1000() {
+  return APPROVED_STATUS_QUO_DALYS_PER_1000;
+}
+
+export function percentReductionVsApprovedStatusQuo(
+  currentDalysPer1000: number,
+  approvedBaselineDalysPer1000: number,
+) {
+  assertFiniteNonnegative(currentDalysPer1000, "currentDalysPer1000");
+  if (
+    !Number.isFinite(approvedBaselineDalysPer1000) ||
+    approvedBaselineDalysPer1000 <= 0
+  ) {
+    throw new RangeError(
+      "approvedBaselineDalysPer1000 must be positive and finite.",
+    );
+  }
+  return (
+    (100 * (approvedBaselineDalysPer1000 - currentDalysPer1000)) /
+    approvedBaselineDalysPer1000
+  );
+}
+
+export function outcomePercentReductionsVsApprovedStatusQuo({
+  acuteCovid,
+  longCovid,
+  pasc,
+}: OutcomeDalysPer1000) {
+  const approved = approvedStatusQuoDalysPer1000();
+  return Object.freeze({
+    acuteCovid: percentReductionVsApprovedStatusQuo(
+      acuteCovid,
+      approved.acuteCovid,
+    ),
+    longCovid: percentReductionVsApprovedStatusQuo(
+      longCovid,
+      approved.longCovid,
+    ),
+    pasc: percentReductionVsApprovedStatusQuo(pasc, approved.pasc),
+    total: percentReductionVsApprovedStatusQuo(
+      acuteCovid + longCovid + pasc,
+      approved.total,
+    ),
+  });
+}
+
+// Legacy moving-baseline formula, retained for possible reversion only:
+// selectedBaseline === 0 ? 0 : 100 * (selectedBaseline - current) / selectedBaseline
+// It measures intervention effectiveness under selected inputs. The primary
+// percentage display measures change from the fixed default model instead.

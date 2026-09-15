@@ -285,7 +285,8 @@ export function PharmaceuticalChart({
                         position: "bottom",
                       }
                     : {
-                        value: "Reduction in total DALYs vs status quo (%)",
+                        value:
+                          "Reduction in total DALYs vs default status quo (%)",
                         position: "bottom",
                       }
                 }

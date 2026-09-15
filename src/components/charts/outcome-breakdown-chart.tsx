@@ -82,7 +82,7 @@ function ChartDescriptionBody({ scenario, metric }: ChartDescriptionBodyProps) {
     return (
       <div>
         For the scenario "{scenario.label}", each outcome percentage is
-        calculated against that outcome&apos;s status quo DALYs.
+        calculated against that outcome&apos;s fixed default status quo DALYs.
         {/*Total is
         calculated from combined DALYs averted divided by combined status quo
         DALYs; the percentages are not added together.*/}
@@ -111,8 +111,8 @@ export function OutcomeBreakdownChart({
     (scenario) => scenario.id === scenarioId,
   );
   const showOriginalValues = isCustomScenario && Boolean(defaultScenario);
-  // if the selected scenario is the baseline, show DALYs instead of percent reduction
-  const displayedMetric = scenarioId === "baseline" ? "dalys" : metric;
+  // Even status quo can change relative to the fixed reference when inputs change.
+  const displayedMetric = metric;
 
   if (!scenario) {
     return (
@@ -239,7 +239,6 @@ export function OutcomeBreakdownChart({
             <ChartMetricToggle
               value={displayedMetric}
               onValueChange={setMetric}
-              disabled={scenarioId === "baseline"}
             />
           </div>
           <ModelChartContainer
@@ -263,7 +262,7 @@ export function OutcomeBreakdownChart({
                 label={{
                   value:
                     displayedMetric === "percent"
-                      ? "Reduction in DALYs vs status quo (%)"
+                      ? "Reduction in DALYs vs default status quo (%)"
                       : "DALYs per 1,000 people",
                   position: "bottom",
                 }}
@@ -284,7 +283,7 @@ export function OutcomeBreakdownChart({
                       <ModelTooltipValues
                         label={
                           displayedMetric === "percent"
-                            ? "Reduction vs status quo"
+                            ? "Reduction vs default status quo"
                             : "DALYs per 1,000"
                         }
                         value={Number(value)}
