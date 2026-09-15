@@ -2,28 +2,37 @@ import { cn } from "@/lib/utils";
 import { Field, FieldLabel } from "./ui/field";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 
-export interface RadioOption {
+export interface RadioOption<T extends string> {
   label: string;
-  value: "all" | "prophylaxis" | "longCovidMedication";
+  value: T;
 }
 
-interface ChartModifierRadioProps {
+interface ChartModifierRadioProps<T extends string> {
   className?: string;
-  options: RadioOption[];
-  onValueChange: (value: RadioOption["value"]) => void;
-  value: RadioOption["value"];
+  options: RadioOption<T>[];
+  onValueChange: (value: T) => void;
+  value: T;
 }
 
-export function ChartModifierRadio({
+export function ChartModifierRadio<T extends string>({
   className,
   options,
   onValueChange,
   value,
-}: ChartModifierRadioProps) {
+}: ChartModifierRadioProps<T>) {
+  function handleValueChange(incomingStr: string) {
+    const matchedOption = options.find(
+      (option) => option.value === incomingStr,
+    );
+    if (matchedOption) {
+      onValueChange(matchedOption.value);
+    }
+  }
+
   return (
     <RadioGroup
       value={value}
-      onValueChange={onValueChange}
+      onValueChange={handleValueChange}
       className={cn(className)}
     >
       <Field className="flex sm:flex-row">

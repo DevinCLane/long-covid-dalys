@@ -30,7 +30,7 @@ import {
   SCENARIO_LABELS_BY_ID,
   ScenarioId,
 } from "@/config/scenario-daly-calculations";
-import { ChartModifierRadio, RadioOption } from "../chart-modifier-radio";
+import { ChartModifierRadio } from "../chart-modifier-radio";
 import { OriginalValueMarker } from "../original-value-marker";
 
 /**
@@ -192,6 +192,8 @@ interface PharmaceuticalChartProps {
   onScenarioSelect?: (scenarioId: ScenarioId) => void;
 }
 
+type RadioOptionPharmaceutical = "all" | "prophylaxis" | "longCovidMedication";
+
 export function PharmaceuticalChart({
   onScenarioSelect,
 }: PharmaceuticalChartProps) {
@@ -201,7 +203,8 @@ export function PharmaceuticalChart({
     isCustomScenario,
   } = useDalyModel();
   const [metric, setMetric] = useState<ChartMetric>("percent");
-  const [chartFilter, setChartFilter] = useState<RadioOption["value"]>("all");
+  const [chartFilter, setChartFilter] =
+    useState<RadioOptionPharmaceutical>("all");
   const showDalys = metric === "dalys";
   const visibleRows = chartRows.filter((row) => {
     if (
