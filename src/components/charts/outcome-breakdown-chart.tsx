@@ -1,6 +1,15 @@
 "use client";
 
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  LabelList,
+  Text,
+  usePlotArea,
+  XAxis,
+  YAxis,
+} from "recharts";
 import { ModelChartContainer } from "@/components/charts/model-chart-container";
 import { ModelTooltipValues } from "@/components/charts/model-tooltip-values";
 import { outcomeColors } from "@/config/chart-colors";
@@ -75,6 +84,29 @@ interface OutcomeBreakdownChartProps {
 interface ChartDescriptionBodyProps {
   scenario: Scenario;
   metric: ChartMetric;
+}
+
+function StatusQuoReductionLabel({ index }: { index?: number }) {
+  const plotArea = usePlotArea();
+
+  // LabelList calls this for every outcome; show the guidance just once.
+  if (index !== 0 || !plotArea) return null;
+
+  return (
+    <Text
+      x={plotArea.x + plotArea.width / 2}
+      y={plotArea.y + plotArea.height / 2}
+      width={Math.min(380, Math.max(0, plotArea.width - 32))}
+      textAnchor="middle"
+      verticalAnchor="middle"
+      lineHeight="1.4em"
+      className="fill-muted-foreground text-sm"
+      pointerEvents="none"
+    >
+      Status quo has 0% reduction relative to itself. Adjust the model
+      assumptions below or choose another scenario to see results.
+    </Text>
+  );
 }
 
 function ChartDescriptionBody({ scenario, metric }: ChartDescriptionBodyProps) {
@@ -174,6 +206,10 @@ export function OutcomeBreakdownChart({
   const visibleOutcomeData = detailedData.filter((dataItem) =>
     displayedMetric === "percent" ? dataItem.key !== "total" : true,
   );
+  const showStatusQuoGuidance =
+    scenarioId === "baseline" &&
+    displayedMetric === "percent" &&
+    visibleOutcomeData.every((row) => row.percentReduction === 0);
   // Keep original markers in range when adjusted DALYs fall below the defaults,
   // with room for the marker label at the right edge.
   const dalyAxisMax = showOriginalValues
@@ -301,10 +337,20 @@ export function OutcomeBreakdownChart({
                 }
               />
               <Bar
+                isAnimationActive={!showStatusQuoGuidance}
+                // Preserve zero-value entries for LabelList; Recharts otherwise filters them out.
+                shape={showStatusQuoGuidance ? <g /> : undefined}
                 dataKey={
                   displayedMetric === "percent" ? "percentReduction" : "dalys"
                 }
-              />
+              >
+                {showStatusQuoGuidance && (
+                  <LabelList
+                    dataKey="percentReduction"
+                    content={<StatusQuoReductionLabel />}
+                  />
+                )}
+              </Bar>
               {showOriginalValues &&
                 visibleOutcomeData.map((row) => {
                   const originalValue =
