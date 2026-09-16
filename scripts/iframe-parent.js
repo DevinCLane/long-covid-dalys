@@ -13,6 +13,6 @@ window.addEventListener("message", (event) => {
   }
 
   if (messageData.url) {
-    window.location.href = `${baseUrl}/messageData.url`;
+    window.location.href = `${baseUrl}/dalys/${messageData.url}`;
   }
 });
