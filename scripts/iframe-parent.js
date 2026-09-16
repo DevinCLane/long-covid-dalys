@@ -1,8 +1,7 @@
-/*
 window.addEventListener("message", (event) => {
   const iframe = document.getElementById("dalys");
   const parentOrigin = "https://longcoviddalys.netlify.app";
-  const baseUrl = "https://polybio.org";
+  const url = new URL(window.location.href);
 
   if (event.origin !== parentOrigin) {
     return;
@@ -14,7 +13,7 @@ window.addEventListener("message", (event) => {
   }
 
   if (messageData.queryParam) {
-    console.log(queryParam);
+    url.searchParams.set("tab", messageData.queryParam);
+    history.pushState(messageData.queryParam, "", url);
   }
 });
- */
