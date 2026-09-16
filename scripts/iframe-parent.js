@@ -1,3 +1,4 @@
+/*
 window.addEventListener("message", (event) => {
   const iframe = document.getElementById("dalys");
   const parentOrigin = "https://longcoviddalys.netlify.app";
@@ -13,5 +14,7 @@ window.addEventListener("message", (event) => {
   }
 
   if (messageData.queryParam) {
-    console.log(queryParam)
+    console.log(queryParam);
+  }
 });
+ */
