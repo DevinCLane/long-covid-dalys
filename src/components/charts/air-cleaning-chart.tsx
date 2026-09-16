@@ -338,7 +338,7 @@ export function AirCleaningChart({ onScenarioSelect }: AirCleaningChartProps) {
                 dataKey={showDalys ? "total" : "percent_reduction"}
                 cursor="pointer"
                 onClick={(data) => onScenarioSelect?.(data.payload.id)}
-              ></Bar>
+              />
               {isCustomScenario &&
                 defaultOutput.map(
                   (originalRow) =>

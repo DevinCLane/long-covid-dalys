@@ -14,6 +14,7 @@ function App() {
       for (const entry of entries) {
         const clientHeight = entry.target.clientHeight;
         if (clientHeight) {
+          console.log(clientHeight);
           window.parent.postMessage({ height: clientHeight }, targetOrigin);
         }
       }
