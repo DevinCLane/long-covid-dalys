@@ -9,13 +9,17 @@ import { ScenarioId } from "@/config/scenario-daly-calculations";
 
 export default function TabsArea() {
   const targetOrigin = "https://polybio.org";
-
   const [activeTab, setActiveTab] = useState("air");
-  history.pushState(activeTab, "", activeTab);
-  window.parent.postMessage({ url: activeTab }, targetOrigin);
-
   const [detailedScenarioId, setDetailedScenarioId] =
     useState<ScenarioId>("hepa_all_public");
+
+  /**
+   * updates visible tab, and sends new selction to iframe parent
+   */
+  function userSelection(nextTab: string) {
+    setActiveTab(nextTab);
+    window.parent.postMessage({ queryParam: nextTab }, targetOrigin);
+  }
 
   function selectDetailedScenario(scenarioId: ScenarioId) {
     setDetailedScenarioId(scenarioId);
@@ -32,7 +36,7 @@ export default function TabsArea() {
         defaultValue="air"
         className="items-center"
         value={activeTab}
-        onValueChange={setActiveTab}
+        onValueChange={userSelection}
       >
         <TabsList variant="line" className="mt-2 mb-6 sm:m-0">
           <div>

@@ -12,7 +12,6 @@ window.addEventListener("message", (event) => {
     iframe.style.height = messageData.height + "px";
   }
 
-  if (messageData.url) {
-    window.location.href = `${baseUrl}/dalys/${messageData.url}`;
-  }
+  if (messageData.queryParam) {
+    console.log(queryParam)
 });
