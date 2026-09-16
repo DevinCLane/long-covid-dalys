@@ -8,7 +8,12 @@ import { DalyModelProvider } from "@/components/daly-model-provider";
 import { ScenarioId } from "@/config/scenario-daly-calculations";
 
 export default function TabsArea() {
+  const targetOrigin = "https://polybio.org";
+
   const [activeTab, setActiveTab] = useState("air");
+  history.pushState(activeTab, "", activeTab);
+  window.parent.postMessage({ url: activeTab }, targetOrigin);
+
   const [detailedScenarioId, setDetailedScenarioId] =
     useState<ScenarioId>("hepa_all_public");
 
