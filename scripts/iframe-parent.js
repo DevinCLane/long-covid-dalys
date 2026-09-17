@@ -1,8 +1,9 @@
-// Load in WordPress before the iframe can announce readiness.
+// paste this into the Wordpress editor, nothing happens locally here
 // This script is standalone: keep these tab IDs in sync with iframe-messages.ts.
 (() => {
   const IFRAME_ORIGIN = "https://longcoviddalys.netlify.app";
   const TAB_IDS = ["air", "pharmaceuticals", "detailed", "about"];
+  const FILTER_IDS = ["all", "hepa", "uvc"];
 
   function getIframe() {
     const iframe = document.querySelector("iframe#dalys");
@@ -15,14 +16,19 @@
     return TAB_IDS.includes(tab) ? tab : "air";
   }
 
+  function getFilter(url) {
+    const filter = url.searchParams.get("filter");
+    return FILTER_IDS.includes(filter) ? filter : "all";
+  }
+
   // Shared by initial loading and Back/Forward; neither adds history.
-  function sendCurrentTab() {
+  function sendCurrentUrlParams() {
     const iframe = getIframe();
     if (!iframe) return;
 
     const url = new URL(window.location.href);
     iframe.contentWindow.postMessage(
-      { type: "dalys-set-tab", tab: getTab(url) },
+      { type: "dalys-state", tab: getTab(url), filter: getFilter(url) },
       IFRAME_ORIGIN,
     );
   }
@@ -40,7 +46,7 @@
     const message = event.data;
     switch (message?.type) {
       case "dalys-ready":
-        sendCurrentTab();
+        sendCurrentUrlParams();
         return;
 
       case "dalys-resize":
@@ -62,5 +68,5 @@
     }
   });
 
-  window.addEventListener("popstate", sendCurrentTab);
+  window.addEventListener("popstate", sendCurrentUrlParams);
 })();

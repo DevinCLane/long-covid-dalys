@@ -6,12 +6,19 @@ import { AboutPage } from "@/components/about";
 import { PharmaceuticalChart } from "@/components/charts/pharmaceutical-chart";
 import { DalyModelProvider } from "@/components/daly-model-provider";
 import { ScenarioId } from "@/config/scenario-daly-calculations";
-import { PARENT_ORIGIN, isTabId, type TabId } from "@/config/iframe-messages";
+import {
+  type AirId,
+  PARENT_ORIGIN,
+  isAirId,
+  isTabId,
+  type TabId,
+} from "@/config/iframe-messages";
 
 export default function TabsArea() {
   const [activeTab, setActiveTab] = useState<TabId>("air");
   const [detailedScenarioId, setDetailedScenarioId] =
     useState<ScenarioId>("hepa_all_public");
+  const [interventionType, setInterventionType] = useState<AirId>("all");
 
   // User navigation creates history; messages from the parent only restore it.
   function selectTab(nextTab: string) {
@@ -39,8 +46,13 @@ export default function TabsArea() {
       }
 
       const message = event.data;
-      if (message?.type === "dalys-set-tab" && isTabId(message.tab)) {
-        setActiveTab(message.tab);
+      if (message?.type === "dalys-state") {
+        if (isTabId(message.tab)) {
+          setActiveTab(message.tab);
+        }
+        if (isAirId(message.filter)) {
+          setInterventionType(message.filter);
+        }
       }
     }
     window.addEventListener("message", handleMessage);
@@ -80,7 +92,11 @@ export default function TabsArea() {
           </div>
         </TabsList>
         <TabsContent value="air" className="w-full">
-          <AirCleaningChart onScenarioSelect={openDetailedScenario} />
+          <AirCleaningChart
+            onScenarioSelect={openDetailedScenario}
+            radioFilter={interventionType}
+            onRadioFilterChange={setInterventionType}
+          />
         </TabsContent>
         <TabsContent value="pharmaceuticals" className="w-full">
           <PharmaceuticalChart onScenarioSelect={openDetailedScenario} />

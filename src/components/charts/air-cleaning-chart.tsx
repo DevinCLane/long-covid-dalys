@@ -190,26 +190,30 @@ const chartConfig = {
 
 interface AirCleaningChartProps {
   onScenarioSelect?: (scenarioId: ScenarioId) => void;
+  radioFilter: RadioOptionAirCleaning;
+  onRadioFilterChange: (value: RadioOptionAirCleaning) => void;
 }
 
-type RadioOptionAirCleaning = "all" | "hepa" | "uvc";
+export type RadioOptionAirCleaning = "all" | "hepa" | "uvc";
 
-export function AirCleaningChart({ onScenarioSelect }: AirCleaningChartProps) {
+export function AirCleaningChart({
+  onScenarioSelect,
+  radioFilter,
+  onRadioFilterChange,
+}: AirCleaningChartProps) {
   const {
     scenarioRows: chartRows,
     defaultOutput,
     isCustomScenario,
   } = useDalyModel();
   const [metric, setMetric] = useState<ChartMetric>("percent");
-  const [interventionType, setInterventionType] =
-    useState<RadioOptionAirCleaning>("all");
   const showDalys = metric === "dalys";
   const visibleRows = chartRows.filter((row) => {
     if (row.id === "baseline") return showDalys;
     const interventions = interventionsByScenario[row.id] ?? [];
-    return interventionType === "all"
+    return radioFilter === "all"
       ? interventions.includes("hepa") || interventions.includes("uvc")
-      : interventions.includes(interventionType);
+      : interventions.includes(radioFilter);
   });
 
   return (
@@ -245,8 +249,8 @@ export function AirCleaningChart({ onScenarioSelect }: AirCleaningChartProps) {
                     label: "Show only Far UVC interventions",
                   },
                 ]}
-                value={interventionType}
-                onValueChange={setInterventionType}
+                value={radioFilter}
+                onValueChange={onRadioFilterChange}
               />
             </div>
             <Separator />
