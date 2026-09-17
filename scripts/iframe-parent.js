@@ -72,15 +72,20 @@
         return;
       }
 
-      case "dalys-air-intervention-filter-change" {
-        if (!AIR_INTERVENTION_FILTERS.includes(message.airInterventionFilter)) return
+      case "dalys-air-intervention-filter-change": {
+        if (!AIR_INTERVENTION_FILTERS.includes(message.airInterventionFilter))
+          return;
 
         const url = new URL(window.location.href);
-        if (getAirInterventionFilter(url) === message.getAirInterventionFilter) return
+        if (getAirInterventionFilter(url) === message.getAirInterventionFilter)
+          return;
 
-        url.searchParams.set("airInterventionFilter", message.airInterventionFilter)
-        return
-    }
+        url.searchParams.set(
+          "airInterventionFilter",
+          message.airInterventionFilter,
+        );
+        return;
+      }
     }
   });
 
