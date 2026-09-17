@@ -203,6 +203,29 @@ A few explanations of the data fields:
 
 [See this documentation for the API to work with user-adjustable model parameters that run in the browser](model-readme.md)
 
+### Embedded tab navigation
+
+`scripts/iframe-parent.js` runs on the WordPress page, not in the React app.
+Load it once before the iframe can announce readiness, and use `id="dalys"`
+on the iframe. Update the WordPress copy alongside the deployed React app
+whenever the message format changes; editing the local script does not update WordPress.
+
+| Message type | Direction | Purpose |
+| --- | --- | --- |
+| `dalys-ready` | React → WordPress | Request the initial tab after attaching the listener |
+| `dalys-tab-change` | React → WordPress | Add a user-selected `tab` to URL history |
+| `dalys-set-tab` | WordPress → React | Restore `tab` on initial loading or Back/Forward |
+| `dalys-resize` | React → WordPress | Update iframe `height` |
+
+Only user navigation adds history. Other query parameters and the hash are
+preserved; missing or unknown tabs display Air Cleaning. The standalone parent
+script's tab IDs must match `src/config/iframe-messages.ts`.
+
+Run `node --test test/iframe-parent.test.js` for the parent message/history checks.
+In WordPress, verify opening and refreshing `?tab=about`, selecting tabs,
+opening Outcome breakdown from a chart, and using Back/Forward to the initial
+page. Confirm the visible tab matches the URL and the iframe still resizes.
+
 ### Testing Your Changes (if working locally)
 
 After updating data files:

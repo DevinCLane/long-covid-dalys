@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { OutcomeBreakdownChart } from "@/components/charts/outcome-breakdown-chart";
 import { AirCleaningChart } from "@/components/charts/air-cleaning-chart";
@@ -6,19 +6,21 @@ import { AboutPage } from "@/components/about";
 import { PharmaceuticalChart } from "@/components/charts/pharmaceutical-chart";
 import { DalyModelProvider } from "@/components/daly-model-provider";
 import { ScenarioId } from "@/config/scenario-daly-calculations";
+import { PARENT_ORIGIN, isTabId, type TabId } from "@/config/iframe-messages";
 
 export default function TabsArea() {
-  const targetOrigin = "https://polybio.org";
-  const [activeTab, setActiveTab] = useState("air");
+  const [activeTab, setActiveTab] = useState<TabId>("air");
   const [detailedScenarioId, setDetailedScenarioId] =
     useState<ScenarioId>("hepa_all_public");
 
-  /**
-   * updates visible tab, and sends new selction to iframe parent
-   */
-  function userSelection(nextTab: string) {
+  // User navigation creates history; messages from the parent only restore it.
+  function selectTab(nextTab: string) {
+    if (!isTabId(nextTab)) return;
     setActiveTab(nextTab);
-    window.parent.postMessage({ queryParam: nextTab }, targetOrigin);
+    window.parent.postMessage(
+      { type: "dalys-tab-change", tab: nextTab },
+      PARENT_ORIGIN,
+    );
   }
 
   function selectDetailedScenario(scenarioId: ScenarioId) {
@@ -27,34 +29,34 @@ export default function TabsArea() {
 
   function openDetailedScenario(scenarioId: ScenarioId) {
     setDetailedScenarioId(scenarioId);
-    setActiveTab("detailed");
+    selectTab("detailed");
   }
 
-  /**
-   * listens for history events from the iframe's parent
-   */
-  window.addEventListener("message", (event) => {
-    const parentOrigin = "https://polybio.org";
-    if (event.origin !== parentOrigin) {
-      console.error("event origin doesn't match iframe parent origin");
-      return;
-    }
+  useEffect(() => {
+    function handleMessage(event: MessageEvent) {
+      if (event.origin !== PARENT_ORIGIN || event.source !== window.parent) {
+        return;
+      }
 
-    const messageData = event.data;
-    if (!messageData.queryParam) {
-      console.error("no query param found");
-      return;
+      const message = event.data;
+      if (message?.type === "dalys-set-tab" && isTabId(message.tab)) {
+        setActiveTab(message.tab);
+      }
     }
-    setActiveTab(messageData.queryParam);
-  });
+    window.addEventListener("message", handleMessage);
+    // Announce readiness only after the response listener is attached.
+    window.parent.postMessage({ type: "dalys-ready" }, PARENT_ORIGIN);
+    return () => {
+      window.removeEventListener("message", handleMessage);
+    };
+  }, []);
 
   return (
     <DalyModelProvider>
       <Tabs
-        defaultValue="air"
         className="items-center"
         value={activeTab}
-        onValueChange={userSelection}
+        onValueChange={selectTab}
       >
         <TabsList variant="line" className="mt-2 mb-6 sm:m-0">
           <div>

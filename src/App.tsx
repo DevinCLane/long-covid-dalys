@@ -4,17 +4,20 @@ import { SiteFooter } from "@/components/site-footer";
 import { NavBar } from "./components/nav-bar";
 import TabsArea from "./components/tabs-area";
 import { useEffect, useRef } from "react";
+import { PARENT_ORIGIN } from "./config/iframe-messages";
 
 function App() {
   const outerDiv = useRef<HTMLDivElement>(null);
-  const targetOrigin = "https://polybio.org";
 
   useEffect(() => {
     const resizeObserver = new ResizeObserver((entries) => {
       for (const entry of entries) {
         const clientHeight = entry.target.clientHeight;
         if (clientHeight) {
-          window.parent.postMessage({ height: clientHeight }, targetOrigin);
+          window.parent.postMessage(
+            { type: "dalys-resize", height: clientHeight },
+            PARENT_ORIGIN,
+          );
         }
       }
     });
