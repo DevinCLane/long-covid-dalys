@@ -9,7 +9,7 @@ import { ScenarioId } from "@/config/scenario-daly-calculations";
 import {
   type AirId,
   PARENT_ORIGIN,
-  isAirId,
+  isAirInterventionFilter,
   isTabId,
   type TabId,
 } from "@/config/iframe-messages";
@@ -18,7 +18,8 @@ export default function TabsArea() {
   const [activeTab, setActiveTab] = useState<TabId>("air");
   const [detailedScenarioId, setDetailedScenarioId] =
     useState<ScenarioId>("hepa_all_public");
-  const [interventionType, setInterventionType] = useState<AirId>("all");
+  const [airInterventionFilter, setAirInterventionFilter] =
+    useState<AirId>("all");
 
   // User navigation creates history; messages from the parent only restore it.
   function selectTab(nextTab: string) {
@@ -26,6 +27,15 @@ export default function TabsArea() {
     setActiveTab(nextTab);
     window.parent.postMessage(
       { type: "dalys-tab-change", tab: nextTab },
+      PARENT_ORIGIN,
+    );
+  }
+
+  function selectAirInterventionFilter(nextRadio: string) {
+    if (!isAirInterventionFilter(nextRadio)) return;
+    setAirInterventionFilter(nextRadio);
+    window.parent.postMessage(
+      { type: "dalys-state", radio: nextRadio },
       PARENT_ORIGIN,
     );
   }
@@ -50,8 +60,8 @@ export default function TabsArea() {
         if (isTabId(message.tab)) {
           setActiveTab(message.tab);
         }
-        if (isAirId(message.filter)) {
-          setInterventionType(message.filter);
+        if (isAirInterventionFilter(message.filter)) {
+          setAirInterventionFilter(message.filter);
         }
       }
     }
@@ -94,8 +104,8 @@ export default function TabsArea() {
         <TabsContent value="air" className="w-full">
           <AirCleaningChart
             onScenarioSelect={openDetailedScenario}
-            radioFilter={interventionType}
-            onRadioFilterChange={setInterventionType}
+            airInterventionFilter={airInterventionFilter}
+            onAirInterventionFilterChange={selectAirInterventionFilter}
           />
         </TabsContent>
         <TabsContent value="pharmaceuticals" className="w-full">

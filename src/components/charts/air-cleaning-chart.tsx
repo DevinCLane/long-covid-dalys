@@ -190,16 +190,16 @@ const chartConfig = {
 
 interface AirCleaningChartProps {
   onScenarioSelect?: (scenarioId: ScenarioId) => void;
-  radioFilter: RadioOptionAirCleaning;
-  onRadioFilterChange: (value: RadioOptionAirCleaning) => void;
+  airInterventionFilter: AirInterventionFilter;
+  onAirInterventionFilterChange: (value: AirInterventionFilter) => void;
 }
 
-export type RadioOptionAirCleaning = "all" | "hepa" | "uvc";
+export type AirInterventionFilter = "all" | "hepa" | "uvc";
 
 export function AirCleaningChart({
   onScenarioSelect,
-  radioFilter,
-  onRadioFilterChange,
+  airInterventionFilter: radioFilter,
+  onAirInterventionFilterChange: onRadioFilterChange,
 }: AirCleaningChartProps) {
   const {
     scenarioRows: chartRows,
