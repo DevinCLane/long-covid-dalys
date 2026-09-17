@@ -31,11 +31,14 @@ export default function TabsArea() {
     );
   }
 
-  function selectAirInterventionFilter(nextRadio: string) {
-    if (!isAirInterventionFilter(nextRadio)) return;
-    setAirInterventionFilter(nextRadio);
+  function selectAirInterventionFilter(nextAirInterventionFilter: string) {
+    if (!isAirInterventionFilter(nextAirInterventionFilter)) return;
+    setAirInterventionFilter(nextAirInterventionFilter);
     window.parent.postMessage(
-      { type: "dalys-state", radio: nextRadio },
+      {
+        type: "dalys-air-intervention-filter-change",
+        airInterventionFilter: nextAirInterventionFilter,
+      },
       PARENT_ORIGIN,
     );
   }

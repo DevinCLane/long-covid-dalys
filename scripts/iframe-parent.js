@@ -3,7 +3,7 @@
 (() => {
   const IFRAME_ORIGIN = "https://longcoviddalys.netlify.app";
   const TAB_IDS = ["air", "pharmaceuticals", "detailed", "about"];
-  const FILTER_IDS = ["all", "hepa", "uvc"];
+  const AIR_INTERVENTION_FILTERS = ["all", "hepa", "uvc"];
 
   function getIframe() {
     const iframe = document.querySelector("iframe#dalys");
@@ -16,9 +16,11 @@
     return TAB_IDS.includes(tab) ? tab : "air";
   }
 
-  function getFilter(url) {
-    const filter = url.searchParams.get("filter");
-    return FILTER_IDS.includes(filter) ? filter : "all";
+  function getAirInterventionFilter(url) {
+    const airInterventionFilter = url.searchParams.get("airInterventionFilter");
+    return AIR_INTERVENTION_FILTERS.includes(airInterventionFilter)
+      ? airInterventionFilter
+      : "all";
   }
 
   // Shared by initial loading and Back/Forward; neither adds history.
@@ -28,7 +30,11 @@
 
     const url = new URL(window.location.href);
     iframe.contentWindow.postMessage(
-      { type: "dalys-state", tab: getTab(url), filter: getFilter(url) },
+      {
+        type: "dalys-state",
+        tab: getTab(url),
+        airInterventionFilter: getAirInterventionFilter(url),
+      },
       IFRAME_ORIGIN,
     );
   }
@@ -65,6 +71,16 @@
         window.history.pushState(null, "", url);
         return;
       }
+
+      case "dalys-air-intervention-filter-change" {
+        if (!AIR_INTERVENTION_FILTERS.includes(message.airInterventionFilter)) return
+
+        const url = new URL(window.location.href);
+        if (getAirInterventionFilter(url) === message.getAirInterventionFilter) return
+
+        url.searchParams.set("airInterventionFilter", message.airInterventionFilter)
+        return
+    }
     }
   });
 
