@@ -1,9 +1,9 @@
+const iframeOrigin = "https://longcoviddalys.netlify.app";
 window.addEventListener("message", (event) => {
-  const iframe = document.getElementById("dalys");
-  const parentOrigin = "https://longcoviddalys.netlify.app";
+  const iframe = document.querySelector("iframe#dalys");
   const url = new URL(window.location.href);
 
-  if (event.origin !== parentOrigin) {
+  if (event.origin !== iframeOrigin) {
     return;
   }
 
@@ -16,4 +16,17 @@ window.addEventListener("message", (event) => {
     url.searchParams.set("tab", messageData.queryParam);
     history.pushState(messageData.queryParam, "", url);
   }
+});
+
+// Handle forward/back buttons
+window.addEventListener("popstate", (event) => {
+  const iframe = document.querySelector("iframe#dalys");
+  const url = new URL(window.location.href);
+  if (!iframe.contentWindow) {
+    console.error("iframe content window not found");
+  }
+  iframe.contentWindow.postMessage(
+    { queryParam: url.searchParams.get("tab") ?? "air" },
+    iframeOrigin,
+  );
 });

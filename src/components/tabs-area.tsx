@@ -30,6 +30,25 @@ export default function TabsArea() {
     setActiveTab("detailed");
   }
 
+  /**
+   * listens for history events from the iframe's parent
+   */
+  window.addEventListener("message", (event) => {
+    const parentOrigin = "https://polybio.org";
+    const url = new URL(window.location.href);
+    if (event.origin !== parentOrigin) {
+      console.error("event origin doesn't match iframe parent origin");
+      return;
+    }
+
+    const messageData = event.data;
+    if (!messageData.queryParam) {
+      console.error("no query param found");
+      return;
+    }
+    setActiveTab(messageData.queryParam);
+  });
+
   return (
     <DalyModelProvider>
       <Tabs
