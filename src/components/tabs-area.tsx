@@ -35,7 +35,6 @@ export default function TabsArea() {
    */
   window.addEventListener("message", (event) => {
     const parentOrigin = "https://polybio.org";
-    const url = new URL(window.location.href);
     if (event.origin !== parentOrigin) {
       console.error("event origin doesn't match iframe parent origin");
       return;
