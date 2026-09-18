@@ -84,7 +84,6 @@ export default function TabsArea() {
       }
 
       const message = event.data;
-      console.log(message);
       if (message?.type === "dalys-state") {
         if (isTabId(message.tab)) {
           setActiveTab(message.tab);
