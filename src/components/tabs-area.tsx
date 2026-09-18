@@ -3,7 +3,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { OutcomeBreakdownChart } from "@/components/charts/outcome-breakdown-chart";
 import { AirCleaningChart } from "@/components/charts/air-cleaning-chart";
 import { AboutPage } from "@/components/about";
-import { PharmaceuticalChart } from "@/components/charts/pharmaceutical-chart";
+import {
+  PharmaceuticalChart,
+  type PharmaceuticalInterventionFilter,
+} from "@/components/charts/pharmaceutical-chart";
 import { DalyModelProvider } from "@/components/daly-model-provider";
 import { ScenarioId } from "@/config/scenario-daly-calculations";
 import {
@@ -12,6 +15,7 @@ import {
   isAirInterventionFilter,
   isTabId,
   type TabId,
+  isPharmaceuticalInterventionFilter,
 } from "@/config/iframe-messages";
 
 export default function TabsArea() {
@@ -20,6 +24,10 @@ export default function TabsArea() {
     useState<ScenarioId>("hepa_all_public");
   const [airInterventionFilter, setAirInterventionFilter] =
     useState<AirId>("all");
+  const [
+    pharmaceuticalInterventionFilter,
+    setPharmaceuticalInterventionFilter,
+  ] = useState<PharmaceuticalInterventionFilter>("all");
 
   // User navigation creates history; messages from the parent only restore it.
   function selectTab(nextTab: string) {
@@ -43,6 +51,23 @@ export default function TabsArea() {
     );
   }
 
+  function selectPharmaceuticalInterventionFilter(
+    nextPharmaceuticalInterventionFilter: string,
+  ) {
+    if (
+      !isPharmaceuticalInterventionFilter(nextPharmaceuticalInterventionFilter)
+    )
+      return;
+    setPharmaceuticalInterventionFilter(nextPharmaceuticalInterventionFilter);
+    window.parent.postMessage(
+      {
+        type: "dalys-pharmaceutical-intervention-filter-change",
+        pharmaceuticalInterventionFilter: nextPharmaceuticalInterventionFilter,
+      },
+      PARENT_ORIGIN,
+    );
+  }
+
   function selectDetailedScenario(scenarioId: ScenarioId) {
     setDetailedScenarioId(scenarioId);
   }
@@ -60,10 +85,6 @@ export default function TabsArea() {
 
       const message = event.data;
       if (message?.type === "dalys-state") {
-        console.log({
-          message,
-          "message.airInterventionFilter": message.airInterventionFilter,
-        });
         if (isTabId(message.tab)) {
           setActiveTab(message.tab);
         }
@@ -116,7 +137,13 @@ export default function TabsArea() {
           />
         </TabsContent>
         <TabsContent value="pharmaceuticals" className="w-full">
-          <PharmaceuticalChart onScenarioSelect={openDetailedScenario} />
+          <PharmaceuticalChart
+            onScenarioSelect={openDetailedScenario}
+            pharmaceuticalInterventionFilter={pharmaceuticalInterventionFilter}
+            onPharmaceuticalInterventionFilterChange={
+              selectPharmaceuticalInterventionFilter
+            }
+          />
         </TabsContent>
         <TabsContent value="detailed" className="w-full">
           <OutcomeBreakdownChart

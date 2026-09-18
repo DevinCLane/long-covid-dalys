@@ -190,12 +190,21 @@ const chartConfig = {
 
 interface PharmaceuticalChartProps {
   onScenarioSelect?: (scenarioId: ScenarioId) => void;
+  pharmaceuticalInterventionFilter: PharmaceuticalInterventionFilter;
+  onPharmaceuticalInterventionFilterChange: (
+    value: PharmaceuticalInterventionFilter,
+  ) => void;
 }
 
-type RadioOptionPharmaceutical = "all" | "prophylaxis" | "longCovidMedication";
+export type PharmaceuticalInterventionFilter =
+  | "all"
+  | "prophylaxis"
+  | "longCovidMedication";
 
 export function PharmaceuticalChart({
   onScenarioSelect,
+  onPharmaceuticalInterventionFilterChange,
+  pharmaceuticalInterventionFilter,
 }: PharmaceuticalChartProps) {
   const {
     scenarioRows: chartRows,
@@ -203,18 +212,22 @@ export function PharmaceuticalChart({
     isCustomScenario,
   } = useDalyModel();
   const [metric, setMetric] = useState<ChartMetric>("percent");
-  const [chartFilter, setChartFilter] =
-    useState<RadioOptionPharmaceutical>("all");
   const showDalys = metric === "dalys";
   const visibleRows = chartRows.filter((row) => {
     if (
-      chartFilter === "all" &&
+      pharmaceuticalInterventionFilter === "all" &&
       PHARMACEUTICAL_INTERVENTION_SCENARIO_IDS.has(row.id)
     )
       return true;
-    if (chartFilter === "prophylaxis" && row.id.endsWith("prophylaxis"))
+    if (
+      pharmaceuticalInterventionFilter === "prophylaxis" &&
+      row.id.endsWith("prophylaxis")
+    )
       return true;
-    if (chartFilter === "longCovidMedication" && row.id.endsWith("reduction"))
+    if (
+      pharmaceuticalInterventionFilter === "longCovidMedication" &&
+      row.id.endsWith("reduction")
+    )
       return true;
     if (showDalys && row.id.startsWith("baseline")) return true;
     return false;
@@ -253,8 +266,8 @@ export function PharmaceuticalChart({
                     label: "Show only long COVID medication",
                   },
                 ]}
-                value={chartFilter}
-                onValueChange={setChartFilter}
+                value={pharmaceuticalInterventionFilter}
+                onValueChange={onPharmaceuticalInterventionFilterChange}
               />
             </div>
             <Separator />

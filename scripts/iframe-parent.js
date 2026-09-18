@@ -1,9 +1,14 @@
 // paste this into the Wordpress editor, nothing happens locally here
-// This script is standalone: keep these tab IDs in sync with iframe-messages.ts.
 (() => {
   const IFRAME_ORIGIN = "https://longcoviddalys.netlify.app";
+  // This script is standalone: keep these IDs in sync with iframe-messages.ts.
   const TAB_IDS = ["air", "pharmaceuticals", "detailed", "about"];
   const AIR_INTERVENTION_FILTERS = ["all", "hepa", "uvc"];
+  const PHARMACEUTICAL_INTERVENTION_FILTERS = [
+    "all",
+    "prophylaxis",
+    "longCovidMedication",
+  ];
 
   function getIframe() {
     const iframe = document.querySelector("iframe#dalys");
@@ -20,6 +25,17 @@
     const airInterventionFilter = url.searchParams.get("airInterventionFilter");
     return AIR_INTERVENTION_FILTERS.includes(airInterventionFilter)
       ? airInterventionFilter
+      : "all";
+  }
+
+  function getPharmaceuticalInterventionFilter(url) {
+    const pharmaceuticalInterventionFilter = url.searchParams.get(
+      "pharmaceuticalInterventionFilter",
+    );
+    return PHARMACEUTICAL_INTERVENTION_FILTERS.includes(
+      pharmaceuticalInterventionFilter,
+    )
+      ? pharmaceuticalInterventionFilter
       : "all";
   }
 
@@ -86,6 +102,28 @@
         );
         window.history.replaceState(null, "", url);
         return;
+      }
+
+      case "dalys-pharmaceutical-intervention-filter-change": {
+        if (
+          !PHARMACEUTICAL_INTERVENTION_FILTERS.includes(
+            message.pharmaceuticalInterventionFilter,
+          )
+        )
+          return;
+
+        const url = new URL(window.location.href);
+        if (
+          getPharmaceuticalInterventionFilter(url) ===
+          message.pharmaceuticalInterventionFilter
+        )
+          return;
+
+        url.searchParams.set(
+          "pharmaceuticalInterventionFilter",
+          message.pharmaceuticalInterventionFilter,
+        );
+        window.history.replaceState(null, "", url);
       }
     }
   });
