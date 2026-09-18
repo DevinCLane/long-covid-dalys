@@ -77,13 +77,14 @@
           return;
 
         const url = new URL(window.location.href);
-        if (getAirInterventionFilter(url) === message.getAirInterventionFilter)
+        if (getAirInterventionFilter(url) === message.airInterventionFilter)
           return;
 
         url.searchParams.set(
           "airInterventionFilter",
           message.airInterventionFilter,
         );
+        window.history.replaceState(null, "", url);
         return;
       }
     }

@@ -60,11 +60,15 @@ export default function TabsArea() {
 
       const message = event.data;
       if (message?.type === "dalys-state") {
+        console.log({
+          message,
+          "message.airInterventionFilter": message.airInterventionFilter,
+        });
         if (isTabId(message.tab)) {
           setActiveTab(message.tab);
         }
-        if (isAirInterventionFilter(message.filter)) {
-          setAirInterventionFilter(message.filter);
+        if (isAirInterventionFilter(message.airInterventionFilter)) {
+          setAirInterventionFilter(message.airInterventionFilter);
         }
       }
     }

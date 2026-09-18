@@ -198,8 +198,8 @@ export type AirInterventionFilter = "all" | "hepa" | "uvc";
 
 export function AirCleaningChart({
   onScenarioSelect,
-  airInterventionFilter: radioFilter,
-  onAirInterventionFilterChange: onRadioFilterChange,
+  airInterventionFilter,
+  onAirInterventionFilterChange,
 }: AirCleaningChartProps) {
   const {
     scenarioRows: chartRows,
@@ -211,9 +211,9 @@ export function AirCleaningChart({
   const visibleRows = chartRows.filter((row) => {
     if (row.id === "baseline") return showDalys;
     const interventions = interventionsByScenario[row.id] ?? [];
-    return radioFilter === "all"
+    return airInterventionFilter === "all"
       ? interventions.includes("hepa") || interventions.includes("uvc")
-      : interventions.includes(radioFilter);
+      : interventions.includes(airInterventionFilter);
   });
 
   return (
@@ -249,8 +249,8 @@ export function AirCleaningChart({
                     label: "Show only Far UVC interventions",
                   },
                 ]}
-                value={radioFilter}
-                onValueChange={onRadioFilterChange}
+                value={airInterventionFilter}
+                onValueChange={onAirInterventionFilterChange}
               />
             </div>
             <Separator />
