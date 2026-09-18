@@ -50,6 +50,8 @@
         type: "dalys-state",
         tab: getTab(url),
         airInterventionFilter: getAirInterventionFilter(url),
+        pharmaceuticalInterventionFilter:
+          getPharmaceuticalInterventionFilter(url),
       },
       IFRAME_ORIGIN,
     );
