@@ -1,8 +1,12 @@
 // paste this into the Wordpress editor, nothing happens locally here
 (() => {
-  const IFRAME_ORIGIN = "https://longcoviddalys.netlify.app";
+  // local testing only
+  const IFRAME_ORIGIN = "http://localhost:5173";
+  // uncomment this for production
+  // const IFRAME_ORIGIN = "https://longcoviddalys.netlify.app";
   // This script is standalone: keep these IDs in sync with iframe-messages.ts.
   const TAB_IDS = ["air", "pharmaceuticals", "outcomeBreakdown", "about"];
+  const METRICS = ["percent", "dalys"];
   const AIR_INTERVENTION_FILTERS = ["all", "hepa", "uvc"];
   const PHARMACEUTICAL_INTERVENTION_FILTERS = [
     "all",
@@ -25,13 +29,23 @@
 
   function getIframe() {
     const iframe = document.querySelector("iframe#dalys");
-    if (!iframe?.contentWindow) return null;
+    if (!iframe?.contentWindow) {
+      console.error(
+        "Iframe #dalys not foudn or its content window is unavailable",
+      );
+      return null;
+    }
     return iframe;
   }
 
   function getTab(url) {
     const tab = url.searchParams.get("tab");
     return TAB_IDS.includes(tab) ? tab : "air";
+  }
+
+  function getMetric(url) {
+    const metric = url.searchParams.get("metric");
+    return METRICS.includes(metric) ? metric : "percent";
   }
 
   function getAirInterventionFilter(url) {
@@ -75,6 +89,7 @@
         pharmaceuticalInterventionFilter:
           getPharmaceuticalInterventionFilter(url),
         outcomeBreakdownScenarioId: getOutcomeBreakdownScenarioId(url),
+        metric: getMetric(url),
       },
       IFRAME_ORIGIN,
     );
@@ -109,6 +124,17 @@
         if (getTab(url) === message.tab) return;
 
         url.searchParams.set("tab", message.tab);
+        window.history.pushState(null, "", url);
+        return;
+      }
+
+      case "dalys-metric-change": {
+        if (!METRICS.includes(message.metric)) return;
+
+        const url = new URL(window.location.href);
+        if (getMetric(url) === message.metric) return;
+
+        url.searchParams.set("metric", message.metric);
         window.history.pushState(null, "", url);
         return;
       }

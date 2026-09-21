@@ -1,6 +1,9 @@
+import { ChartMetric } from "@/components/chart-metric-toggle";
 import { SCENARIO_IDS, ScenarioId } from "./scenario-daly-calculations";
 
-export const PARENT_ORIGIN = "https://polybio.org";
+// for local testing only
+export const PARENT_ORIGIN = "http://127.0.0.1:57391";
+// export const PARENT_ORIGIN = "https://polybio.org";
 
 export const TAB_IDS = [
   "air",
@@ -8,6 +11,7 @@ export const TAB_IDS = [
   "outcomeBreakdown",
   "about",
 ] as const;
+export const METRICS = ["percent", "dalys"] as const;
 export const AIR_INTERVENTION_FILTERS = ["all", "hepa", "uvc"] as const;
 export const PHARMACEUTICAL_INTERVENTION_FILTERS = [
   "all",
@@ -22,6 +26,10 @@ export type PharmaceuticalId =
 
 export function isTabId(value: unknown): value is TabId {
   return TAB_IDS.some((tab) => tab === value);
+}
+
+export function isMetric(value: unknown): value is ChartMetric {
+  return METRICS.some((metric) => metric === value);
 }
 
 export function isAirInterventionFilter(value: unknown): value is AirId {

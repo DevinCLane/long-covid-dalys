@@ -15,9 +15,12 @@ import {
   isPharmaceuticalInterventionFilter,
   isScenarioId,
   PharmaceuticalId,
+  isMetric,
 } from "@/config/iframe-messages";
+import { ChartMetric } from "@/components/chart-metric-toggle";
 
 export default function TabsArea() {
+  const [metric, setMetric] = useState<ChartMetric>("percent");
   const [activeTab, setActiveTab] = useState<TabId>("air");
   const [outcomeBreakdownScenarioId, setOutcomeBreakdownScenarioId] =
     useState<ScenarioId>("hepa_all_public");
@@ -36,6 +39,13 @@ export default function TabsArea() {
     setActiveTab(nextTab);
     window.parent.postMessage(
       { type: "dalys-tab-change", tab: nextTab },
+      PARENT_ORIGIN,
+    );
+  }
+  function selectMetric(nextMetric: ChartMetric) {
+    setMetric(nextMetric);
+    window.parent.postMessage(
+      { type: "dalys-metric-change", metric: nextMetric },
       PARENT_ORIGIN,
     );
   }
@@ -104,6 +114,10 @@ export default function TabsArea() {
         if (isTabId(message.tab)) {
           setActiveTab(message.tab);
         }
+
+        if (isMetric(message.metric)) {
+          setMetric(message.metric);
+        }
         if (isAirInterventionFilter(message.airInterventionFilter)) {
           setAirInterventionFilter(message.airInterventionFilter);
         }
@@ -157,6 +171,8 @@ export default function TabsArea() {
             onScenarioSelect={openOutcomeBreakdown}
             airInterventionFilter={airInterventionFilter}
             onAirInterventionFilterChange={selectAirInterventionFilter}
+            metric={metric}
+            setMetric={selectMetric}
           />
         </TabsContent>
         <TabsContent value="pharmaceuticals" className="w-full">

@@ -18,7 +18,7 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart";
 
-import React, { useState } from "react";
+import React from "react";
 import { ChartModifierRadio } from "@/components/chart-modifier-radio";
 import { ChartMetricToggle, type ChartMetric } from "../chart-metric-toggle";
 import { FieldGroup } from "../ui/field";
@@ -193,19 +193,22 @@ interface AirCleaningChartProps {
   onScenarioSelect?: (scenarioId: ScenarioId) => void;
   airInterventionFilter: AirId;
   onAirInterventionFilterChange: (value: AirId) => void;
+  metric: ChartMetric;
+  setMetric: (metric: ChartMetric) => void;
 }
 
 export function AirCleaningChart({
   onScenarioSelect,
   airInterventionFilter,
   onAirInterventionFilterChange,
+  metric,
+  setMetric,
 }: AirCleaningChartProps) {
   const {
     scenarioRows: chartRows,
     defaultOutput,
     isCustomScenario,
   } = useDalyModel();
-  const [metric, setMetric] = useState<ChartMetric>("percent");
   const showDalys = metric === "dalys";
   const visibleRows = chartRows.filter((row) => {
     if (row.id === "baseline") return showDalys;

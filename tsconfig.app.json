@@ -25,5 +25,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
   },
-  "include": ["src", "scripts/iframe-parent.js"],
+  "include": ["src", "iframe-code/iframe-parent.js"],
 }
