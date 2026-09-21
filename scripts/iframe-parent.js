@@ -149,6 +149,7 @@
           message.pharmaceuticalInterventionFilter,
         );
         window.history.replaceState(null, "", url);
+        return;
       }
 
       case "dalys-outcome-breakdown-filter-change": {
@@ -162,6 +163,7 @@
           message.outcomeBreakdownFilter,
         );
         window.history.replaceState(null, "", url);
+        return;
       }
     }
   });
