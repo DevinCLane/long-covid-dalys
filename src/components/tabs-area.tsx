@@ -29,7 +29,9 @@ export default function TabsArea() {
     setPharmaceuticalInterventionFilter,
   ] = useState<PharmaceuticalInterventionFilter>("all");
 
-  // User navigation creates history; messages from the parent only restore it.
+  /**
+   * User navigation creates history; messages from the parent only restore it.
+   */
   function selectTab(nextTab: string) {
     if (!isTabId(nextTab)) return;
     setActiveTab(nextTab);
@@ -39,6 +41,9 @@ export default function TabsArea() {
     );
   }
 
+  /**
+   * select the air intervention filter, send postMessage to parent of iframe in order to update URL
+   */
   function selectAirInterventionFilter(nextAirInterventionFilter: string) {
     if (!isAirInterventionFilter(nextAirInterventionFilter)) return;
     setAirInterventionFilter(nextAirInterventionFilter);
@@ -51,6 +56,9 @@ export default function TabsArea() {
     );
   }
 
+  /**
+   * select pharmaceutical intervention filter, send postMessage to parent of iframe to update URL
+   */
   function selectPharmaceuticalInterventionFilter(
     nextPharmaceuticalInterventionFilter: string,
   ) {
