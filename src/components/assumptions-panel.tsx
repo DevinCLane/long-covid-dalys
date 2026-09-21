@@ -15,7 +15,7 @@ import {
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 
-function ResetAll({
+function ResetAssumptions({
   label,
   className,
   onClick,
@@ -38,7 +38,7 @@ interface ModelAssumptionsPanelProps {
 export function ModelAssumptionsPanel({
   allowedInterventions,
 }: ModelAssumptionsPanelProps) {
-  const { assumptions, setAssumption, resetAll } = useDalyModel();
+  const { assumptions, setAssumption, resetAssumptions } = useDalyModel();
 
   return (
     <Accordion type="single" collapsible>
@@ -52,7 +52,10 @@ export function ModelAssumptionsPanel({
             supported by the literature.
           </div>
           <div className="text-right">
-            <ResetAll onClick={resetAll} label="Reset assumptions" />
+            <ResetAssumptions
+              onClick={resetAssumptions}
+              label="Reset assumptions"
+            />
           </div>
           {Object.entries(GROUP_LABELS).map(([group, groupLabel]) => (
             <section key={group}>

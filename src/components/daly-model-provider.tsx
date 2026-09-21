@@ -60,7 +60,7 @@ export function DalyModelProvider({ children }: { children: ReactNode }) {
     ({ key, defaultValue }) => deferredAssumptions[key] !== defaultValue,
   );
 
-  const resetAll = useCallback(
+  const resetAssumptions = useCallback(
     () => setAssumptions({ ...DEFAULT_ASSUMPTION_VALUES }),
     [],
   );
@@ -71,7 +71,7 @@ export function DalyModelProvider({ children }: { children: ReactNode }) {
       scenarioRows,
       isCustomScenario,
       setAssumption,
-      resetAll,
+      resetAssumptions,
       defaultOutput,
     }),
     [
@@ -79,7 +79,7 @@ export function DalyModelProvider({ children }: { children: ReactNode }) {
       scenarioRows,
       isCustomScenario,
       setAssumption,
-      resetAll,
+      resetAssumptions,
       defaultOutput,
     ],
   );
