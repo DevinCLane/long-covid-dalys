@@ -2,7 +2,7 @@
 (() => {
   const IFRAME_ORIGIN = "https://longcoviddalys.netlify.app";
   // This script is standalone: keep these IDs in sync with iframe-messages.ts.
-  const TAB_IDS = ["air", "pharmaceuticals", "detailed", "about"];
+  const TAB_IDS = ["air", "pharmaceuticals", "outcomeBreakdown", "about"];
   const AIR_INTERVENTION_FILTERS = ["all", "hepa", "uvc"];
   const PHARMACEUTICAL_INTERVENTION_FILTERS = [
     "all",
@@ -52,12 +52,12 @@
       : "all";
   }
 
-  function getOutcomeBreakdownFilter(url) {
-    const outcomeBreakdownFilter = url.searchParams.get(
-      "outcomeBreakdownFilter",
+  function getOutcomeBreakdownScenarioId(url) {
+    const outcomeBreakdownScenarioId = url.searchParams.get(
+      "outcomeBreakdownScenarioId",
     );
-    return SCENARIO_IDS.includes(outcomeBreakdownFilter)
-      ? outcomeBreakdownFilter
+    return SCENARIO_IDS.includes(outcomeBreakdownScenarioId)
+      ? outcomeBreakdownScenarioId
       : "hepa_all_public";
   }
 
@@ -74,7 +74,7 @@
         airInterventionFilter: getAirInterventionFilter(url),
         pharmaceuticalInterventionFilter:
           getPharmaceuticalInterventionFilter(url),
-        outcomeBreakdownFilter: getOutcomeBreakdownFilter(url),
+        outcomeBreakdownScenarioId: getOutcomeBreakdownScenarioId(url),
       },
       IFRAME_ORIGIN,
     );
@@ -152,15 +152,18 @@
         return;
       }
 
-      case "dalys-outcome-breakdown-filter-change": {
-        if (!SCENARIO_IDS.includes(message.outcomeBreakdownFilter)) return;
+      case "dalys-outcome-breakdown-scenario-change": {
+        if (!SCENARIO_IDS.includes(message.outcomeBreakdownScenarioId)) return;
 
         const url = new URL(window.location.href);
-        if (getOutcomeBreakdownFilter(url) === message.outcomeBreakdownFilter)
+        if (
+          getOutcomeBreakdownScenarioId(url) ===
+          message.outcomeBreakdownScenarioId
+        )
           return;
         url.searchParams.set(
-          "outcomeBreakdownFilter",
-          message.outcomeBreakdownFilter,
+          "outcomeBreakdownScenarioId",
+          message.outcomeBreakdownScenarioId,
         );
         window.history.replaceState(null, "", url);
         return;

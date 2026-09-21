@@ -80,8 +80,8 @@ export default function TabsArea() {
     setOutcomeBreakdownScenarioId(scenarioId);
     window.parent.postMessage(
       {
-        type: "dalys-outcome-breakdown-filter-change",
-        outcomeBreakdownFilter: scenarioId,
+        type: "dalys-outcome-breakdown-scenario-change",
+        outcomeBreakdownScenarioId: scenarioId,
       },
       PARENT_ORIGIN,
     );
