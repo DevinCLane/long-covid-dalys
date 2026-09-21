@@ -68,6 +68,8 @@ const chartConfig = {
 interface OutcomeBreakdownChartProps {
   scenarioId: ScenarioId;
   onScenarioSelect: (scenarioId: ScenarioId) => void;
+  metric: ChartMetric;
+  setMetric: (value: ChartMetric) => void;
 }
 
 interface ChartDescriptionBodyProps {
@@ -100,9 +102,10 @@ function ChartDescriptionBody({ scenario, metric }: ChartDescriptionBodyProps) {
 export function OutcomeBreakdownChart({
   scenarioId,
   onScenarioSelect,
+  metric,
+  setMetric,
 }: OutcomeBreakdownChartProps) {
   const { scenarioRows, isCustomScenario, defaultOutput } = useDalyModel();
-  const [metric, setMetric] = useState<ChartMetric>("percent");
   const scenario = scenarioRows.find((scenario) => scenario.id === scenarioId);
 
   const selectedScenarioWithDefaultAssumptions = defaultOutput.find(

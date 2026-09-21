@@ -42,6 +42,7 @@ export default function TabsArea() {
       PARENT_ORIGIN,
     );
   }
+
   function selectMetric(nextMetric: ChartMetric) {
     setMetric(nextMetric);
     window.parent.postMessage(
@@ -118,9 +119,11 @@ export default function TabsArea() {
         if (isMetric(message.metric)) {
           setMetric(message.metric);
         }
+
         if (isAirInterventionFilter(message.airInterventionFilter)) {
           setAirInterventionFilter(message.airInterventionFilter);
         }
+
         if (
           isPharmaceuticalInterventionFilter(
             message.pharmaceuticalInterventionFilter,
@@ -130,6 +133,7 @@ export default function TabsArea() {
             message.pharmaceuticalInterventionFilter,
           );
         }
+
         if (isScenarioId(message.outcomeBreakdownFilter)) {
           setOutcomeBreakdownScenarioId(message.outcomeBreakdownFilter);
         }
@@ -182,12 +186,16 @@ export default function TabsArea() {
             onPharmaceuticalInterventionFilterChange={
               selectPharmaceuticalInterventionFilter
             }
+            metric={metric}
+            setMetric={selectMetric}
           />
         </TabsContent>
         <TabsContent value="outcomeBreakdown" className="w-full">
           <OutcomeBreakdownChart
             scenarioId={outcomeBreakdownScenarioId}
             onScenarioSelect={selectOutcomeBreakdownScenario}
+            metric={metric}
+            setMetric={selectMetric}
           />
         </TabsContent>
         <TabsContent value="about" className="w-full">

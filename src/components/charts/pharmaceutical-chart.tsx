@@ -193,19 +193,22 @@ interface PharmaceuticalChartProps {
   onScenarioSelect?: (scenarioId: ScenarioId) => void;
   pharmaceuticalInterventionFilter: PharmaceuticalId;
   onPharmaceuticalInterventionFilterChange: (value: PharmaceuticalId) => void;
+  metric: ChartMetric;
+  setMetric: (value: ChartMetric) => void;
 }
 
 export function PharmaceuticalChart({
   onScenarioSelect,
   onPharmaceuticalInterventionFilterChange,
   pharmaceuticalInterventionFilter,
+  metric,
+  setMetric,
 }: PharmaceuticalChartProps) {
   const {
     scenarioRows: chartRows,
     defaultOutput,
     isCustomScenario,
   } = useDalyModel();
-  const [metric, setMetric] = useState<ChartMetric>("percent");
   const showDalys = metric === "dalys";
   const visibleRows = chartRows.filter((row) => {
     if (
