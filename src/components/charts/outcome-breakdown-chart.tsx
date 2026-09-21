@@ -36,7 +36,6 @@ import type {
   ScenarioDalyRow,
   ScenarioId,
 } from "@/config/scenario-daly-calculations";
-import { useState } from "react";
 import { OriginalValueMarker } from "../original-value-marker";
 import { interventionsByScenario } from "@/config/assumptions";
 
