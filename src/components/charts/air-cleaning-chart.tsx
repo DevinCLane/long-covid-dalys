@@ -32,6 +32,7 @@ import {
 } from "@/config/scenario-daly-calculations";
 import { OriginalValueMarker } from "../original-value-marker";
 import { interventionsByScenario } from "@/config/assumptions";
+import { AirId } from "@/config/iframe-messages";
 
 /**
  * Text for the chart description body
@@ -190,11 +191,9 @@ const chartConfig = {
 
 interface AirCleaningChartProps {
   onScenarioSelect?: (scenarioId: ScenarioId) => void;
-  airInterventionFilter: AirInterventionFilter;
-  onAirInterventionFilterChange: (value: AirInterventionFilter) => void;
+  airInterventionFilter: AirId;
+  onAirInterventionFilterChange: (value: AirId) => void;
 }
-
-export type AirInterventionFilter = "all" | "hepa" | "uvc";
 
 export function AirCleaningChart({
   onScenarioSelect,

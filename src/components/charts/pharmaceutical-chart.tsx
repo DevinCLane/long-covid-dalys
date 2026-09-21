@@ -32,6 +32,7 @@ import {
 } from "@/config/scenario-daly-calculations";
 import { ChartModifierRadio } from "../chart-modifier-radio";
 import { OriginalValueMarker } from "../original-value-marker";
+import { PharmaceuticalId } from "@/config/iframe-messages";
 
 /**
  * Text for the chart description body
@@ -190,16 +191,9 @@ const chartConfig = {
 
 interface PharmaceuticalChartProps {
   onScenarioSelect?: (scenarioId: ScenarioId) => void;
-  pharmaceuticalInterventionFilter: PharmaceuticalInterventionFilter;
-  onPharmaceuticalInterventionFilterChange: (
-    value: PharmaceuticalInterventionFilter,
-  ) => void;
+  pharmaceuticalInterventionFilter: PharmaceuticalId;
+  onPharmaceuticalInterventionFilterChange: (value: PharmaceuticalId) => void;
 }
-
-export type PharmaceuticalInterventionFilter =
-  | "all"
-  | "prophylaxis"
-  | "longCovidMedication";
 
 export function PharmaceuticalChart({
   onScenarioSelect,
