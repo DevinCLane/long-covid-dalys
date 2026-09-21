@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import chartData from "../src/data/data-2026-09-02.json";
+import chartData from "../src/data/data-2026-09-14.json";
 
 // Simulate a future export in memory, without modifying the source JSON.
 const additions = [
@@ -29,9 +29,8 @@ const {
   PHARMACEUTICAL_INTERVENTION_SCENARIO_IDS,
   calculateScenarioDalyRows,
 } = await import("../src/config/scenario-daly-calculations");
-const { DEFAULT_ASSUMPTION_VALUES, interventionsByScenario } = await import(
-  "../src/config/assumptions"
-);
+const { DEFAULT_ASSUMPTION_VALUES, interventionsByScenario } =
+  await import("../src/config/assumptions");
 const rows = calculateScenarioDalyRows({ ...DEFAULT_ASSUMPTION_VALUES });
 assert.equal(rows.length, chartData.main_scenarios.length + 4);
 assert.equal(new Set(SCENARIO_IDS).size, rows.length);

@@ -7,7 +7,7 @@ import {
   runLongCovid,
   runPasc,
 } from "@/config/daly-model";
-import chartData from "@/data/data-2026-09-02.json";
+import chartData from "@/data/data-2026-09-14.json";
 
 // JSON IDs are strings; the loaded definitions provide the runtime catalog.
 export type ScenarioId = (typeof chartData.main_scenarios)[number]["id"];
