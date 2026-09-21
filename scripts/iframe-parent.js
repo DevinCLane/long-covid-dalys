@@ -151,10 +151,12 @@
         window.history.replaceState(null, "", url);
       }
 
-      case "dalys-outcome-breakdown-filter": {
+      case "dalys-outcome-breakdown-filter-change": {
+        if (!SCENARIO_IDS.includes(message.outcomeBreakdownFilter)) return;
+
+        const url = new URL(window.location.href);
         if (getOutcomeBreakdownFilter(url) === message.outcomeBreakdownFilter)
           return;
-
         url.searchParams.set(
           "outcomeBreakdownFilter",
           message.outcomeBreakdownFilter,

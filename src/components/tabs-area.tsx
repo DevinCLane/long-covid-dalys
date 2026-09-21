@@ -78,10 +78,11 @@ export default function TabsArea() {
   }
 
   function selectDetailedScenario(scenarioId: ScenarioId) {
+    if (!isScenarioId(scenarioId)) return;
     setDetailedScenarioId(scenarioId);
     window.parent.postMessage(
       {
-        type: "dalys-outcome-breakdown-filter",
+        type: "dalys-outcome-breakdown-filter-change",
         outcomeBreakdownFilter: scenarioId,
       },
       PARENT_ORIGIN,
@@ -89,8 +90,9 @@ export default function TabsArea() {
   }
 
   function openDetailedScenario(scenarioId: ScenarioId) {
-    setDetailedScenarioId(scenarioId);
+    if (!isScenarioId(scenarioId)) return;
     selectTab("detailed");
+    selectDetailedScenario(scenarioId);
   }
 
   useEffect(() => {
