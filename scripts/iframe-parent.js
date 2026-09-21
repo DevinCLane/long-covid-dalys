@@ -9,6 +9,19 @@
     "prophylaxis",
     "longCovidMedication",
   ];
+  const SCENARIO_IDS = [
+    "baseline",
+    "hepa_most_public",
+    "hepa_schools_and_daycares",
+    "hepa_all_public",
+    "far_uvc_most_public",
+    "far_uvc_schools_and_daycares",
+    "far_uvc_all_public",
+    "preexposure_prophylaxis",
+    "postexposure_prophylaxis",
+    "long_covid_progression_reduction",
+    "long_covid_disability_reduction",
+  ];
 
   function getIframe() {
     const iframe = document.querySelector("iframe#dalys");
@@ -39,6 +52,15 @@
       : "all";
   }
 
+  function getOutcomeBreakdownFilter(url) {
+    const outcomeBreakdownFilter = url.searchParams.get(
+      "outcomeBreakdownFilter",
+    );
+    return SCENARIO_IDS.includes(outcomeBreakdownFilter)
+      ? outcomeBreakdownFilter
+      : "hepa_all_public";
+  }
+
   // Shared by initial loading and Back/Forward; neither adds history.
   function sendCurrentUrlParams() {
     const iframe = getIframe();
@@ -52,6 +74,7 @@
         airInterventionFilter: getAirInterventionFilter(url),
         pharmaceuticalInterventionFilter:
           getPharmaceuticalInterventionFilter(url),
+        outcomeBreakdownFilter: getOutcomeBreakdownFilter(url),
       },
       IFRAME_ORIGIN,
     );
@@ -124,6 +147,17 @@
         url.searchParams.set(
           "pharmaceuticalInterventionFilter",
           message.pharmaceuticalInterventionFilter,
+        );
+        window.history.replaceState(null, "", url);
+      }
+
+      case "dalys-outcome-breakdown-filter": {
+        if (getOutcomeBreakdownFilter(url) === message.outcomeBreakdownFilter)
+          return;
+
+        url.searchParams.set(
+          "outcomeBreakdownFilter",
+          message.outcomeBreakdownFilter,
         );
         window.history.replaceState(null, "", url);
       }

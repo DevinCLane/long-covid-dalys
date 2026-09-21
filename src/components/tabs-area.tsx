@@ -16,6 +16,7 @@ import {
   isTabId,
   type TabId,
   isPharmaceuticalInterventionFilter,
+  isScenarioId,
 } from "@/config/iframe-messages";
 
 export default function TabsArea() {
@@ -78,6 +79,13 @@ export default function TabsArea() {
 
   function selectDetailedScenario(scenarioId: ScenarioId) {
     setDetailedScenarioId(scenarioId);
+    window.parent.postMessage(
+      {
+        type: "dalys-outcome-breakdown-filter",
+        outcomeBreakdownFilter: scenarioId,
+      },
+      PARENT_ORIGIN,
+    );
   }
 
   function openDetailedScenario(scenarioId: ScenarioId) {
@@ -107,6 +115,9 @@ export default function TabsArea() {
           setPharmaceuticalInterventionFilter(
             message.pharmaceuticalInterventionFilter,
           );
+        }
+        if (isScenarioId(message.outcomeBreakdownFilter)) {
+          setDetailedScenarioId(message.outcomeBreakdownFilter);
         }
       }
     }
