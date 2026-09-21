@@ -52,7 +52,7 @@ export function ModelAssumptionsPanel({
             supported by the literature.
           </div>
           <div className="text-right">
-            <ResetAll onClick={resetAll} label="Reset All" />
+            <ResetAll onClick={resetAll} label="Reset assumptions" />
           </div>
           {Object.entries(GROUP_LABELS).map(([group, groupLabel]) => (
             <section key={group}>
