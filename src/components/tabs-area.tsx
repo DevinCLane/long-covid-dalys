@@ -3,10 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { OutcomeBreakdownChart } from "@/components/charts/outcome-breakdown-chart";
 import { AirCleaningChart } from "@/components/charts/air-cleaning-chart";
 import { AboutPage } from "@/components/about";
-import {
-  PharmaceuticalChart,
-  type PharmaceuticalInterventionFilter,
-} from "@/components/charts/pharmaceutical-chart";
+import { PharmaceuticalChart } from "@/components/charts/pharmaceutical-chart";
 import { DalyModelProvider } from "@/components/daly-model-provider";
 import { ScenarioId } from "@/config/scenario-daly-calculations";
 import {
@@ -17,18 +14,19 @@ import {
   type TabId,
   isPharmaceuticalInterventionFilter,
   isScenarioId,
+  PharmaceuticalId,
 } from "@/config/iframe-messages";
 
 export default function TabsArea() {
   const [activeTab, setActiveTab] = useState<TabId>("air");
-  const [detailedScenarioId, setDetailedScenarioId] =
+  const [outcomeBreakdownScenarioId, setOutcomeBreakdownScenarioId] =
     useState<ScenarioId>("hepa_all_public");
   const [airInterventionFilter, setAirInterventionFilter] =
     useState<AirId>("all");
   const [
     pharmaceuticalInterventionFilter,
     setPharmaceuticalInterventionFilter,
-  ] = useState<PharmaceuticalInterventionFilter>("all");
+  ] = useState<PharmaceuticalId>("all");
 
   /**
    * User navigation creates history; messages from the parent only restore it.
@@ -77,9 +75,9 @@ export default function TabsArea() {
     );
   }
 
-  function selectDetailedScenario(scenarioId: ScenarioId) {
+  function selectOutcomeBreakdownScenario(scenarioId: ScenarioId) {
     if (!isScenarioId(scenarioId)) return;
-    setDetailedScenarioId(scenarioId);
+    setOutcomeBreakdownScenarioId(scenarioId);
     window.parent.postMessage(
       {
         type: "dalys-outcome-breakdown-filter-change",
@@ -89,10 +87,10 @@ export default function TabsArea() {
     );
   }
 
-  function openDetailedScenario(scenarioId: ScenarioId) {
+  function openOutcomeBreakdown(scenarioId: ScenarioId) {
     if (!isScenarioId(scenarioId)) return;
-    selectTab("detailed");
-    selectDetailedScenario(scenarioId);
+    selectTab("outcomeBreakdown");
+    selectOutcomeBreakdownScenario(scenarioId);
   }
 
   useEffect(() => {
@@ -119,7 +117,7 @@ export default function TabsArea() {
           );
         }
         if (isScenarioId(message.outcomeBreakdownFilter)) {
-          setDetailedScenarioId(message.outcomeBreakdownFilter);
+          setOutcomeBreakdownScenarioId(message.outcomeBreakdownFilter);
         }
       }
     }
@@ -140,20 +138,15 @@ export default function TabsArea() {
       >
         <TabsList variant="line" className="mt-2 mb-6 sm:m-0">
           <div>
-            {/*<TabsTrigger value="overview" className="cursor-pointer">
-              Overview
-            </TabsTrigger>*/}
             <TabsTrigger value="air" className="cursor-pointer">
               Air Cleaning
             </TabsTrigger>
             <TabsTrigger value="pharmaceuticals" className="cursor-pointer">
               Pharmaceuticals
             </TabsTrigger>
-            <TabsTrigger value="detailed" className="cursor-pointer">
+            <TabsTrigger value="outcomeBreakdown" className="cursor-pointer">
               Outcome breakdown
             </TabsTrigger>
-            {/*
-          <TabsTrigger value="publicHealth" className="cursor-pointer">Public Health</TabsTrigger> */}
             <TabsTrigger value="about" className="cursor-pointer">
               About
             </TabsTrigger>
@@ -161,29 +154,26 @@ export default function TabsArea() {
         </TabsList>
         <TabsContent value="air" className="w-full">
           <AirCleaningChart
-            onScenarioSelect={openDetailedScenario}
+            onScenarioSelect={openOutcomeBreakdown}
             airInterventionFilter={airInterventionFilter}
             onAirInterventionFilterChange={selectAirInterventionFilter}
           />
         </TabsContent>
         <TabsContent value="pharmaceuticals" className="w-full">
           <PharmaceuticalChart
-            onScenarioSelect={openDetailedScenario}
+            onScenarioSelect={openOutcomeBreakdown}
             pharmaceuticalInterventionFilter={pharmaceuticalInterventionFilter}
             onPharmaceuticalInterventionFilterChange={
               selectPharmaceuticalInterventionFilter
             }
           />
         </TabsContent>
-        <TabsContent value="detailed" className="w-full">
+        <TabsContent value="outcomeBreakdown" className="w-full">
           <OutcomeBreakdownChart
-            scenarioId={detailedScenarioId}
-            onScenarioSelect={selectDetailedScenario}
+            scenarioId={outcomeBreakdownScenarioId}
+            onScenarioSelect={selectOutcomeBreakdownScenario}
           />
         </TabsContent>
-        {/*<TabsContent value="publicHealth" className="w-full">
-          <div>Coming soon</div>
-        </TabsContent>*/}
         <TabsContent value="about" className="w-full">
           <AboutPage />
         </TabsContent>

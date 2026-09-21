@@ -40,8 +40,6 @@ import { useState } from "react";
 import { OriginalValueMarker } from "../original-value-marker";
 import { interventionsByScenario } from "@/config/assumptions";
 
-export type Scenario = ScenarioDalyRow;
-
 const chartConfig = {
   acute_covid: {
     label: "acute COVID-19",
@@ -73,7 +71,7 @@ interface OutcomeBreakdownChartProps {
 }
 
 interface ChartDescriptionBodyProps {
-  scenario: Scenario;
+  scenario: ScenarioDalyRow;
   metric: ChartMetric;
 }
 
@@ -107,10 +105,11 @@ export function OutcomeBreakdownChart({
   const [metric, setMetric] = useState<ChartMetric>("percent");
   const scenario = scenarioRows.find((scenario) => scenario.id === scenarioId);
 
-  const defaultScenario = defaultOutput.find(
-    (scenario) => scenario.id === scenarioId,
+  const selectedScenarioWithDefaultAssumptions = defaultOutput.find(
+    (selectedScenario) => selectedScenario.id === scenarioId,
   );
-  const showOriginalValues = isCustomScenario && Boolean(defaultScenario);
+  const showOriginalValues =
+    isCustomScenario && Boolean(selectedScenarioWithDefaultAssumptions);
   // Even status quo can change relative to the fixed reference when inputs change.
   const displayedMetric = metric;
 
@@ -131,14 +130,15 @@ export function OutcomeBreakdownChart({
     );
   }
 
-  const detailedData = [
+  const outcomeData = [
     {
       key: "acute_covid",
       label: "Acute COVID",
       dalys: scenario.acute_covid,
       percentReduction: scenario.percent_reduction_acute_covid,
-      originalDalys: defaultScenario?.acute_covid,
-      originalPercentReduction: defaultScenario?.percent_reduction_acute_covid,
+      originalDalys: selectedScenarioWithDefaultAssumptions?.acute_covid,
+      originalPercentReduction:
+        selectedScenarioWithDefaultAssumptions?.percent_reduction_acute_covid,
       fill: "var(--color-acute_covid)",
     },
     {
@@ -146,8 +146,9 @@ export function OutcomeBreakdownChart({
       label: "Long COVID",
       dalys: scenario.long_covid,
       percentReduction: scenario.percent_reduction_long_covid,
-      originalDalys: defaultScenario?.long_covid,
-      originalPercentReduction: defaultScenario?.percent_reduction_long_covid,
+      originalDalys: selectedScenarioWithDefaultAssumptions?.long_covid,
+      originalPercentReduction:
+        selectedScenarioWithDefaultAssumptions?.percent_reduction_long_covid,
       fill: "var(--color-long_covid)",
     },
     {
@@ -155,8 +156,9 @@ export function OutcomeBreakdownChart({
       label: "Other sequelae",
       dalys: scenario.pasc,
       percentReduction: scenario.percent_reduction_pasc,
-      originalDalys: defaultScenario?.pasc,
-      originalPercentReduction: defaultScenario?.percent_reduction_pasc,
+      originalDalys: selectedScenarioWithDefaultAssumptions?.pasc,
+      originalPercentReduction:
+        selectedScenarioWithDefaultAssumptions?.percent_reduction_pasc,
       fill: "var(--color-pasc)",
     },
     {
@@ -164,14 +166,15 @@ export function OutcomeBreakdownChart({
       label: "Total",
       dalys: scenario.total,
       percentReduction: scenario.percent_reduction,
-      originalDalys: defaultScenario?.total,
-      originalPercentReduction: defaultScenario?.percent_reduction,
+      originalDalys: selectedScenarioWithDefaultAssumptions?.total,
+      originalPercentReduction:
+        selectedScenarioWithDefaultAssumptions?.percent_reduction,
       fill: "var(--color-total)",
     },
   ];
 
   // remove the "total" from percent reduction view
-  const visibleOutcomeData = detailedData.filter((dataItem) =>
+  const visibleOutcomeData = outcomeData.filter((dataItem) =>
     displayedMetric === "percent" ? dataItem.key !== "total" : true,
   );
   // Keep original markers in range when adjusted DALYs fall below the defaults,

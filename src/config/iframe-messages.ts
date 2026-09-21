@@ -2,7 +2,12 @@ import { SCENARIO_IDS, ScenarioId } from "./scenario-daly-calculations";
 
 export const PARENT_ORIGIN = "https://polybio.org";
 
-export const TAB_IDS = ["air", "pharmaceuticals", "detailed", "about"] as const;
+export const TAB_IDS = [
+  "air",
+  "pharmaceuticals",
+  "outcomeBreakdown",
+  "about",
+] as const;
 export const AIR_INTERVENTION_FILTERS = ["all", "hepa", "uvc"] as const;
 export const PHARMACEUTICAL_INTERVENTION_FILTERS = [
   "all",
