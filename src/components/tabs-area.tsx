@@ -134,8 +134,8 @@ export default function TabsArea() {
           );
         }
 
-        if (isScenarioId(message.outcomeBreakdownFilter)) {
-          setOutcomeBreakdownScenarioId(message.outcomeBreakdownFilter);
+        if (isScenarioId(message.outcomeBreakdownScenarioId)) {
+          setOutcomeBreakdownScenarioId(message.outcomeBreakdownScenarioId);
         }
       }
     }
