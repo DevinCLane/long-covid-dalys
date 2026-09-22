@@ -1,13 +1,11 @@
-// import { GitHub } from "@/components/github-button";
-// import { DarkLightToggle } from "@/components/dark-light-mode-toggle";
 import ShareButton from "@/components/share-button";
+import { ResetView } from "@/components/restset-view";
 
 export function NavBar() {
   return (
     <nav className="flex justify-end gap-2">
-      {/* <GitHub /> */}
+      <ResetView />
       <ShareButton />
-      {/* <DarkLightToggle /> */}
     </nav>
   );
 }
