@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { OutcomeBreakdownChart } from "@/components/charts/outcome-breakdown-chart";
 import { AirCleaningChart } from "@/components/charts/air-cleaning-chart";
@@ -19,18 +19,31 @@ import {
 } from "@/config/iframe-messages";
 import { ChartMetric } from "@/components/chart-metric-toggle";
 
-export default function TabsArea() {
-  const [metric, setMetric] = useState<ChartMetric>("percent");
-  const [activeTab, setActiveTab] = useState<TabId>("air");
-  const [outcomeBreakdownScenarioId, setOutcomeBreakdownScenarioId] =
-    useState<ScenarioId>("hepa_all_public");
-  const [airInterventionFilter, setAirInterventionFilter] =
-    useState<AirId>("all");
-  const [
-    pharmaceuticalInterventionFilter,
-    setPharmaceuticalInterventionFilter,
-  ] = useState<PharmaceuticalId>("all");
+interface TabsAreaProps {
+  activeTab: TabId;
+  setActiveTab: (value: TabId) => void;
+  metric: ChartMetric;
+  setMetric: (value: ChartMetric) => void;
+  airInterventionFilter: AirId;
+  setAirInterventionFilter: (value: AirId) => void;
+  pharmaceuticalInterventionFilter: PharmaceuticalId;
+  setPharmaceuticalInterventionFilter: (value: PharmaceuticalId) => void;
+  outcomeBreakdownScenarioId: ScenarioId;
+  setOutcomeBreakdownScenarioId: (value: ScenarioId) => void;
+}
 
+export default function TabsArea({
+  activeTab,
+  setActiveTab,
+  metric,
+  setMetric,
+  airInterventionFilter,
+  setAirInterventionFilter,
+  pharmaceuticalInterventionFilter,
+  setPharmaceuticalInterventionFilter,
+  outcomeBreakdownScenarioId,
+  setOutcomeBreakdownScenarioId,
+}: TabsAreaProps) {
   /**
    * User navigation creates history; messages from the parent only restore it.
    */
@@ -145,7 +158,13 @@ export default function TabsArea() {
     return () => {
       window.removeEventListener("message", handleMessage);
     };
-  }, []);
+  }, [
+    setActiveTab,
+    setAirInterventionFilter,
+    setMetric,
+    setOutcomeBreakdownScenarioId,
+    setPharmaceuticalInterventionFilter,
+  ]);
 
   return (
     <DalyModelProvider>

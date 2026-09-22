@@ -6,16 +6,16 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-export function ResetView() {
+export function ResetView({ resetView }: { resetView: () => void }) {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
         <Button
           size="icon"
           variant="outline"
-          aria-label="Reset"
+          aria-label="Reset view to default"
           className="bg-card"
-          // onClick={resetToDefault}
+          onClick={resetView}
           // disabled={disabled}
         >
           <RotateCcw size={16} strokeWidth={2} aria-hidden="true" />

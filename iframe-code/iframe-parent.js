@@ -27,6 +27,14 @@
     "long_covid_disability_reduction",
   ];
 
+  const SEARCH_PARAMETERS = [
+    "tab",
+    "metric",
+    "airInterventionFilter",
+    "pharmaceuticalInterventionFilter",
+    "outcomeBreakdownScenarioId",
+  ];
+
   function getIframe() {
     const iframe = document.querySelector("iframe#dalys");
     if (!iframe?.contentWindow) {
@@ -36,6 +44,12 @@
       return null;
     }
     return iframe;
+  }
+
+  function deleteSearchParams(url) {
+    for (const param of SEARCH_PARAMETERS) {
+      url.searchParams.delete(param);
+    }
   }
 
   function getTab(url) {
@@ -111,6 +125,17 @@
         sendCurrentUrlParams();
         return;
 
+      case "dalys-reset-view": {
+        const url = new URL(window.location.href);
+        // if URL parameters already fully reset, don't reset again
+        if (!SEARCH_PARAMETERS.some((param) => url.searchParams.has(param))) {
+          return;
+        }
+        deleteSearchParams(url);
+        window.history.pushState(null, "", url);
+        return;
+      }
+
       case "dalys-resize":
         if (Number.isFinite(message.height) && message.height > 0) {
           iframe.style.height = `${message.height}px`;
@@ -135,7 +160,7 @@
         if (getMetric(url) === message.metric) return;
 
         url.searchParams.set("metric", message.metric);
-        window.history.pushState(null, "", url);
+        window.history.replaceState(null, "", url);
         return;
       }
 

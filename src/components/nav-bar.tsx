@@ -1,10 +1,10 @@
 import ShareButton from "@/components/share-button";
-import { ResetView } from "@/components/restset-view";
+import { ResetView } from "@/components/reset-view";
 
-export function NavBar() {
+export function NavBar({ resetView }: { resetView: () => void }) {
   return (
     <nav className="flex justify-end gap-2">
-      <ResetView />
+      <ResetView resetView={resetView} />
       <ShareButton />
     </nav>
   );

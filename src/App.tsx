@@ -3,11 +3,38 @@ import { Header } from "@/components/header";
 import { SiteFooter } from "@/components/site-footer";
 import { NavBar } from "./components/nav-bar";
 import TabsArea from "./components/tabs-area";
-import { useEffect, useRef } from "react";
-import { PARENT_ORIGIN } from "./config/iframe-messages";
+import { useEffect, useRef, useState } from "react";
+import {
+  AirId,
+  PARENT_ORIGIN,
+  PharmaceuticalId,
+  TabId,
+} from "./config/iframe-messages";
+import { ChartMetric } from "./components/chart-metric-toggle";
+import { ScenarioId } from "./config/scenario-daly-calculations";
 
 function App() {
+  const [activeTab, setActiveTab] = useState<TabId>("air");
+  const [metric, setMetric] = useState<ChartMetric>("percent");
+  const [airInterventionFilter, setAirInterventionFilter] =
+    useState<AirId>("all");
+  const [
+    pharmaceuticalInterventionFilter,
+    setPharmaceuticalInterventionFilter,
+  ] = useState<PharmaceuticalId>("all");
+  const [outcomeBreakdownScenarioId, setOutcomeBreakdownScenarioId] =
+    useState<ScenarioId>("hepa_all_public");
   const outerDiv = useRef<HTMLDivElement>(null);
+
+  function resetView() {
+    setActiveTab("air");
+    setMetric("percent");
+    setAirInterventionFilter("all");
+    setPharmaceuticalInterventionFilter("all");
+    setOutcomeBreakdownScenarioId("hepa_all_public");
+    window.parent.postMessage({ type: "dalys-reset-view" }, PARENT_ORIGIN);
+    return;
+  }
 
   useEffect(() => {
     const resizeObserver = new ResizeObserver((entries) => {
@@ -34,9 +61,22 @@ function App() {
       ref={outerDiv}
       className="mx-auto flex flex-col px-4 py-2 text-center md:px-8 md:py-6 lg:max-w-6xl"
     >
-      <NavBar />
+      <NavBar resetView={resetView} />
       <Header />
-      <TabsArea />
+      <TabsArea
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        metric={metric}
+        setMetric={setMetric}
+        airInterventionFilter={airInterventionFilter}
+        setAirInterventionFilter={setAirInterventionFilter}
+        pharmaceuticalInterventionFilter={pharmaceuticalInterventionFilter}
+        setPharmaceuticalInterventionFilter={
+          setPharmaceuticalInterventionFilter
+        }
+        outcomeBreakdownScenarioId={outcomeBreakdownScenarioId}
+        setOutcomeBreakdownScenarioId={setOutcomeBreakdownScenarioId}
+      />
       <SiteFooter />
     </div>
   );
