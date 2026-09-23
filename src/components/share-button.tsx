@@ -14,6 +14,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import CopyableInput from "@/components/copyable-input";
+import { Checkbox } from "./ui/checkbox";
+import { Field, FieldLabel } from "./ui/field";
 
 export default function ShareButton() {
   return (
@@ -37,7 +39,7 @@ export default function ShareButton() {
         <PopoverContent className="bg-card w-72">
           <div className="flex flex-col gap-3 text-center">
             <div className="text-sm font-medium">Share</div>
-            <div className="flex flex-wrap justify-center gap-2">
+            <div className="flex justify-center gap-2">
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
@@ -137,6 +139,16 @@ export default function ShareButton() {
                 copyableInput="https://polybio.org/dalys/"
                 ariaLabel="url"
               />
+              <Field orientation="horizontal">
+                <FieldLabel className="cursor-pointer justify-center text-sm font-normal">
+                  <Checkbox
+                    // checked={checked}
+                    // onCheckedChange={onCheckedChange}
+                    className="border-foreground"
+                  />
+                  Share current view
+                </FieldLabel>
+              </Field>
             </div>
             <div className="space-y-2">
               <div className="text-sm font-medium">
