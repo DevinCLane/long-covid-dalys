@@ -1,9 +1,9 @@
 // paste this into the Wordpress editor, nothing happens locally here
 (() => {
   // local testing only
-  // const IFRAME_ORIGIN = "http://localhost:5173";
+  const IFRAME_ORIGIN = "http://localhost:5173";
   // uncomment this for production
-  const IFRAME_ORIGIN = "https://longcoviddalys.netlify.app";
+  // const IFRAME_ORIGIN = "https://longcoviddalys.netlify.app";
   // This script is standalone: keep these IDs in sync with iframe-messages.ts.
   const TAB_IDS = ["air", "pharmaceuticals", "outcomeBreakdown", "about"];
   const METRICS = ["percent", "dalys"];
@@ -108,6 +108,19 @@
       IFRAME_ORIGIN,
     );
   }
+  function sendCurrentUrl() {
+    const iframe = getIframe();
+    if (!iframe) return;
+
+    const url = new URL(window.location.href);
+    iframe.contentWindow.postMessage(
+      {
+        type: "dalys-current-url",
+        url: url.href,
+      },
+      IFRAME_ORIGIN,
+    );
+  }
 
   window.addEventListener("message", (event) => {
     const iframe = getIframe();
@@ -127,12 +140,17 @@
 
       case "dalys-reset-view": {
         const url = new URL(window.location.href);
-        // if URL parameters already fully reset, don't reset again
+
         if (!SEARCH_PARAMETERS.some((param) => url.searchParams.has(param))) {
           return;
         }
         deleteSearchParams(url);
         window.history.pushState(null, "", url);
+        return;
+      }
+
+      case "dalys-share-current-view": {
+        sendCurrentUrl();
         return;
       }
 

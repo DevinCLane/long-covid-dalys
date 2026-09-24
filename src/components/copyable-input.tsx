@@ -36,7 +36,7 @@ export default function CopyableInput({
         id={id}
         className="bg-card truncate pe-9"
         type="text"
-        defaultValue={copyableInput}
+        value={copyableInput}
         aria-label={ariaLabel}
         readOnly
       />

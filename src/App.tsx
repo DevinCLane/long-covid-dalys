@@ -32,6 +32,7 @@ function App() {
     setAirInterventionFilter("all");
     setPharmaceuticalInterventionFilter("all");
     setOutcomeBreakdownScenarioId("hepa_all_public");
+    // ask iframe parent to reset url parameters
     window.parent.postMessage({ type: "dalys-reset-view" }, PARENT_ORIGIN);
     return;
   }

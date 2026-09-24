@@ -122,7 +122,6 @@ export default function TabsArea({
       if (event.origin !== PARENT_ORIGIN || event.source !== window.parent) {
         return;
       }
-
       const message = event.data;
       if (message?.type === "dalys-state") {
         if (isTabId(message.tab)) {

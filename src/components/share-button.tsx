@@ -16,11 +16,56 @@ import {
 import CopyableInput from "@/components/copyable-input";
 import { Checkbox } from "./ui/checkbox";
 import { Field, FieldLabel } from "./ui/field";
+import { useEffect, useState } from "react";
+import { PARENT_ORIGIN } from "@/config/iframe-messages";
 
 export default function ShareButton() {
+  const defaultUrl = "https://polybio.org/dalys/";
+  const [shareCurrentViewChecked, setShareCurrentViewChecked] = useState(false);
+  const [currentUrl, setCurrentUrl] = useState(defaultUrl);
+
+  function handlePopoverOpenChange(open: boolean) {
+    if (!open) {
+      setShareCurrentViewChecked(false);
+      setCurrentUrl(defaultUrl);
+    }
+  }
+  function handleShareCurrentView(checked: boolean) {
+    if (checked) {
+      // grab the URL from the iframe parent
+      window.parent.postMessage(
+        {
+          type: "dalys-share-current-view",
+        },
+        PARENT_ORIGIN,
+      );
+      setShareCurrentViewChecked(true);
+    } else {
+      setCurrentUrl(defaultUrl);
+      setShareCurrentViewChecked(false);
+    }
+  }
+
+  useEffect(() => {
+    function handleMessage(event: MessageEvent) {
+      if (event.origin !== PARENT_ORIGIN || event.source !== window.parent) {
+        return;
+      }
+      const message = event.data;
+      if (message?.type !== "dalys-current-url") return;
+      if (!shareCurrentViewChecked) return;
+
+      setCurrentUrl(message.url);
+    }
+    window.addEventListener("message", handleMessage);
+    return () => {
+      window.removeEventListener("message", handleMessage);
+    };
+  }, [shareCurrentViewChecked]);
+
   return (
     <div className="flex flex-col gap-4">
-      <Popover>
+      <Popover onOpenChange={handlePopoverOpenChange}>
         <Tooltip>
           <PopoverTrigger asChild>
             <TooltipTrigger asChild>
@@ -135,15 +180,12 @@ export default function ShareButton() {
             </div>
             <div className="space-y-2">
               <div className="text-sm font-medium">Copy URL to clipboard</div>
-              <CopyableInput
-                copyableInput="https://polybio.org/dalys/"
-                ariaLabel="url"
-              />
+              <CopyableInput copyableInput={currentUrl} ariaLabel="url" />
               <Field orientation="horizontal">
                 <FieldLabel className="cursor-pointer justify-center text-sm font-normal">
                   <Checkbox
-                    // checked={checked}
-                    // onCheckedChange={onCheckedChange}
+                    checked={shareCurrentViewChecked}
+                    onCheckedChange={handleShareCurrentView}
                     className="border-foreground"
                   />
                   Share current view
