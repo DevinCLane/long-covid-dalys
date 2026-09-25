@@ -246,28 +246,25 @@ export function PharmaceuticalChart({
       </CardHeader>
       <CardContent>
         <div className="flex flex-col items-center">
-          <FieldGroup className="order-3 mt-4 mb-2 gap-4 sm:mt-0 sm:mb-0 sm:w-100 md:order-1">
-            <div className="">
-              <ChartModifierRadio
-                options={[
-                  {
-                    value: "all",
-                    label: "Show all pharmaceutical interventions",
-                  },
-                  {
-                    value: "prophylaxis",
-                    label: "Show only prophylactic medication",
-                  },
-                  {
-                    value: "longCovidMedication",
-                    label: "Show only long COVID medication",
-                  },
-                ]}
-                value={pharmaceuticalInterventionFilter}
-                onValueChange={onPharmaceuticalInterventionFilterChange}
-              />
-            </div>
-            <Separator />
+          <FieldGroup className="order-3 mt-4 mb-2 justify-between gap-4 sm:mt-0 sm:mb-0 sm:flex-row md:order-1">
+            <ChartModifierRadio
+              options={[
+                {
+                  value: "all",
+                  label: "All interventions",
+                },
+                {
+                  value: "prophylaxis",
+                  label: "Prophylactic medication",
+                },
+                {
+                  value: "longCovidMedication",
+                  label: "Long COVID medication",
+                },
+              ]}
+              value={pharmaceuticalInterventionFilter}
+              onValueChange={onPharmaceuticalInterventionFilterChange}
+            />
             <div className="flex justify-center">
               <ChartMetricToggle value={metric} onValueChange={setMetric} />
             </div>

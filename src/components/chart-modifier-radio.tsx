@@ -33,7 +33,7 @@ export function ChartModifierRadio<T extends string>({
     <RadioGroup
       value={value}
       onValueChange={handleValueChange}
-      className={cn(className)}
+      className={cn("sm:w-92", className)}
     >
       <Field className="flex sm:flex-row">
         {options.map((option) => (

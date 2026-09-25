@@ -22,7 +22,6 @@ import React from "react";
 import { ChartModifierRadio } from "@/components/chart-modifier-radio";
 import { ChartMetricToggle, type ChartMetric } from "../chart-metric-toggle";
 import { FieldGroup } from "../ui/field";
-import { Separator } from "../ui/separator";
 import { useDalyModel } from "@/hooks/use-daly-model";
 import { ModelAssumptionsPanel } from "@/components/assumptions-panel";
 import {
@@ -33,6 +32,7 @@ import {
 import { OriginalValueMarker } from "../original-value-marker";
 import { interventionsByScenario } from "@/config/assumptions";
 import { AirId } from "@/config/iframe-messages";
+import { Separator } from "../ui/separator";
 
 /**
  * Text for the chart description body
@@ -234,28 +234,25 @@ export function AirCleaningChart({
       </CardHeader>
       <CardContent>
         <div className="flex flex-col items-center">
-          <FieldGroup className="order-3 mt-4 mb-2 gap-4 sm:mt-0 sm:mb-0 sm:w-100 md:order-1">
-            <div className="flex justify-center gap-4">
-              <ChartModifierRadio
-                options={[
-                  {
-                    value: "all",
-                    label: "Show all air cleaning interventions",
-                  },
-                  {
-                    value: "hepa",
-                    label: "Show only HEPA filter interventions",
-                  },
-                  {
-                    value: "uvc",
-                    label: "Show only Far UVC interventions",
-                  },
-                ]}
-                value={airInterventionFilter}
-                onValueChange={onAirInterventionFilterChange}
-              />
-            </div>
-            <Separator />
+          <FieldGroup className="order-3 mt-4 mb-2 justify-between gap-4 sm:mt-0 sm:mb-4 sm:flex-row md:order-1">
+            <ChartModifierRadio
+              options={[
+                {
+                  value: "all",
+                  label: "All interventions",
+                },
+                {
+                  value: "hepa",
+                  label: "HEPA filters",
+                },
+                {
+                  value: "uvc",
+                  label: "Far UVC",
+                },
+              ]}
+              value={airInterventionFilter}
+              onValueChange={onAirInterventionFilterChange}
+            />
             <div className="flex justify-center">
               <ChartMetricToggle value={metric} onValueChange={setMetric} />
             </div>
