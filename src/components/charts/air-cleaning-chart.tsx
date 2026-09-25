@@ -32,7 +32,6 @@ import {
 import { OriginalValueMarker } from "../original-value-marker";
 import { interventionsByScenario } from "@/config/assumptions";
 import { AirId } from "@/config/iframe-messages";
-import { Separator } from "../ui/separator";
 
 /**
  * Text for the chart description body
