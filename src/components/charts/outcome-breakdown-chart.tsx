@@ -1,6 +1,15 @@
 "use client";
 
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  LabelList,
+  Text,
+  usePlotArea,
+  XAxis,
+  YAxis,
+} from "recharts";
 import { ModelChartContainer } from "@/components/charts/model-chart-container";
 import { ModelTooltipValues } from "@/components/charts/model-tooltip-values";
 import { outcomeColors } from "@/config/chart-colors";
@@ -98,6 +107,30 @@ function ChartDescriptionBody({ scenario, metric }: ChartDescriptionBodyProps) {
   );
 }
 
+function StatusQuoReductionLabel({ index }: { index?: number }) {
+  const plotArea = usePlotArea();
+
+  // LabelList calls this for every outcome; show the guidance just once.
+  if (index !== 0 || !plotArea) return null;
+
+  return (
+    <Text
+      x={plotArea.x + plotArea.width / 2}
+      y={plotArea.y + plotArea.height / 2}
+      width={Math.min(380, Math.max(0, plotArea.width - 32))}
+      textAnchor="middle"
+      verticalAnchor="middle"
+      lineHeight="1.4em"
+      className="fill-muted-foreground text-sm"
+      pointerEvents="none"
+    >
+      Status quo has 0% reduction relative to itself. Choose "DALYs per 1000",
+      adjust the model assumptions below, or choose another scenario to see
+      results.
+    </Text>
+  );
+}
+
 export function OutcomeBreakdownChart({
   scenarioId,
   onScenarioSelect,
@@ -190,6 +223,11 @@ export function OutcomeBreakdownChart({
         ]),
       ) * 1.1
     : "auto";
+
+  const showStatusQuoGuidance =
+    scenarioId === "baseline" &&
+    displayedMetric === "percent" &&
+    visibleOutcomeData.every((row) => row.percentReduction === 0);
 
   return (
     <Card>
@@ -309,7 +347,16 @@ export function OutcomeBreakdownChart({
                 dataKey={
                   displayedMetric === "percent" ? "percentReduction" : "dalys"
                 }
-              />
+                isAnimationActive={!showStatusQuoGuidance}
+                shape={showStatusQuoGuidance ? <g /> : undefined}
+              >
+                {showStatusQuoGuidance && (
+                  <LabelList
+                    dataKey="percentReduction"
+                    content={<StatusQuoReductionLabel />}
+                  />
+                )}
+              </Bar>
               {showOriginalValues &&
                 visibleOutcomeData.map((row) => {
                   const originalValue =

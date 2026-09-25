@@ -1,9 +1,9 @@
 // paste this into the Wordpress editor, nothing happens locally here
 (() => {
   // local testing only
-  // const IFRAME_ORIGIN = "http://localhost:5173";
+  const IFRAME_ORIGIN = "http://localhost:5173";
   // uncomment this for production
-  const IFRAME_ORIGIN = "https://longcoviddalys.netlify.app";
+  // const IFRAME_ORIGIN = "https://longcoviddalys.netlify.app";
   // This script is standalone: keep these IDs in sync with iframe-messages.ts.
   const TAB_IDS = ["air", "pharmaceuticals", "outcomeBreakdown", "about"];
   const METRICS = ["percent", "dalys"];
