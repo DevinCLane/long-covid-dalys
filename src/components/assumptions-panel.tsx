@@ -25,7 +25,7 @@ function ResetAssumptions({
   onClick: () => void;
 }) {
   return (
-    <Button className={cn("hover:bg-gray-500", className)} onClick={onClick}>
+    <Button className={cn("", className)} onClick={onClick}>
       {label}
     </Button>
   );
