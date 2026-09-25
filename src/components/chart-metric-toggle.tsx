@@ -12,7 +12,6 @@ interface ChartMetricToggleProps {
 export function ChartMetricToggle({
   value,
   onValueChange,
-  disabled,
 }: ChartMetricToggleProps) {
   return (
     <div
@@ -22,18 +21,15 @@ export function ChartMetricToggle({
     >
       <Tooltip>
         <TooltipTrigger asChild>
-          <span className="inline-block w-fit">
-            <Button
-              type="button"
-              size="sm"
-              variant={value === "percent" ? "default" : "ghost"}
-              aria-pressed={value === "percent"}
-              onClick={() => onValueChange("percent")}
-              disabled={disabled}
-            >
-              Percent reduction
-            </Button>
-          </span>
+          <Button
+            type="button"
+            size="sm"
+            variant={value === "percent" ? "default" : "ghost"}
+            aria-pressed={value === "percent"}
+            onClick={() => onValueChange("percent")}
+          >
+            Percent reduction
+          </Button>
         </TooltipTrigger>
         <TooltipContent className="max-w-64 px-2 py-1 text-xs">
           Percent reduction compared with the status quo scenario of no
