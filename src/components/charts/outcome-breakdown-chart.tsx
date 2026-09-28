@@ -91,18 +91,15 @@ function ChartDescriptionBody({ scenario, metric }: ChartDescriptionBodyProps) {
       <div>
         For the scenario "{scenario.label}", each outcome percentage is
         calculated against that outcome&apos;s fixed default status quo DALYs.
-        {/*Total is
-        calculated from combined DALYs averted divided by combined status quo
-        DALYs; the percentages are not added together.*/}
       </div>
     );
   }
 
   return (
     <div>
-      For the scenario "{scenario.label}", this shows a side-by-side comparison
-      of DALYs for acute COVID-19, Long COVID, other post-acute sequelae of
-      COVID-19 infection, and their combined total.
+      For the scenario "{scenario.label}", shows DALYs for acute COVID-19, Long
+      COVID, other post-acute sequelae of COVID-19 infection, and their combined
+      total.
     </div>
   );
 }
@@ -232,29 +229,27 @@ export function OutcomeBreakdownChart({
   return (
     <Card>
       {/* chart header */}
-      <CardHeader className="flex items-center gap-2 space-y-0 border-b sm:flex-row">
+      <CardHeader className="flex items-center gap-2 space-y-0 border-b py-4 sm:flex-row">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
           <div className="align-center mb-4 flex flex-col gap-2 sm:flex-row sm:justify-between sm:gap-0">
             <CardTitle className="text-lg text-pretty md:text-2xl">
               Compare outcome conditions per scenario
             </CardTitle>
-            <div>
-              <Select value={scenarioId} onValueChange={onScenarioSelect}>
-                <SelectTrigger
-                  className="w-full rounded-lg font-medium sm:ml-auto sm:flex sm:w-60"
-                  aria-label="Select scenario"
-                >
-                  <SelectValue placeholder="Select scenario" />
-                </SelectTrigger>
-                <SelectContent className="w-full rounded-xl">
-                  {scenarioRows.map((scenario) => (
-                    <SelectItem key={scenario.id} value={scenario.id}>
-                      {scenario.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+            <Select value={scenarioId} onValueChange={onScenarioSelect}>
+              <SelectTrigger
+                className="min-h-14.5 w-full rounded-lg font-medium whitespace-break-spaces sm:ml-auto sm:flex sm:min-h-auto sm:w-79 sm:whitespace-nowrap"
+                aria-label="Select scenario"
+              >
+                <SelectValue placeholder="Select scenario" />
+              </SelectTrigger>
+              <SelectContent className="w-full rounded-xl">
+                {scenarioRows.map((scenario) => (
+                  <SelectItem key={scenario.id} value={scenario.id}>
+                    {scenario.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
           <CardDescription className="mb-4 hidden md:block">
             Select a scenario from the dropdown menu to show side-by-side
@@ -268,12 +263,6 @@ export function OutcomeBreakdownChart({
             {displayedMetric === "percent" ? "DALY reduction" : "DALYs"} by
             outcome
           </CardTitle>
-          <CardDescription className="hidden md:block">
-            <ChartDescriptionBody
-              scenario={scenario}
-              metric={displayedMetric}
-            />
-          </CardDescription>
         </div>
       </CardHeader>
       <CardContent>
