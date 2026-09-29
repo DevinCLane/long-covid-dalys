@@ -266,7 +266,7 @@ export function OutcomeBreakdownChart({
         </div>
       </CardHeader>
       <CardContent>
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-end">
           <div className="order-3 mt-4 md:order-1 md:mt-0">
             <ChartMetricToggle
               value={displayedMetric}
