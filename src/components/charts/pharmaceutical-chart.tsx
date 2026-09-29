@@ -264,9 +264,7 @@ export function PharmaceuticalChart({
               value={pharmaceuticalInterventionFilter}
               onValueChange={onPharmaceuticalInterventionFilterChange}
             />
-            <div className="flex justify-center">
-              <ChartMetricToggle value={metric} onValueChange={setMetric} />
-            </div>
+            <ChartMetricToggle value={metric} onValueChange={setMetric} />
           </FieldGroup>
           <ModelChartContainer
             config={chartConfig}

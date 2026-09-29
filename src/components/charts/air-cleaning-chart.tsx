@@ -233,7 +233,7 @@ export function AirCleaningChart({
       </CardHeader>
       <CardContent>
         <div className="flex flex-col items-center">
-          <FieldGroup className="order-3 mt-4 mb-2 justify-between gap-4 sm:mt-0 sm:mb-4 sm:flex-row md:order-1">
+          <FieldGroup className="order-3 mt-4 mb-2 justify-between sm:mt-0 sm:mb-4 sm:flex-row md:order-1">
             <ChartModifierRadio
               options={[
                 {
@@ -252,9 +252,7 @@ export function AirCleaningChart({
               value={airInterventionFilter}
               onValueChange={onAirInterventionFilterChange}
             />
-            <div className="flex justify-center">
-              <ChartMetricToggle value={metric} onValueChange={setMetric} />
-            </div>
+            <ChartMetricToggle value={metric} onValueChange={setMetric} />
           </FieldGroup>
           <ModelChartContainer
             config={chartConfig}

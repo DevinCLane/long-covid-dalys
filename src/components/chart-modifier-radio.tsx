@@ -33,13 +33,13 @@ export function ChartModifierRadio<T extends string>({
     <RadioGroup
       value={value}
       onValueChange={handleValueChange}
-      className={cn("sm:w-120", className)}
+      className={cn("text-left sm:min-h-14 sm:w-120", className)}
     >
       <Field orientation="vertical" className="flex sm:flex-row">
         {options.map((option) => (
           <FieldLabel
             key={option.value}
-            className="cursor-pointer rounded-sm px-2 py-2 text-sm font-normal"
+            className="cursor-pointer rounded-sm px-2 py-2 text-sm font-normal sm:gap-4"
           >
             <RadioGroupItem value={option.value} />
             {option.label}
