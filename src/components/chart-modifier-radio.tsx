@@ -31,12 +31,16 @@ export function ChartModifierRadio<T extends string>({
 
   return (
     <RadioGroup
+      aria-label="Interventions"
       value={value}
       onValueChange={handleValueChange}
-      className={cn("text-left sm:min-h-14 sm:w-120", className)}
+      className={cn(
+        "flex flex-col text-left sm:min-h-14 sm:w-120 sm:flex-row",
+        className,
+      )}
     >
-      <Field orientation="vertical" className="flex sm:flex-row">
-        {options.map((option) => (
+      {options.map((option) => (
+        <Field orientation="horizontal">
           <FieldLabel
             key={option.value}
             className="cursor-pointer rounded-sm px-2 py-2 text-sm font-normal sm:gap-4"
@@ -44,8 +48,8 @@ export function ChartModifierRadio<T extends string>({
             <RadioGroupItem value={option.value} />
             {option.label}
           </FieldLabel>
-        ))}
-      </Field>
+        </Field>
+      ))}
     </RadioGroup>
   );
 }

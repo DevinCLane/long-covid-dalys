@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { Field, FieldLabel } from "./ui/field";
@@ -8,7 +7,6 @@ export type ChartMetric = "percent" | "dalys";
 interface ChartMetricToggleProps {
   value: ChartMetric;
   onValueChange: (value: ChartMetric) => void;
-  disabled?: boolean;
 }
 
 export function ChartMetricToggle({
@@ -22,12 +20,12 @@ export function ChartMetricToggle({
   }
   return (
     <RadioGroup
-      aria-label="Chart metric"
-      className="flex items-center text-left sm:min-h-14 sm:w-90"
+      aria-label="Show values as"
       onValueChange={handleValueChange}
       value={value}
+      className="flex items-center text-left sm:min-h-14 sm:w-90"
     >
-      <Field>
+      <Field orientation="horizontal">
         <Tooltip>
           <TooltipTrigger asChild>
             <FieldLabel className={fieldLabelStyles}>
@@ -42,7 +40,7 @@ export function ChartMetricToggle({
           </TooltipContent>
         </Tooltip>
       </Field>
-      <Field>
+      <Field orientation="horizontal">
         <FieldLabel className={fieldLabelStyles}>
           <RadioGroupItem value="dalys" />
           DALYs per 1,000

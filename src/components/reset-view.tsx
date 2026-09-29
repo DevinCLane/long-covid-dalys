@@ -16,7 +16,6 @@ export function ResetView({ resetView }: { resetView: () => void }) {
           aria-label="Reset view to default"
           className="bg-card"
           onClick={resetView}
-          // disabled={disabled}
         >
           <RotateCcw size={16} strokeWidth={2} aria-hidden="true" />
         </Button>
