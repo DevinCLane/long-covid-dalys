@@ -245,7 +245,7 @@ export function PharmaceuticalChart({
       </CardHeader>
       <CardContent>
         <div className="flex flex-col items-center">
-          <FieldGroup className="order-3 mt-4 mb-2 justify-between gap-4 sm:mt-0 sm:mb-0 sm:flex-row md:order-1">
+          <FieldGroup className="order-3 mt-4 mb-2 justify-between sm:mt-0 sm:mb-4 sm:flex-row md:order-1">
             <ChartModifierRadio
               options={[
                 {
