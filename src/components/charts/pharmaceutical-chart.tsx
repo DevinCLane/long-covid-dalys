@@ -230,9 +230,9 @@ export function PharmaceuticalChart({
   });
 
   return (
-    <Card>
+    <Card className="gap-3 pt-3 md:gap-6 md:pt-6">
       {/* chart header */}
-      <CardHeader className="flex items-center gap-2 space-y-0 border-b sm:flex-row">
+      <CardHeader className="flex items-center gap-2 space-y-0 border-b [.border-b]:pb-3 sm:flex-row md:[.border-b]:pb-6">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
           <CardTitle className="text-l text-pretty md:text-2xl">
             How might pharmaceutical interventions affect COVID-associated

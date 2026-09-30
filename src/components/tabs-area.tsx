@@ -181,32 +181,32 @@ export default function TabsArea({
             <ResetView resetView={resetView} />
             <ShareButton />
           </div>
-          <div className="w-full min-w-0 py-1.5 sm:w-auto">
+          <div className="w-full min-w-0 py-0.5 sm:w-auto sm:py-1.5">
             <TabsList
               variant="line"
-              className="grid w-full grid-cols-2 group-data-[orientation=horizontal]/tabs:h-auto sm:inline-flex sm:w-fit sm:gap-1 sm:group-data-[orientation=horizontal]/tabs:h-9"
+              className="grid w-full grid-cols-2 p-0 group-data-[orientation=horizontal]/tabs:h-auto sm:inline-flex sm:w-fit sm:gap-1 sm:p-[3px] sm:group-data-[orientation=horizontal]/tabs:h-9"
             >
               <TabsTrigger
                 value="air"
-                className="h-full min-h-11 cursor-pointer leading-snug whitespace-normal sm:h-[calc(100%-1px)] sm:min-h-0 sm:whitespace-nowrap"
+                className="h-full min-h-9 cursor-pointer py-0.5 leading-snug whitespace-normal sm:h-[calc(100%-1px)] sm:min-h-0 sm:py-1 sm:whitespace-nowrap"
               >
                 Air Cleaning
               </TabsTrigger>
               <TabsTrigger
                 value="pharmaceuticals"
-                className="h-full min-h-11 cursor-pointer leading-snug whitespace-normal sm:h-[calc(100%-1px)] sm:min-h-0 sm:whitespace-nowrap"
+                className="h-full min-h-9 cursor-pointer py-0.5 leading-snug whitespace-normal sm:h-[calc(100%-1px)] sm:min-h-0 sm:py-1 sm:whitespace-nowrap"
               >
                 Pharmaceuticals
               </TabsTrigger>
               <TabsTrigger
                 value="outcomeBreakdown"
-                className="h-full min-h-11 cursor-pointer leading-snug whitespace-normal sm:h-[calc(100%-1px)] sm:min-h-0 sm:whitespace-nowrap"
+                className="h-full min-h-9 cursor-pointer py-0.5 leading-snug whitespace-normal sm:h-[calc(100%-1px)] sm:min-h-0 sm:py-1 sm:whitespace-nowrap"
               >
                 Outcome breakdown
               </TabsTrigger>
               <TabsTrigger
                 value="about"
-                className="h-full min-h-11 cursor-pointer leading-snug whitespace-normal sm:h-[calc(100%-1px)] sm:min-h-0 sm:whitespace-nowrap"
+                className="h-full min-h-9 cursor-pointer py-0.5 leading-snug whitespace-normal sm:h-[calc(100%-1px)] sm:min-h-0 sm:py-1 sm:whitespace-nowrap"
               >
                 About
               </TabsTrigger>

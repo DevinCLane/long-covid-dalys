@@ -227,9 +227,9 @@ export function OutcomeBreakdownChart({
     visibleOutcomeData.every((row) => row.percentReduction === 0);
 
   return (
-    <Card>
+    <Card className="gap-3 pt-3 md:gap-6 md:pt-6">
       {/* chart header */}
-      <CardHeader className="flex items-center gap-2 space-y-0 border-b sm:flex-row">
+      <CardHeader className="flex items-center gap-2 space-y-0 border-b [.border-b]:pb-3 sm:flex-row md:[.border-b]:pb-6">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
           <div className="align-center mb-4 flex flex-col gap-2 sm:flex-row sm:justify-between sm:gap-0">
             <CardTitle className="text-lg text-pretty md:text-2xl">
