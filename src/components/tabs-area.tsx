@@ -18,8 +18,11 @@ import {
   isMetric,
 } from "@/config/iframe-messages";
 import { ChartMetric } from "@/components/chart-metric-toggle";
+import { ResetView } from "./reset-view";
+import ShareButton from "./share-button";
 
 interface TabsAreaProps {
+  resetView: () => void;
   activeTab: TabId;
   setActiveTab: (value: TabId) => void;
   metric: ChartMetric;
@@ -33,6 +36,7 @@ interface TabsAreaProps {
 }
 
 export default function TabsArea({
+  resetView,
   activeTab,
   setActiveTab,
   metric,
@@ -172,22 +176,43 @@ export default function TabsArea({
         value={activeTab}
         onValueChange={selectTab}
       >
-        <TabsList variant="line" className="mt-2 mb-6 sm:m-0">
-          <div>
-            <TabsTrigger value="air" className="cursor-pointer">
-              Air Cleaning
-            </TabsTrigger>
-            <TabsTrigger value="pharmaceuticals" className="cursor-pointer">
-              Pharmaceuticals
-            </TabsTrigger>
-            <TabsTrigger value="outcomeBreakdown" className="cursor-pointer">
-              Outcome breakdown
-            </TabsTrigger>
-            <TabsTrigger value="about" className="cursor-pointer">
-              About
-            </TabsTrigger>
+        <div className="flex w-full flex-col sm:m-0 sm:flex-row sm:items-center sm:justify-between sm:gap-2">
+          <div className="ml-auto flex shrink-0 items-center gap-2 sm:order-2">
+            <ResetView resetView={resetView} />
+            <ShareButton />
           </div>
-        </TabsList>
+          <div className="w-full min-w-0 py-1.5 sm:w-auto">
+            <TabsList
+              variant="line"
+              className="grid w-full grid-cols-2 group-data-[orientation=horizontal]/tabs:h-auto sm:inline-flex sm:w-fit sm:gap-1 sm:group-data-[orientation=horizontal]/tabs:h-9"
+            >
+              <TabsTrigger
+                value="air"
+                className="h-full min-h-11 cursor-pointer leading-snug whitespace-normal sm:h-[calc(100%-1px)] sm:min-h-0 sm:whitespace-nowrap"
+              >
+                Air Cleaning
+              </TabsTrigger>
+              <TabsTrigger
+                value="pharmaceuticals"
+                className="h-full min-h-11 cursor-pointer leading-snug whitespace-normal sm:h-[calc(100%-1px)] sm:min-h-0 sm:whitespace-nowrap"
+              >
+                Pharmaceuticals
+              </TabsTrigger>
+              <TabsTrigger
+                value="outcomeBreakdown"
+                className="h-full min-h-11 cursor-pointer leading-snug whitespace-normal sm:h-[calc(100%-1px)] sm:min-h-0 sm:whitespace-nowrap"
+              >
+                Outcome breakdown
+              </TabsTrigger>
+              <TabsTrigger
+                value="about"
+                className="h-full min-h-11 cursor-pointer leading-snug whitespace-normal sm:h-[calc(100%-1px)] sm:min-h-0 sm:whitespace-nowrap"
+              >
+                About
+              </TabsTrigger>
+            </TabsList>
+          </div>
+        </div>
         <TabsContent value="air" className="w-full">
           <AirCleaningChart
             onScenarioSelect={openOutcomeBreakdown}

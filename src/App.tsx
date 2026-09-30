@@ -1,7 +1,6 @@
 // import { ThemeProvider } from "@/components/theme-provider";
 import { Header } from "@/components/header";
 import { SiteFooter } from "@/components/site-footer";
-import { NavBar } from "./components/nav-bar";
 import TabsArea from "./components/tabs-area";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -62,9 +61,9 @@ function App() {
       ref={outerDiv}
       className="mx-auto flex flex-col px-4 py-2 text-center md:px-8 md:py-6 lg:max-w-6xl"
     >
-      <NavBar resetView={resetView} />
       <Header />
       <TabsArea
+        resetView={resetView}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         metric={metric}
