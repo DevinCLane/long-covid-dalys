@@ -2,8 +2,8 @@ import { ChartMetric } from "@/components/chart-metric-toggle";
 import { SCENARIO_IDS, ScenarioId } from "./scenario-daly-calculations";
 
 // for local testing only
-// export const PARENT_ORIGIN = "http://127.0.0.1:57391";
-export const PARENT_ORIGIN = "https://polybio.org";
+export const PARENT_ORIGIN = "http://127.0.0.1:57391";
+// export const PARENT_ORIGIN = "https://polybio.org";
 
 export const TAB_IDS = [
   "air",
