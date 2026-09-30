@@ -27,14 +27,10 @@ export function AboutPage() {
           className="[&_a]:decoration-muted-foreground/50 [&_a:hover]:decoration-foreground mx-auto max-w-3xl space-y-10 text-base leading-7 text-pretty [&_a]:rounded-sm [&_a]:font-medium [&_a]:underline [&_a]:underline-offset-4 [&_a:focus-visible]:outline-2 [&_a:focus-visible]:outline-offset-4"
         >
           <section
-            id="model-assumptions"
             aria-labelledby="model-assumptions-heading"
             className="scroll-mt-6 space-y-7"
           >
-            <h3
-              id="model-assumptions-heading"
-              className="border-b pb-3 text-2xl font-bold tracking-tight"
-            >
+            <h3 className="border-b pb-3 text-2xl font-bold tracking-tight">
               Model assumptions
             </h3>
             <section className="space-y-3">
@@ -192,7 +188,7 @@ export function AboutPage() {
                 Air cleaning interventions
               </h4>
               <section className="space-y-5">
-                <h5 className="border-foreground/25 border-l-2 pl-3 text-sm font-bold tracking-wide uppercase">
+                <h5 className="text-sm font-bold tracking-wide italic">
                   Intervention types
                 </h5>
                 <dl className="space-y-6">
@@ -246,7 +242,7 @@ export function AboutPage() {
                 </dl>
               </section>
               <section className="space-y-5">
-                <h5 className="border-foreground/25 border-l-2 pl-3 text-sm font-bold tracking-wide uppercase">
+                <h5 className="text-sm font-bold tracking-wide italic">
                   Intervention settings
                 </h5>
                 <dl className="space-y-6">
