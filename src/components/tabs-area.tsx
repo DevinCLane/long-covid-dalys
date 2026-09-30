@@ -177,7 +177,7 @@ export default function TabsArea({
         onValueChange={selectTab}
       >
         <div className="flex w-full flex-col sm:m-0 sm:flex-row sm:items-center sm:justify-between sm:gap-2">
-          <div className="ml-auto flex shrink-0 items-center gap-2 sm:order-2">
+          <div className="ml-auto hidden shrink-0 items-center gap-2 sm:order-2 sm:flex">
             <ResetView resetView={resetView} />
             <ShareButton />
           </div>
