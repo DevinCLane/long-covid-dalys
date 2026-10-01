@@ -263,6 +263,17 @@ In WordPress, verify opening and refreshing the medication tab URLs, selecting t
 opening Outcome breakdown from a chart, and using Back/Forward to the initial
 page. Confirm the visible tab matches the URL and the iframe still resizes.
 
+### Downloading chart images
+
+Each chart has a **Download image** button below the plot. It saves a PNG at
+2× resolution with the chart title, selected metric, filter or scenario, sort
+order, current values, and a small source citation in the image footer.
+Custom scenarios retain the **Custom scenario / Not validated** watermark and
+original-value markers. Controls and hover tooltips
+are excluded. The button waits for bar animations to finish; if the chart changes
+while an image is being prepared, retry the download from the updated view.
+Images are generated in the browser without uploading chart data.
+
 ### Testing Your Changes (if working locally)
 
 After updating data files:

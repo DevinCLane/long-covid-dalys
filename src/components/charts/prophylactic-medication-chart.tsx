@@ -1,13 +1,17 @@
 "use client";
 
-import { Bar, BarChart, CartesianGrid, LabelList, XAxis, YAxis } from "recharts";
+import { BarChart, CartesianGrid, LabelList, XAxis, YAxis } from "recharts";
 import { ChartControls } from "@/components/chart-controls";
 import {
   dalysAvertedAxisDomain,
   scenarioChartMetric,
 } from "@/lib/chart-metric";
 import { sortChartRows, type ChartSortProps } from "@/lib/chart-sort";
-import { ModelChartContainer } from "@/components/charts/model-chart-container";
+import { chartImageDescription } from "@/lib/chart-image";
+import {
+  ModelBar,
+  ModelChartContainer,
+} from "@/components/charts/model-chart-container";
 import {
   ModelBarValueLabel,
   MODEL_VALUE_LABEL_MARGIN,
@@ -188,6 +192,9 @@ function ScenarioYAxisTick({
   );
 }
 
+const CHART_TITLE =
+  "How might prophylactic medication interventions affect COVID-associated disability?";
+
 const chartConfig = {
   dalys_averted: {
     label: "Total DALYs averted",
@@ -248,8 +255,7 @@ export function ProphylacticMedicationChart({
       <CardHeader className="flex items-center gap-2 space-y-0 border-b sm:flex-row [.border-b]:pb-3 md:[.border-b]:pb-6">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
           <CardTitle className="text-l text-pretty md:text-2xl">
-            How might prophylactic medication interventions affect
-            COVID-associated disability?
+            {CHART_TITLE}
           </CardTitle>
           <CardDescription className="hidden md:block">
             <ChartDescriptionBody />
@@ -265,6 +271,11 @@ export function ProphylacticMedicationChart({
             setSortOrder={setSortOrder}
           />
           <ModelChartContainer
+            image={{
+              title: CHART_TITLE,
+              description: chartImageDescription(metric, sortOrder),
+              fileName: `prophylactic-medication-${metric}${isCustomScenario ? "-custom" : ""}`,
+            }}
             config={chartConfig}
             className="order-2 h-100 w-full md:h-150"
           >
@@ -332,7 +343,7 @@ export function ProphylacticMedicationChart({
                   />
                 }
               />
-              <Bar
+              <ModelBar
                 dataKey={dataKey}
                 cursor={isMobile ? "default" : "pointer"}
                 onClick={
@@ -350,7 +361,7 @@ export function ProphylacticMedicationChart({
                     />
                   }
                 />
-              </Bar>
+              </ModelBar>
               {originalMarkers.map((marker) => (
                 <OriginalValueMarker key={marker.y} {...marker} />
               ))}

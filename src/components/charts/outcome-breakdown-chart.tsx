@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  Bar,
   BarChart,
   CartesianGrid,
   LabelList,
@@ -10,7 +9,11 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { ModelChartContainer } from "@/components/charts/model-chart-container";
+import { chartImageDescription } from "@/lib/chart-image";
+import {
+  ModelBar,
+  ModelChartContainer,
+} from "@/components/charts/model-chart-container";
 import { ChartControls } from "@/components/chart-controls";
 import { dalysAvertedAxisDomain } from "@/lib/chart-metric";
 import { sortChartRows, type ChartSortProps } from "@/lib/chart-sort";
@@ -52,6 +55,8 @@ import type {
 } from "@/config/scenario-daly-calculations";
 import { OriginalValueMarker } from "../original-value-marker";
 import { interventionsByScenario } from "@/config/assumptions";
+
+const CHART_TITLE = "Compare outcome conditions per scenario";
 
 const chartConfig = {
   acute_covid: {
@@ -291,7 +296,7 @@ export function OutcomeBreakdownChart({
         <div className="grid flex-1 gap-1 text-center sm:text-left">
           <div className="align-center mb-4 flex flex-col gap-2 sm:flex-row sm:justify-between sm:gap-0">
             <CardTitle className="text-lg text-pretty md:text-2xl">
-              Compare outcome conditions per scenario
+              {CHART_TITLE}
             </CardTitle>
             <Select value={scenarioId} onValueChange={onScenarioSelect}>
               <SelectTrigger
@@ -336,6 +341,19 @@ export function OutcomeBreakdownChart({
             setSortOrder={setSortOrder}
           />
           <ModelChartContainer
+            image={{
+              title: CHART_TITLE,
+              description:
+                chartImageDescription(
+                  displayedMetric,
+                  sortOrder,
+                  scenario.label,
+                ) +
+                (showStatusQuoGuidance && isMobile
+                  ? ` · ${STATUS_QUO_GUIDANCE}`
+                  : ""),
+              fileName: `outcome-breakdown-${displayedMetric}-${scenarioId}${isCustomScenario ? "-custom" : ""}`,
+            }}
             config={chartConfig}
             className="order-2 h-100 w-full md:h-150"
           >
@@ -404,7 +422,7 @@ export function OutcomeBreakdownChart({
                   />
                 }
               />
-              <Bar
+              <ModelBar
                 dataKey={dataKey}
                 isAnimationActive={!showStatusQuoGuidance}
                 shape={showStatusQuoGuidance ? <g /> : undefined}
@@ -424,7 +442,7 @@ export function OutcomeBreakdownChart({
                     content={<StatusQuoReductionLabel />}
                   />
                 )}
-              </Bar>
+              </ModelBar>
               {originalMarkers.map((marker) => (
                 <OriginalValueMarker key={marker.y} {...marker} />
               ))}
