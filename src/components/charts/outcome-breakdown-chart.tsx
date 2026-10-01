@@ -11,6 +11,10 @@ import {
   YAxis,
 } from "recharts";
 import { ModelChartContainer } from "@/components/charts/model-chart-container";
+import {
+  ModelBarValueLabel,
+  MODEL_VALUE_LABEL_MARGIN,
+} from "@/components/charts/model-bar-value-label";
 import { ModelTooltipValues } from "@/components/charts/model-tooltip-values";
 import { outcomeColors } from "@/config/chart-colors";
 
@@ -35,6 +39,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import { Separator } from "../ui/separator";
+import { useIsMobile } from "@/hooks/use-is-mobile";
 import { useDalyModel } from "@/hooks/use-daly-model";
 import { ModelAssumptionsPanel } from "@/components/assumptions-panel";
 import {
@@ -104,6 +109,9 @@ function ChartDescriptionBody({ scenario, metric }: ChartDescriptionBodyProps) {
   );
 }
 
+const STATUS_QUO_GUIDANCE =
+  'Status quo has 0% reduction relative to itself. Choose "DALYs per 1000", adjust the model assumptions below, or choose another scenario to see results.';
+
 function StatusQuoReductionLabel({ index }: { index?: number }) {
   const plotArea = usePlotArea();
 
@@ -121,9 +129,7 @@ function StatusQuoReductionLabel({ index }: { index?: number }) {
       className="fill-muted-foreground text-sm"
       pointerEvents="none"
     >
-      Status quo has 0% reduction relative to itself. Choose "DALYs per 1000",
-      adjust the model assumptions below, or choose another scenario to see
-      results.
+      {STATUS_QUO_GUIDANCE}
     </Text>
   );
 }
@@ -135,6 +141,7 @@ export function OutcomeBreakdownChart({
   setMetric,
 }: OutcomeBreakdownChartProps) {
   const { scenarioRows, isCustomScenario, defaultOutput } = useDalyModel();
+  const isMobile = useIsMobile();
   const scenario = scenarioRows.find((scenario) => scenario.id === scenarioId);
 
   const selectedScenarioWithDefaultAssumptions = defaultOutput.find(
@@ -229,7 +236,7 @@ export function OutcomeBreakdownChart({
   return (
     <Card className="gap-3 pt-3 md:gap-6 md:pt-6">
       {/* chart header */}
-      <CardHeader className="flex items-center gap-2 space-y-0 border-b [.border-b]:pb-3 sm:flex-row md:[.border-b]:pb-6">
+      <CardHeader className="flex items-center gap-2 space-y-0 border-b sm:flex-row [.border-b]:pb-3 md:[.border-b]:pb-6">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
           <div className="align-center mb-4 flex flex-col gap-2 sm:flex-row sm:justify-between sm:gap-0">
             <CardTitle className="text-lg text-pretty md:text-2xl">
@@ -283,6 +290,7 @@ export function OutcomeBreakdownChart({
               layout="vertical"
               margin={{
                 bottom: 15,
+                right: MODEL_VALUE_LABEL_MARGIN,
               }}
             >
               <CartesianGrid horizontal={false} />
@@ -294,7 +302,9 @@ export function OutcomeBreakdownChart({
                 label={{
                   value:
                     displayedMetric === "percent"
-                      ? "Reduction in DALYs vs default status quo (%)"
+                      ? isMobile
+                        ? "DALY reduction (%)"
+                        : "Reduction in DALYs vs default status quo (%)"
                       : "DALYs per 1,000 people",
                   position: "bottom",
                 }}
@@ -339,7 +349,17 @@ export function OutcomeBreakdownChart({
                 isAnimationActive={!showStatusQuoGuidance}
                 shape={showStatusQuoGuidance ? <g /> : undefined}
               >
-                {showStatusQuoGuidance && (
+                <LabelList
+                  dataKey={
+                    displayedMetric === "percent" ? "percentReduction" : "dalys"
+                  }
+                  content={
+                    <ModelBarValueLabel
+                      showPercent={displayedMetric === "percent"}
+                    />
+                  }
+                />
+                {showStatusQuoGuidance && !isMobile && (
                   <LabelList
                     dataKey="percentReduction"
                     content={<StatusQuoReductionLabel />}
@@ -364,6 +384,11 @@ export function OutcomeBreakdownChart({
             </BarChart>
           </ModelChartContainer>
         </div>
+        {showStatusQuoGuidance && isMobile && (
+          <CardDescription className="mt-4">
+            {STATUS_QUO_GUIDANCE}
+          </CardDescription>
+        )}
         <CardDescription className="mt-4 mb-4 block md:hidden">
           Select a scenario from the dropdown menu to show side-by-side
           comparison of DALYs associated with acute COVID-19 infection, Long

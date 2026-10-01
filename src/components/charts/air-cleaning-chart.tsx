@@ -1,7 +1,18 @@
 "use client";
 
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  LabelList,
+  XAxis,
+  YAxis,
+} from "recharts";
 import { ModelChartContainer } from "@/components/charts/model-chart-container";
+import {
+  ModelBarValueLabel,
+  MODEL_VALUE_LABEL_MARGIN,
+} from "@/components/charts/model-bar-value-label";
 import { ModelTooltipValues } from "@/components/charts/model-tooltip-values";
 import { getScenarioColor } from "@/config/chart-colors";
 
@@ -164,7 +175,7 @@ function ScenarioYAxisTick({
         x={0}
         y={0}
         textAnchor="end"
-        className={`fill-muted-foreground text-xs${isClickable ? " hover:fill-foreground" : ""}`}
+        className={`fill-muted-foreground text-xs${isClickable ? "hover:fill-foreground" : ""}`}
       >
         {labelLines.map((line, index) => (
           <tspan
@@ -222,7 +233,7 @@ export function AirCleaningChart({
   return (
     <Card className="gap-3 pt-3 md:gap-6 md:pt-6">
       {/* chart header */}
-      <CardHeader className="flex items-center gap-2 space-y-0 border-b [.border-b]:pb-3 sm:flex-row md:[.border-b]:pb-6">
+      <CardHeader className="flex items-center gap-2 space-y-0 border-b sm:flex-row [.border-b]:pb-3 md:[.border-b]:pb-6">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
           <CardTitle className="text-l text-pretty md:text-2xl">
             How might air cleaning interventions affect COVID-associated
@@ -269,6 +280,7 @@ export function AirCleaningChart({
               layout="vertical"
               margin={{
                 bottom: 15,
+                right: MODEL_VALUE_LABEL_MARGIN,
               }}
             >
               <CartesianGrid horizontal={false} />
@@ -282,8 +294,9 @@ export function AirCleaningChart({
                         position: "bottom",
                       }
                     : {
-                        value:
-                          "Reduction in total DALYs vs default status quo (%)",
+                        value: isMobile
+                          ? "DALY reduction (%)"
+                          : "Reduction in total DALYs vs default status quo (%)",
                         position: "bottom",
                       }
                 }
@@ -344,7 +357,12 @@ export function AirCleaningChart({
                     ? undefined
                     : (data) => onScenarioSelect?.(data.payload.id)
                 }
-              />
+              >
+                <LabelList
+                  dataKey={showDalys ? "total" : "percent_reduction"}
+                  content={<ModelBarValueLabel showPercent={!showDalys} />}
+                />
+              </Bar>
               {isCustomScenario &&
                 defaultOutput.map(
                   (originalRow) =>

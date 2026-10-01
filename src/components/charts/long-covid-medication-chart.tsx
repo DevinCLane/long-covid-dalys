@@ -1,7 +1,18 @@
 "use client";
 
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  LabelList,
+  XAxis,
+  YAxis,
+} from "recharts";
 import { ModelChartContainer } from "@/components/charts/model-chart-container";
+import {
+  ModelBarValueLabel,
+  MODEL_VALUE_LABEL_MARGIN,
+} from "@/components/charts/model-bar-value-label";
 import { ModelTooltipValues } from "@/components/charts/model-tooltip-values";
 import { getScenarioColor } from "@/config/chart-colors";
 
@@ -162,7 +173,7 @@ function ScenarioYAxisTick({
         x={0}
         y={0}
         textAnchor="end"
-        className={`fill-muted-foreground text-xs${isClickable ? " hover:fill-foreground" : ""}`}
+        className={`fill-muted-foreground text-xs${isClickable ? "hover:fill-foreground" : ""}`}
       >
         {labelLines.map((line, index) => (
           <tspan
@@ -243,6 +254,7 @@ export function LongCovidMedicationChart({
               layout="vertical"
               margin={{
                 bottom: 15,
+                right: MODEL_VALUE_LABEL_MARGIN,
               }}
             >
               <CartesianGrid horizontal={false} />
@@ -256,8 +268,9 @@ export function LongCovidMedicationChart({
                         position: "bottom",
                       }
                     : {
-                        value:
-                          "Reduction in total DALYs vs default status quo (%)",
+                        value: isMobile
+                          ? "DALY reduction (%)"
+                          : "Reduction in total DALYs vs default status quo (%)",
                         position: "bottom",
                       }
                 }
@@ -318,7 +331,12 @@ export function LongCovidMedicationChart({
                     ? undefined
                     : (data) => onScenarioSelect?.(data.payload.id)
                 }
-              />
+              >
+                <LabelList
+                  dataKey={showDalys ? "total" : "percent_reduction"}
+                  content={<ModelBarValueLabel showPercent={!showDalys} />}
+                />
+              </Bar>
               {isCustomScenario &&
                 defaultOutput.map(
                   (originalRow) =>
