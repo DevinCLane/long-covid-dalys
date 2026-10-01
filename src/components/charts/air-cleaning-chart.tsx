@@ -246,7 +246,7 @@ export function AirCleaningChart({
       </CardHeader>
       <CardContent>
         <div className="flex flex-col items-center">
-          <FieldGroup className="order-3 mt-4 mb-2 justify-between sm:mt-0 sm:mb-4 sm:flex-row md:order-1">
+          <FieldGroup className="order-3 mt-4 mb-2 gap-4 sm:mt-0 sm:mb-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between md:order-1">
             <ChartModifierRadio
               options={[
                 {

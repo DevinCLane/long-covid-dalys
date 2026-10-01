@@ -14,8 +14,8 @@ export function ChartMetricToggle({
   onValueChange,
 }: ChartMetricToggleProps) {
   const fieldLabelStyles =
-    "cursor-pointer rounded-sm px-3 py-2 text-sm font-normal sm:gap-4 sm:h-14 w-full";
-  const fieldStyles = "min-w-0 flex-1";
+    "h-full min-h-11 w-full cursor-pointer gap-2 rounded-sm px-3 py-2 text-sm font-normal";
+  const fieldStyles = "min-w-0 max-w-full sm:w-auto sm:flex-none";
 
   function handleValueChange(value: ChartMetric) {
     onValueChange(value);
@@ -25,14 +25,14 @@ export function ChartMetricToggle({
       aria-label="Show values as"
       onValueChange={handleValueChange}
       value={value}
-      className="flex items-center text-left sm:w-90"
+      className="flex w-full max-w-full min-w-0 flex-col gap-2 text-left sm:w-fit sm:flex-none sm:flex-row sm:flex-wrap"
     >
       <Field orientation="horizontal" className={fieldStyles}>
         <Tooltip>
           <TooltipTrigger asChild>
             <FieldLabel className={fieldLabelStyles}>
               <RadioGroupItem value="percent" />
-              Percent reduction
+              <span className="min-w-0 break-words">Percent reduction</span>
             </FieldLabel>
           </TooltipTrigger>
           <TooltipContent className="max-w-64 px-2 py-1 text-xs">
@@ -45,7 +45,7 @@ export function ChartMetricToggle({
       <Field orientation="horizontal" className={fieldStyles}>
         <FieldLabel className={fieldLabelStyles}>
           <RadioGroupItem value="dalys" />
-          DALYs per 1,000
+          <span className="min-w-0 break-words">DALYs per 1,000</span>
         </FieldLabel>
       </Field>
     </RadioGroup>

@@ -34,17 +34,20 @@ export function ChartModifierRadio<T extends string>({
       aria-label="Interventions"
       value={value}
       onValueChange={handleValueChange}
-      className={cn("flex flex-col text-left sm:w-126 sm:flex-row", className)}
+      className={cn(
+        "flex w-full max-w-full min-w-0 flex-col gap-2 text-left sm:w-fit sm:flex-none sm:flex-row sm:flex-wrap",
+        className,
+      )}
     >
       {options.map((option) => (
         <Field
           key={option.value}
           orientation="horizontal"
-          className="min-w-0 flex-1"
+          className="max-w-full min-w-0 sm:w-auto sm:flex-none"
         >
-          <FieldLabel className="w-full cursor-pointer rounded-sm px-3 py-2 text-sm font-normal sm:h-14 sm:gap-4">
+          <FieldLabel className="h-full min-h-11 w-full cursor-pointer gap-2 rounded-sm px-3 py-2 text-sm font-normal">
             <RadioGroupItem value={option.value} />
-            {option.label}
+            <span className="min-w-0 break-words">{option.label}</span>
           </FieldLabel>
         </Field>
       ))}
