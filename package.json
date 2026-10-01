@@ -12,6 +12,7 @@
     "verify:model-assumptions": "tsx scripts/verify-model-assumptions.ts"
   },
   "dependencies": {
+    "@fontsource-variable/geist": "^5.3.0",
     "@icons-pack/react-simple-icons": "^13.8.0",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-checkbox": "^1.3.3",
