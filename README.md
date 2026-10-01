@@ -205,7 +205,7 @@ A few explanations of the data fields:
 
 ### Embedded tab navigation
 
-`scripts/iframe-parent.js` runs on the WordPress page, not in the React app.
+`iframe-code/iframe-parent.js` runs on the WordPress page, not in the React app.
 Load it once before the iframe can announce readiness, and use `id="dalys"`
 on the iframe. Update the WordPress copy alongside the deployed React app
 whenever the message format changes; editing the local script does not update WordPress.
@@ -214,15 +214,20 @@ whenever the message format changes; editing the local script does not update Wo
 | --- | --- | --- |
 | `dalys-ready` | React → WordPress | Request the initial tab after attaching the listener |
 | `dalys-tab-change` | React → WordPress | Add a user-selected `tab` to URL history |
-| `dalys-set-tab` | WordPress → React | Restore `tab` on initial loading or Back/Forward |
+| `dalys-state` | WordPress → React | Restore tab, metric, filters, and outcome scenario on initial loading or Back/Forward |
+| `dalys-metric-change` | React → WordPress | Update the `metric` URL parameter |
 | `dalys-resize` | React → WordPress | Update iframe `height` |
 
 Only user navigation adds history. Other query parameters and the hash are
 preserved; missing or unknown tabs display Air Cleaning. The standalone parent
 script's tab IDs must match `src/config/iframe-messages.ts`.
+The medication tabs use `?tab=prophylaxis` and `?tab=longCovidMedication`.
+Each has a fixed intervention group and shares the `metric` parameter with the
+other charts; neither needs an intervention filter parameter.
 
 Run `node --test test/iframe-parent.test.js` for the parent message/history checks.
-In WordPress, verify opening and refreshing `?tab=about`, selecting tabs,
+Run `node_modules/.bin/tsx --test test/medication-scenarios.test.ts` for the medication scenario checks.
+In WordPress, verify opening and refreshing the medication tab URLs, selecting tabs,
 opening Outcome breakdown from a chart, and using Back/Forward to the initial
 page. Confirm the visible tab matches the URL and the iframe still resizes.
 

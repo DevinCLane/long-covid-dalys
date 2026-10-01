@@ -24,14 +24,12 @@ import { FieldGroup } from "../ui/field";
 import { useDalyModel } from "@/hooks/use-daly-model";
 import { ModelAssumptionsPanel } from "@/components/assumptions-panel";
 import {
-  PHARMACEUTICAL_INTERVENTION_SCENARIO_IDS,
+  LONG_COVID_MEDICATION_SCENARIO_IDS,
   SCENARIO_IDS,
   SCENARIO_LABELS_BY_ID,
   ScenarioId,
 } from "@/config/scenario-daly-calculations";
-import { ChartModifierRadio } from "../chart-modifier-radio";
 import { OriginalValueMarker } from "../original-value-marker";
-import { PharmaceuticalId } from "@/config/iframe-messages";
 
 /**
  * Text for the chart description body
@@ -41,7 +39,7 @@ function ChartDescriptionBody() {
     <div className="mt-2">
       <p>
         This simulation shows the result of synthesizing existing evidence to
-        model the potential impact of pharmaceutical interventions on
+        model the potential impact of Long COVID medication interventions on
         COVID-19-related{" "}
         <a
           href="https://en.wikipedia.org/wiki/Disability-adjusted_life_year"
@@ -188,55 +186,37 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-interface PharmaceuticalChartProps {
+interface LongCovidMedicationChartProps {
   onScenarioSelect?: (scenarioId: ScenarioId) => void;
-  pharmaceuticalInterventionFilter: PharmaceuticalId;
-  onPharmaceuticalInterventionFilterChange: (value: PharmaceuticalId) => void;
   metric: ChartMetric;
   setMetric: (value: ChartMetric) => void;
 }
 
-export function PharmaceuticalChart({
+export function LongCovidMedicationChart({
   onScenarioSelect,
-  onPharmaceuticalInterventionFilterChange,
-  pharmaceuticalInterventionFilter,
   metric,
   setMetric,
-}: PharmaceuticalChartProps) {
+}: LongCovidMedicationChartProps) {
   const {
     scenarioRows: chartRows,
     defaultOutput,
     isCustomScenario,
   } = useDalyModel();
   const showDalys = metric === "dalys";
-  const visibleRows = chartRows.filter((row) => {
-    if (
-      pharmaceuticalInterventionFilter === "all" &&
-      PHARMACEUTICAL_INTERVENTION_SCENARIO_IDS.has(row.id)
-    )
-      return true;
-    if (
-      pharmaceuticalInterventionFilter === "prophylaxis" &&
-      row.id.endsWith("prophylaxis")
-    )
-      return true;
-    if (
-      pharmaceuticalInterventionFilter === "longCovidMedication" &&
-      row.id.endsWith("reduction")
-    )
-      return true;
-    if (showDalys && row.id.startsWith("baseline")) return true;
-    return false;
-  });
+  const visibleRows = chartRows.filter(
+    (row) =>
+      LONG_COVID_MEDICATION_SCENARIO_IDS.has(row.id) ||
+      (showDalys && row.id === "baseline"),
+  );
 
   return (
     <Card className="gap-3 pt-3 md:gap-6 md:pt-6">
       {/* chart header */}
-      <CardHeader className="flex items-center gap-2 space-y-0 border-b [.border-b]:pb-3 sm:flex-row md:[.border-b]:pb-6">
+      <CardHeader className="flex items-center gap-2 space-y-0 border-b sm:flex-row [.border-b]:pb-3 md:[.border-b]:pb-6">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
           <CardTitle className="text-l text-pretty md:text-2xl">
-            How might pharmaceutical interventions affect COVID-associated
-            disability?
+            How might Long COVID medication interventions affect
+            COVID-associated disability?
           </CardTitle>
           <CardDescription className="hidden md:block">
             <ChartDescriptionBody />
@@ -245,25 +225,7 @@ export function PharmaceuticalChart({
       </CardHeader>
       <CardContent>
         <div className="flex flex-col items-center">
-          <FieldGroup className="order-3 mt-4 mb-2 justify-between sm:mt-0 sm:mb-4 sm:flex-row md:order-1">
-            <ChartModifierRadio
-              options={[
-                {
-                  value: "all",
-                  label: "All interventions",
-                },
-                {
-                  value: "prophylaxis",
-                  label: "Prophylactic medication",
-                },
-                {
-                  value: "longCovidMedication",
-                  label: "Long COVID medication",
-                },
-              ]}
-              value={pharmaceuticalInterventionFilter}
-              onValueChange={onPharmaceuticalInterventionFilterChange}
-            />
+          <FieldGroup className="order-3 mt-4 mb-2 justify-end sm:mt-0 sm:mb-4 sm:flex-row md:order-1">
             <ChartMetricToggle value={metric} onValueChange={setMetric} />
           </FieldGroup>
           <ModelChartContainer
@@ -374,8 +336,6 @@ export function PharmaceuticalChart({
         </CardDescription>
         <ModelAssumptionsPanel
           allowedInterventions={[
-            "preexposureProphylaxis",
-            "postexposureProphylaxis",
             "longCovidProgressionReduction",
             "longCovidDisabilityReduction",
           ]}

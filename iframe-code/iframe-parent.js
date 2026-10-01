@@ -5,7 +5,14 @@
   // uncomment this for production
   // const IFRAME_ORIGIN = "https://longcoviddalys.netlify.app";
   // This script is standalone: keep these IDs in sync with iframe-messages.ts.
-  const TAB_IDS = ["air", "pharmaceuticals", "outcomeBreakdown", "about"];
+  const TAB_IDS = [
+    "air",
+    "pharmaceuticals",
+    "prophylaxis",
+    "longCovidMedication",
+    "outcomeBreakdown",
+    "about",
+  ];
   const METRICS = ["percent", "dalys"];
   const AIR_INTERVENTION_FILTERS = ["all", "hepa", "uvc"];
   const PHARMACEUTICAL_INTERVENTION_FILTERS = [

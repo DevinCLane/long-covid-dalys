@@ -8,6 +8,8 @@ export const PARENT_ORIGIN = "https://polybio.org";
 export const TAB_IDS = [
   "air",
   "pharmaceuticals",
+  "prophylaxis",
+  "longCovidMedication",
   "outcomeBreakdown",
   "about",
 ] as const;

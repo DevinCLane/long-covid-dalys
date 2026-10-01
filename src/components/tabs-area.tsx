@@ -3,7 +3,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { OutcomeBreakdownChart } from "@/components/charts/outcome-breakdown-chart";
 import { AirCleaningChart } from "@/components/charts/air-cleaning-chart";
 import { AboutPage } from "@/components/about";
-import { PharmaceuticalChart } from "@/components/charts/pharmaceutical-chart";
+import { ProphylacticMedicationChart } from "@/components/charts/prophylactic-medication-chart";
+import { LongCovidMedicationChart } from "@/components/charts/long-covid-medication-chart";
 import { DalyModelProvider } from "@/components/daly-model-provider";
 import { ScenarioId } from "@/config/scenario-daly-calculations";
 import {
@@ -184,7 +185,7 @@ export default function TabsArea({
           <div className="w-full min-w-0 py-0.5 sm:w-auto sm:py-1.5">
             <TabsList
               variant="line"
-              className="grid w-full grid-cols-2 p-0 group-data-[orientation=horizontal]/tabs:h-auto sm:inline-flex sm:w-fit sm:gap-1 sm:p-[3px] sm:group-data-[orientation=horizontal]/tabs:h-9"
+              className="grid w-full grid-cols-2 p-0 group-data-[orientation=horizontal]/tabs:h-auto sm:flex sm:h-auto sm:w-fit sm:flex-wrap sm:gap-1 sm:p-[3px] sm:group-data-[orientation=horizontal]/tabs:h-auto"
             >
               <TabsTrigger
                 value="air"
@@ -193,10 +194,16 @@ export default function TabsArea({
                 Air Cleaning
               </TabsTrigger>
               <TabsTrigger
-                value="pharmaceuticals"
+                value="prophylaxis"
                 className="h-full min-h-9 cursor-pointer py-0.5 leading-snug whitespace-normal sm:h-[calc(100%-1px)] sm:min-h-0 sm:py-1 sm:whitespace-nowrap"
               >
-                Pharmaceuticals
+                Prophylactic Medication
+              </TabsTrigger>
+              <TabsTrigger
+                value="longCovidMedication"
+                className="h-full min-h-9 cursor-pointer py-0.5 leading-snug whitespace-normal sm:h-[calc(100%-1px)] sm:min-h-0 sm:py-1 sm:whitespace-nowrap"
+              >
+                Long COVID Medication
               </TabsTrigger>
               <TabsTrigger
                 value="outcomeBreakdown"
@@ -222,13 +229,16 @@ export default function TabsArea({
             setMetric={selectMetric}
           />
         </TabsContent>
-        <TabsContent value="pharmaceuticals" className="w-full">
-          <PharmaceuticalChart
+        <TabsContent value="prophylaxis" className="w-full">
+          <ProphylacticMedicationChart
             onScenarioSelect={openOutcomeBreakdown}
-            pharmaceuticalInterventionFilter={pharmaceuticalInterventionFilter}
-            onPharmaceuticalInterventionFilterChange={
-              selectPharmaceuticalInterventionFilter
-            }
+            metric={metric}
+            setMetric={selectMetric}
+          />
+        </TabsContent>
+        <TabsContent value="longCovidMedication" className="w-full">
+          <LongCovidMedicationChart
+            onScenarioSelect={openOutcomeBreakdown}
             metric={metric}
             setMetric={selectMetric}
           />

@@ -182,7 +182,7 @@ export const SCENARIO_DEFINITIONS: readonly ScenarioDefinition[] = [
     annualInfectionProportion: selectedBaseline,
     transformLongCovidParameters: (parameters, values) => {
       const remainingDisability =
-        1 - toProportion(values.longCovidProgressionReduction);
+        1 - toProportion(values.longCovidDisabilityReduction);
       return {
         ...parameters,
         disabilityWeightS1: parameters.disabilityWeightS1 * remainingDisability,
@@ -206,6 +206,26 @@ export const PHARMACEUTICAL_INTERVENTION_SCENARIO_IDS = new Set(
   SCENARIO_DEFINITIONS.filter((scenario) =>
     scenario.interventions.some(
       (intervention) => intervention !== "hepa" && intervention !== "uvc",
+    ),
+  ).map((scenario) => scenario.id),
+);
+
+export const PROPHYLACTIC_MEDICATION_SCENARIO_IDS = new Set(
+  SCENARIO_DEFINITIONS.filter((scenario) =>
+    scenario.interventions.some(
+      (intervention) =>
+        intervention === "preexposureProphylaxis" ||
+        intervention === "postexposureProphylaxis",
+    ),
+  ).map((scenario) => scenario.id),
+);
+
+export const LONG_COVID_MEDICATION_SCENARIO_IDS = new Set(
+  SCENARIO_DEFINITIONS.filter((scenario) =>
+    scenario.interventions.some(
+      (intervention) =>
+        intervention === "longCovidProgressionReduction" ||
+        intervention === "longCovidDisabilityReduction",
     ),
   ).map((scenario) => scenario.id),
 );
