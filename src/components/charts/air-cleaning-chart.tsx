@@ -23,6 +23,7 @@ import { ChartModifierRadio } from "@/components/chart-modifier-radio";
 import { ChartMetricToggle, type ChartMetric } from "../chart-metric-toggle";
 import { FieldGroup } from "../ui/field";
 import { useDalyModel } from "@/hooks/use-daly-model";
+import { useIsMobile } from "@/hooks/use-is-mobile";
 import { ModelAssumptionsPanel } from "@/components/assumptions-panel";
 import {
   SCENARIO_IDS,
@@ -155,7 +156,7 @@ function ScenarioYAxisTick({
         height={labelHeight}
         rx={4}
         fill="transparent"
-        stroke={isFocused ? "var(--ring)" : "transparent"}
+        stroke={isClickable && isFocused ? "var(--ring)" : "transparent"}
         strokeWidth={1.5}
         pointerEvents="all"
       />
@@ -163,7 +164,7 @@ function ScenarioYAxisTick({
         x={0}
         y={0}
         textAnchor="end"
-        className="fill-muted-foreground hover:fill-foreground text-xs"
+        className={`fill-muted-foreground text-xs${isClickable ? " hover:fill-foreground" : ""}`}
       >
         {labelLines.map((line, index) => (
           <tspan
@@ -203,6 +204,7 @@ export function AirCleaningChart({
   metric,
   setMetric,
 }: AirCleaningChartProps) {
+  const isMobile = useIsMobile();
   const {
     scenarioRows: chartRows,
     defaultOutput,
@@ -297,7 +299,7 @@ export function AirCleaningChart({
                 tick={(props) => (
                   <ScenarioYAxisTick
                     {...props}
-                    onScenarioSelect={onScenarioSelect}
+                    onScenarioSelect={isMobile ? undefined : onScenarioSelect}
                   />
                 )}
               />
@@ -336,8 +338,12 @@ export function AirCleaningChart({
               />
               <Bar
                 dataKey={showDalys ? "total" : "percent_reduction"}
-                cursor="pointer"
-                onClick={(data) => onScenarioSelect?.(data.payload.id)}
+                cursor={isMobile ? "default" : "pointer"}
+                onClick={
+                  isMobile
+                    ? undefined
+                    : (data) => onScenarioSelect?.(data.payload.id)
+                }
               />
               {isCustomScenario &&
                 defaultOutput.map(

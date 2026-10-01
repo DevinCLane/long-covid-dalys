@@ -22,6 +22,7 @@ import React from "react";
 import { ChartMetricToggle, type ChartMetric } from "../chart-metric-toggle";
 import { FieldGroup } from "../ui/field";
 import { useDalyModel } from "@/hooks/use-daly-model";
+import { useIsMobile } from "@/hooks/use-is-mobile";
 import { ModelAssumptionsPanel } from "@/components/assumptions-panel";
 import {
   LONG_COVID_MEDICATION_SCENARIO_IDS,
@@ -153,7 +154,7 @@ function ScenarioYAxisTick({
         height={labelHeight}
         rx={4}
         fill="transparent"
-        stroke={isFocused ? "var(--ring)" : "transparent"}
+        stroke={isClickable && isFocused ? "var(--ring)" : "transparent"}
         strokeWidth={1.5}
         pointerEvents="all"
       />
@@ -161,7 +162,7 @@ function ScenarioYAxisTick({
         x={0}
         y={0}
         textAnchor="end"
-        className="fill-muted-foreground hover:fill-foreground text-xs"
+        className={`fill-muted-foreground text-xs${isClickable ? " hover:fill-foreground" : ""}`}
       >
         {labelLines.map((line, index) => (
           <tspan
@@ -197,6 +198,7 @@ export function LongCovidMedicationChart({
   metric,
   setMetric,
 }: LongCovidMedicationChartProps) {
+  const isMobile = useIsMobile();
   const {
     scenarioRows: chartRows,
     defaultOutput,
@@ -271,7 +273,7 @@ export function LongCovidMedicationChart({
                 tick={(props) => (
                   <ScenarioYAxisTick
                     {...props}
-                    onScenarioSelect={onScenarioSelect}
+                    onScenarioSelect={isMobile ? undefined : onScenarioSelect}
                   />
                 )}
               />
@@ -310,8 +312,12 @@ export function LongCovidMedicationChart({
               />
               <Bar
                 dataKey={showDalys ? "total" : "percent_reduction"}
-                cursor="pointer"
-                onClick={(data) => onScenarioSelect?.(data.payload.id)}
+                cursor={isMobile ? "default" : "pointer"}
+                onClick={
+                  isMobile
+                    ? undefined
+                    : (data) => onScenarioSelect?.(data.payload.id)
+                }
               />
               {isCustomScenario &&
                 defaultOutput.map(
