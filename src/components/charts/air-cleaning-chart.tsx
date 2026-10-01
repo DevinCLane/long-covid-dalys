@@ -292,12 +292,14 @@ export function AirCleaningChart({
                     ? {
                         value: "Total DALYs per 1,000 people",
                         position: "bottom",
+                        fill: "var(--muted-foreground)",
                       }
                     : {
                         value: isMobile
                           ? "DALY reduction (%)"
                           : "Reduction in total DALYs vs default status quo (%)",
                         position: "bottom",
+                        fill: "var(--muted-foreground)",
                       }
                 }
                 width="auto"

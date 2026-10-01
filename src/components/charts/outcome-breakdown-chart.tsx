@@ -307,6 +307,7 @@ export function OutcomeBreakdownChart({
                         : "Reduction in DALYs vs default status quo (%)"
                       : "DALYs per 1,000 people",
                   position: "bottom",
+                  fill: "var(--muted-foreground)",
                 }}
                 width="auto"
                 tickMargin={8}
