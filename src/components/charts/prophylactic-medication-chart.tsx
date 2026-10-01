@@ -8,7 +8,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { ChartSortControl } from "@/components/chart-sort-control";
+import { ChartControls } from "@/components/chart-controls";
 import { sortChartRows, type ChartSortProps } from "@/lib/chart-sort";
 import { ModelChartContainer } from "@/components/charts/model-chart-container";
 import {
@@ -32,8 +32,7 @@ import {
 } from "@/components/ui/chart";
 
 import React from "react";
-import { ChartMetricToggle, type ChartMetric } from "../chart-metric-toggle";
-import { FieldGroup } from "../ui/field";
+import type { ChartMetric } from "../chart-metric-toggle";
 import { useDalyModel } from "@/hooks/use-daly-model";
 import { useIsMobile } from "@/hooks/use-is-mobile";
 import { ModelAssumptionsPanel } from "@/components/assumptions-panel";
@@ -245,13 +244,12 @@ export function ProphylacticMedicationChart({
       </CardHeader>
       <CardContent>
         <div className="flex flex-col items-center">
-          <FieldGroup className="order-3 mt-4 mb-2 gap-4 sm:mt-0 sm:mb-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between md:order-1">
-            <ChartSortControl
-              sortOrder={sortOrder}
-              setSortOrder={setSortOrder}
-            />
-            <ChartMetricToggle value={metric} onValueChange={setMetric} />
-          </FieldGroup>
+          <ChartControls
+            metric={metric}
+            setMetric={setMetric}
+            sortOrder={sortOrder}
+            setSortOrder={setSortOrder}
+          />
           <ModelChartContainer
             config={chartConfig}
             className="order-2 h-100 w-full md:h-150"

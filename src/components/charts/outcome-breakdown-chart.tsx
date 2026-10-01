@@ -11,7 +11,7 @@ import {
   YAxis,
 } from "recharts";
 import { ModelChartContainer } from "@/components/charts/model-chart-container";
-import { ChartSortControl } from "@/components/chart-sort-control";
+import { ChartControls } from "@/components/chart-controls";
 import { sortChartRows, type ChartSortProps } from "@/lib/chart-sort";
 import {
   ModelBarValueLabel,
@@ -44,10 +44,7 @@ import { Separator } from "../ui/separator";
 import { useIsMobile } from "@/hooks/use-is-mobile";
 import { useDalyModel } from "@/hooks/use-daly-model";
 import { ModelAssumptionsPanel } from "@/components/assumptions-panel";
-import {
-  ChartMetricToggle,
-  type ChartMetric,
-} from "@/components/chart-metric-toggle";
+import type { ChartMetric } from "@/components/chart-metric-toggle";
 import type {
   ScenarioDalyRow,
   ScenarioId,
@@ -282,16 +279,12 @@ export function OutcomeBreakdownChart({
       </CardHeader>
       <CardContent>
         <div className="flex flex-col items-end">
-          <div className="order-3 mt-4 flex w-full max-w-full flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between md:order-1 md:mt-0">
-            <ChartSortControl
-              sortOrder={sortOrder}
-              setSortOrder={setSortOrder}
-            />
-            <ChartMetricToggle
-              value={displayedMetric}
-              onValueChange={setMetric}
-            />
-          </div>
+          <ChartControls
+            metric={displayedMetric}
+            setMetric={setMetric}
+            sortOrder={sortOrder}
+            setSortOrder={setSortOrder}
+          />
           <ModelChartContainer
             config={chartConfig}
             className="order-2 h-100 w-full md:h-150"
