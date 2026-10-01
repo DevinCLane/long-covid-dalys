@@ -9,6 +9,7 @@ export function OriginalValueMarker({ x, y }: OriginalValueMarkerProps) {
     <ReferenceDot
       x={x}
       y={y}
+      ifOverflow="extendDomain"
       stroke="black"
       label={{
         value: "Original value",

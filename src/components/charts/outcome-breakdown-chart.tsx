@@ -297,7 +297,7 @@ export function OutcomeBreakdownChart({
               <XAxis
                 type="number"
                 domain={
-                  displayedMetric === "percent" ? [0, 100] : [0, dalyAxisMax]
+                  displayedMetric === "percent" ? [0, "auto"] : [0, dalyAxisMax]
                 }
                 label={{
                   value:

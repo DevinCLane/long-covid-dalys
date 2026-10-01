@@ -260,7 +260,7 @@ export function ProphylacticMedicationChart({
               <CartesianGrid horizontal={false} />
               <XAxis
                 type="number"
-                domain={showDalys ? [0, "auto"] : [0, 100]}
+                domain={[0, "auto"]}
                 label={
                   showDalys
                     ? {
