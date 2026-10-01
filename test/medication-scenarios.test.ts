@@ -11,6 +11,7 @@ import {
 test("medication tabs accept iframe state and use separate scenario groups", () => {
   assert.ok(isTabId("prophylaxis"));
   assert.ok(isTabId("longCovidMedication"));
+  assert.equal(isTabId("pharmaceuticals"), false);
   assert.deepEqual(
     [...PROPHYLACTIC_MEDICATION_SCENARIO_IDS],
     ["preexposure_prophylaxis", "postexposure_prophylaxis"],

@@ -289,15 +289,15 @@ export function AboutPage() {
               </section>
             </section>
             <section
-              id="pharmaceutical-interventions"
-              aria-labelledby="pharmaceutical-heading"
+              id="prophylactic-medication"
+              aria-labelledby="prophylactic-medication-heading"
               className="scroll-mt-6 space-y-5 border-t pt-8"
             >
               <h4
-                id="pharmaceutical-heading"
+                id="prophylactic-medication-heading"
                 className="text-xl font-bold tracking-tight"
               >
-                Pharmaceuticals
+                Prophylactic Medication
               </h4>
               <dl className="space-y-6">
                 <div className="space-y-2">
@@ -320,6 +320,20 @@ export function AboutPage() {
                     amount grounded in existing evidence.
                   </dd>
                 </div>
+              </dl>
+            </section>
+            <section
+              id="long-covid-medication"
+              aria-labelledby="long-covid-medication-heading"
+              className="scroll-mt-6 space-y-5 border-t pt-8"
+            >
+              <h4
+                id="long-covid-medication-heading"
+                className="text-xl font-bold tracking-tight"
+              >
+                Long COVID Medication
+              </h4>
+              <dl className="space-y-6">
                 <div className="space-y-2">
                   <dt className="text-foreground font-semibold">
                     Medication or other treatment for Long COVID symptom

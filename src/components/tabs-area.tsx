@@ -13,9 +13,7 @@ import {
   isAirInterventionFilter,
   isTabId,
   type TabId,
-  isPharmaceuticalInterventionFilter,
   isScenarioId,
-  PharmaceuticalId,
   isMetric,
 } from "@/config/iframe-messages";
 import { ChartMetric } from "@/components/chart-metric-toggle";
@@ -30,8 +28,6 @@ interface TabsAreaProps {
   setMetric: (value: ChartMetric) => void;
   airInterventionFilter: AirId;
   setAirInterventionFilter: (value: AirId) => void;
-  pharmaceuticalInterventionFilter: PharmaceuticalId;
-  setPharmaceuticalInterventionFilter: (value: PharmaceuticalId) => void;
   outcomeBreakdownScenarioId: ScenarioId;
   setOutcomeBreakdownScenarioId: (value: ScenarioId) => void;
 }
@@ -44,8 +40,6 @@ export default function TabsArea({
   setMetric,
   airInterventionFilter,
   setAirInterventionFilter,
-  pharmaceuticalInterventionFilter,
-  setPharmaceuticalInterventionFilter,
   outcomeBreakdownScenarioId,
   setOutcomeBreakdownScenarioId,
 }: TabsAreaProps) {
@@ -79,26 +73,6 @@ export default function TabsArea({
       {
         type: "dalys-air-intervention-filter-change",
         airInterventionFilter: nextAirInterventionFilter,
-      },
-      PARENT_ORIGIN,
-    );
-  }
-
-  /**
-   * select pharmaceutical intervention filter, send postMessage to parent of iframe to update URL
-   */
-  function selectPharmaceuticalInterventionFilter(
-    nextPharmaceuticalInterventionFilter: string,
-  ) {
-    if (
-      !isPharmaceuticalInterventionFilter(nextPharmaceuticalInterventionFilter)
-    )
-      return;
-    setPharmaceuticalInterventionFilter(nextPharmaceuticalInterventionFilter);
-    window.parent.postMessage(
-      {
-        type: "dalys-pharmaceutical-intervention-filter-change",
-        pharmaceuticalInterventionFilter: nextPharmaceuticalInterventionFilter,
       },
       PARENT_ORIGIN,
     );
@@ -141,16 +115,6 @@ export default function TabsArea({
           setAirInterventionFilter(message.airInterventionFilter);
         }
 
-        if (
-          isPharmaceuticalInterventionFilter(
-            message.pharmaceuticalInterventionFilter,
-          )
-        ) {
-          setPharmaceuticalInterventionFilter(
-            message.pharmaceuticalInterventionFilter,
-          );
-        }
-
         if (isScenarioId(message.outcomeBreakdownScenarioId)) {
           setOutcomeBreakdownScenarioId(message.outcomeBreakdownScenarioId);
         }
@@ -167,7 +131,6 @@ export default function TabsArea({
     setAirInterventionFilter,
     setMetric,
     setOutcomeBreakdownScenarioId,
-    setPharmaceuticalInterventionFilter,
   ]);
 
   return (

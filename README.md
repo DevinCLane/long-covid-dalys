@@ -224,6 +224,13 @@ script's tab IDs must match `src/config/iframe-messages.ts`.
 The medication tabs use `?tab=prophylaxis` and `?tab=longCovidMedication`.
 Each has a fixed intervention group and shares the `metric` parameter with the
 other charts; neither needs an intervention filter parameter.
+The former combined medication tab is no longer supported; old combined-tab
+URLs display Air Cleaning.
+
+During `npm run dev`, the React app targets the local parent at
+`http://127.0.0.1:57391`; production builds target `https://polybio.org`.
+The parent script targets `http://localhost:5173` on localhost or `127.0.0.1`,
+and `https://longcoviddalys.netlify.app` on the production page.
 
 Run `node --test test/iframe-parent.test.js` for the parent message/history checks.
 Run `node_modules/.bin/tsx --test test/medication-scenarios.test.ts` for the medication scenario checks.

@@ -8,7 +8,10 @@ const parentScript = readFileSync(
   "utf8",
 );
 
-function createParent(url) {
+function createParent(
+  url,
+  iframeOrigin = "https://longcoviddalys.netlify.app",
+) {
   const listeners = {};
   const messages = [];
   const history = [];
@@ -16,7 +19,7 @@ function createParent(url) {
     postMessage: (message, origin) => messages.push({ message, origin }),
   };
   const window = {
-    location: { href: url },
+    location: { href: url, hostname: new URL(url).hostname },
     addEventListener: (type, listener) => (listeners[type] = listener),
     history: Object.fromEntries(
       ["pushState", "replaceState"].map((method) => [
@@ -41,7 +44,7 @@ function createParent(url) {
     popstate: () => listeners.popstate(),
     send: (data) =>
       listeners.message({
-        origin: "http://localhost:5173",
+        origin: iframeOrigin,
         source: contentWindow,
         data,
       }),
@@ -63,7 +66,10 @@ for (const tab of ["prophylaxis", "longCovidMedication"]) {
     parent.send({ type: "dalys-ready" });
     assert.equal(parent.messages.at(-1).message.tab, tab);
     assert.equal(parent.messages.at(-1).message.metric, "dalys");
-    assert.equal(parent.messages.at(-1).origin, "http://localhost:5173");
+    assert.equal(
+      parent.messages.at(-1).origin,
+      "https://longcoviddalys.netlify.app",
+    );
 
     parent.window.location.href = "https://polybio.org/model?tab=air";
     parent.popstate();
@@ -82,4 +88,31 @@ test("unknown tabs fall back to air and cannot change URL history", () => {
   assert.equal(parent.messages.at(-1).message.tab, "air");
   parent.send({ type: "dalys-tab-change", tab: "unknown" });
   assert.deepEqual(parent.history, []);
+});
+
+test("removed combined tab cannot restore an empty chart or change history", () => {
+  const parent = createParent("https://polybio.org/model?tab=pharmaceuticals");
+  parent.send({ type: "dalys-ready" });
+  assert.equal(parent.messages.at(-1).message.tab, "air");
+  assert.equal(
+    "pharmaceuticalInterventionFilter" in parent.messages.at(-1).message,
+    false,
+  );
+  parent.send({ type: "dalys-tab-change", tab: "pharmaceuticals" });
+  assert.deepEqual(parent.history, []);
+});
+
+test("local iframe harness uses the development origin", () => {
+  const parent = createParent(
+    "http://127.0.0.1:57391/iframe-code/iframe.html?tab=prophylaxis",
+    "http://localhost:5173",
+  );
+  parent.send({ type: "dalys-ready" });
+  assert.equal(parent.messages.at(-1).message.tab, "prophylaxis");
+  assert.equal(parent.messages.at(-1).origin, "http://localhost:5173");
+  parent.send({ type: "dalys-tab-change", tab: "longCovidMedication" });
+  assert.equal(
+    new URL(parent.window.location.href).searchParams.get("tab"),
+    "longCovidMedication",
+  );
 });

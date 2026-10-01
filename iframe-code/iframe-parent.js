@@ -1,13 +1,13 @@
 // paste this into the Wordpress editor, nothing happens locally here
 (() => {
-  // local testing only
-  const IFRAME_ORIGIN = "http://localhost:5173";
-  // uncomment this for production
-  // const IFRAME_ORIGIN = "https://longcoviddalys.netlify.app";
+  const IFRAME_ORIGIN = ["localhost", "127.0.0.1"].includes(
+    window.location.hostname,
+  )
+    ? "http://localhost:5173"
+    : "https://longcoviddalys.netlify.app";
   // This script is standalone: keep these IDs in sync with iframe-messages.ts.
   const TAB_IDS = [
     "air",
-    "pharmaceuticals",
     "prophylaxis",
     "longCovidMedication",
     "outcomeBreakdown",
@@ -15,11 +15,6 @@
   ];
   const METRICS = ["percent", "dalys"];
   const AIR_INTERVENTION_FILTERS = ["all", "hepa", "uvc"];
-  const PHARMACEUTICAL_INTERVENTION_FILTERS = [
-    "all",
-    "prophylaxis",
-    "longCovidMedication",
-  ];
   const SCENARIO_IDS = [
     "baseline",
     "hepa_most_public",
@@ -38,7 +33,6 @@
     "tab",
     "metric",
     "airInterventionFilter",
-    "pharmaceuticalInterventionFilter",
     "outcomeBreakdownScenarioId",
   ];
 
@@ -76,17 +70,6 @@
       : "all";
   }
 
-  function getPharmaceuticalInterventionFilter(url) {
-    const pharmaceuticalInterventionFilter = url.searchParams.get(
-      "pharmaceuticalInterventionFilter",
-    );
-    return PHARMACEUTICAL_INTERVENTION_FILTERS.includes(
-      pharmaceuticalInterventionFilter,
-    )
-      ? pharmaceuticalInterventionFilter
-      : "all";
-  }
-
   function getOutcomeBreakdownScenarioId(url) {
     const outcomeBreakdownScenarioId = url.searchParams.get(
       "outcomeBreakdownScenarioId",
@@ -107,8 +90,6 @@
         type: "dalys-state",
         tab: getTab(url),
         airInterventionFilter: getAirInterventionFilter(url),
-        pharmaceuticalInterventionFilter:
-          getPharmaceuticalInterventionFilter(url),
         outcomeBreakdownScenarioId: getOutcomeBreakdownScenarioId(url),
         metric: getMetric(url),
       },
@@ -200,29 +181,6 @@
         url.searchParams.set(
           "airInterventionFilter",
           message.airInterventionFilter,
-        );
-        window.history.replaceState(null, "", url);
-        return;
-      }
-
-      case "dalys-pharmaceutical-intervention-filter-change": {
-        if (
-          !PHARMACEUTICAL_INTERVENTION_FILTERS.includes(
-            message.pharmaceuticalInterventionFilter,
-          )
-        )
-          return;
-
-        const url = new URL(window.location.href);
-        if (
-          getPharmaceuticalInterventionFilter(url) ===
-          message.pharmaceuticalInterventionFilter
-        )
-          return;
-
-        url.searchParams.set(
-          "pharmaceuticalInterventionFilter",
-          message.pharmaceuticalInterventionFilter,
         );
         window.history.replaceState(null, "", url);
         return;

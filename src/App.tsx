@@ -3,12 +3,7 @@ import { Header } from "@/components/header";
 import { SiteFooter } from "@/components/site-footer";
 import TabsArea from "./components/tabs-area";
 import { useEffect, useRef, useState } from "react";
-import {
-  AirId,
-  PARENT_ORIGIN,
-  PharmaceuticalId,
-  TabId,
-} from "./config/iframe-messages";
+import { AirId, PARENT_ORIGIN, TabId } from "./config/iframe-messages";
 import { ChartMetric } from "./components/chart-metric-toggle";
 import { ScenarioId } from "./config/scenario-daly-calculations";
 
@@ -17,10 +12,6 @@ function App() {
   const [metric, setMetric] = useState<ChartMetric>("percent");
   const [airInterventionFilter, setAirInterventionFilter] =
     useState<AirId>("all");
-  const [
-    pharmaceuticalInterventionFilter,
-    setPharmaceuticalInterventionFilter,
-  ] = useState<PharmaceuticalId>("all");
   const [outcomeBreakdownScenarioId, setOutcomeBreakdownScenarioId] =
     useState<ScenarioId>("hepa_all_public");
   const outerDiv = useRef<HTMLDivElement>(null);
@@ -29,7 +20,6 @@ function App() {
     setActiveTab("air");
     setMetric("percent");
     setAirInterventionFilter("all");
-    setPharmaceuticalInterventionFilter("all");
     setOutcomeBreakdownScenarioId("hepa_all_public");
     // ask iframe parent to reset url parameters
     window.parent.postMessage({ type: "dalys-reset-view" }, PARENT_ORIGIN);
@@ -70,10 +60,6 @@ function App() {
         setMetric={setMetric}
         airInterventionFilter={airInterventionFilter}
         setAirInterventionFilter={setAirInterventionFilter}
-        pharmaceuticalInterventionFilter={pharmaceuticalInterventionFilter}
-        setPharmaceuticalInterventionFilter={
-          setPharmaceuticalInterventionFilter
-        }
         outcomeBreakdownScenarioId={outcomeBreakdownScenarioId}
         setOutcomeBreakdownScenarioId={setOutcomeBreakdownScenarioId}
       />

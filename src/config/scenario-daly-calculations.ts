@@ -202,14 +202,6 @@ export const SCENARIO_LABELS_BY_ID = new Map(
   SCENARIO_DEFINITIONS.map((scenario) => [scenario.id, scenario.label]),
 );
 
-export const PHARMACEUTICAL_INTERVENTION_SCENARIO_IDS = new Set(
-  SCENARIO_DEFINITIONS.filter((scenario) =>
-    scenario.interventions.some(
-      (intervention) => intervention !== "hepa" && intervention !== "uvc",
-    ),
-  ).map((scenario) => scenario.id),
-);
-
 export const PROPHYLACTIC_MEDICATION_SCENARIO_IDS = new Set(
   SCENARIO_DEFINITIONS.filter((scenario) =>
     scenario.interventions.some(
