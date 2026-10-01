@@ -8,6 +8,8 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { ChartSortControl } from "@/components/chart-sort-control";
+import { sortChartRows, type ChartSortProps } from "@/lib/chart-sort";
 import { ModelChartContainer } from "@/components/charts/model-chart-container";
 import {
   ModelBarValueLabel,
@@ -200,7 +202,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-interface AirCleaningChartProps {
+interface AirCleaningChartProps extends ChartSortProps {
   onScenarioSelect?: (scenarioId: ScenarioId) => void;
   airInterventionFilter: AirId;
   onAirInterventionFilterChange: (value: AirId) => void;
@@ -214,6 +216,8 @@ export function AirCleaningChart({
   onAirInterventionFilterChange,
   metric,
   setMetric,
+  sortOrder,
+  setSortOrder,
 }: AirCleaningChartProps) {
   const isMobile = useIsMobile();
   const {
@@ -229,6 +233,9 @@ export function AirCleaningChart({
       ? interventions.includes("hepa") || interventions.includes("uvc")
       : interventions.includes(airInterventionFilter);
   });
+  const sortedRows = sortChartRows(visibleRows, sortOrder, (row) =>
+    showDalys ? row.total : row.percent_reduction,
+  );
 
   return (
     <Card className="gap-3 pt-3 md:gap-6 md:pt-6">
@@ -265,6 +272,10 @@ export function AirCleaningChart({
               value={airInterventionFilter}
               onValueChange={onAirInterventionFilterChange}
             />
+            <ChartSortControl
+              sortOrder={sortOrder}
+              setSortOrder={setSortOrder}
+            />
             <ChartMetricToggle value={metric} onValueChange={setMetric} />
           </FieldGroup>
           <ModelChartContainer
@@ -273,7 +284,7 @@ export function AirCleaningChart({
           >
             <BarChart
               accessibilityLayer
-              data={visibleRows.map((row) => ({
+              data={sortedRows.map((row) => ({
                 ...row,
                 fill: getScenarioColor(row.id),
               }))}

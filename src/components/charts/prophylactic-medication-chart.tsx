@@ -8,6 +8,8 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { ChartSortControl } from "@/components/chart-sort-control";
+import { sortChartRows, type ChartSortProps } from "@/lib/chart-sort";
 import { ModelChartContainer } from "@/components/charts/model-chart-container";
 import {
   ModelBarValueLabel,
@@ -198,7 +200,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-interface ProphylacticMedicationChartProps {
+interface ProphylacticMedicationChartProps extends ChartSortProps {
   onScenarioSelect?: (scenarioId: ScenarioId) => void;
   metric: ChartMetric;
   setMetric: (value: ChartMetric) => void;
@@ -208,6 +210,8 @@ export function ProphylacticMedicationChart({
   onScenarioSelect,
   metric,
   setMetric,
+  sortOrder,
+  setSortOrder,
 }: ProphylacticMedicationChartProps) {
   const isMobile = useIsMobile();
   const {
@@ -220,6 +224,9 @@ export function ProphylacticMedicationChart({
     (row) =>
       PROPHYLACTIC_MEDICATION_SCENARIO_IDS.has(row.id) ||
       (showDalys && row.id === "baseline"),
+  );
+  const sortedRows = sortChartRows(visibleRows, sortOrder, (row) =>
+    showDalys ? row.total : row.percent_reduction,
   );
 
   return (
@@ -238,7 +245,11 @@ export function ProphylacticMedicationChart({
       </CardHeader>
       <CardContent>
         <div className="flex flex-col items-center">
-          <FieldGroup className="order-3 mt-4 mb-2 justify-end sm:mt-0 sm:mb-4 sm:flex-row md:order-1">
+          <FieldGroup className="order-3 mt-4 mb-2 gap-4 sm:mt-0 sm:mb-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between md:order-1">
+            <ChartSortControl
+              sortOrder={sortOrder}
+              setSortOrder={setSortOrder}
+            />
             <ChartMetricToggle value={metric} onValueChange={setMetric} />
           </FieldGroup>
           <ModelChartContainer
@@ -247,7 +258,7 @@ export function ProphylacticMedicationChart({
           >
             <BarChart
               accessibilityLayer
-              data={visibleRows.map((row) => ({
+              data={sortedRows.map((row) => ({
                 ...row,
                 fill: getScenarioColor(row.id),
               }))}

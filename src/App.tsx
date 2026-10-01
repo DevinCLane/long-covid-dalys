@@ -6,6 +6,16 @@ import { useEffect, useRef, useState } from "react";
 import { AirId, PARENT_ORIGIN, TabId } from "./config/iframe-messages";
 import { ChartMetric } from "./components/chart-metric-toggle";
 import { ScenarioId } from "./config/scenario-daly-calculations";
+import type { ChartSortOrder } from "./lib/chart-sort";
+
+export type ChartTabId = Exclude<TabId, "about">;
+
+const DEFAULT_SORT_ORDERS: Record<ChartTabId, ChartSortOrder> = {
+  air: "default",
+  prophylaxis: "default",
+  longCovidMedication: "default",
+  outcomeBreakdown: "default",
+};
 
 function App() {
   const [activeTab, setActiveTab] = useState<TabId>("air");
@@ -15,12 +25,18 @@ function App() {
   const [outcomeBreakdownScenarioId, setOutcomeBreakdownScenarioId] =
     useState<ScenarioId>("hepa_all_public");
   const outerDiv = useRef<HTMLDivElement>(null);
+  const [sortOrders, setSortOrders] = useState(DEFAULT_SORT_ORDERS);
+
+  function setChartSortOrder(tab: ChartTabId, sortOrder: ChartSortOrder) {
+    setSortOrders((previous) => ({ ...previous, [tab]: sortOrder }));
+  }
 
   function resetView() {
     setActiveTab("air");
     setMetric("percent");
     setAirInterventionFilter("all");
     setOutcomeBreakdownScenarioId("hepa_all_public");
+    setSortOrders(DEFAULT_SORT_ORDERS);
     // ask iframe parent to reset url parameters
     window.parent.postMessage({ type: "dalys-reset-view" }, PARENT_ORIGIN);
     return;
@@ -62,6 +78,8 @@ function App() {
         setAirInterventionFilter={setAirInterventionFilter}
         outcomeBreakdownScenarioId={outcomeBreakdownScenarioId}
         setOutcomeBreakdownScenarioId={setOutcomeBreakdownScenarioId}
+        sortOrders={sortOrders}
+        setChartSortOrder={setChartSortOrder}
       />
       <SiteFooter />
     </div>

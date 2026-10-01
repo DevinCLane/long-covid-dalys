@@ -11,6 +11,8 @@ import {
   YAxis,
 } from "recharts";
 import { ModelChartContainer } from "@/components/charts/model-chart-container";
+import { ChartSortControl } from "@/components/chart-sort-control";
+import { sortChartRows, type ChartSortProps } from "@/lib/chart-sort";
 import {
   ModelBarValueLabel,
   MODEL_VALUE_LABEL_MARGIN,
@@ -78,7 +80,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-interface OutcomeBreakdownChartProps {
+interface OutcomeBreakdownChartProps extends ChartSortProps {
   scenarioId: ScenarioId;
   onScenarioSelect: (scenarioId: ScenarioId) => void;
   metric: ChartMetric;
@@ -139,6 +141,8 @@ export function OutcomeBreakdownChart({
   onScenarioSelect,
   metric,
   setMetric,
+  sortOrder,
+  setSortOrder,
 }: OutcomeBreakdownChartProps) {
   const { scenarioRows, isCustomScenario, defaultOutput } = useDalyModel();
   const isMobile = useIsMobile();
@@ -213,8 +217,12 @@ export function OutcomeBreakdownChart({
   ];
 
   // remove the "total" from percent reduction view
-  const visibleOutcomeData = outcomeData.filter((dataItem) =>
-    displayedMetric === "percent" ? dataItem.key !== "total" : true,
+  const visibleOutcomeData = sortChartRows(
+    outcomeData.filter((dataItem) =>
+      displayedMetric === "percent" ? dataItem.key !== "total" : true,
+    ),
+    sortOrder,
+    (row) => (displayedMetric === "percent" ? row.percentReduction : row.dalys),
   );
   // Keep original markers in range when adjusted DALYs fall below the defaults,
   // with room for the marker label at the right edge.
@@ -274,7 +282,11 @@ export function OutcomeBreakdownChart({
       </CardHeader>
       <CardContent>
         <div className="flex flex-col items-end">
-          <div className="order-3 mt-4 w-full max-w-full sm:w-auto md:order-1 md:mt-0">
+          <div className="order-3 mt-4 flex w-full max-w-full flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between md:order-1 md:mt-0">
+            <ChartSortControl
+              sortOrder={sortOrder}
+              setSortOrder={setSortOrder}
+            />
             <ChartMetricToggle
               value={displayedMetric}
               onValueChange={setMetric}

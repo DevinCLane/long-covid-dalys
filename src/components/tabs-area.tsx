@@ -19,6 +19,8 @@ import {
 import { ChartMetric } from "@/components/chart-metric-toggle";
 import { ResetView } from "./reset-view";
 import ShareButton from "./share-button";
+import type { ChartTabId } from "@/App";
+import type { ChartSortOrder } from "@/lib/chart-sort";
 
 interface TabsAreaProps {
   resetView: () => void;
@@ -30,6 +32,8 @@ interface TabsAreaProps {
   setAirInterventionFilter: (value: AirId) => void;
   outcomeBreakdownScenarioId: ScenarioId;
   setOutcomeBreakdownScenarioId: (value: ScenarioId) => void;
+  sortOrders: Record<ChartTabId, ChartSortOrder>;
+  setChartSortOrder: (tab: ChartTabId, value: ChartSortOrder) => void;
 }
 
 export default function TabsArea({
@@ -42,6 +46,8 @@ export default function TabsArea({
   setAirInterventionFilter,
   outcomeBreakdownScenarioId,
   setOutcomeBreakdownScenarioId,
+  sortOrders,
+  setChartSortOrder,
 }: TabsAreaProps) {
   /**
    * User navigation creates history; messages from the parent only restore it.
@@ -185,6 +191,8 @@ export default function TabsArea({
         </div>
         <TabsContent value="air" className="w-full">
           <AirCleaningChart
+            sortOrder={sortOrders.air}
+            setSortOrder={(value) => setChartSortOrder("air", value)}
             onScenarioSelect={openOutcomeBreakdown}
             airInterventionFilter={airInterventionFilter}
             onAirInterventionFilterChange={selectAirInterventionFilter}
@@ -194,6 +202,8 @@ export default function TabsArea({
         </TabsContent>
         <TabsContent value="prophylaxis" className="w-full">
           <ProphylacticMedicationChart
+            sortOrder={sortOrders.prophylaxis}
+            setSortOrder={(value) => setChartSortOrder("prophylaxis", value)}
             onScenarioSelect={openOutcomeBreakdown}
             metric={metric}
             setMetric={selectMetric}
@@ -201,6 +211,10 @@ export default function TabsArea({
         </TabsContent>
         <TabsContent value="longCovidMedication" className="w-full">
           <LongCovidMedicationChart
+            sortOrder={sortOrders.longCovidMedication}
+            setSortOrder={(value) =>
+              setChartSortOrder("longCovidMedication", value)
+            }
             onScenarioSelect={openOutcomeBreakdown}
             metric={metric}
             setMetric={selectMetric}
@@ -208,6 +222,10 @@ export default function TabsArea({
         </TabsContent>
         <TabsContent value="outcomeBreakdown" className="w-full">
           <OutcomeBreakdownChart
+            sortOrder={sortOrders.outcomeBreakdown}
+            setSortOrder={(value) =>
+              setChartSortOrder("outcomeBreakdown", value)
+            }
             scenarioId={outcomeBreakdownScenarioId}
             onScenarioSelect={selectOutcomeBreakdownScenario}
             metric={metric}
