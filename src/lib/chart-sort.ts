@@ -1,4 +1,13 @@
-export type ChartSortOrder = "default" | "descending" | "ascending";
+export const CHART_SORT_ORDERS = [
+  "default",
+  "descending",
+  "ascending",
+] as const;
+export type ChartSortOrder = (typeof CHART_SORT_ORDERS)[number];
+
+export function isChartSortOrder(value: unknown): value is ChartSortOrder {
+  return CHART_SORT_ORDERS.some((sortOrder) => sortOrder === value);
+}
 
 export interface ChartSortProps {
   sortOrder: ChartSortOrder;

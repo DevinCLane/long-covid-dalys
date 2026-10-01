@@ -214,8 +214,9 @@ whenever the message format changes; editing the local script does not update Wo
 | --- | --- | --- |
 | `dalys-ready` | React → WordPress | Request the initial tab after attaching the listener |
 | `dalys-tab-change` | React → WordPress | Add a user-selected `tab` to URL history |
-| `dalys-state` | WordPress → React | Restore tab, metric, filters, and outcome scenario on initial loading or Back/Forward |
+| `dalys-state` | WordPress → React | Restore tab, metric, filters, outcome scenario, and each chart's sort order on initial loading or Back/Forward |
 | `dalys-metric-change` | React → WordPress | Update the `metric` URL parameter |
+| `dalys-sort-order-change` | React → WordPress | Update the selected chart's sort parameter using `tab` and `sortOrder` |
 | `dalys-resize` | React → WordPress | Update iframe `height` |
 
 Only user navigation adds history. Other query parameters and the hash are
@@ -226,6 +227,16 @@ Each has a fixed intervention group and shares the `metric` parameter with the
 other charts; neither needs an intervention filter parameter.
 The former combined medication tab is no longer supported; old combined-tab
 URLs display Air Cleaning.
+
+Each chart has its own sort parameter: `airSortOrder`, `prophylaxisSortOrder`,
+`longCovidMedicationSortOrder`, and `outcomeBreakdownSortOrder`. Values are
+`ascending` (low to high), `descending` (high to low), or `default` (original
+order); missing or invalid values use `default`. For example,
+`?tab=air&airSortOrder=descending` opens Air Cleaning sorted high to low.
+Sort changes replace the current history entry, matching metric and filter
+changes. Shared current-view links include all selected sort orders. Reset order
+sets only that chart's parameter to `default`; Reset view removes all view
+parameters, including sorting, while preserving unrelated parameters and the hash.
 
 During `npm run dev`, the React app targets the local parent at
 `http://127.0.0.1:57391`; production builds target `https://polybio.org`.

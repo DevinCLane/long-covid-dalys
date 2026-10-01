@@ -2,13 +2,16 @@
 import { Header } from "@/components/header";
 import { SiteFooter } from "@/components/site-footer";
 import TabsArea from "./components/tabs-area";
-import { useEffect, useRef, useState } from "react";
-import { AirId, PARENT_ORIGIN, TabId } from "./config/iframe-messages";
+import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  AirId,
+  ChartTabId,
+  PARENT_ORIGIN,
+  TabId,
+} from "./config/iframe-messages";
 import { ChartMetric } from "./components/chart-metric-toggle";
 import { ScenarioId } from "./config/scenario-daly-calculations";
 import type { ChartSortOrder } from "./lib/chart-sort";
-
-export type ChartTabId = Exclude<TabId, "about">;
 
 const DEFAULT_SORT_ORDERS: Record<ChartTabId, ChartSortOrder> = {
   air: "default",
@@ -27,9 +30,12 @@ function App() {
   const outerDiv = useRef<HTMLDivElement>(null);
   const [sortOrders, setSortOrders] = useState(DEFAULT_SORT_ORDERS);
 
-  function setChartSortOrder(tab: ChartTabId, sortOrder: ChartSortOrder) {
-    setSortOrders((previous) => ({ ...previous, [tab]: sortOrder }));
-  }
+  const setChartSortOrder = useCallback(
+    (tab: ChartTabId, sortOrder: ChartSortOrder) => {
+      setSortOrders((previous) => ({ ...previous, [tab]: sortOrder }));
+    },
+    [],
+  );
 
   function resetView() {
     setActiveTab("air");

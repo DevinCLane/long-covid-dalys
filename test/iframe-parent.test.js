@@ -116,3 +116,143 @@ test("local iframe harness uses the development origin", () => {
     "longCovidMedication",
   );
 });
+
+const sortParametersByTab = {
+  air: "airSortOrder",
+  prophylaxis: "prophylaxisSortOrder",
+  longCovidMedication: "longCovidMedicationSortOrder",
+  outcomeBreakdown: "outcomeBreakdownSortOrder",
+};
+const defaultSortOrders = Object.fromEntries(
+  Object.keys(sortParametersByTab).map((tab) => [tab, "default"]),
+);
+
+for (const [tab, param] of Object.entries(sortParametersByTab)) {
+  test(`${tab} sorting updates, shares, and restores URL state`, () => {
+    const parent = createParent(
+      "https://polybio.org/model?keep=1&metric=dalys#chart",
+    );
+    for (const sortOrder of ["descending", "ascending", "default"]) {
+      parent.send({ type: "dalys-sort-order-change", tab, sortOrder });
+      const url = new URL(parent.window.location.href);
+      assert.equal(url.searchParams.get(param), sortOrder);
+      assert.equal(url.searchParams.get("keep"), "1");
+      assert.equal(url.searchParams.get("metric"), "dalys");
+      assert.equal(url.hash, "#chart");
+
+      // Selecting the same order twice does not rewrite history.
+      const historyLength = parent.history.length;
+      parent.send({ type: "dalys-sort-order-change", tab, sortOrder });
+      assert.equal(parent.history.length, historyLength);
+
+      parent.send({ type: "dalys-share-current-view" });
+      assert.equal(parent.messages.at(-1).message.url, url.href);
+
+      // Opening a shared link or refreshing restores sorting without history.
+      const reloadedParent = createParent(url.href);
+      reloadedParent.send({ type: "dalys-ready" });
+      assert.equal(
+        reloadedParent.messages.at(-1).message.sortOrders[tab],
+        sortOrder,
+      );
+      assert.deepEqual(reloadedParent.history, []);
+
+      parent.window.location.href = "https://polybio.org/model";
+      parent.popstate();
+      assert.equal(parent.messages.at(-1).message.sortOrders[tab], "default");
+      parent.window.location.href = url.href;
+      parent.popstate();
+      assert.equal(parent.messages.at(-1).message.sortOrders[tab], sortOrder);
+      assert.equal(parent.history.length, historyLength);
+    }
+    assert.deepEqual(parent.history, [
+      "replaceState",
+      "replaceState",
+      "replaceState",
+    ]);
+  });
+}
+
+test("charts keep independent sort orders and resetting one preserves the others", () => {
+  const parent = createParent("https://polybio.org/model?keep=1#chart");
+  const expected = {
+    air: "ascending",
+    prophylaxis: "descending",
+    longCovidMedication: "ascending",
+    outcomeBreakdown: "descending",
+  };
+  for (const [tab, sortOrder] of Object.entries(expected)) {
+    parent.send({ type: "dalys-sort-order-change", tab, sortOrder });
+  }
+  parent.send({ type: "dalys-ready" });
+  assert.deepEqual({ ...parent.messages.at(-1).message.sortOrders }, expected);
+
+  parent.send({
+    type: "dalys-sort-order-change",
+    tab: "air",
+    sortOrder: "default",
+  });
+  parent.send({ type: "dalys-ready" });
+  assert.deepEqual(
+    { ...parent.messages.at(-1).message.sortOrders },
+    { ...expected, air: "default" },
+  );
+});
+
+test("missing or invalid sort parameters restore the default order", () => {
+  const parent = createParent(
+    "https://polybio.org/model?airSortOrder=unknown&prophylaxisSortOrder=ASCENDING&outcomeBreakdownSortOrder=",
+  );
+  parent.send({ type: "dalys-ready" });
+  assert.deepEqual(
+    { ...parent.messages.at(-1).message.sortOrders },
+    defaultSortOrders,
+  );
+  assert.deepEqual(parent.history, []);
+});
+
+test("invalid sort messages cannot change URL history", () => {
+  const originalUrl =
+    "https://polybio.org/model?airSortOrder=ascending&keep=1#chart";
+  const parent = createParent(originalUrl);
+  for (const tab of ["about", "unknown", "__proto__", "toString", undefined]) {
+    parent.send({
+      type: "dalys-sort-order-change",
+      tab,
+      sortOrder: "descending",
+    });
+  }
+  for (const sortOrder of ["unknown", "ASCENDING", "", null, undefined, 1]) {
+    parent.send({ type: "dalys-sort-order-change", tab: "air", sortOrder });
+  }
+  assert.equal(parent.window.location.href, originalUrl);
+  assert.deepEqual(parent.history, []);
+});
+
+test("reset view clears all sort parameters and preserves unrelated URL state", () => {
+  const parent = createParent(
+    "https://polybio.org/model?keep=1&tab=prophylaxis&metric=dalys&airInterventionFilter=hepa&outcomeBreakdownScenarioId=baseline&airSortOrder=ascending&prophylaxisSortOrder=descending&longCovidMedicationSortOrder=ascending&outcomeBreakdownSortOrder=descending#chart",
+  );
+  parent.send({ type: "dalys-reset-view" });
+  assert.equal(
+    parent.window.location.href,
+    "https://polybio.org/model?keep=1#chart",
+  );
+  assert.deepEqual(parent.history, ["pushState"]);
+  parent.send({ type: "dalys-ready" });
+  assert.deepEqual(
+    { ...parent.messages.at(-1).message.sortOrders },
+    defaultSortOrders,
+  );
+  parent.send({ type: "dalys-reset-view" });
+  assert.deepEqual(parent.history, ["pushState"]);
+});
+
+test("reset view also clears a URL containing only a sort parameter", () => {
+  const parent = createParent(
+    "https://polybio.org/model?airSortOrder=ascending#chart",
+  );
+  parent.send({ type: "dalys-reset-view" });
+  assert.equal(parent.window.location.href, "https://polybio.org/model#chart");
+  assert.deepEqual(parent.history, ["pushState"]);
+});

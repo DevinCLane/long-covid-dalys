@@ -9,6 +9,8 @@ import { DalyModelProvider } from "@/components/daly-model-provider";
 import { ScenarioId } from "@/config/scenario-daly-calculations";
 import {
   type AirId,
+  CHART_TAB_IDS,
+  type ChartTabId,
   PARENT_ORIGIN,
   isAirInterventionFilter,
   isTabId,
@@ -19,8 +21,7 @@ import {
 import { ChartMetric } from "@/components/chart-metric-toggle";
 import { ResetView } from "./reset-view";
 import ShareButton from "./share-button";
-import type { ChartTabId } from "@/App";
-import type { ChartSortOrder } from "@/lib/chart-sort";
+import { isChartSortOrder, type ChartSortOrder } from "@/lib/chart-sort";
 
 interface TabsAreaProps {
   resetView: () => void;
@@ -65,6 +66,14 @@ export default function TabsArea({
     setMetric(nextMetric);
     window.parent.postMessage(
       { type: "dalys-metric-change", metric: nextMetric },
+      PARENT_ORIGIN,
+    );
+  }
+
+  function selectChartSortOrder(tab: ChartTabId, sortOrder: ChartSortOrder) {
+    setChartSortOrder(tab, sortOrder);
+    window.parent.postMessage(
+      { type: "dalys-sort-order-change", tab, sortOrder },
       PARENT_ORIGIN,
     );
   }
@@ -124,6 +133,12 @@ export default function TabsArea({
         if (isScenarioId(message.outcomeBreakdownScenarioId)) {
           setOutcomeBreakdownScenarioId(message.outcomeBreakdownScenarioId);
         }
+
+        for (const tab of CHART_TAB_IDS) {
+          if (isChartSortOrder(message.sortOrders?.[tab])) {
+            setChartSortOrder(tab, message.sortOrders[tab]);
+          }
+        }
       }
     }
     window.addEventListener("message", handleMessage);
@@ -137,6 +152,7 @@ export default function TabsArea({
     setAirInterventionFilter,
     setMetric,
     setOutcomeBreakdownScenarioId,
+    setChartSortOrder,
   ]);
 
   return (
@@ -192,7 +208,7 @@ export default function TabsArea({
         <TabsContent value="air" className="w-full">
           <AirCleaningChart
             sortOrder={sortOrders.air}
-            setSortOrder={(value) => setChartSortOrder("air", value)}
+            setSortOrder={(value) => selectChartSortOrder("air", value)}
             onScenarioSelect={openOutcomeBreakdown}
             airInterventionFilter={airInterventionFilter}
             onAirInterventionFilterChange={selectAirInterventionFilter}
@@ -203,7 +219,7 @@ export default function TabsArea({
         <TabsContent value="prophylaxis" className="w-full">
           <ProphylacticMedicationChart
             sortOrder={sortOrders.prophylaxis}
-            setSortOrder={(value) => setChartSortOrder("prophylaxis", value)}
+            setSortOrder={(value) => selectChartSortOrder("prophylaxis", value)}
             onScenarioSelect={openOutcomeBreakdown}
             metric={metric}
             setMetric={selectMetric}
@@ -213,7 +229,7 @@ export default function TabsArea({
           <LongCovidMedicationChart
             sortOrder={sortOrders.longCovidMedication}
             setSortOrder={(value) =>
-              setChartSortOrder("longCovidMedication", value)
+              selectChartSortOrder("longCovidMedication", value)
             }
             onScenarioSelect={openOutcomeBreakdown}
             metric={metric}
@@ -224,7 +240,7 @@ export default function TabsArea({
           <OutcomeBreakdownChart
             sortOrder={sortOrders.outcomeBreakdown}
             setSortOrder={(value) =>
-              setChartSortOrder("outcomeBreakdown", value)
+              selectChartSortOrder("outcomeBreakdown", value)
             }
             scenarioId={outcomeBreakdownScenarioId}
             onScenarioSelect={selectOutcomeBreakdownScenario}

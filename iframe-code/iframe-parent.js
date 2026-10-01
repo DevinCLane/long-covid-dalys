@@ -15,6 +15,14 @@
   ];
   const METRICS = ["percent", "dalys"];
   const AIR_INTERVENTION_FILTERS = ["all", "hepa", "uvc"];
+  // Keep sort values in sync with src/lib/chart-sort.ts.
+  const SORT_ORDERS = ["default", "descending", "ascending"];
+  const SORT_PARAMETERS_BY_TAB = {
+    air: "airSortOrder",
+    prophylaxis: "prophylaxisSortOrder",
+    longCovidMedication: "longCovidMedicationSortOrder",
+    outcomeBreakdown: "outcomeBreakdownSortOrder",
+  };
   const SCENARIO_IDS = [
     "baseline",
     "hepa_most_public",
@@ -34,6 +42,7 @@
     "metric",
     "airInterventionFilter",
     "outcomeBreakdownScenarioId",
+    ...Object.values(SORT_PARAMETERS_BY_TAB),
   ];
 
   function getIframe() {
@@ -79,6 +88,11 @@
       : "hepa_all_public";
   }
 
+  function getSortOrder(url, tab) {
+    const sortOrder = url.searchParams.get(SORT_PARAMETERS_BY_TAB[tab]);
+    return SORT_ORDERS.includes(sortOrder) ? sortOrder : "default";
+  }
+
   // Shared by initial loading and Back/Forward; neither adds history.
   function sendCurrentUrlParams() {
     const iframe = getIframe();
@@ -92,6 +106,12 @@
         airInterventionFilter: getAirInterventionFilter(url),
         outcomeBreakdownScenarioId: getOutcomeBreakdownScenarioId(url),
         metric: getMetric(url),
+        sortOrders: Object.fromEntries(
+          Object.keys(SORT_PARAMETERS_BY_TAB).map((tab) => [
+            tab,
+            getSortOrder(url, tab),
+          ]),
+        ),
       },
       IFRAME_ORIGIN,
     );
@@ -166,6 +186,24 @@
         if (getMetric(url) === message.metric) return;
 
         url.searchParams.set("metric", message.metric);
+        window.history.replaceState(null, "", url);
+        return;
+      }
+
+      case "dalys-sort-order-change": {
+        if (
+          !Object.hasOwn(SORT_PARAMETERS_BY_TAB, message.tab) ||
+          !SORT_ORDERS.includes(message.sortOrder)
+        )
+          return;
+
+        const url = new URL(window.location.href);
+        if (getSortOrder(url, message.tab) === message.sortOrder) return;
+
+        url.searchParams.set(
+          SORT_PARAMETERS_BY_TAB[message.tab],
+          message.sortOrder,
+        );
         window.history.replaceState(null, "", url);
         return;
       }
