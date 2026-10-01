@@ -1,44 +1,34 @@
-// import { LucideDownload } from "lucide-react";
+import { SIMULATOR_CITATION } from "@/config/citation";
 
 export function SiteFooter() {
   return (
-    <footer className="p-6">
-      <div className="container-wrapper">
-        <div className="container py-4">
-          <div className="text-muted-foreground text-left text-sm leading-loose text-balance">
-            <h4 className="mb-2 text-lg font-semibold">Cite this source</h4>
-            <p>
-              Cohen AK, Jaudon TW, Lane DC, Kurakova A, Davis H, Cho O, Vogel
-              JM. “COVID-19 DALYs simulator.” (2026)
-            </p>
-            {/* todo: add .RIS download when available */}
-            {/* <a className="flex cursor-pointer justify-center gap-2 hover:underline">
-              Download Citation <LucideDownload />
-            </a> */}
-            <hr className="mt-2 mb-2" />
-            <p>
-              Website by{" "}
-              <a
-                href="https://www.devinlane.com/"
-                target="_blank"
-                rel="noreferrer"
-                className="font-medium underline underline-offset-4"
-              >
-                Devin Lane
-              </a>
-              . Source code available on{" "}
-              <a
-                href="https://github.com/DevinCLane/long-covid-dalys"
-                target="_blank"
-                rel="noreferrer"
-                className="font-medium underline underline-offset-4"
-              >
-                GitHub
-              </a>
-              .
-            </p>
-          </div>
+    <footer className="text-muted-foreground mt-8 border-t px-1 py-6 text-left text-sm leading-relaxed sm:px-6">
+      <div className="space-y-4">
+        <div>
+          <h4 className="text-foreground mb-2 font-medium">Cite this source</h4>
+          <p>{SIMULATOR_CITATION}</p>
         </div>
+        <p className="text-xs">
+          Website by{" "}
+          <a
+            href="https://www.devinlane.com/"
+            target="_blank"
+            rel="noreferrer"
+            className="font-medium underline underline-offset-4"
+          >
+            Devin Lane
+          </a>
+          . Source code available on{" "}
+          <a
+            href="https://github.com/DevinCLane/long-covid-dalys"
+            target="_blank"
+            rel="noreferrer"
+            className="font-medium underline underline-offset-4"
+          >
+            GitHub
+          </a>
+          .
+        </p>
       </div>
     </footer>
   );

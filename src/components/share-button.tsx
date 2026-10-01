@@ -18,6 +18,7 @@ import { Checkbox } from "./ui/checkbox";
 import { Field, FieldLabel } from "./ui/field";
 import { useEffect, useState } from "react";
 import { PARENT_ORIGIN } from "@/config/iframe-messages";
+import { SIMULATOR_CITATION } from "@/config/citation";
 
 export default function ShareButton() {
   const defaultUrl = "https://polybio.org/dalys/";
@@ -197,7 +198,7 @@ export default function ShareButton() {
                 Copy Citation to clipboard
               </div>
               <CopyableInput
-                copyableInput="Cohen AK, Jaudon TW, Lane DC, Kurakova A, Davis H, Cho O, Vogel JM. “COVID-19 DALYs simulator.” (2026)"
+                copyableInput={SIMULATOR_CITATION}
                 ariaLabel="citation"
               />
             </div>
