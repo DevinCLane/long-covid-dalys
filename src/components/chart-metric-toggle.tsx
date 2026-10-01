@@ -1,3 +1,4 @@
+import { ChartControlGroup } from "./chart-control-group";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { Field, FieldLabel } from "./ui/field";
@@ -21,33 +22,35 @@ export function ChartMetricToggle({
     onValueChange(value);
   }
   return (
-    <RadioGroup
-      aria-label="Show values as"
-      onValueChange={handleValueChange}
-      value={value}
-      className="flex w-full max-w-full min-w-0 flex-col gap-2 text-left sm:w-fit sm:flex-none sm:flex-row sm:flex-wrap"
-    >
-      <Field orientation="horizontal" className={fieldStyles}>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <FieldLabel className={fieldLabelStyles}>
-              <RadioGroupItem value="percent" />
-              <span className="min-w-0 break-words">Percent reduction</span>
-            </FieldLabel>
-          </TooltipTrigger>
-          <TooltipContent className="max-w-64 px-2 py-1 text-xs">
-            Percent reduction compared with the status quo scenario of no
-            population-level health interventions. Negative values indicate
-            increased DALYs.
-          </TooltipContent>
-        </Tooltip>
-      </Field>
-      <Field orientation="horizontal" className={fieldStyles}>
-        <FieldLabel className={fieldLabelStyles}>
-          <RadioGroupItem value="dalys" />
-          <span className="min-w-0 break-words">DALYs per 1,000</span>
-        </FieldLabel>
-      </Field>
-    </RadioGroup>
+    <ChartControlGroup label="Show values as">
+      <RadioGroup
+        aria-label="Show values as"
+        onValueChange={handleValueChange}
+        value={value}
+        className="flex w-full max-w-full min-w-0 flex-col gap-2 text-left sm:w-fit sm:flex-none sm:flex-row sm:flex-wrap"
+      >
+        <Field orientation="horizontal" className={fieldStyles}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <FieldLabel className={fieldLabelStyles}>
+                <RadioGroupItem value="percent" />
+                <span className="min-w-0 break-words">Percent reduction</span>
+              </FieldLabel>
+            </TooltipTrigger>
+            <TooltipContent className="max-w-64 px-2 py-1 text-xs">
+              Percent reduction compared with the status quo scenario of no
+              population-level health interventions. Negative values indicate
+              increased DALYs.
+            </TooltipContent>
+          </Tooltip>
+        </Field>
+        <Field orientation="horizontal" className={fieldStyles}>
+          <FieldLabel className={fieldLabelStyles}>
+            <RadioGroupItem value="dalys" />
+            <span className="min-w-0 break-words">DALYs per 1,000</span>
+          </FieldLabel>
+        </Field>
+      </RadioGroup>
+    </ChartControlGroup>
   );
 }
