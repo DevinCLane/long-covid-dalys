@@ -33,16 +33,19 @@ export function ModelBarValueLabel({
         ? "<0.1"
         : ">−0.1"
       : value.toLocaleString("en-US", { maximumFractionDigits: 1 });
+  const isNegative = value < 0;
 
   return (
     <text
       x={
         isMobile
           ? plotArea.x + plotArea.width + MODEL_VALUE_LABEL_MARGIN - 8
-          : Math.max(viewBox.x, viewBox.x + viewBox.width) + 8
+          : isNegative
+            ? Math.min(viewBox.x, viewBox.x + viewBox.width) - 8
+            : Math.max(viewBox.x, viewBox.x + viewBox.width) + 8
       }
       y={viewBox.y + viewBox.height / 2}
-      textAnchor={isMobile ? "end" : "start"}
+      textAnchor={isMobile || isNegative ? "end" : "start"}
       dominantBaseline="central"
       className="fill-foreground text-xs font-medium tabular-nums"
       pointerEvents="none"

@@ -9,6 +9,10 @@ import {
   YAxis,
 } from "recharts";
 import { ChartControls } from "@/components/chart-controls";
+import {
+  dalysAvertedAxisDomain,
+  scenarioChartMetric,
+} from "@/lib/chart-metric";
 import { sortChartRows, type ChartSortProps } from "@/lib/chart-sort";
 import { ModelChartContainer } from "@/components/charts/model-chart-container";
 import {
@@ -191,6 +195,9 @@ function ScenarioYAxisTick({
 }
 
 const chartConfig = {
+  dalys_averted: {
+    label: "Total DALYs averted",
+  },
   percent_reduction: {
     label: "Total DALY reduction",
   },
@@ -219,13 +226,20 @@ export function ProphylacticMedicationChart({
     isCustomScenario,
   } = useDalyModel();
   const showDalys = metric === "dalys";
+  const showPercent = metric === "percent";
+  const { dataKey, axisLabel, tooltipLabel } = scenarioChartMetric(
+    metric,
+    isMobile,
+  );
   const visibleRows = chartRows.filter(
     (row) =>
       PROPHYLACTIC_MEDICATION_SCENARIO_IDS.has(row.id) ||
       (showDalys && row.id === "baseline"),
   );
-  const sortedRows = sortChartRows(visibleRows, sortOrder, (row) =>
-    showDalys ? row.total : row.percent_reduction,
+  const sortedRows = sortChartRows(
+    visibleRows,
+    sortOrder,
+    (row) => row[dataKey],
   );
 
   return (
@@ -269,22 +283,14 @@ export function ProphylacticMedicationChart({
               <CartesianGrid horizontal={false} />
               <XAxis
                 type="number"
-                domain={[0, "auto"]}
-                label={
-                  showDalys
-                    ? {
-                        value: "Total DALYs per 1,000 people",
-                        position: "bottom",
-                        fill: "var(--muted-foreground)",
-                      }
-                    : {
-                        value: isMobile
-                          ? "DALY reduction (%)"
-                          : "Reduction in total DALYs vs default status quo (%)",
-                        position: "bottom",
-                        fill: "var(--muted-foreground)",
-                      }
+                domain={
+                  metric === "averted" ? dalysAvertedAxisDomain : [0, "auto"]
                 }
+                label={{
+                  value: axisLabel,
+                  position: "bottom",
+                  fill: "var(--muted-foreground)",
+                }}
                 width="auto"
                 tickMargin={8}
               />
@@ -316,18 +322,10 @@ export function ProphylacticMedicationChart({
 
                       return (
                         <ModelTooltipValues
-                          label={
-                            showDalys
-                              ? "Total DALYs per 1,000"
-                              : "Total DALY reduction"
-                          }
+                          label={tooltipLabel}
                           value={Number(value)}
-                          originalValue={
-                            showDalys
-                              ? originalRow?.total
-                              : originalRow?.percent_reduction
-                          }
-                          showPercent={!showDalys}
+                          originalValue={originalRow?.[dataKey]}
+                          showPercent={showPercent}
                         />
                       );
                     }}
@@ -335,7 +333,7 @@ export function ProphylacticMedicationChart({
                 }
               />
               <Bar
-                dataKey={showDalys ? "total" : "percent_reduction"}
+                dataKey={dataKey}
                 cursor={isMobile ? "default" : "pointer"}
                 onClick={
                   isMobile
@@ -344,8 +342,8 @@ export function ProphylacticMedicationChart({
                 }
               >
                 <LabelList
-                  dataKey={showDalys ? "total" : "percent_reduction"}
-                  content={<ModelBarValueLabel showPercent={!showDalys} />}
+                  dataKey={dataKey}
+                  content={<ModelBarValueLabel showPercent={showPercent} />}
                 />
               </Bar>
               {isCustomScenario &&
@@ -354,11 +352,7 @@ export function ProphylacticMedicationChart({
                     visibleRows.some((row) => row.id === originalRow.id) && (
                       <OriginalValueMarker
                         key={originalRow.id}
-                        x={
-                          showDalys
-                            ? originalRow.total
-                            : originalRow.percent_reduction
-                        }
+                        x={originalRow[dataKey]}
                         y={originalRow.id}
                       />
                     ),

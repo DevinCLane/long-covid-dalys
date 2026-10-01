@@ -13,7 +13,7 @@
     "outcomeBreakdown",
     "about",
   ];
-  const METRICS = ["percent", "dalys"];
+  const METRICS = ["percent", "dalys", "averted"];
   const AIR_INTERVENTION_FILTERS = ["all", "hepa", "uvc"];
   // Keep sort values in sync with src/lib/chart-sort.ts.
   const SORT_ORDERS = ["default", "descending", "ascending"];

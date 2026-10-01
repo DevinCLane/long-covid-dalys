@@ -3,7 +3,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { Field, FieldLabel } from "./ui/field";
 
-export type ChartMetric = "percent" | "dalys";
+export type ChartMetric = "percent" | "dalys" | "averted";
 
 interface ChartMetricToggleProps {
   value: ChartMetric;
@@ -41,6 +41,23 @@ export function ChartMetricToggle({
               Percent reduction compared with the status quo scenario of no
               population-level health interventions. Negative values indicate
               increased DALYs.
+            </TooltipContent>
+          </Tooltip>
+        </Field>
+        <Field orientation="horizontal" className={fieldStyles}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <FieldLabel className={fieldLabelStyles}>
+                <RadioGroupItem value="averted" />
+                <span className="min-w-0 break-words">
+                  DALYs averted per 1,000
+                </span>
+              </FieldLabel>
+            </TooltipTrigger>
+            <TooltipContent className="max-w-64 px-2 py-1 text-xs">
+              Default status quo DALYs minus scenario DALYs per 1,000 people
+              over 5 years. The reference stays fixed when assumptions change.
+              Negative values indicate increased DALYs.
             </TooltipContent>
           </Tooltip>
         </Field>

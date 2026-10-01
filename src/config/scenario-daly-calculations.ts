@@ -1,5 +1,6 @@
 import type { AssumptionKey, AssumptionValues } from "@/config/assumptions";
 import {
+  approvedStatusQuoDalysPer1000,
   infectionUnderPostExposureProphylaxis,
   infectionUnderPreExposureProphylaxis,
   outcomePercentReductionsVsApprovedStatusQuo,
@@ -24,6 +25,10 @@ export interface ScenarioDalyRow {
   percent_reduction_acute_covid: number;
   percent_reduction_long_covid: number;
   percent_reduction_pasc: number;
+  dalys_averted: number;
+  dalys_averted_acute_covid: number;
+  dalys_averted_long_covid: number;
+  dalys_averted_pasc: number;
 }
 
 interface ScenarioDalyTotals {
@@ -257,6 +262,7 @@ export function calculateScenarioDalyRows(
   values: AssumptionValues,
 ): ScenarioDalyRow[] {
   const baseInputs = buildBaseModelInputs(values);
+  const approvedStatusQuo = approvedStatusQuoDalysPer1000();
 
   const scenarioTotals: ScenarioDalyTotals[] = SCENARIO_DEFINITIONS.map(
     (scenario) => {
@@ -302,6 +308,12 @@ export function calculateScenarioDalyRows(
     });
     return {
       ...scenario,
+      dalys_averted: approvedStatusQuo.total - scenario.total,
+      dalys_averted_acute_covid:
+        approvedStatusQuo.acuteCovid - scenario.acute_covid,
+      dalys_averted_long_covid:
+        approvedStatusQuo.longCovid - scenario.long_covid,
+      dalys_averted_pasc: approvedStatusQuo.pasc - scenario.pasc,
       percent_reduction: Number(reductions.total.toFixed(2)),
       percent_reduction_acute_covid: Number(reductions.acuteCovid.toFixed(2)),
       percent_reduction_long_covid: Number(reductions.longCovid.toFixed(2)),

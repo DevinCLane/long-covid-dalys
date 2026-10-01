@@ -225,6 +225,12 @@ script's tab IDs must match `src/config/iframe-messages.ts`.
 The medication tabs use `?tab=prophylaxis` and `?tab=longCovidMedication`.
 Each has a fixed intervention group and shares the `metric` parameter with the
 other charts; neither needs an intervention filter parameter.
+The shared metric supports `percent` (percent reduction), `dalys` (DALYs per
+1,000), and `averted` (DALYs averted per 1,000 over 5 years). DALYs averted are
+the fixed default status quo DALYs minus the selected scenario's DALYs, for each
+outcome and the combined total. The reference stays fixed when assumptions
+change; negative values indicate increased DALYs. For example,
+`?tab=air&metric=averted` opens Air Cleaning with DALYs averted selected.
 The former combined medication tab is no longer supported; old combined-tab
 URLs display Air Cleaning.
 
@@ -245,6 +251,7 @@ and `https://longcoviddalys.netlify.app` on the production page.
 
 Run `node --test test/iframe-parent.test.js` for the parent message/history checks.
 Run `node_modules/.bin/tsx --test test/medication-scenarios.test.ts` for the medication scenario checks.
+Run `node_modules/.bin/tsx --test test/dalys-averted.test.ts` for the DALYs averted calculation checks.
 In WordPress, verify opening and refreshing the medication tab URLs, selecting tabs,
 opening Outcome breakdown from a chart, and using Back/Forward to the initial
 page. Confirm the visible tab matches the URL and the iframe still resizes.

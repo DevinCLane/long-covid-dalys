@@ -90,6 +90,39 @@ test("unknown tabs fall back to air and cannot change URL history", () => {
   assert.deepEqual(parent.history, []);
 });
 
+test("DALYs averted selection shares, reloads, restores, and resets the metric", () => {
+  const parent = createParent("https://polybio.org/model?keep=1#chart");
+  parent.send({ type: "dalys-metric-change", metric: "averted" });
+  const url = new URL(parent.window.location.href);
+  assert.equal(url.searchParams.get("metric"), "averted");
+  assert.equal(url.searchParams.get("keep"), "1");
+  assert.equal(url.hash, "#chart");
+  assert.deepEqual(parent.history, ["replaceState"]);
+
+  parent.send({ type: "dalys-share-current-view" });
+  assert.equal(parent.messages.at(-1).message.url, url.href);
+  const reloadedParent = createParent(url.href);
+  reloadedParent.send({ type: "dalys-ready" });
+  assert.equal(reloadedParent.messages.at(-1).message.metric, "averted");
+  assert.deepEqual(reloadedParent.history, []);
+
+  parent.window.location.href = "https://polybio.org/model?metric=dalys";
+  parent.popstate();
+  assert.equal(parent.messages.at(-1).message.metric, "dalys");
+  parent.window.location.href = url.href;
+  parent.popstate();
+  assert.equal(parent.messages.at(-1).message.metric, "averted");
+  assert.deepEqual(parent.history, ["replaceState"]);
+
+  parent.send({ type: "dalys-reset-view" });
+  assert.equal(
+    parent.window.location.href,
+    "https://polybio.org/model?keep=1#chart",
+  );
+  parent.send({ type: "dalys-ready" });
+  assert.equal(parent.messages.at(-1).message.metric, "percent");
+});
+
 test("removed combined tab cannot restore an empty chart or change history", () => {
   const parent = createParent("https://polybio.org/model?tab=pharmaceuticals");
   parent.send({ type: "dalys-ready" });

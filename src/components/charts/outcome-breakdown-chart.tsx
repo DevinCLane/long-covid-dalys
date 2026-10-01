@@ -12,6 +12,7 @@ import {
 } from "recharts";
 import { ModelChartContainer } from "@/components/charts/model-chart-container";
 import { ChartControls } from "@/components/chart-controls";
+import { dalysAvertedAxisDomain } from "@/lib/chart-metric";
 import { sortChartRows, type ChartSortProps } from "@/lib/chart-sort";
 import {
   ModelBarValueLabel,
@@ -75,6 +76,9 @@ const chartConfig = {
   percentReduction: {
     label: "Percent reduction",
   },
+  dalysAverted: {
+    label: "DALYs averted per 1,000 people",
+  },
 } satisfies ChartConfig;
 
 interface OutcomeBreakdownChartProps extends ChartSortProps {
@@ -90,6 +94,15 @@ interface ChartDescriptionBodyProps {
 }
 
 function ChartDescriptionBody({ scenario, metric }: ChartDescriptionBodyProps) {
+  if (metric === "averted") {
+    return (
+      <div>
+        For the scenario "{scenario.label}", DALYs averted per 1,000 people over
+        5 years are each outcome&apos;s fixed default status quo DALYs minus its
+        scenario DALYs. Negative values indicate increased DALYs.
+      </div>
+    );
+  }
   if (metric === "percent") {
     return (
       <div>
@@ -109,7 +122,7 @@ function ChartDescriptionBody({ scenario, metric }: ChartDescriptionBodyProps) {
 }
 
 const STATUS_QUO_GUIDANCE =
-  'Status quo has 0% reduction relative to itself. Choose "DALYs per 1000", adjust the model assumptions below, or choose another scenario to see results.';
+  'Default status quo has zero DALY reduction or DALYs averted relative to itself. Choose "DALYs per 1,000", adjust the model assumptions below, or choose another scenario to see results.';
 
 function StatusQuoReductionLabel({ index }: { index?: number }) {
   const plotArea = usePlotArea();
@@ -152,6 +165,18 @@ export function OutcomeBreakdownChart({
     isCustomScenario && Boolean(selectedScenarioWithDefaultAssumptions);
   // Even status quo can change relative to the fixed reference when inputs change.
   const displayedMetric = metric;
+  const dataKey =
+    metric === "percent"
+      ? "percentReduction"
+      : metric === "averted"
+        ? "dalysAverted"
+        : "dalys";
+  const originalDataKey =
+    metric === "percent"
+      ? "originalPercentReduction"
+      : metric === "averted"
+        ? "originalDalysAverted"
+        : "originalDalys";
 
   if (!scenario) {
     return (
@@ -175,6 +200,9 @@ export function OutcomeBreakdownChart({
       key: "acute_covid",
       label: "Acute COVID",
       dalys: scenario.acute_covid,
+      dalysAverted: scenario.dalys_averted_acute_covid,
+      originalDalysAverted:
+        selectedScenarioWithDefaultAssumptions?.dalys_averted_acute_covid,
       percentReduction: scenario.percent_reduction_acute_covid,
       originalDalys: selectedScenarioWithDefaultAssumptions?.acute_covid,
       originalPercentReduction:
@@ -185,6 +213,9 @@ export function OutcomeBreakdownChart({
       key: "long_covid",
       label: "Long COVID",
       dalys: scenario.long_covid,
+      dalysAverted: scenario.dalys_averted_long_covid,
+      originalDalysAverted:
+        selectedScenarioWithDefaultAssumptions?.dalys_averted_long_covid,
       percentReduction: scenario.percent_reduction_long_covid,
       originalDalys: selectedScenarioWithDefaultAssumptions?.long_covid,
       originalPercentReduction:
@@ -195,6 +226,9 @@ export function OutcomeBreakdownChart({
       key: "pasc",
       label: "Other sequelae",
       dalys: scenario.pasc,
+      dalysAverted: scenario.dalys_averted_pasc,
+      originalDalysAverted:
+        selectedScenarioWithDefaultAssumptions?.dalys_averted_pasc,
       percentReduction: scenario.percent_reduction_pasc,
       originalDalys: selectedScenarioWithDefaultAssumptions?.pasc,
       originalPercentReduction:
@@ -205,6 +239,9 @@ export function OutcomeBreakdownChart({
       key: "total",
       label: "Total",
       dalys: scenario.total,
+      dalysAverted: scenario.dalys_averted,
+      originalDalysAverted:
+        selectedScenarioWithDefaultAssumptions?.dalys_averted,
       percentReduction: scenario.percent_reduction,
       originalDalys: selectedScenarioWithDefaultAssumptions?.total,
       originalPercentReduction:
@@ -219,7 +256,7 @@ export function OutcomeBreakdownChart({
       displayedMetric === "percent" ? dataItem.key !== "total" : true,
     ),
     sortOrder,
-    (row) => (displayedMetric === "percent" ? row.percentReduction : row.dalys),
+    (row) => row[dataKey],
   );
   // Keep original markers in range when adjusted DALYs fall below the defaults,
   // with room for the marker label at the right edge.
@@ -235,8 +272,8 @@ export function OutcomeBreakdownChart({
 
   const showStatusQuoGuidance =
     scenarioId === "baseline" &&
-    displayedMetric === "percent" &&
-    visibleOutcomeData.every((row) => row.percentReduction === 0);
+    displayedMetric !== "dalys" &&
+    visibleOutcomeData.every((row) => row[dataKey] === 0);
 
   return (
     <Card className="gap-3 pt-3 md:gap-6 md:pt-6">
@@ -272,8 +309,12 @@ export function OutcomeBreakdownChart({
           <Separator />
           <CardTitle className="mt-4 text-sm text-pretty sm:text-lg">
             {scenario.label}: 5-year{" "}
-            {displayedMetric === "percent" ? "DALY reduction" : "DALYs"} by
-            outcome
+            {displayedMetric === "percent"
+              ? "DALY reduction"
+              : displayedMetric === "averted"
+                ? "DALYs averted"
+                : "DALYs"}{" "}
+            by outcome
           </CardTitle>
         </div>
       </CardHeader>
@@ -302,7 +343,11 @@ export function OutcomeBreakdownChart({
               <XAxis
                 type="number"
                 domain={
-                  displayedMetric === "percent" ? [0, "auto"] : [0, dalyAxisMax]
+                  displayedMetric === "averted"
+                    ? dalysAvertedAxisDomain
+                    : displayedMetric === "percent"
+                      ? [0, "auto"]
+                      : [0, dalyAxisMax]
                 }
                 label={{
                   value:
@@ -310,7 +355,9 @@ export function OutcomeBreakdownChart({
                       ? isMobile
                         ? "DALY reduction (%)"
                         : "Reduction in DALYs vs default status quo (%)"
-                      : "DALYs per 1,000 people",
+                      : displayedMetric === "averted"
+                        ? "DALYs averted per 1,000 people"
+                        : "DALYs per 1,000 people",
                   position: "bottom",
                   fill: "var(--muted-foreground)",
                 }}
@@ -332,14 +379,14 @@ export function OutcomeBreakdownChart({
                         label={
                           displayedMetric === "percent"
                             ? "Reduction vs default status quo"
-                            : "DALYs per 1,000"
+                            : displayedMetric === "averted"
+                              ? "DALYs averted per 1,000"
+                              : "DALYs per 1,000"
                         }
                         value={Number(value)}
                         originalValue={
                           showOriginalValues
-                            ? displayedMetric === "percent"
-                              ? item.payload.originalPercentReduction
-                              : item.payload.originalDalys
+                            ? item.payload[originalDataKey]
                             : undefined
                         }
                         showPercent={displayedMetric === "percent"}
@@ -349,16 +396,12 @@ export function OutcomeBreakdownChart({
                 }
               />
               <Bar
-                dataKey={
-                  displayedMetric === "percent" ? "percentReduction" : "dalys"
-                }
+                dataKey={dataKey}
                 isAnimationActive={!showStatusQuoGuidance}
                 shape={showStatusQuoGuidance ? <g /> : undefined}
               >
                 <LabelList
-                  dataKey={
-                    displayedMetric === "percent" ? "percentReduction" : "dalys"
-                  }
+                  dataKey={dataKey}
                   content={
                     <ModelBarValueLabel
                       showPercent={displayedMetric === "percent"}
@@ -367,17 +410,14 @@ export function OutcomeBreakdownChart({
                 />
                 {showStatusQuoGuidance && !isMobile && (
                   <LabelList
-                    dataKey="percentReduction"
+                    dataKey={dataKey}
                     content={<StatusQuoReductionLabel />}
                   />
                 )}
               </Bar>
               {showOriginalValues &&
                 visibleOutcomeData.map((row) => {
-                  const originalValue =
-                    displayedMetric === "percent"
-                      ? row.originalPercentReduction
-                      : row.originalDalys;
+                  const originalValue = row[originalDataKey];
 
                   return originalValue !== undefined ? (
                     <OriginalValueMarker
