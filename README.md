@@ -217,14 +217,21 @@ whenever the message format changes; editing the local script does not update Wo
 | `dalys-state` | WordPress → React | Restore tab, metric, filters, outcome scenario, and each chart's sort order on initial loading or Back/Forward |
 | `dalys-metric-change` | React → WordPress | Update the `metric` URL parameter |
 | `dalys-sort-order-change` | React → WordPress | Update the selected chart's sort parameter using `tab` and `sortOrder` |
+| `dalys-long-covid-medication-intervention-filter-change` | React → WordPress | Update `longCovidMedicationInterventionFilter` using the selected filter |
 | `dalys-resize` | React → WordPress | Update iframe `height` |
 
 Only user navigation adds history. Other query parameters and the hash are
 preserved; missing or unknown tabs display Air Cleaning. The standalone parent
 script's tab IDs must match `src/config/iframe-messages.ts`.
 The medication tabs use `?tab=prophylaxis` and `?tab=longCovidMedication`.
-Each has a fixed intervention group and shares the `metric` parameter with the
-other charts; neither needs an intervention filter parameter.
+Both share the `metric` parameter with the other charts. Long COVID Medication
+also supports `longCovidMedicationInterventionFilter` with values `all`,
+`diseaseProgression`, and `symptomBurden`. Missing or invalid values use `all`.
+This filter is independent of `airInterventionFilter`, persists across tab changes,
+and is included in shared current-view URLs. For example,
+`?tab=longCovidMedication&longCovidMedicationInterventionFilter=diseaseProgression`
+shows the 10% and 20% disease-progression scenarios. Prophylactic Medication
+has a fixed intervention group.
 The shared metric supports `percent` (percent reduction), `dalys` (DALYs per
 1,000), and `averted` (DALYs averted per 1,000 over 5 years). DALYs averted are
 the fixed default status quo DALYs minus the selected scenario's DALYs, for each

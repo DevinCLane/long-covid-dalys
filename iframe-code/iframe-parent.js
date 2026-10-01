@@ -15,6 +15,11 @@
   ];
   const METRICS = ["percent", "dalys", "averted"];
   const AIR_INTERVENTION_FILTERS = ["all", "hepa", "uvc"];
+  const LONG_COVID_MEDICATION_INTERVENTION_FILTERS = [
+    "all",
+    "diseaseProgression",
+    "symptomBurden",
+  ];
   // Keep sort values in sync with src/lib/chart-sort.ts.
   const SORT_ORDERS = ["default", "descending", "ascending"];
   const SORT_PARAMETERS_BY_TAB = {
@@ -34,13 +39,16 @@
     "preexposure_prophylaxis",
     "postexposure_prophylaxis",
     "long_covid_progression_reduction",
+    "long_covid_progression_reduction_substantial",
     "long_covid_disability_reduction",
+    "long_covid_disability_reduction_substantial",
   ];
 
   const SEARCH_PARAMETERS = [
     "tab",
     "metric",
     "airInterventionFilter",
+    "longCovidMedicationInterventionFilter",
     "outcomeBreakdownScenarioId",
     ...Object.values(SORT_PARAMETERS_BY_TAB),
   ];
@@ -88,6 +96,15 @@
       : "hepa_all_public";
   }
 
+  function getLongCovidMedicationInterventionFilter(url) {
+    const filter = url.searchParams.get(
+      "longCovidMedicationInterventionFilter",
+    );
+    return LONG_COVID_MEDICATION_INTERVENTION_FILTERS.includes(filter)
+      ? filter
+      : "all";
+  }
+
   function getSortOrder(url, tab) {
     const sortOrder = url.searchParams.get(SORT_PARAMETERS_BY_TAB[tab]);
     return SORT_ORDERS.includes(sortOrder) ? sortOrder : "default";
@@ -104,6 +121,8 @@
         type: "dalys-state",
         tab: getTab(url),
         airInterventionFilter: getAirInterventionFilter(url),
+        longCovidMedicationInterventionFilter:
+          getLongCovidMedicationInterventionFilter(url),
         outcomeBreakdownScenarioId: getOutcomeBreakdownScenarioId(url),
         metric: getMetric(url),
         sortOrders: Object.fromEntries(
@@ -220,6 +239,19 @@
           "airInterventionFilter",
           message.airInterventionFilter,
         );
+        window.history.replaceState(null, "", url);
+        return;
+      }
+
+      case "dalys-long-covid-medication-intervention-filter-change": {
+        const filter = message.longCovidMedicationInterventionFilter;
+        if (!LONG_COVID_MEDICATION_INTERVENTION_FILTERS.includes(filter))
+          return;
+
+        const url = new URL(window.location.href);
+        if (getLongCovidMedicationInterventionFilter(url) === filter) return;
+
+        url.searchParams.set("longCovidMedicationInterventionFilter", filter);
         window.history.replaceState(null, "", url);
         return;
       }

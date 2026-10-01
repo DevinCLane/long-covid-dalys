@@ -13,7 +13,7 @@ export function dalysAvertedAxisDomain([dataMin, dataMax]: readonly [
   ];
 }
 
-// Shared by the three intervention charts so every displayed value uses the
+// Shared by the intervention charts so every displayed value uses the
 // same metric, including sorting, tooltips, and original-value markers.
 export function scenarioChartMetric(metric: ChartMetric, isMobile: boolean) {
   switch (metric) {
@@ -38,4 +38,20 @@ export function scenarioChartMetric(metric: ChartMetric, isMobile: boolean) {
         tooltipLabel: "Total DALYs averted per 1,000",
       };
   }
+}
+
+export function longCovidMedicationChartMetric(
+  metric: ChartMetric,
+  isMobile: boolean,
+) {
+  if (metric === "percent") {
+    return {
+      dataKey: "percent_dalys_averted_vs_no_intervention" as const,
+      axisLabel: isMobile
+        ? "Long COVID DALY reduction (%)"
+        : "Reduction in Long COVID DALYs vs default status quo (%)",
+      tooltipLabel: "Long COVID DALY reduction",
+    };
+  }
+  return scenarioChartMetric(metric, isMobile);
 }

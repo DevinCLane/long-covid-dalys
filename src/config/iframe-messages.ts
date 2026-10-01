@@ -15,10 +15,17 @@ export const CHART_TAB_IDS = [
 export const TAB_IDS = [...CHART_TAB_IDS, "about"] as const;
 export const METRICS = ["percent", "dalys", "averted"] as const;
 export const AIR_INTERVENTION_FILTERS = ["all", "hepa", "uvc"] as const;
+export const LONG_COVID_MEDICATION_INTERVENTION_FILTERS = [
+  "all",
+  "diseaseProgression",
+  "symptomBurden",
+] as const;
 
 export type TabId = (typeof TAB_IDS)[number];
 export type ChartTabId = (typeof CHART_TAB_IDS)[number];
 export type AirId = (typeof AIR_INTERVENTION_FILTERS)[number];
+export type LongCovidMedicationInterventionFilter =
+  (typeof LONG_COVID_MEDICATION_INTERVENTION_FILTERS)[number];
 
 export function isTabId(value: unknown): value is TabId {
   return TAB_IDS.some((tab) => tab === value);
@@ -30,6 +37,14 @@ export function isMetric(value: unknown): value is ChartMetric {
 
 export function isAirInterventionFilter(value: unknown): value is AirId {
   return AIR_INTERVENTION_FILTERS.some((filter) => filter === value);
+}
+
+export function isLongCovidMedicationInterventionFilter(
+  value: unknown,
+): value is LongCovidMedicationInterventionFilter {
+  return LONG_COVID_MEDICATION_INTERVENTION_FILTERS.some(
+    (filter) => filter === value,
+  );
 }
 
 export function isScenarioId(value: unknown): value is ScenarioId {

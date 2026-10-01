@@ -22,6 +22,7 @@ export interface ScenarioDalyRow {
   pasc: number;
   total: number;
   percent_reduction: number;
+  percent_dalys_averted_vs_no_intervention: number;
   percent_reduction_acute_covid: number;
   percent_reduction_long_covid: number;
   percent_reduction_pasc: number;
@@ -138,7 +139,7 @@ function airScenarioDefinition(
 }
 
 /**
- * Main scenarios come from the validated export. The four additional scenario
+ * Main scenarios come from the validated export. The additional scenario
  * rows expose the intervention sensitivities that are also present in that
  * export, while allowing their selected level to remain live.
  */
@@ -170,7 +171,7 @@ export const SCENARIO_DEFINITIONS: readonly ScenarioDefinition[] = [
   },
   {
     id: "long_covid_progression_reduction",
-    label: "Long COVID progression reduction",
+    label: "10% less disease progression",
     interventions: ["longCovidProgressionReduction"],
     annualInfectionProportion: selectedBaseline,
     transformLongCovidParameters: (parameters, values) => ({
@@ -181,13 +182,40 @@ export const SCENARIO_DEFINITIONS: readonly ScenarioDefinition[] = [
     }),
   },
   {
+    id: "long_covid_progression_reduction_substantial",
+    label: "20% less disease progression",
+    interventions: ["longCovidProgressionReductionSubstantial"],
+    annualInfectionProportion: selectedBaseline,
+    transformLongCovidParameters: (parameters, values) => ({
+      ...parameters,
+      progressionRate:
+        parameters.progressionRate *
+        (1 - toProportion(values.longCovidProgressionReductionSubstantial)),
+    }),
+  },
+  {
     id: "long_covid_disability_reduction",
-    label: "Long COVID symptom-burden reduction",
+    label: "10% lower symptom burden",
     interventions: ["longCovidDisabilityReduction"],
     annualInfectionProportion: selectedBaseline,
     transformLongCovidParameters: (parameters, values) => {
       const remainingDisability =
         1 - toProportion(values.longCovidDisabilityReduction);
+      return {
+        ...parameters,
+        disabilityWeightS1: parameters.disabilityWeightS1 * remainingDisability,
+        disabilityWeightS2: parameters.disabilityWeightS2 * remainingDisability,
+      };
+    },
+  },
+  {
+    id: "long_covid_disability_reduction_substantial",
+    label: "20% lower symptom burden",
+    interventions: ["longCovidDisabilityReductionSubstantial"],
+    annualInfectionProportion: selectedBaseline,
+    transformLongCovidParameters: (parameters, values) => {
+      const remainingDisability =
+        1 - toProportion(values.longCovidDisabilityReductionSubstantial);
       return {
         ...parameters,
         disabilityWeightS1: parameters.disabilityWeightS1 * remainingDisability,
@@ -222,7 +250,9 @@ export const LONG_COVID_MEDICATION_SCENARIO_IDS = new Set(
     scenario.interventions.some(
       (intervention) =>
         intervention === "longCovidProgressionReduction" ||
-        intervention === "longCovidDisabilityReduction",
+        intervention === "longCovidProgressionReductionSubstantial" ||
+        intervention === "longCovidDisabilityReduction" ||
+        intervention === "longCovidDisabilityReductionSubstantial",
     ),
   ).map((scenario) => scenario.id),
 );
@@ -315,6 +345,11 @@ export function calculateScenarioDalyRows(
         approvedStatusQuo.longCovid - scenario.long_covid,
       dalys_averted_pasc: approvedStatusQuo.pasc - scenario.pasc,
       percent_reduction: Number(reductions.total.toFixed(2)),
+      // Outcome-specific percentage from the JSON treatment sensitivity:
+      // Long COVID DALYs averted / no-intervention Long COVID DALYs * 100.
+      percent_dalys_averted_vs_no_intervention: Number(
+        reductions.longCovid.toFixed(2),
+      ),
       percent_reduction_acute_covid: Number(reductions.acuteCovid.toFixed(2)),
       percent_reduction_long_covid: Number(reductions.longCovid.toFixed(2)),
       percent_reduction_pasc: Number(reductions.pasc.toFixed(2)),

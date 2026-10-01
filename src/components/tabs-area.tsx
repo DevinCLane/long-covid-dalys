@@ -9,10 +9,12 @@ import { DalyModelProvider } from "@/components/daly-model-provider";
 import { ScenarioId } from "@/config/scenario-daly-calculations";
 import {
   type AirId,
+  type LongCovidMedicationInterventionFilter,
   CHART_TAB_IDS,
   type ChartTabId,
   PARENT_ORIGIN,
   isAirInterventionFilter,
+  isLongCovidMedicationInterventionFilter,
   isTabId,
   type TabId,
   isScenarioId,
@@ -31,6 +33,10 @@ interface TabsAreaProps {
   setMetric: (value: ChartMetric) => void;
   airInterventionFilter: AirId;
   setAirInterventionFilter: (value: AirId) => void;
+  longCovidMedicationInterventionFilter: LongCovidMedicationInterventionFilter;
+  setLongCovidMedicationInterventionFilter: (
+    value: LongCovidMedicationInterventionFilter,
+  ) => void;
   outcomeBreakdownScenarioId: ScenarioId;
   setOutcomeBreakdownScenarioId: (value: ScenarioId) => void;
   sortOrders: Record<ChartTabId, ChartSortOrder>;
@@ -45,6 +51,8 @@ export default function TabsArea({
   setMetric,
   airInterventionFilter,
   setAirInterventionFilter,
+  longCovidMedicationInterventionFilter,
+  setLongCovidMedicationInterventionFilter,
   outcomeBreakdownScenarioId,
   setOutcomeBreakdownScenarioId,
   sortOrders,
@@ -105,6 +113,19 @@ export default function TabsArea({
     );
   }
 
+  function selectLongCovidMedicationInterventionFilter(
+    value: LongCovidMedicationInterventionFilter,
+  ) {
+    setLongCovidMedicationInterventionFilter(value);
+    window.parent.postMessage(
+      {
+        type: "dalys-long-covid-medication-intervention-filter-change",
+        longCovidMedicationInterventionFilter: value,
+      },
+      PARENT_ORIGIN,
+    );
+  }
+
   function openOutcomeBreakdown(scenarioId: ScenarioId) {
     if (!isScenarioId(scenarioId)) return;
     selectTab("outcomeBreakdown");
@@ -130,6 +151,16 @@ export default function TabsArea({
           setAirInterventionFilter(message.airInterventionFilter);
         }
 
+        if (
+          isLongCovidMedicationInterventionFilter(
+            message.longCovidMedicationInterventionFilter,
+          )
+        ) {
+          setLongCovidMedicationInterventionFilter(
+            message.longCovidMedicationInterventionFilter,
+          );
+        }
+
         if (isScenarioId(message.outcomeBreakdownScenarioId)) {
           setOutcomeBreakdownScenarioId(message.outcomeBreakdownScenarioId);
         }
@@ -150,6 +181,7 @@ export default function TabsArea({
   }, [
     setActiveTab,
     setAirInterventionFilter,
+    setLongCovidMedicationInterventionFilter,
     setMetric,
     setOutcomeBreakdownScenarioId,
     setChartSortOrder,
@@ -227,6 +259,10 @@ export default function TabsArea({
         </TabsContent>
         <TabsContent value="longCovidMedication" className="w-full">
           <LongCovidMedicationChart
+            interventionFilter={longCovidMedicationInterventionFilter}
+            onInterventionFilterChange={
+              selectLongCovidMedicationInterventionFilter
+            }
             sortOrder={sortOrders.longCovidMedication}
             setSortOrder={(value) =>
               selectChartSortOrder("longCovidMedication", value)

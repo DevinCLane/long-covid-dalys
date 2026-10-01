@@ -5,6 +5,7 @@ import TabsArea from "./components/tabs-area";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   AirId,
+  LongCovidMedicationInterventionFilter,
   ChartTabId,
   PARENT_ORIGIN,
   TabId,
@@ -25,6 +26,10 @@ function App() {
   const [metric, setMetric] = useState<ChartMetric>("percent");
   const [airInterventionFilter, setAirInterventionFilter] =
     useState<AirId>("all");
+  const [
+    longCovidMedicationInterventionFilter,
+    setLongCovidMedicationInterventionFilter,
+  ] = useState<LongCovidMedicationInterventionFilter>("all");
   const [outcomeBreakdownScenarioId, setOutcomeBreakdownScenarioId] =
     useState<ScenarioId>("hepa_all_public");
   const outerDiv = useRef<HTMLDivElement>(null);
@@ -41,6 +46,7 @@ function App() {
     setActiveTab("air");
     setMetric("percent");
     setAirInterventionFilter("all");
+    setLongCovidMedicationInterventionFilter("all");
     setOutcomeBreakdownScenarioId("hepa_all_public");
     setSortOrders(DEFAULT_SORT_ORDERS);
     // ask iframe parent to reset url parameters
@@ -82,6 +88,12 @@ function App() {
         setMetric={setMetric}
         airInterventionFilter={airInterventionFilter}
         setAirInterventionFilter={setAirInterventionFilter}
+        longCovidMedicationInterventionFilter={
+          longCovidMedicationInterventionFilter
+        }
+        setLongCovidMedicationInterventionFilter={
+          setLongCovidMedicationInterventionFilter
+        }
         outcomeBreakdownScenarioId={outcomeBreakdownScenarioId}
         setOutcomeBreakdownScenarioId={setOutcomeBreakdownScenarioId}
         sortOrders={sortOrders}

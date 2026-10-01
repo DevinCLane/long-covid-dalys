@@ -1,17 +1,12 @@
 "use client";
 
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  LabelList,
-  XAxis,
-  YAxis,
-} from "recharts";
+import { Bar, BarChart, CartesianGrid, LabelList, XAxis, YAxis } from "recharts";
 import { ChartControls } from "@/components/chart-controls";
+import { ChartModifierRadio } from "@/components/chart-modifier-radio";
+import type { LongCovidMedicationInterventionFilter } from "@/config/iframe-messages";
 import {
   dalysAvertedAxisDomain,
-  scenarioChartMetric,
+  longCovidMedicationChartMetric,
 } from "@/lib/chart-metric";
 import { sortChartRows, type ChartSortProps } from "@/lib/chart-sort";
 import { ModelChartContainer } from "@/components/charts/model-chart-container";
@@ -38,6 +33,7 @@ import {
 import React from "react";
 import type { ChartMetric } from "../chart-metric-toggle";
 import { useDalyModel } from "@/hooks/use-daly-model";
+import { interventionsByScenario } from "@/config/assumptions";
 import { useIsMobile } from "@/hooks/use-is-mobile";
 import { ModelAssumptionsPanel } from "@/components/assumptions-panel";
 import {
@@ -70,9 +66,12 @@ function ChartDescriptionBody() {
         illness.
       </p>
       <p className="mt-2">
-        The status quo scenario reflects the number of COVID-19-related DALYs
-        assuming no public health action is taken to mitigate COVID-19 infection
-        at the population level.
+        The scenarios use 10% and 20% reductions by default. Symptom-burden
+        scenarios reduce both Long COVID disability weights; disease-progression
+        scenarios reduce progression to significant activity limitations.
+        Percent reduction compares DALYs averted with Long COVID DALYs alone in
+        the default status quo, assuming no intervention. Acute COVID and PASC
+        DALYs are excluded from that percentage.
       </p>
     </div>
   );
@@ -84,19 +83,21 @@ this section builds the clickable Y axis labels
 
 */
 // formatting/text wrapping for the y axis labels
-const Y_AXIS_LABEL_MAX_CHARS = 17;
-const Y_AXIS_LABEL_WIDTH = 132;
+const Y_AXIS_LABEL_MAX_CHARS = 20;
+const Y_AXIS_LABEL_WIDTH = 144;
 const Y_AXIS_LABEL_LINE_HEIGHT = 13;
+const Y_AXIS_TICK_MARGIN = 8;
 
-function wrapScenarioLabel(label: string) {
+function wrapScenarioLabel(label: string, maxChars: number) {
   const lines: string[] = [];
-  const words = label.split(" ");
+  // Wrap compound words too, so "disease-progression" cannot overflow a line.
+  const words = label.split(/[\s-]+/);
 
   for (const word of words) {
     const currentLine = lines[lines.length - 1];
     const nextLine = currentLine ? `${currentLine} ${word}` : word;
 
-    if (!currentLine || nextLine.length > Y_AXIS_LABEL_MAX_CHARS) {
+    if (!currentLine || nextLine.length > maxChars) {
       lines.push(word);
     } else {
       lines[lines.length - 1] = nextLine;
@@ -107,6 +108,9 @@ function wrapScenarioLabel(label: string) {
 }
 
 interface ScenarioYAxisTickProps {
+  label?: string;
+  labelWidth?: number;
+  maxChars?: number;
   x?: string | number;
   y?: string | number;
   payload?: {
@@ -119,6 +123,9 @@ interface ScenarioYAxisTickProps {
  * build clickable Y axis labels
  */
 function ScenarioYAxisTick({
+  label: displayLabel,
+  labelWidth = Y_AXIS_LABEL_WIDTH,
+  maxChars = Y_AXIS_LABEL_MAX_CHARS,
   x = 0,
   y = 0,
   payload,
@@ -130,8 +137,8 @@ function ScenarioYAxisTick({
   }
   const value = String(payload?.value ?? "");
   const scenarioId = isScenarioId(value) ? value : undefined;
-  const label = SCENARIO_LABELS_BY_ID.get(value) ?? value;
-  const labelLines = wrapScenarioLabel(label);
+  const label = displayLabel ?? SCENARIO_LABELS_BY_ID.get(value) ?? value;
+  const labelLines = wrapScenarioLabel(label, maxChars);
   const isClickable = Boolean(scenarioId && onScenarioSelect);
   const labelHeight = labelLines.length * Y_AXIS_LABEL_LINE_HEIGHT + 6;
   const firstLineDy =
@@ -165,9 +172,9 @@ function ScenarioYAxisTick({
       onBlur={isClickable ? () => setIsFocused(false) : undefined}
     >
       <rect
-        x={-Y_AXIS_LABEL_WIDTH - 4}
+        x={-labelWidth - 4}
         y={-(labelHeight / 2)}
-        width={Y_AXIS_LABEL_WIDTH + 8}
+        width={labelWidth + 8}
         height={labelHeight}
         rx={4}
         fill="transparent"
@@ -195,12 +202,18 @@ function ScenarioYAxisTick({
   );
 }
 
+const INTERVENTION_OPTIONS = [
+  { value: "all", label: "All" },
+  { value: "diseaseProgression", label: "Disease progression reduction" },
+  { value: "symptomBurden", label: "Symptom burden reduction" },
+] satisfies { value: LongCovidMedicationInterventionFilter; label: string }[];
+
 const chartConfig = {
   dalys_averted: {
     label: "Total DALYs averted",
   },
-  percent_reduction: {
-    label: "Total DALY reduction",
+  percent_dalys_averted_vs_no_intervention: {
+    label: "Long COVID DALY reduction",
   },
   total: {
     label: "Total DALYs",
@@ -208,12 +221,18 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 interface LongCovidMedicationChartProps extends ChartSortProps {
+  interventionFilter: LongCovidMedicationInterventionFilter;
+  onInterventionFilterChange: (
+    value: LongCovidMedicationInterventionFilter,
+  ) => void;
   onScenarioSelect?: (scenarioId: ScenarioId) => void;
   metric: ChartMetric;
   setMetric: (value: ChartMetric) => void;
 }
 
 export function LongCovidMedicationChart({
+  interventionFilter,
+  onInterventionFilterChange,
   onScenarioSelect,
   metric,
   setMetric,
@@ -221,22 +240,39 @@ export function LongCovidMedicationChart({
   setSortOrder,
 }: LongCovidMedicationChartProps) {
   const isMobile = useIsMobile();
+  const axisLabelWidth = isMobile ? 108 : Y_AXIS_LABEL_WIDTH;
   const {
+    assumptions,
     scenarioRows: chartRows,
     defaultOutput,
     isCustomScenario,
   } = useDalyModel();
   const showDalys = metric === "dalys";
   const showPercent = metric === "percent";
-  const { dataKey, axisLabel, tooltipLabel } = scenarioChartMetric(
+  const { dataKey, axisLabel, tooltipLabel } = longCovidMedicationChartMetric(
     metric,
     isMobile,
   );
-  const visibleRows = chartRows.filter(
-    (row) =>
-      LONG_COVID_MEDICATION_SCENARIO_IDS.has(row.id) ||
-      (showDalys && row.id === "baseline"),
-  );
+  const visibleRows = chartRows
+    .filter((row) => {
+      if (row.id === "baseline") return showDalys;
+      if (!LONG_COVID_MEDICATION_SCENARIO_IDS.has(row.id)) return false;
+      if (interventionFilter === "all") return true;
+      const familyPrefix =
+        interventionFilter === "diseaseProgression"
+          ? "long_covid_progression_reduction"
+          : "long_covid_disability_reduction";
+      return row.id.startsWith(familyPrefix);
+    })
+    .map((row) => {
+      const intervention = interventionsByScenario[row.id]?.[0];
+      return intervention
+        ? {
+            ...row,
+            label: row.label.replace(/^\d+%/, `${assumptions[intervention]}%`),
+          }
+        : row;
+    });
   const sortedRows = sortChartRows(
     visibleRows,
     sortOrder,
@@ -264,7 +300,20 @@ export function LongCovidMedicationChart({
             setMetric={setMetric}
             sortOrder={sortOrder}
             setSortOrder={setSortOrder}
+            interventions={
+              <ChartModifierRadio<LongCovidMedicationInterventionFilter>
+                options={INTERVENTION_OPTIONS}
+                value={interventionFilter}
+                onValueChange={onInterventionFilterChange}
+              />
+            }
           />
+          {showPercent && (
+            <p className="text-muted-foreground order-2 mb-3 text-sm">
+              Scenario labels show the assumed treatment effect. Bar values show
+              the resulting reduction in Long COVID DALYs.
+            </p>
+          )}
           <ModelChartContainer
             config={chartConfig}
             className="order-2 h-100 w-full md:h-150"
@@ -277,6 +326,7 @@ export function LongCovidMedicationChart({
               }))}
               layout="vertical"
               margin={{
+                left: 8,
                 bottom: 15,
                 right: MODEL_VALUE_LABEL_MARGIN,
               }}
@@ -300,10 +350,18 @@ export function LongCovidMedicationChart({
                 axisLine={false}
                 tickLine={false}
                 type="category"
-                width={115}
+                width={axisLabelWidth + Y_AXIS_TICK_MARGIN}
+                tickMargin={Y_AXIS_TICK_MARGIN}
+                interval={0}
                 tick={(props) => (
                   <ScenarioYAxisTick
                     {...props}
+                    labelWidth={axisLabelWidth}
+                    maxChars={isMobile ? 16 : Y_AXIS_LABEL_MAX_CHARS}
+                    label={
+                      visibleRows.find((row) => row.id === props.payload.value)
+                        ?.label
+                    }
                     onScenarioSelect={isMobile ? undefined : onScenarioSelect}
                   />
                 )}
@@ -367,7 +425,9 @@ export function LongCovidMedicationChart({
         <ModelAssumptionsPanel
           allowedInterventions={[
             "longCovidProgressionReduction",
+            "longCovidProgressionReductionSubstantial",
             "longCovidDisabilityReduction",
+            "longCovidDisabilityReductionSubstantial",
           ]}
         />
       </CardContent>

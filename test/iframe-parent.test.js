@@ -150,6 +150,89 @@ test("local iframe harness uses the development origin", () => {
   );
 });
 
+test("Long COVID intervention filters persist, share, restore, and reset independently of air filters", () => {
+  const parent = createParent(
+    "https://polybio.org/model?tab=longCovidMedication&airInterventionFilter=hepa&keep=1#chart",
+  );
+  for (const filter of ["diseaseProgression", "symptomBurden", "all"]) {
+    const change = {
+      type: "dalys-long-covid-medication-intervention-filter-change",
+      longCovidMedicationInterventionFilter: filter,
+    };
+    parent.send(change);
+    const url = new URL(parent.window.location.href);
+    assert.equal(
+      url.searchParams.get("longCovidMedicationInterventionFilter"),
+      filter,
+    );
+    assert.equal(url.searchParams.get("airInterventionFilter"), "hepa");
+    assert.equal(url.searchParams.get("keep"), "1");
+    assert.equal(url.hash, "#chart");
+
+    const historyLength = parent.history.length;
+    parent.send(change);
+    assert.equal(parent.history.length, historyLength);
+    parent.send({ type: "dalys-share-current-view" });
+    assert.equal(parent.messages.at(-1).message.url, url.href);
+
+    const reloaded = createParent(url.href);
+    reloaded.send({ type: "dalys-ready" });
+    assert.equal(
+      reloaded.messages.at(-1).message.longCovidMedicationInterventionFilter,
+      filter,
+    );
+    assert.deepEqual(reloaded.history, []);
+
+    parent.window.location.href = "https://polybio.org/model";
+    parent.popstate();
+    assert.equal(
+      parent.messages.at(-1).message.longCovidMedicationInterventionFilter,
+      "all",
+    );
+    parent.window.location.href = url.href;
+    parent.popstate();
+    assert.equal(
+      parent.messages.at(-1).message.longCovidMedicationInterventionFilter,
+      filter,
+    );
+    assert.equal(parent.history.length, historyLength);
+  }
+  assert.deepEqual(parent.history, [
+    "replaceState",
+    "replaceState",
+    "replaceState",
+  ]);
+  parent.send({ type: "dalys-reset-view" });
+  assert.equal(
+    parent.window.location.href,
+    "https://polybio.org/model?keep=1#chart",
+  );
+  parent.send({ type: "dalys-ready" });
+  assert.equal(
+    parent.messages.at(-1).message.longCovidMedicationInterventionFilter,
+    "all",
+  );
+});
+
+test("invalid Long COVID intervention filters fall back to all and cannot change history", () => {
+  const originalUrl =
+    "https://polybio.org/model?longCovidMedicationInterventionFilter=unknown";
+  const parent = createParent(originalUrl);
+  parent.send({ type: "dalys-ready" });
+  assert.equal(
+    parent.messages.at(-1).message.longCovidMedicationInterventionFilter,
+    "all",
+  );
+  for (const filter of ["unknown", "hepa", "", null, undefined, 1]) {
+    parent.send({
+      type: "dalys-long-covid-medication-intervention-filter-change",
+      longCovidMedicationInterventionFilter: filter,
+    });
+  }
+  assert.equal(parent.window.location.href, originalUrl);
+  assert.deepEqual(parent.history, []);
+});
+
 const sortParametersByTab = {
   air: "airSortOrder",
   prophylaxis: "prophylaxisSortOrder",

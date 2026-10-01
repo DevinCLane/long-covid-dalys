@@ -265,7 +265,7 @@ export const ASSUMPTIONS = [
   {
     key: "longCovidProgressionReduction",
     group: "interventionParameters",
-    sliderLabel: "Long COVID progression reduction",
+    sliderLabel: "10% less disease progression",
     sliderSubLabel:
       "Percent reduction in progression from activity limitations to significant activity limitations",
     sliderMin: 0,
@@ -274,15 +274,39 @@ export const ASSUMPTIONS = [
     defaultValue: toPercent(DEFAULT_LONG_COVID_PROGRESSION_REDUCTION),
   },
   {
+    key: "longCovidProgressionReductionSubstantial",
+    group: "interventionParameters",
+    sliderLabel: "20% less disease progression",
+    sliderSubLabel:
+      "Percent reduction in progression from activity limitations to significant activity limitations",
+    sliderMin: 0,
+    sliderMax: 100,
+    sliderStep: 0.1,
+    // Largest progression-rate reduction in the validated JSON sensitivity.
+    defaultValue: 20,
+  },
+  {
     key: "longCovidDisabilityReduction",
     group: "interventionParameters",
-    sliderLabel: "Long COVID symptom-burden reduction",
+    sliderLabel: "10% lower symptom burden",
     sliderSubLabel:
       "Percent reduction applied to both Long COVID disability weights in the treatment scenario",
     sliderMin: 0,
     sliderMax: 100,
     sliderStep: 0.1,
     defaultValue: toPercent(DEFAULT_LONG_COVID_DISABILITY_REDUCTION),
+  },
+  {
+    key: "longCovidDisabilityReductionSubstantial",
+    group: "interventionParameters",
+    sliderLabel: "20% lower symptom burden",
+    sliderSubLabel:
+      "Percent reduction applied to both Long COVID disability weights in the treatment scenario",
+    sliderMin: 0,
+    sliderMax: 100,
+    sliderStep: 0.1,
+    // Largest disability-weight reduction in the validated JSON sensitivity.
+    defaultValue: 20,
   },
 ] as const satisfies readonly AssumptionDefinition[];
 
