@@ -65,8 +65,9 @@ function ChartDescriptionBody() {
           className="font-medium underline underline-offset-4"
         >
           disability-adjusted life years (DALYs)
-        </a>
-        . Each DALY represents one year of healthy life lost to illness.
+        </a>{" "}
+        over five years. Each DALY represents one year of healthy life lost to
+        illness.
       </p>
       <p className="mt-2">
         The status quo scenario reflects the number of COVID-19-related DALYs

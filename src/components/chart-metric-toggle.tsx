@@ -55,9 +55,8 @@ export function ChartMetricToggle({
               </FieldLabel>
             </TooltipTrigger>
             <TooltipContent className="max-w-64 px-2 py-1 text-xs">
-              Default status quo DALYs minus scenario DALYs per 1,000 people
-              over 5 years. The reference stays fixed when assumptions change.
-              Negative values indicate increased DALYs.
+              Default status quo DALYs minus a given scenario's DALYs per 1,000
+              people over 5 years. Negative values indicate increased DALYs.
             </TooltipContent>
           </Tooltip>
         </Field>
