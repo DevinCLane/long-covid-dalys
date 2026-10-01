@@ -37,7 +37,7 @@ export function ChartMetricToggle({
                 <span className="min-w-0 break-words">Percent reduction</span>
               </FieldLabel>
             </TooltipTrigger>
-            <TooltipContent className="max-w-64 px-2 py-1 text-xs">
+            <TooltipContent className="max-w-64 px-2 py-1 text-xs text-wrap">
               Percent reduction compared with the status quo scenario of no
               population-level health interventions. Negative values indicate
               increased DALYs.
@@ -54,7 +54,7 @@ export function ChartMetricToggle({
                 </span>
               </FieldLabel>
             </TooltipTrigger>
-            <TooltipContent className="max-w-64 px-2 py-1 text-xs">
+            <TooltipContent className="max-w-64 px-2 py-1 text-xs text-wrap">
               Default status quo DALYs minus a given scenario's DALYs per 1,000
               people over 5 years. Negative values indicate increased DALYs.
             </TooltipContent>
