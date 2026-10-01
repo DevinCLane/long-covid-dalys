@@ -279,6 +279,12 @@ export function LongCovidMedicationChart({
     (row) => row[dataKey],
   );
 
+  const originalMarkers = isCustomScenario
+    ? defaultOutput
+        .filter((row) => visibleRows.some((visible) => visible.id === row.id))
+        .map((row) => ({ x: row[dataKey], y: row.id }))
+    : [];
+
   return (
     <Card className="gap-3 pt-3 md:gap-6 md:pt-6">
       {/* chart header */}
@@ -402,20 +408,17 @@ export function LongCovidMedicationChart({
               >
                 <LabelList
                   dataKey={dataKey}
-                  content={<ModelBarValueLabel showPercent={showPercent} />}
+                  content={
+                    <ModelBarValueLabel
+                      showPercent={showPercent}
+                      originalMarkers={originalMarkers}
+                    />
+                  }
                 />
               </Bar>
-              {isCustomScenario &&
-                defaultOutput.map(
-                  (originalRow) =>
-                    visibleRows.some((row) => row.id === originalRow.id) && (
-                      <OriginalValueMarker
-                        key={originalRow.id}
-                        x={originalRow[dataKey]}
-                        y={originalRow.id}
-                      />
-                    ),
-                )}
+              {originalMarkers.map((marker) => (
+                <OriginalValueMarker key={marker.y} {...marker} />
+              ))}
             </BarChart>
           </ModelChartContainer>
         </div>

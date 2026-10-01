@@ -270,6 +270,15 @@ export function OutcomeBreakdownChart({
       ) * 1.1
     : "auto";
 
+  const originalMarkers = showOriginalValues
+    ? visibleOutcomeData.flatMap((row) => {
+        const originalValue = row[originalDataKey];
+        return originalValue !== undefined
+          ? [{ x: originalValue, y: row.label }]
+          : [];
+      })
+    : [];
+
   const showStatusQuoGuidance =
     scenarioId === "baseline" &&
     displayedMetric !== "dalys" &&
@@ -405,6 +414,7 @@ export function OutcomeBreakdownChart({
                   content={
                     <ModelBarValueLabel
                       showPercent={displayedMetric === "percent"}
+                      originalMarkers={originalMarkers}
                     />
                   }
                 />
@@ -415,18 +425,9 @@ export function OutcomeBreakdownChart({
                   />
                 )}
               </Bar>
-              {showOriginalValues &&
-                visibleOutcomeData.map((row) => {
-                  const originalValue = row[originalDataKey];
-
-                  return originalValue !== undefined ? (
-                    <OriginalValueMarker
-                      key={row.key}
-                      x={originalValue}
-                      y={row.label}
-                    />
-                  ) : null;
-                })}
+              {originalMarkers.map((marker) => (
+                <OriginalValueMarker key={marker.y} {...marker} />
+              ))}
             </BarChart>
           </ModelChartContainer>
         </div>
