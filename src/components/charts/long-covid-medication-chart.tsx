@@ -320,12 +320,6 @@ export function LongCovidMedicationChart({
               />
             }
           />
-          {showPercent && (
-            <p className="text-muted-foreground order-2 mb-3 text-sm">
-              Scenario labels show the assumed treatment effect. Bar values show
-              the resulting reduction in Long COVID DALYs.
-            </p>
-          )}
           <ModelChartContainer
             image={{
               title: CHART_TITLE,
