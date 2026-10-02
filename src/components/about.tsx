@@ -27,10 +27,34 @@ export function AboutPage() {
           className="[&_a]:decoration-muted-foreground/50 [&_a:hover]:decoration-foreground mx-auto max-w-3xl space-y-10 text-base leading-7 text-pretty [&_a]:rounded-sm [&_a]:font-medium [&_a]:underline [&_a]:underline-offset-4 [&_a:focus-visible]:outline-2 [&_a:focus-visible]:outline-offset-4"
         >
           <section
+            aria-labelledby="executive-summary-heading"
+            className="space-y-3"
+          >
+            <h3
+              id="executive-summary-heading"
+              className="border-b pb-3 text-2xl font-bold tracking-tight"
+            >
+              Executive summary
+            </h3>
+            <p>
+              This website reports on efforts to synthesize existing
+              peer-reviewed evidence to model the potential impact of different
+              public health interventions on disability-adjusted life years
+              related to Long COVID, acute COVID, and other post-acute sequelae
+              of COVID. We modeled the potential impact of different
+              interventions (e.g., air cleaning intervention, hypothetical
+              pharmaceutical interventions) on SARS-CoV-2 infections and related
+              disability-adjusted life years.
+            </p>
+          </section>
+          <section
             aria-labelledby="model-assumptions-heading"
             className="scroll-mt-6 space-y-7"
           >
-            <h3 className="border-b pb-3 text-2xl font-bold tracking-tight">
+            <h3
+              id="model-assumptions-heading"
+              className="border-b pb-3 text-2xl font-bold tracking-tight"
+            >
               Model assumptions
             </h3>
             <section className="space-y-3">
@@ -109,7 +133,7 @@ export function AboutPage() {
             </section>
             <section className="space-y-3">
               <h4 className="text-lg font-semibold tracking-tight">
-                Post-acute sequelae of COVID (PASC)
+                Post-acute sequelae of COVID (PASC; “other sequelae”)
               </h4>
               <p>
                 Although some consensus definitions of Long COVID (e.g.,{" "}
@@ -341,12 +365,24 @@ export function AboutPage() {
                   </dt>
                   <dd>
                     Under this scenario, we assume a hypothetical medication or
-                    other treatment for Long COVID reduces the proportion of
-                    persons with Long COVID who progress from having some
-                    activity limitations to having significant activity
-                    limitations by 10% and reduces the Long COVID-associated
-                    disability burden by 10%. Currently, there are no
-                    FDA-approved treatments for Long COVID.
+                    other treatment for Long COVID reduces the Long
+                    COVID-associated disability burden by varying amounts.
+                    Currently, there are no FDA-approved treatments for Long
+                    COVID.
+                  </dd>
+                </div>
+                <div className="space-y-2">
+                  <dt className="text-foreground font-semibold">
+                    Medication or other treatment for Long COVID progression
+                    reduction
+                  </dt>
+                  <dd>
+                    We assume a hypothetical medication or other treatment for
+                    Long COVID reduces the proportion of persons with Long
+                    COVID who progress from having some activity limitations to
+                    having significant activity limitations by varying amounts.
+                    Currently, there are no FDA-approved treatments for Long
+                    COVID.
                   </dd>
                 </div>
               </dl>
