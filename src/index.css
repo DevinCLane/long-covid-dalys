@@ -233,3 +233,36 @@
     cursor: pointer;
   }
 }
+
+/* Keep line tabs on desktop; use individually selectable tiles on mobile.
+   These scoped rules override the shared tab utilities only below sm. */
+@media (width < 40rem) {
+  .chart-tabs-list {
+    gap: 8px;
+  }
+
+  .chart-tabs-list [data-slot="tabs-trigger"] {
+    min-height: 56px;
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--background);
+    color: var(--muted-foreground);
+    line-height: 20px;
+  }
+
+  .chart-tabs-list [data-slot="tabs-trigger"][data-state="active"] {
+    border-color: var(--primary);
+    background: var(--primary);
+    color: var(--primary-foreground);
+  }
+
+  .chart-tabs-list [data-slot="tabs-trigger"]::after {
+    display: none;
+  }
+
+  .chart-tabs-list [data-slot="tabs-trigger"]:last-child {
+    grid-column: 1 / -1;
+    min-height: 44px;
+  }
+}

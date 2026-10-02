@@ -202,7 +202,7 @@ export default function TabsArea({
           <div className="w-full min-w-0 py-0.5 sm:w-auto sm:py-1.5">
             <TabsList
               variant="line"
-              className="grid w-full grid-cols-2 p-0 group-data-[orientation=horizontal]/tabs:h-auto sm:flex sm:h-auto sm:w-fit sm:flex-wrap sm:gap-1 sm:p-[3px] sm:group-data-[orientation=horizontal]/tabs:h-auto"
+              className="chart-tabs-list grid w-full grid-cols-2 p-0 group-data-[orientation=horizontal]/tabs:h-auto sm:flex sm:h-auto sm:w-fit sm:flex-wrap sm:gap-1 sm:p-[3px] sm:group-data-[orientation=horizontal]/tabs:h-auto"
             >
               <TabsTrigger
                 value="air"
