@@ -129,6 +129,7 @@ ${colorConfig
 const ChartTooltip = RechartsPrimitive.Tooltip;
 
 function ChartTooltipContent({
+  accessibilityLayer = true,
   active,
   payload,
   className,
@@ -145,6 +146,7 @@ function ChartTooltipContent({
   labelKey,
 }: React.ComponentProps<typeof RechartsPrimitive.Tooltip> &
   React.ComponentProps<"div"> & {
+    accessibilityLayer?: boolean;
     hideLabel?: boolean;
     hideIndicator?: boolean;
     indicator?: "line" | "dot" | "dashed";
@@ -201,6 +203,9 @@ function ChartTooltipContent({
 
   return (
     <div
+      role={accessibilityLayer ? "status" : undefined}
+      aria-live={accessibilityLayer ? "polite" : undefined}
+      aria-atomic={accessibilityLayer ? true : undefined}
       className={cn(
         "border-border/50 bg-background grid min-w-32 items-start gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs shadow-xl",
         className,

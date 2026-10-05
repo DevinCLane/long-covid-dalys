@@ -7,6 +7,7 @@
     "dev": "vite --host",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
+    "test:a11y": "playwright test",
     "preview": "vite preview",
     "generate-data": "tsx src/lib/export-mock-data.ts",
     "verify:model-assumptions": "tsx scripts/verify-model-assumptions.ts"
@@ -36,7 +37,9 @@
     "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@eslint/js": "^9.39.2",
+    "@playwright/test": "^1.63.0",
     "@types/node": "^22.10.6",
     "@types/react": "19.2.10",
     "@types/react-dom": "19.2.3",

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { OutcomeBreakdownChart } from "@/components/charts/outcome-breakdown-chart";
 import { AirCleaningChart } from "@/components/charts/air-cleaning-chart";
@@ -58,6 +58,17 @@ export default function TabsArea({
   sortOrders,
   setChartSortOrder,
 }: TabsAreaProps) {
+  const focusOutcomePanel = useRef(false);
+  const outcomePanelRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (activeTab === "outcomeBreakdown" && focusOutcomePanel.current) {
+      const frame = requestAnimationFrame(() => {
+        outcomePanelRef.current?.focus();
+        focusOutcomePanel.current = false;
+      });
+      return () => cancelAnimationFrame(frame);
+    }
+  }, [activeTab]);
   /**
    * User navigation creates history; messages from the parent only restore it.
    */
@@ -128,6 +139,7 @@ export default function TabsArea({
 
   function openOutcomeBreakdown(scenarioId: ScenarioId) {
     if (!isScenarioId(scenarioId)) return;
+    focusOutcomePanel.current = true;
     selectTab("outcomeBreakdown");
     selectOutcomeBreakdownScenario(scenarioId);
   }
@@ -201,6 +213,7 @@ export default function TabsArea({
           </div>
           <div className="w-full min-w-0 py-0.5 sm:w-auto sm:py-1.5">
             <TabsList
+              aria-label="Simulator views"
               variant="line"
               className="chart-tabs-list grid w-full grid-cols-2 p-0 group-data-[orientation=horizontal]/tabs:h-auto sm:flex sm:h-auto sm:w-fit sm:flex-wrap sm:gap-1 sm:p-[3px] sm:group-data-[orientation=horizontal]/tabs:h-auto"
             >
@@ -272,7 +285,11 @@ export default function TabsArea({
             setMetric={selectMetric}
           />
         </TabsContent>
-        <TabsContent value="outcomeBreakdown" className="w-full">
+        <TabsContent
+          ref={outcomePanelRef}
+          value="outcomeBreakdown"
+          className="w-full"
+        >
           <OutcomeBreakdownChart
             sortOrder={sortOrders.outcomeBreakdown}
             setSortOrder={(value) =>

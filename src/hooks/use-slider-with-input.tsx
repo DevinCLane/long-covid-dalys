@@ -27,6 +27,7 @@ export function useSliderWithInput({
   onValueChange,
 }: UseSliderWithInputProps) {
   const [inputValue, setInputValue] = useState(() => formatValue(value, step));
+  const [validationMessage, setValidationMessage] = useState("");
 
   useEffect(() => {
     setInputValue(formatValue(value, step));
@@ -40,6 +41,13 @@ export function useSliderWithInput({
         : value;
 
       setInputValue(formatValue(nextValue, step));
+      setValidationMessage(
+        !Number.isFinite(parsedValue)
+          ? `Enter a number. Value restored to ${formatValue(value, step)}.`
+          : parsedValue !== nextValue
+            ? `Allowed range is ${minValue} to ${maxValue}. Value adjusted to ${formatValue(nextValue, step)}.`
+            : "",
+      );
       onValueChange?.(nextValue);
     },
     [maxValue, minValue, onValueChange, step, value],
@@ -48,6 +56,7 @@ export function useSliderWithInput({
   const handleInputChange = useCallback((rawValue: string) => {
     if (rawValue === "" || /^-?\d*\.?\d*$/.test(rawValue)) {
       setInputValue(rawValue);
+      setValidationMessage("");
     }
   }, []);
 
@@ -71,5 +80,6 @@ export function useSliderWithInput({
     handleInputChange,
     handleSliderChange,
     resetToDefault,
+    validationMessage,
   };
 }

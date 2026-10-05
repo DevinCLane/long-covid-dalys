@@ -16,6 +16,10 @@ import { ChartContainer } from "@/components/ui/chart";
 import { useDalyModel } from "@/hooks/use-daly-model";
 import { downloadChartImage, type ChartImageDetails } from "@/lib/chart-image";
 import { cn } from "@/lib/utils";
+import {
+  ChartResultsStatus,
+  type ChartResultsStatusProps,
+} from "./chart-results-status";
 
 const ChartAnimationContext = createContext<{
   onAnimationStart: () => void;
@@ -33,9 +37,14 @@ export function ModelChartContainer({
   className,
   children,
   image,
+  accessibleData,
   ...props
 }: ComponentProps<typeof ChartContainer> & {
   image: ChartImageDetails;
+  accessibleData: Pick<
+    ChartResultsStatusProps,
+    "rows" | "valueLabel" | "showPercent"
+  >;
 }) {
   const { isCustomScenario } = useDalyModel();
   const chartRef = useRef<HTMLDivElement>(null);
@@ -44,6 +53,7 @@ export function ModelChartContainer({
   const [isDownloading, setIsDownloading] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [downloadStatus, setDownloadStatus] = useState("");
   // Keep animation state here so updating the button doesn't recreate chart data.
   const onAnimationStart = useCallback(() => setIsAnimating(true), []);
   const onAnimationEnd = useCallback(() => setIsAnimating(false), []);
@@ -62,6 +72,7 @@ export function ModelChartContainer({
     downloadingRef.current = true;
     setIsDownloading(true);
     setError(null);
+    setDownloadStatus("Preparing chart image.");
     try {
       await downloadChartImage(chart, image, () => {
         if (
@@ -71,7 +82,9 @@ export function ModelChartContainer({
           throw new Error("The chart changed while preparing the image.");
         }
       });
+      setDownloadStatus("Chart image download started.");
     } catch {
+      setDownloadStatus("");
       setError("Couldn't download the image. Please try again.");
     } finally {
       downloadingRef.current = false;
@@ -86,7 +99,10 @@ export function ModelChartContainer({
         className={cn("relative isolate container", className)}
       >
         {isCustomScenario && (
-          <div className="pointer-events-none absolute inset-0 z-20 overflow-hidden select-none">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 z-20 overflow-hidden select-none"
+          >
             <div className="text-foreground absolute top-1/2 right-[3%] left-[24%] -translate-y-1/2 -rotate-12 text-center opacity-12 dark:opacity-15">
               <p className="text-[clamp(1rem,5cqw,3.5rem)] leading-none font-semibold tracking-[0.06em] uppercase">
                 Custom scenario
@@ -104,7 +120,15 @@ export function ModelChartContainer({
           </ChartContainer>
         </ChartAnimationContext.Provider>
       </div>
+      <ChartResultsStatus
+        {...accessibleData}
+        description={image.description}
+        isCustomScenario={isCustomScenario}
+      />
       <div className="mt-3 flex flex-col items-end gap-2">
+        <p role="status" className="sr-only">
+          {downloadStatus}
+        </p>
         <Button
           type="button"
           variant="outline"

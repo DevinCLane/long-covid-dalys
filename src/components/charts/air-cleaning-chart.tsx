@@ -299,6 +299,20 @@ export function AirCleaningChart({
             }
           />
           <ModelChartContainer
+            accessibleData={{
+              valueLabel: tooltipLabel,
+              showPercent,
+              rows: sortedRows.map((row) => ({
+                id: row.id,
+                label: row.label,
+                value: row[dataKey],
+                originalValue: isCustomScenario
+                  ? defaultOutput.find((original) => original.id === row.id)?.[
+                      dataKey
+                    ]
+                  : undefined,
+              })),
+            }}
             image={{
               title: CHART_TITLE,
               description: chartImageDescription(
@@ -316,6 +330,7 @@ export function AirCleaningChart({
             className="order-2 h-100 w-full md:h-150"
           >
             <BarChart
+              aria-label={`${CHART_TITLE} Use Left and Right arrow keys to explore values.`}
               accessibilityLayer
               data={sortedRows.map((row) => ({
                 ...row,
@@ -350,7 +365,7 @@ export function AirCleaningChart({
                 tick={(props) => (
                   <ScenarioYAxisTick
                     {...props}
-                    onScenarioSelect={isMobile ? undefined : onScenarioSelect}
+                    onScenarioSelect={onScenarioSelect}
                   />
                 )}
               />

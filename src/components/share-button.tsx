@@ -75,14 +75,14 @@ export default function ShareButton() {
                 variant="outline"
                 aria-label="Share options"
               >
-                <Forward />
+                <Forward aria-hidden="true" />
               </Button>
             </TooltipTrigger>
           </PopoverTrigger>
           <TooltipContent className="px-2 py-1 text-xs">Share</TooltipContent>
         </Tooltip>
 
-        <PopoverContent className="bg-card w-72">
+        <PopoverContent className="bg-card w-72" aria-label="Share simulator">
           <div className="flex flex-col gap-3 text-center">
             <div className="text-sm font-medium">Share</div>
             <div className="flex justify-center gap-2">

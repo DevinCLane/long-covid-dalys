@@ -5,7 +5,7 @@ export function SiteFooter() {
     <footer className="text-muted-foreground mt-8 border-t px-1 py-6 text-left text-sm leading-relaxed sm:px-6">
       <div className="space-y-4">
         <div>
-          <h4 className="text-foreground mb-2 font-medium">Cite this source</h4>
+          <h2 className="text-foreground mb-2 font-medium">Cite this source</h2>
           <p>{SIMULATOR_CITATION}</p>
         </div>
         <p className="text-xs">

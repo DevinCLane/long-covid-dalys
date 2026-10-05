@@ -5,6 +5,7 @@ interface AssumptionAreaProps {
   sliderSubLabel: string;
   sliderMin: number;
   sliderMax: number;
+  sliderUnit?: "percent";
   sliderStep: number;
   sliderValue: number;
   sliderDefaultValue: number;
@@ -17,6 +18,7 @@ export function AssumptionArea({
   sliderSubLabel,
   sliderMin,
   sliderMax,
+  sliderUnit,
   sliderStep,
   sliderValue,
   sliderDefaultValue,
@@ -32,6 +34,7 @@ export function AssumptionArea({
             sublabel={sliderSubLabel}
             minValue={sliderMin}
             maxValue={sliderMax}
+            unit={sliderUnit}
             step={sliderStep}
             value={sliderValue}
             defaultValue={sliderDefaultValue}

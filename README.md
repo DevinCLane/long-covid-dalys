@@ -276,6 +276,8 @@ Images are generated in the browser without uploading chart data.
 
 ### Testing Your Changes (if working locally)
 
+For screen reader accessibility findings, verification, and a manual testing guide, see [the accessibility audit](accessibility-audit.md). Run `npm run test:a11y` for the desktop/mobile Playwright and axe checks (install Chromium first with `npx playwright install chromium`, or use `PLAYWRIGHT_CHANNEL=chrome` with installed Chrome).
+
 After updating data files:
 
 1. **Development mode:** `npm run dev` - See changes immediately with hot reload

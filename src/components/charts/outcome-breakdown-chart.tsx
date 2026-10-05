@@ -305,7 +305,10 @@ export function OutcomeBreakdownChart({
               >
                 <SelectValue placeholder="Select scenario" />
               </SelectTrigger>
-              <SelectContent className="w-full rounded-xl">
+              <SelectContent
+                className="w-full rounded-xl"
+                aria-label="Scenarios"
+              >
                 {scenarioRows.map((scenario) => (
                   <SelectItem key={scenario.id} value={scenario.id}>
                     {scenario.label}
@@ -321,7 +324,7 @@ export function OutcomeBreakdownChart({
             intervention scenario.
           </CardDescription>
           <Separator />
-          <CardTitle className="mt-4 text-sm text-pretty sm:text-lg">
+          <CardTitle as="h3" className="mt-4 text-sm text-pretty sm:text-lg">
             {scenario.label}: 5-year{" "}
             {displayedMetric === "percent"
               ? "DALY reduction"
@@ -341,6 +344,23 @@ export function OutcomeBreakdownChart({
             setSortOrder={setSortOrder}
           />
           <ModelChartContainer
+            accessibleData={{
+              valueLabel:
+                displayedMetric === "percent"
+                  ? "Reduction vs default status quo (%)"
+                  : displayedMetric === "averted"
+                    ? "DALYs averted per 1,000"
+                    : "DALYs per 1,000",
+              showPercent: displayedMetric === "percent",
+              rows: visibleOutcomeData.map((row) => ({
+                id: row.key,
+                label: row.label,
+                value: row[dataKey],
+                originalValue: showOriginalValues
+                  ? row[originalDataKey]
+                  : undefined,
+              })),
+            }}
             image={{
               title: CHART_TITLE,
               description:
@@ -358,6 +378,7 @@ export function OutcomeBreakdownChart({
             className="order-2 h-100 w-full md:h-150"
           >
             <BarChart
+              aria-label={`${scenario.label}: outcomes over 5 years. Use Left and Right arrow keys to explore values.`}
               accessibilityLayer
               data={visibleOutcomeData}
               layout="vertical"

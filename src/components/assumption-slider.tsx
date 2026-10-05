@@ -10,11 +10,13 @@ import {
 } from "@/components/ui/tooltip";
 import { RotateCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useId } from "react";
 
 interface AssumptionSliderProps {
   className?: string;
   label?: string;
   sublabel?: string;
+  unit?: "percent";
   minValue?: number;
   maxValue?: number;
   step?: number;
@@ -28,6 +30,7 @@ export function AssumptionSlider({
   className,
   label,
   sublabel,
+  unit,
   minValue = 0.0,
   maxValue = 2,
   step,
@@ -36,12 +39,17 @@ export function AssumptionSlider({
   disabled = false,
   onValueChange,
 }: AssumptionSliderProps) {
+  const id = useId();
+  const labelId = `${id}-label`;
+  const descriptionId = `${id}-description`;
+  const inputId = `${id}-input`;
   const {
     inputValue,
     validateAndUpdateValue,
     handleInputChange,
     handleSliderChange,
     resetToDefault,
+    validationMessage,
   } = useSliderWithInput({
     minValue,
     maxValue,
@@ -55,7 +63,9 @@ export function AssumptionSlider({
     <div className={cn("w-full space-y-3", className)}>
       <div className="flex items-start justify-between gap-2">
         <div className="md:min-h-20">
-          <Label>{label}</Label>
+          <Label id={labelId} htmlFor={inputId}>
+            {label ?? "Assumption value"}
+          </Label>
           {sublabel && (
             <p className="text-muted-foreground text-sm">{sublabel}</p>
           )}
@@ -67,7 +77,7 @@ export function AssumptionSlider({
                 size="icon"
                 variant="ghost"
                 className="size-7"
-                aria-label="Reset"
+                aria-label={`Reset ${label ?? "assumption value"} to default`}
                 onClick={resetToDefault}
                 disabled={disabled}
               >
@@ -79,6 +89,7 @@ export function AssumptionSlider({
             </TooltipContent>
           </Tooltip>
           <Input
+            id={inputId}
             className="bg-card h-7 w-16 px-2 py-0"
             type="text"
             inputMode="decimal"
@@ -91,12 +102,18 @@ export function AssumptionSlider({
               }
             }}
             disabled={disabled}
-            aria-label="Enter value"
+            aria-labelledby={labelId}
+            aria-describedby={descriptionId}
           />
         </div>
       </div>
       <div className="flex items-center gap-4">
         <Slider
+          thumbProps={{
+            "aria-labelledby": labelId,
+            "aria-describedby": descriptionId,
+            "aria-valuetext": `${Number(value.toFixed(8))}${unit === "percent" ? " percent" : ""}`,
+          }}
           className={cn("grow", "**:[[role='slider']]:bg-card")}
           value={[value]}
           onValueChange={(newValue) => {
@@ -108,6 +125,13 @@ export function AssumptionSlider({
           disabled={disabled}
         />
       </div>
+      <p id={descriptionId} className="sr-only">
+        {sublabel} Allowed range: {minValue} to {maxValue}
+        {unit === "percent" ? " percent" : ""}.
+      </p>
+      <p role="status" className="sr-only">
+        {validationMessage}
+      </p>
     </div>
   );
 }

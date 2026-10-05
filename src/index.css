@@ -234,6 +234,12 @@
   }
 }
 
+/* Recharts removes the SVG outline; restore it for keyboard navigation. */
+[data-slot="chart"] .recharts-surface:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
 /* Keep line tabs on desktop; use individually selectable tiles on mobile.
    These scoped rules override the shared tab utilities only below sm. */
 @media (width < 40rem) {

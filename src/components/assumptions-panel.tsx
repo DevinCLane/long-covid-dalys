@@ -59,7 +59,7 @@ export function ModelAssumptionsPanel({
           </div>
           {Object.entries(GROUP_LABELS).map(([group, groupLabel]) => (
             <section key={group}>
-              <h3 className="text-lg font-medium">{groupLabel}</h3>
+              <h4 className="text-lg font-medium">{groupLabel}</h4>
               <div className="grid grid-cols-1 gap-x-8 gap-y-2 md:grid-cols-2">
                 {ASSUMPTIONS.filter(
                   (assumption) =>
@@ -76,6 +76,9 @@ export function ModelAssumptionsPanel({
                       assumption.key,
                       assumptions,
                     )}
+                    sliderUnit={
+                      assumption.sliderMax === 100 ? "percent" : undefined
+                    }
                     sliderStep={assumption.sliderStep}
                     sliderValue={assumptions[assumption.key]}
                     sliderDefaultValue={assumption.defaultValue}
