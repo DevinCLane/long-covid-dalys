@@ -1,5 +1,7 @@
 "use client";
 
+import type { ReactNode } from "react";
+
 import {
   BarChart,
   CartesianGrid,
@@ -86,12 +88,17 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-interface OutcomeBreakdownChartProps extends ChartSortProps {
+interface InteractiveOutcomeBreakdownChartProps extends ChartSortProps {
+  variant?: "interactive";
   scenarioId: ScenarioId;
   onScenarioSelect: (scenarioId: ScenarioId) => void;
   metric: ChartMetric;
   setMetric: (value: ChartMetric) => void;
 }
+
+type OutcomeBreakdownChartProps =
+  | InteractiveOutcomeBreakdownChartProps
+  | { variant: "landing"; description: ReactNode };
 
 interface ChartDescriptionBodyProps {
   scenario: ScenarioDalyRow;
@@ -151,14 +158,11 @@ function StatusQuoReductionLabel({ index }: { index?: number }) {
   );
 }
 
-export function OutcomeBreakdownChart({
-  scenarioId,
-  onScenarioSelect,
-  metric,
-  setMetric,
-  sortOrder,
-  setSortOrder,
-}: OutcomeBreakdownChartProps) {
+export function OutcomeBreakdownChart(props: OutcomeBreakdownChartProps) {
+  const isLanding = props.variant === "landing";
+  const scenarioId = isLanding ? "baseline" : props.scenarioId;
+  const metric = isLanding ? "dalys" : props.metric;
+  const sortOrder = isLanding ? "descending" : props.sortOrder;
   const { scenarioRows, isCustomScenario, defaultOutput } = useDalyModel();
   const isMobile = useIsMobile();
   const scenario = scenarioRows.find((scenario) => scenario.id === scenarioId);
@@ -294,37 +298,51 @@ export function OutcomeBreakdownChart({
       {/* chart header */}
       <CardHeader className="flex items-center gap-2 space-y-0 border-b sm:flex-row [.border-b]:pb-3 md:[.border-b]:pb-6">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
-          <div className="align-center mb-4 flex flex-col gap-2 sm:flex-row sm:justify-between sm:gap-0">
-            <CardTitle className="text-lg text-pretty md:text-2xl">
-              {CHART_TITLE}
-            </CardTitle>
-            <Select value={scenarioId} onValueChange={onScenarioSelect}>
-              <SelectTrigger
-                className="min-h-14.5 w-full rounded-lg font-medium whitespace-break-spaces sm:ml-auto sm:flex sm:min-h-auto sm:w-79 sm:whitespace-nowrap"
-                aria-label="Select scenario"
-              >
-                <SelectValue placeholder="Select scenario" />
-              </SelectTrigger>
-              <SelectContent
-                className="w-full rounded-xl"
-                aria-label="Scenarios"
-              >
-                {scenarioRows.map((scenario) => (
-                  <SelectItem key={scenario.id} value={scenario.id}>
-                    {scenario.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <CardDescription className="mb-4 hidden md:block">
-            Select a scenario from the dropdown menu to show side-by-side
-            comparison of DALYs associated with acute COVID-19 infection, Long
-            COVID, and other post-acute sequelae of COVID-19 infection in that
-            intervention scenario.
-          </CardDescription>
+          {isLanding ? (
+            <CardDescription className="mb-4">
+              {props.description}
+            </CardDescription>
+          ) : (
+            <>
+              <div className="align-center mb-4 flex flex-col gap-2 sm:flex-row sm:justify-between sm:gap-0">
+                <CardTitle className="text-lg text-pretty md:text-2xl">
+                  {CHART_TITLE}
+                </CardTitle>
+                <Select
+                  value={scenarioId}
+                  onValueChange={props.onScenarioSelect}
+                >
+                  <SelectTrigger
+                    className="min-h-14.5 w-full rounded-lg font-medium whitespace-break-spaces sm:ml-auto sm:flex sm:min-h-auto sm:w-79 sm:whitespace-nowrap"
+                    aria-label="Select scenario"
+                  >
+                    <SelectValue placeholder="Select scenario" />
+                  </SelectTrigger>
+                  <SelectContent
+                    className="w-full rounded-xl"
+                    aria-label="Scenarios"
+                  >
+                    {scenarioRows.map((scenario) => (
+                      <SelectItem key={scenario.id} value={scenario.id}>
+                        {scenario.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <CardDescription className="mb-4 hidden md:block">
+                Select a scenario from the dropdown menu to show side-by-side
+                comparison of DALYs associated with acute COVID-19 infection,
+                Long COVID, and other post-acute sequelae of COVID-19 infection
+                in that intervention scenario.
+              </CardDescription>
+            </>
+          )}
           <Separator />
-          <CardTitle as="h3" className="mt-4 text-sm text-pretty sm:text-lg">
+          <CardTitle
+            as={isLanding ? "h2" : "h3"}
+            className="mt-4 text-sm text-pretty sm:text-lg"
+          >
             {scenario.label}: 5-year{" "}
             {displayedMetric === "percent"
               ? "DALY reduction"
@@ -337,13 +355,16 @@ export function OutcomeBreakdownChart({
       </CardHeader>
       <CardContent>
         <div className="flex flex-col items-end">
-          <ChartControls
-            metric={displayedMetric}
-            setMetric={setMetric}
-            sortOrder={sortOrder}
-            setSortOrder={setSortOrder}
-          />
+          {!isLanding && (
+            <ChartControls
+              metric={displayedMetric}
+              setMetric={props.setMetric}
+              sortOrder={sortOrder}
+              setSortOrder={props.setSortOrder}
+            />
+          )}
           <ModelChartContainer
+            showDownload={!isLanding}
             accessibleData={{
               valueLabel:
                 displayedMetric === "percent"
@@ -445,7 +466,7 @@ export function OutcomeBreakdownChart({
               />
               <ModelBar
                 dataKey={dataKey}
-                isAnimationActive={!showStatusQuoGuidance}
+                isAnimationActive={!isLanding && !showStatusQuoGuidance}
                 shape={showStatusQuoGuidance ? <g /> : undefined}
               >
                 <LabelList
@@ -470,24 +491,31 @@ export function OutcomeBreakdownChart({
             </BarChart>
           </ModelChartContainer>
         </div>
-        {showStatusQuoGuidance && isMobile && (
-          <CardDescription className="mt-4">
-            {STATUS_QUO_GUIDANCE}
-          </CardDescription>
+        {!isLanding && (
+          <>
+            {showStatusQuoGuidance && isMobile && (
+              <CardDescription className="mt-4">
+                {STATUS_QUO_GUIDANCE}
+              </CardDescription>
+            )}
+            <CardDescription className="mt-4 mb-4 block md:hidden">
+              Select a scenario from the dropdown menu to show side-by-side
+              comparison of DALYs associated with acute COVID-19 infection, Long
+              COVID, and other post-acute sequelae of COVID-19 infection in that
+              intervention scenario.
+            </CardDescription>
+            <Separator className="mt-3 block md:hidden" />
+            <CardDescription className="mt-3 block md:hidden">
+              <ChartDescriptionBody
+                scenario={scenario}
+                metric={displayedMetric}
+              />
+            </CardDescription>
+            <ModelAssumptionsPanel
+              allowedInterventions={interventionsByScenario[scenarioId] ?? []}
+            />
+          </>
         )}
-        <CardDescription className="mt-4 mb-4 block md:hidden">
-          Select a scenario from the dropdown menu to show side-by-side
-          comparison of DALYs associated with acute COVID-19 infection, Long
-          COVID, and other post-acute sequelae of COVID-19 infection in that
-          intervention scenario.
-        </CardDescription>
-        <Separator className="mt-3 block md:hidden" />
-        <CardDescription className="mt-3 block md:hidden">
-          <ChartDescriptionBody scenario={scenario} metric={displayedMetric} />
-        </CardDescription>
-        <ModelAssumptionsPanel
-          allowedInterventions={interventionsByScenario[scenarioId] ?? []}
-        />
       </CardContent>
     </Card>
   );

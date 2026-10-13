@@ -221,8 +221,11 @@ whenever the message format changes; editing the local script does not update Wo
 | `dalys-resize` | React → WordPress | Update iframe `height` |
 
 Only user navigation adds history. Other query parameters and the hash are
-preserved; missing or unknown tabs display Air Cleaning. The standalone parent
+preserved; missing or unknown tabs display Home. The standalone parent
 script's tab IDs must match `src/config/iframe-messages.ts`.
+Home uses `?tab=home` and always shows the Status quo outcome breakdown in
+DALYs per 1,000, sorted high to low, with no chart controls or assumptions panel.
+It preserves the other charts' metric, filters, scenario, and sort preferences.
 The medication tabs use `?tab=prophylaxis` and `?tab=longCovidMedication`.
 Both share the `metric` parameter with the other charts. Long COVID Medication
 also supports `longCovidMedicationInterventionFilter` with values `all`,
@@ -239,7 +242,7 @@ outcome and the combined total. The reference stays fixed when assumptions
 change; negative values indicate increased DALYs. For example,
 `?tab=air&metric=averted` opens Air Cleaning with DALYs averted selected.
 The former combined medication tab is no longer supported; old combined-tab
-URLs display Air Cleaning.
+URLs display Home.
 
 Each chart has its own sort parameter: `airSortOrder`, `prophylaxisSortOrder`,
 `longCovidMedicationSortOrder`, and `outcomeBreakdownSortOrder`. Values are
@@ -265,7 +268,8 @@ page. Confirm the visible tab matches the URL and the iframe still resizes.
 
 ### Downloading chart images
 
-Each chart has a **Download image** button below the plot. It saves a PNG at
+The intervention charts and Outcome breakdown each have a **Download image**
+button below the plot. It saves a PNG at
 2× resolution with the chart title, selected metric, filter or scenario, sort
 order, current values, and a small source citation in the image footer.
 Custom scenarios retain the **Custom scenario / Not validated** watermark and

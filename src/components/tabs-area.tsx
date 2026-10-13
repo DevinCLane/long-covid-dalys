@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+import { LandingPageChart } from "@/components/charts/landing-page-chart";
 import { OutcomeBreakdownChart } from "@/components/charts/outcome-breakdown-chart";
 import { AirCleaningChart } from "@/components/charts/air-cleaning-chart";
 import { AboutPage } from "@/components/about";
@@ -218,6 +219,12 @@ export default function TabsArea({
               className="chart-tabs-list grid w-full grid-cols-2 p-0 group-data-[orientation=horizontal]/tabs:h-auto sm:flex sm:h-auto sm:w-fit sm:flex-wrap sm:gap-1 sm:p-[3px] sm:group-data-[orientation=horizontal]/tabs:h-auto"
             >
               <TabsTrigger
+                value="home"
+                className="h-full min-h-9 cursor-pointer py-0.5 leading-snug whitespace-normal sm:h-[calc(100%-1px)] sm:min-h-0 sm:py-1 sm:whitespace-nowrap"
+              >
+                Home
+              </TabsTrigger>
+              <TabsTrigger
                 value="air"
                 className="h-full min-h-9 cursor-pointer py-0.5 leading-snug whitespace-normal sm:h-[calc(100%-1px)] sm:min-h-0 sm:py-1 sm:whitespace-nowrap"
               >
@@ -250,6 +257,9 @@ export default function TabsArea({
             </TabsList>
           </div>
         </div>
+        <TabsContent value="home" className="w-full">
+          <LandingPageChart />
+        </TabsContent>
         <TabsContent value="air" className="w-full">
           <AirCleaningChart
             sortOrder={sortOrders.air}

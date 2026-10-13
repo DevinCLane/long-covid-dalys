@@ -7,6 +7,7 @@
     : "https://longcoviddalys.netlify.app";
   // This script is standalone: keep these IDs in sync with iframe-messages.ts.
   const TAB_IDS = [
+    "home",
     "air",
     "prophylaxis",
     "longCovidMedication",
@@ -72,7 +73,7 @@
 
   function getTab(url) {
     const tab = url.searchParams.get("tab");
-    return TAB_IDS.includes(tab) ? tab : "air";
+    return TAB_IDS.includes(tab) ? tab : "home";
   }
 
   function getMetric(url) {

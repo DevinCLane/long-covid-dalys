@@ -12,7 +12,7 @@ export const CHART_TAB_IDS = [
   "longCovidMedication",
   "outcomeBreakdown",
 ] as const;
-export const TAB_IDS = [...CHART_TAB_IDS, "about"] as const;
+export const TAB_IDS = ["home", ...CHART_TAB_IDS, "about"] as const;
 export const METRICS = ["percent", "dalys", "averted"] as const;
 export const AIR_INTERVENTION_FILTERS = ["all", "hepa", "uvc"] as const;
 export const LONG_COVID_MEDICATION_INTERVENTION_FILTERS = [

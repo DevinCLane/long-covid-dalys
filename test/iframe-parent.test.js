@@ -51,9 +51,11 @@ function createParent(
   };
 }
 
-for (const tab of ["prophylaxis", "longCovidMedication"]) {
+for (const tab of ["home", "prophylaxis", "longCovidMedication"]) {
   test(`${tab} updates the URL and restores tab and metric without adding history`, () => {
-    const parent = createParent("https://polybio.org/model?keep=1#chart");
+    const parent = createParent(
+      "https://polybio.org/model?tab=air&keep=1#chart",
+    );
     parent.send({ type: "dalys-tab-change", tab });
     parent.send({ type: "dalys-metric-change", metric: "dalys" });
     const url = new URL(parent.window.location.href);
@@ -82,10 +84,10 @@ for (const tab of ["prophylaxis", "longCovidMedication"]) {
   });
 }
 
-test("unknown tabs fall back to air and cannot change URL history", () => {
+test("unknown tabs fall back to home and cannot change URL history", () => {
   const parent = createParent("https://polybio.org/model?tab=unknown");
   parent.send({ type: "dalys-ready" });
-  assert.equal(parent.messages.at(-1).message.tab, "air");
+  assert.equal(parent.messages.at(-1).message.tab, "home");
   parent.send({ type: "dalys-tab-change", tab: "unknown" });
   assert.deepEqual(parent.history, []);
 });
@@ -126,7 +128,7 @@ test("DALYs averted selection shares, reloads, restores, and resets the metric",
 test("removed combined tab cannot restore an empty chart or change history", () => {
   const parent = createParent("https://polybio.org/model?tab=pharmaceuticals");
   parent.send({ type: "dalys-ready" });
-  assert.equal(parent.messages.at(-1).message.tab, "air");
+  assert.equal(parent.messages.at(-1).message.tab, "home");
   assert.equal(
     "pharmaceuticalInterventionFilter" in parent.messages.at(-1).message,
     false,
@@ -372,3 +374,12 @@ test("reset view also clears a URL containing only a sort parameter", () => {
   assert.equal(parent.window.location.href, "https://polybio.org/model#chart");
   assert.deepEqual(parent.history, ["pushState"]);
 });
+
+for (const query of ["", "?tab=home", "?tab=unknown"]) {
+  test(`Home is restored on readiness for ${query || "a missing tab"}`, () => {
+    const parent = createParent(`https://polybio.org/model${query}`);
+    parent.send({ type: "dalys-ready" });
+    assert.equal(parent.messages.at(-1).message.tab, "home");
+    assert.deepEqual(parent.history, []);
+  });
+}

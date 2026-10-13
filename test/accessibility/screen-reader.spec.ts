@@ -47,7 +47,7 @@ async function expectAccessible(page: Page, scope?: string) {
   ).toEqual([]);
 }
 
-for (const tab of [...chartTabs, "About"]) {
+for (const tab of ["Home", ...chartTabs, "About"]) {
   test(`${tab} has accessible structure and controls`, async ({
     page,
   }, testInfo) => {
@@ -60,7 +60,7 @@ for (const tab of [...chartTabs, "About"]) {
     ).toBeVisible();
     await expect(page.getByRole("table")).toHaveCount(0);
     await expectAccessible(page);
-    if (tab !== "About") {
+    if (tab !== "About" && tab !== "Home") {
       await page
         .getByRole("button", { name: "Model Assumptions", exact: true })
         .click();
@@ -121,6 +121,7 @@ test("chart keyboard tooltips expose values as live status", async ({
   page,
 }) => {
   await page.goto("/");
+  await page.getByRole("tab", { name: "Air Cleaning", exact: true }).click();
   await expect(
     page.getByRole("button", { name: /^Download image of/ }),
   ).toBeEnabled();
@@ -142,6 +143,7 @@ test("chart filters, metrics, sorting and scenario navigation stay accessible", 
   page,
 }) => {
   await page.goto("/");
+  await page.getByRole("tab", { name: "Air Cleaning", exact: true }).click();
   const details = page.getByRole("button", { name: /^View details for/ });
   await expect(details).toHaveCount(6);
   await page.getByRole("radio", { name: "HEPA filters", exact: true }).check();
@@ -194,6 +196,7 @@ test("assumption sliders, typed values and original values stay accessible", asy
   page,
 }) => {
   await page.goto("/");
+  await page.getByRole("tab", { name: "Air Cleaning", exact: true }).click();
   await page
     .getByRole("button", { name: "Model Assumptions", exact: true })
     .click();
@@ -254,6 +257,7 @@ test("assumption sliders, typed values and original values stay accessible", asy
 
 test("chart image download announces completion", async ({ page }) => {
   await page.goto("/");
+  await page.getByRole("tab", { name: "Air Cleaning", exact: true }).click();
   const button = page.getByRole("button", { name: /^Download image of/ });
   await expect(button).toBeEnabled();
   await button.focus();
@@ -306,6 +310,7 @@ test("sharing reports copy success and failure and restores focus", async ({
   page,
 }) => {
   await page.goto("/");
+  await page.getByRole("tab", { name: "Air Cleaning", exact: true }).click();
   const share = page.getByRole("button", {
     name: "Share options",
     exact: true,

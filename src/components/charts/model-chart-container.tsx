@@ -38,9 +38,11 @@ export function ModelChartContainer({
   children,
   image,
   accessibleData,
+  showDownload = true,
   ...props
 }: ComponentProps<typeof ChartContainer> & {
   image: ChartImageDetails;
+  showDownload?: boolean;
   accessibleData: Pick<
     ChartResultsStatusProps,
     "rows" | "valueLabel" | "showPercent"
@@ -125,32 +127,34 @@ export function ModelChartContainer({
         description={image.description}
         isCustomScenario={isCustomScenario}
       />
-      <div className="mt-3 flex flex-col items-end gap-2">
-        <p role="status" className="sr-only">
-          {downloadStatus}
-        </p>
-        <Button
-          type="button"
-          variant="outline"
-          className="min-h-11"
-          disabled={isDownloading || isAnimating}
-          aria-label={`Download image of ${image.title}`}
-          aria-busy={isDownloading}
-          onClick={handleDownload}
-        >
-          {isDownloading ? (
-            <LoaderCircle className="animate-spin" />
-          ) : (
-            <Download />
-          )}
-          {isDownloading ? "Preparing image…" : "Download image"}
-        </Button>
-        {error && (
-          <p role="alert" className="text-destructive text-sm">
-            {error}
+      {showDownload && (
+        <div className="mt-3 flex flex-col items-end gap-2">
+          <p role="status" className="sr-only">
+            {downloadStatus}
           </p>
-        )}
-      </div>
+          <Button
+            type="button"
+            variant="outline"
+            className="min-h-11"
+            disabled={isDownloading || isAnimating}
+            aria-label={`Download image of ${image.title}`}
+            aria-busy={isDownloading}
+            onClick={handleDownload}
+          >
+            {isDownloading ? (
+              <LoaderCircle className="animate-spin" />
+            ) : (
+              <Download />
+            )}
+            {isDownloading ? "Preparing image…" : "Download image"}
+          </Button>
+          {error && (
+            <p role="alert" className="text-destructive text-sm">
+              {error}
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
 }

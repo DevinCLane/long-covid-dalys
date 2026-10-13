@@ -22,7 +22,7 @@ const DEFAULT_SORT_ORDERS: Record<ChartTabId, ChartSortOrder> = {
 };
 
 function App() {
-  const [activeTab, setActiveTab] = useState<TabId>("air");
+  const [activeTab, setActiveTab] = useState<TabId>("home");
   const [metric, setMetric] = useState<ChartMetric>("percent");
   const [airInterventionFilter, setAirInterventionFilter] =
     useState<AirId>("all");
@@ -43,7 +43,7 @@ function App() {
   );
 
   function resetView() {
-    setActiveTab("air");
+    setActiveTab("home");
     setMetric("percent");
     setAirInterventionFilter("all");
     setLongCovidMedicationInterventionFilter("all");
