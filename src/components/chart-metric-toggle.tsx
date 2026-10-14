@@ -36,20 +36,10 @@ export function ChartMetricToggle({
         className="flex w-full max-w-full min-w-0 flex-col gap-2 text-left sm:w-fit sm:flex-none sm:flex-row sm:flex-wrap"
       >
         <Field orientation="horizontal" className={fieldStyles}>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <FieldLabel className={fieldLabelStyles}>
-                <RadioGroupItem
-                  value="percent"
-                  aria-describedby={`${id}-percent`}
-                />
-                <span className="min-w-0 break-words">Percent reduction</span>
-              </FieldLabel>
-            </TooltipTrigger>
-            <TooltipContent className="max-w-64 px-2 py-1 text-xs text-wrap">
-              {percentDescription}
-            </TooltipContent>
-          </Tooltip>
+          <FieldLabel className={fieldLabelStyles}>
+            <RadioGroupItem value="dalys" aria-describedby={`${id}-dalys`} />
+            <span className="min-w-0 break-words">DALYs per 1,000</span>
+          </FieldLabel>
         </Field>
         <Field orientation="horizontal" className={fieldStyles}>
           <Tooltip>
@@ -70,10 +60,20 @@ export function ChartMetricToggle({
           </Tooltip>
         </Field>
         <Field orientation="horizontal" className={fieldStyles}>
-          <FieldLabel className={fieldLabelStyles}>
-            <RadioGroupItem value="dalys" aria-describedby={`${id}-dalys`} />
-            <span className="min-w-0 break-words">DALYs per 1,000</span>
-          </FieldLabel>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <FieldLabel className={fieldLabelStyles}>
+                <RadioGroupItem
+                  value="percent"
+                  aria-describedby={`${id}-percent`}
+                />
+                <span className="min-w-0 break-words">Percent reduction</span>
+              </FieldLabel>
+            </TooltipTrigger>
+            <TooltipContent className="max-w-64 px-2 py-1 text-xs text-wrap">
+              {percentDescription}
+            </TooltipContent>
+          </Tooltip>
         </Field>
       </RadioGroup>
       <p id={`${id}-percent`} className="sr-only">

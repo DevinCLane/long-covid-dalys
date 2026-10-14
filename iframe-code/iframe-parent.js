@@ -78,7 +78,7 @@
 
   function getMetric(url) {
     const metric = url.searchParams.get("metric");
-    return METRICS.includes(metric) ? metric : "percent";
+    return METRICS.includes(metric) ? metric : "dalys";
   }
 
   function getAirInterventionFilter(url) {

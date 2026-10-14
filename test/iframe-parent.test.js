@@ -54,7 +54,7 @@ function createParent(
 for (const tab of ["home", "prophylaxis", "longCovidMedication"]) {
   test(`${tab} updates the URL and restores tab and metric without adding history`, () => {
     const parent = createParent(
-      "https://polybio.org/model?tab=air&keep=1#chart",
+      "https://polybio.org/model?tab=air&metric=percent&keep=1#chart",
     );
     parent.send({ type: "dalys-tab-change", tab });
     parent.send({ type: "dalys-metric-change", metric: "dalys" });
@@ -122,7 +122,7 @@ test("DALYs averted selection shares, reloads, restores, and resets the metric",
     "https://polybio.org/model?keep=1#chart",
   );
   parent.send({ type: "dalys-ready" });
-  assert.equal(parent.messages.at(-1).message.metric, "percent");
+  assert.equal(parent.messages.at(-1).message.metric, "dalys");
 });
 
 test("removed combined tab cannot restore an empty chart or change history", () => {

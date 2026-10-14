@@ -132,7 +132,7 @@ test("chart keyboard tooltips expose values as live status", async ({
   await expect(tooltip).toBeVisible();
   await expect(tooltip).toHaveAttribute("aria-live", "polite");
   await expect(tooltip).toHaveAttribute("aria-atomic", "true");
-  await expect(tooltip).toContainText("Total DALY reduction");
+  await expect(tooltip).toContainText("Total DALYs per 1,000");
   const firstValue = await tooltip.innerText();
   await chart.press("ArrowRight");
   await expect(tooltip).not.toHaveText(firstValue);
@@ -145,6 +145,9 @@ test("chart filters, metrics, sorting and scenario navigation stay accessible", 
   await page.goto("/");
   await page.getByRole("tab", { name: "Air Cleaning", exact: true }).click();
   const details = page.getByRole("button", { name: /^View details for/ });
+  await page
+    .getByRole("radio", { name: "Percent reduction", exact: true })
+    .check();
   await expect(details).toHaveCount(6);
   await page.getByRole("radio", { name: "HEPA filters", exact: true }).check();
   await expect(details).toHaveCount(3);
