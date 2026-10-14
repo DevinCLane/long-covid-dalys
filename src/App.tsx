@@ -15,10 +15,10 @@ import { ScenarioId } from "./config/scenario-daly-calculations";
 import type { ChartSortOrder } from "./lib/chart-sort";
 
 const DEFAULT_SORT_ORDERS: Record<ChartTabId, ChartSortOrder> = {
-  air: "default",
-  prophylaxis: "default",
-  longCovidMedication: "default",
-  outcomeBreakdown: "default",
+  air: "descending",
+  prophylaxis: "descending",
+  longCovidMedication: "descending",
+  outcomeBreakdown: "descending",
 };
 
 function App() {

@@ -34,8 +34,8 @@ export function ChartSortControl({ sortOrder, setSortOrder }: ChartSortProps) {
           type="button"
           variant="outline"
           className="min-h-11 flex-1 px-3 sm:flex-none"
-          disabled={sortOrder === "default"}
-          onClick={() => setSortOrder("default")}
+          disabled={sortOrder === "descending"}
+          onClick={() => setSortOrder("descending")}
         >
           Reset order
         </Button>

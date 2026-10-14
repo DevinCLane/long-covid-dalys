@@ -108,7 +108,7 @@
 
   function getSortOrder(url, tab) {
     const sortOrder = url.searchParams.get(SORT_PARAMETERS_BY_TAB[tab]);
-    return SORT_ORDERS.includes(sortOrder) ? sortOrder : "default";
+    return SORT_ORDERS.includes(sortOrder) ? sortOrder : "descending";
   }
 
   // Shared by initial loading and Back/Forward; neither adds history.

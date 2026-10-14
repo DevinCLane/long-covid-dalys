@@ -242,7 +242,7 @@ const sortParametersByTab = {
   outcomeBreakdown: "outcomeBreakdownSortOrder",
 };
 const defaultSortOrders = Object.fromEntries(
-  Object.keys(sortParametersByTab).map((tab) => [tab, "default"]),
+  Object.keys(sortParametersByTab).map((tab) => [tab, "descending"]),
 );
 
 for (const [tab, param] of Object.entries(sortParametersByTab)) {
@@ -250,7 +250,7 @@ for (const [tab, param] of Object.entries(sortParametersByTab)) {
     const parent = createParent(
       "https://polybio.org/model?keep=1&metric=dalys#chart",
     );
-    for (const sortOrder of ["descending", "ascending", "default"]) {
+    for (const sortOrder of ["ascending", "descending", "default"]) {
       parent.send({ type: "dalys-sort-order-change", tab, sortOrder });
       const url = new URL(parent.window.location.href);
       assert.equal(url.searchParams.get(param), sortOrder);
@@ -277,7 +277,7 @@ for (const [tab, param] of Object.entries(sortParametersByTab)) {
 
       parent.window.location.href = "https://polybio.org/model";
       parent.popstate();
-      assert.equal(parent.messages.at(-1).message.sortOrders[tab], "default");
+      assert.equal(parent.messages.at(-1).message.sortOrders[tab], "descending");
       parent.window.location.href = url.href;
       parent.popstate();
       assert.equal(parent.messages.at(-1).message.sortOrders[tab], sortOrder);
@@ -308,12 +308,12 @@ test("charts keep independent sort orders and resetting one preserves the others
   parent.send({
     type: "dalys-sort-order-change",
     tab: "air",
-    sortOrder: "default",
+    sortOrder: "descending",
   });
   parent.send({ type: "dalys-ready" });
   assert.deepEqual(
     { ...parent.messages.at(-1).message.sortOrders },
-    { ...expected, air: "default" },
+    { ...expected, air: "descending" },
   );
 });
 
