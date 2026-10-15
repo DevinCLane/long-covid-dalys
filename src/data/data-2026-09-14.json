@@ -108,7 +108,7 @@
     },
     {
       "id": "hepa_schools_and_daycares",
-      "label": "HEPA schools and daycares",
+      "label": "HEPA in schools and daycares",
       "annual_sars_cov_2_infection_proportion": 0.231700765484,
       "horizon_years": 5,
       "outcomes": {
@@ -142,7 +142,7 @@
     },
     {
       "id": "hepa_all_public",
-      "label": "HEPA all public indoor air",
+      "label": "HEPA in all public indoor spaces",
       "annual_sars_cov_2_infection_proportion": 0.105923103688,
       "horizon_years": 5,
       "outcomes": {
@@ -210,7 +210,7 @@
     },
     {
       "id": "far_uvc_schools_and_daycares",
-      "label": "Far UVC schools and daycares",
+      "label": "UVC in schools and daycares",
       "annual_sars_cov_2_infection_proportion": 0.218110995129,
       "horizon_years": 5,
       "outcomes": {
@@ -244,7 +244,7 @@
     },
     {
       "id": "far_uvc_all_public",
-      "label": "Far UVC all public indoor air",
+      "label": "UVC in all public indoor spaces",
       "annual_sars_cov_2_infection_proportion": 0.0532988865692,
       "horizon_years": 5,
       "outcomes": {

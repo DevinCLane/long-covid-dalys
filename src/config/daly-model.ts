@@ -27,11 +27,11 @@ export const AIR_CLEANING_SCENARIOS = Object.freeze({
     annualInfectionProportion: 0.254832289492,
   }),
   hepa_schools_and_daycares: Object.freeze({
-    label: "HEPA schools and daycares",
+    label: "HEPA in schools and daycares",
     annualInfectionProportion: 0.231700765484,
   }),
   hepa_all_public: Object.freeze({
-    label: "HEPA all public indoor air",
+    label: "HEPA in all public indoor spaces",
     annualInfectionProportion: 0.105923103688,
   }),
   far_uvc_most_public: Object.freeze({
@@ -39,11 +39,11 @@ export const AIR_CLEANING_SCENARIOS = Object.freeze({
     annualInfectionProportion: 0.243748434238,
   }),
   far_uvc_schools_and_daycares: Object.freeze({
-    label: "Far UVC schools and daycares",
+    label: "UVC in schools and daycares",
     annualInfectionProportion: 0.218110995129,
   }),
   far_uvc_all_public: Object.freeze({
-    label: "Far UVC all public indoor air",
+    label: "UVC in all public indoor spaces",
     annualInfectionProportion: 0.0532988865692,
   }),
 });

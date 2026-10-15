@@ -107,7 +107,7 @@ test("label hover explains the intervention without opening its outcomes", async
   await page.goto("/");
   await page.getByRole("tab", { name: "Air Cleaning", exact: true }).click();
   const label = page.getByRole("img", {
-    name: "HEPA schools and daycares",
+    name: "HEPA in schools and daycares",
     exact: true,
   });
   await label.hover();

@@ -1310,7 +1310,7 @@
     },
     {
       "id": "hepa_schools_and_daycares",
-      "label": "HEPA schools and daycares",
+      "label": "HEPA in schools and daycares",
       "dalys_per_1000_total": 259,
       "conditions": [
         {
@@ -1956,7 +1956,7 @@
     },
     {
       "id": "hepa_all_public",
-      "label": "HEPA all public indoor air",
+      "label": "HEPA in all public indoor spaces",
       "dalys_per_1000_total": 144,
       "conditions": [
         {
@@ -3248,7 +3248,7 @@
     },
     {
       "id": "far_uvc_schools_and_daycares",
-      "label": "Far UVC schools and daycares",
+      "label": "UVC in schools and daycares",
       "dalys_per_1000_total": 246,
       "conditions": [
         {
@@ -3894,7 +3894,7 @@
     },
     {
       "id": "far_uvc_all_public",
-      "label": "Far UVC all public indoor air",
+      "label": "UVC in all public indoor spaces",
       "dalys_per_1000_total": 96,
       "conditions": [
         {
