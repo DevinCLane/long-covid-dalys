@@ -24,6 +24,8 @@ export type ChartConfig = Record<
 
 interface ChartContextProps {
   config: ChartConfig;
+  isLabelTooltipOpen: boolean;
+  setLabelTooltipOpen: (id: string, open: boolean) => void;
 }
 
 const ChartContext = React.createContext<ChartContextProps | null>(null);
@@ -70,9 +72,27 @@ function ChartContainer({
 }: Readonly<ChartContainerProps>) {
   const uniqueId = React.useId();
   const chartId = `chart-${id ?? uniqueId.replace(/:/g, "")}`;
+  const [openLabelTooltips, setOpenLabelTooltips] = React.useState<Set<string>>(
+    () => new Set(),
+  );
+  const setLabelTooltipOpen = React.useCallback((id: string, open: boolean) => {
+    setOpenLabelTooltips((previous) => {
+      if (previous.has(id) === open) return previous;
+      const next = new Set(previous);
+      if (open) next.add(id);
+      else next.delete(id);
+      return next;
+    });
+  }, []);
 
   return (
-    <ChartContext.Provider value={{ config }}>
+    <ChartContext.Provider
+      value={{
+        config,
+        isLabelTooltipOpen: openLabelTooltips.size > 0,
+        setLabelTooltipOpen,
+      }}
+    >
       <div
         data-slot="chart"
         data-chart={chartId}
@@ -126,7 +146,29 @@ ${colorConfig
   );
 };
 
-const ChartTooltip = RechartsPrimitive.Tooltip;
+export function useChartLabelTooltip(open: boolean) {
+  const id = React.useId();
+  const { setLabelTooltipOpen } = useChart();
+  React.useLayoutEffect(() => {
+    setLabelTooltipOpen(id, open);
+    return () => setLabelTooltipOpen(id, false);
+  }, [id, open, setLabelTooltipOpen]);
+}
+
+function ChartTooltip({
+  active,
+  cursor,
+  ...props
+}: React.ComponentProps<typeof RechartsPrimitive.Tooltip>) {
+  const { isLabelTooltipOpen } = useChart();
+  return (
+    <RechartsPrimitive.Tooltip
+      {...props}
+      active={isLabelTooltipOpen ? false : active}
+      cursor={isLabelTooltipOpen ? false : cursor}
+    />
+  );
+}
 
 function ChartTooltipContent({
   accessibilityLayer = true,

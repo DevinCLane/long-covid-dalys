@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useChartLabelTooltip } from "@/components/ui/chart";
 import {
   Tooltip,
   TooltipContent,
@@ -34,6 +35,7 @@ export function ModelYAxisTick({
   const isMobile = useIsMobile();
   const [isFocused, setIsFocused] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  useChartLabelTooltip(isOpen);
   const lines: string[] = [];
   for (const word of label.split(wrapHyphens ? /[\s-]+/ : /\s+/)) {
     const currentLine = lines[lines.length - 1];

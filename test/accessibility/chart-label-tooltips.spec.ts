@@ -8,6 +8,45 @@ const charts = [
   { tab: "Outcome breakdown", count: 4 },
 ];
 
+for (const { tab } of charts) {
+  test(`${tab}: label definitions suppress bar details until dismissed`, async ({
+    page,
+    isMobile,
+  }) => {
+    test.skip(isMobile, "Hover requires a mouse.");
+    await page.goto("/");
+    await page.getByRole("tab", { name: tab, exact: true }).click();
+    const label = page
+      .locator('.recharts-yAxis-tick-labels [data-slot="tooltip-trigger"]')
+      .first();
+    const bar = page.locator(".recharts-bar-rectangle path").first();
+    const barDetails = page.locator('.recharts-tooltip-wrapper [role="status"]');
+
+    await bar.hover({ position: { x: 5, y: 5 } });
+    await expect(barDetails).toBeVisible();
+    await label.hover();
+    await expect(page.getByRole("tooltip")).toBeVisible();
+    await expect(barDetails).toHaveCount(0);
+    // Moving onto the definition can bubble pointer events into the chart.
+    await page.locator('[data-slot="tooltip-content"]').hover();
+    await expect(page.getByRole("tooltip")).toBeVisible();
+    await expect(barDetails).toHaveCount(0);
+
+    // A focused definition stays visible even when the mouse reaches a bar.
+    await label.focus();
+    await bar.hover({ position: { x: 5, y: 5 } });
+    await expect(page.getByRole("tooltip")).toBeVisible();
+    await expect(barDetails).toHaveCount(0);
+
+    await label.press("Escape");
+    await expect(page.getByRole("tooltip")).toHaveCount(0);
+    await page.mouse.move(0, 0);
+    // Recharts also handles Escape, so move to another row to resume details.
+    await page.locator(".recharts-bar-rectangle path").nth(1).hover();
+    await expect(barDetails).toBeVisible();
+  });
+}
+
 test("every chart label exposes a succinct definition on focus", async ({
   page,
 }) => {
