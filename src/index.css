@@ -266,9 +266,4 @@
   .chart-tabs-list [data-slot="tabs-trigger"]::after {
     display: none;
   }
-
-  .chart-tabs-list [data-slot="tabs-trigger"]:last-child {
-    grid-column: 1 / -1;
-    min-height: 44px;
-  }
 }

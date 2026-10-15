@@ -7,14 +7,16 @@ export function LandingPageChart() {
     <OutcomeBreakdownChart
       variant="landing"
       description={
-        <div className="space-y-3 text-left">
+        <div className="text-foreground/85 max-w-[100ch] space-y-4 text-left text-base leading-relaxed">
           <p>
-            Welcome to the COVID-19 DALYs simulator. COVID-19 infections
-            continue to cause meaningful increases in sickness and disability in
-            the United States and worldwide. One measure used to quantify the
-            disability caused by COVID-19 and other diseases is the
-            disability-adjusted life year (DALY), a composite measure of health
-            and life lost to a given health condition.
+            <span className="text-foreground font-medium">
+              Welcome to the COVID-19 DALYs simulator.
+            </span>{" "}
+            COVID-19 infections continue to cause meaningful increases in
+            sickness and disability in the United States and worldwide. One
+            measure used to quantify the disability caused by COVID-19 and other
+            diseases is the disability-adjusted life year (DALY), a composite
+            measure of health and life lost to a given health condition.
           </p>
           <p>
             On this first page, users can view estimates of DALYs caused by
