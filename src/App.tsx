@@ -31,7 +31,7 @@ function App() {
     setLongCovidMedicationInterventionFilter,
   ] = useState<LongCovidMedicationInterventionFilter>("all");
   const [outcomeBreakdownScenarioId, setOutcomeBreakdownScenarioId] =
-    useState<ScenarioId>("hepa_all_public");
+    useState<ScenarioId>("baseline");
   const outerDiv = useRef<HTMLDivElement>(null);
   const [sortOrders, setSortOrders] = useState(DEFAULT_SORT_ORDERS);
 
@@ -47,7 +47,7 @@ function App() {
     setMetric("dalys");
     setAirInterventionFilter("all");
     setLongCovidMedicationInterventionFilter("all");
-    setOutcomeBreakdownScenarioId("hepa_all_public");
+    setOutcomeBreakdownScenarioId("baseline");
     setSortOrders(DEFAULT_SORT_ORDERS);
     // ask iframe parent to reset url parameters
     window.parent.postMessage({ type: "dalys-reset-view" }, PARENT_ORIGIN);

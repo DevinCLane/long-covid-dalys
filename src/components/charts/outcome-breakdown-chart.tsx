@@ -24,6 +24,8 @@ import {
   MODEL_VALUE_LABEL_MARGIN,
 } from "@/components/charts/model-bar-value-label";
 import { ModelTooltipValues } from "@/components/charts/model-tooltip-values";
+import { ModelYAxisTick } from "@/components/charts/model-y-axis-tick";
+import { outcomeDescriptions } from "@/config/chart-label-descriptions";
 import { outcomeColors } from "@/config/chart-colors";
 
 import {
@@ -394,6 +396,14 @@ export function OutcomeBreakdownChart(props: OutcomeBreakdownChartProps) {
                 axisLine={false}
                 tickLine={false}
                 width={95}
+                interval={0}
+                tick={(props) => (
+                  <ModelYAxisTick
+                    {...props}
+                    labelWidth={87}
+                    description={outcomeDescriptions[props.payload.value]}
+                  />
+                )}
               />
               <ChartTooltip
                 content={

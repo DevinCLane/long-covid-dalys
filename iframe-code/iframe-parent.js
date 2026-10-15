@@ -94,7 +94,7 @@
     );
     return SCENARIO_IDS.includes(outcomeBreakdownScenarioId)
       ? outcomeBreakdownScenarioId
-      : "hepa_all_public";
+      : "baseline";
   }
 
   function getLongCovidMedicationInterventionFilter(url) {

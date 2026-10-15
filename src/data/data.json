@@ -664,7 +664,7 @@
     },
     {
       "id": "hepa_most_public",
-      "label": "HEPA in most common indoor air",
+      "label": "HEPA in some common indoor spaces",
       "dalys_per_1000_total": 280,
       "conditions": [
         {
@@ -2602,7 +2602,7 @@
     },
     {
       "id": "far_uvc_most_public",
-      "label": "Far UVC in most common indoor air",
+      "label": "UVC in some common indoor spaces",
       "dalys_per_1000_total": 270,
       "conditions": [
         {

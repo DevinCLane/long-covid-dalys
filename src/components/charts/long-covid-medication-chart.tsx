@@ -18,6 +18,7 @@ import {
   ModelBarValueLabel,
   MODEL_VALUE_LABEL_MARGIN,
 } from "@/components/charts/model-bar-value-label";
+import { ScenarioYAxisTick } from "@/components/charts/model-y-axis-tick";
 import { ModelTooltipValues } from "@/components/charts/model-tooltip-values";
 import { getScenarioColor } from "@/config/chart-colors";
 
@@ -34,7 +35,6 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart";
 
-import React from "react";
 import type { ChartMetric } from "../chart-metric-toggle";
 import { useDalyModel } from "@/hooks/use-daly-model";
 import { interventionsByScenario } from "@/config/assumptions";
@@ -42,8 +42,6 @@ import { useIsMobile } from "@/hooks/use-is-mobile";
 import { ModelAssumptionsPanel } from "@/components/assumptions-panel";
 import {
   LONG_COVID_MEDICATION_SCENARIO_IDS,
-  SCENARIO_IDS,
-  SCENARIO_LABELS_BY_ID,
   ScenarioId,
 } from "@/config/scenario-daly-calculations";
 import { OriginalValueMarker } from "../original-value-marker";
@@ -81,130 +79,9 @@ function ChartDescriptionBody() {
   );
 }
 
-/*
-
-this section builds the clickable Y axis labels
-
-*/
-// formatting/text wrapping for the y axis labels
 const Y_AXIS_LABEL_MAX_CHARS = 20;
 const Y_AXIS_LABEL_WIDTH = 144;
-const Y_AXIS_LABEL_LINE_HEIGHT = 13;
 const Y_AXIS_TICK_MARGIN = 8;
-
-function wrapScenarioLabel(label: string, maxChars: number) {
-  const lines: string[] = [];
-  // Wrap compound words too, so "disease-progression" cannot overflow a line.
-  const words = label.split(/[\s-]+/);
-
-  for (const word of words) {
-    const currentLine = lines[lines.length - 1];
-    const nextLine = currentLine ? `${currentLine} ${word}` : word;
-
-    if (!currentLine || nextLine.length > maxChars) {
-      lines.push(word);
-    } else {
-      lines[lines.length - 1] = nextLine;
-    }
-  }
-
-  return lines;
-}
-
-interface ScenarioYAxisTickProps {
-  label?: string;
-  labelWidth?: number;
-  maxChars?: number;
-  x?: string | number;
-  y?: string | number;
-  payload?: {
-    value?: string | number;
-  };
-  onScenarioSelect?: (scenarioId: ScenarioId) => void;
-}
-
-/**
- * build clickable Y axis labels
- */
-function ScenarioYAxisTick({
-  label: displayLabel,
-  labelWidth = Y_AXIS_LABEL_WIDTH,
-  maxChars = Y_AXIS_LABEL_MAX_CHARS,
-  x = 0,
-  y = 0,
-  payload,
-  onScenarioSelect,
-}: ScenarioYAxisTickProps) {
-  const [isFocused, setIsFocused] = React.useState(false);
-  function isScenarioId(value: string): value is ScenarioId {
-    return SCENARIO_IDS.some((allowedId) => allowedId === value);
-  }
-  const value = String(payload?.value ?? "");
-  const scenarioId = isScenarioId(value) ? value : undefined;
-  const label = displayLabel ?? SCENARIO_LABELS_BY_ID.get(value) ?? value;
-  const labelLines = wrapScenarioLabel(label, maxChars);
-  const isClickable = Boolean(scenarioId && onScenarioSelect);
-  const labelHeight = labelLines.length * Y_AXIS_LABEL_LINE_HEIGHT + 6;
-  const firstLineDy =
-    labelLines.length === 1
-      ? 4
-      : 4 - ((labelLines.length - 1) * Y_AXIS_LABEL_LINE_HEIGHT) / 2;
-
-  function handleSelect() {
-    if (scenarioId) {
-      onScenarioSelect?.(scenarioId);
-    }
-  }
-
-  function handleKeyDown(event: React.KeyboardEvent<SVGGElement>) {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      handleSelect();
-    }
-  }
-
-  return (
-    <g
-      transform={`translate(${x},${y})`}
-      role={isClickable ? "button" : undefined}
-      tabIndex={isClickable ? 0 : undefined}
-      aria-label={isClickable ? `View details for ${label}` : undefined}
-      className={isClickable ? "cursor-pointer outline-none" : undefined}
-      onClick={isClickable ? handleSelect : undefined}
-      onKeyDown={isClickable ? handleKeyDown : undefined}
-      onFocus={isClickable ? () => setIsFocused(true) : undefined}
-      onBlur={isClickable ? () => setIsFocused(false) : undefined}
-    >
-      <rect
-        x={-labelWidth - 4}
-        y={-(labelHeight / 2)}
-        width={labelWidth + 8}
-        height={labelHeight}
-        rx={4}
-        fill="transparent"
-        stroke={isClickable && isFocused ? "var(--ring)" : "transparent"}
-        strokeWidth={1.5}
-        pointerEvents="all"
-      />
-      <text
-        x={0}
-        y={0}
-        textAnchor="end"
-        className={`fill-muted-foreground text-xs${isClickable ? "hover:fill-foreground" : ""}`}
-      >
-        {labelLines.map((line, index) => (
-          <tspan
-            key={`${line}-${index}`}
-            x={0}
-            dy={index === 0 ? firstLineDy : Y_AXIS_LABEL_LINE_HEIGHT}
-          >
-            {line}
-          </tspan>
-        ))}
-      </text>
-    </g>
-  );
-}
 
 const CHART_TITLE =
   "How might Long COVID medication interventions affect COVID-associated disability?";
@@ -393,13 +270,13 @@ export function LongCovidMedicationChart({
                 tick={(props) => (
                   <ScenarioYAxisTick
                     {...props}
+                    wrapHyphens
                     labelWidth={axisLabelWidth}
                     maxChars={isMobile ? 16 : Y_AXIS_LABEL_MAX_CHARS}
                     label={
                       visibleRows.find((row) => row.id === props.payload.value)
                         ?.label
                     }
-                    onScenarioSelect={onScenarioSelect}
                   />
                 )}
               />

@@ -74,7 +74,7 @@
     },
     {
       "id": "hepa_most_public",
-      "label": "HEPA in most common indoor air",
+      "label": "HEPA in some common indoor spaces",
       "annual_sars_cov_2_infection_proportion": 0.254832289492,
       "horizon_years": 5,
       "outcomes": {
@@ -176,7 +176,7 @@
     },
     {
       "id": "far_uvc_most_public",
-      "label": "Far UVC in most common indoor air",
+      "label": "UVC in some common indoor spaces",
       "annual_sars_cov_2_infection_proportion": 0.243748434238,
       "horizon_years": 5,
       "outcomes": {
