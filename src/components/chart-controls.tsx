@@ -6,12 +6,14 @@ import type { ChartSortProps } from "@/lib/chart-sort";
 interface ChartControlsProps extends ChartSortProps {
   metric: ChartMetric;
   setMetric: (value: ChartMetric) => void;
+  showPercentReduction?: boolean;
   interventions?: ReactNode;
 }
 
 export function ChartControls({
   metric,
   setMetric,
+  showPercentReduction,
   sortOrder,
   setSortOrder,
   interventions,
@@ -22,7 +24,11 @@ export function ChartControls({
       className="order-3 mt-4 mb-2 grid w-full min-w-0 gap-x-6 gap-y-4 sm:grid-cols-[minmax(0,1fr)_auto] md:order-1 md:mt-0 md:mb-4"
     >
       <div className="min-w-0">
-        <ChartMetricToggle value={metric} onValueChange={setMetric} />
+        <ChartMetricToggle
+          value={metric}
+          onValueChange={setMetric}
+          showPercentReduction={showPercentReduction}
+        />
       </div>
       <div className="min-w-0 sm:justify-self-end">
         <ChartSortControl sortOrder={sortOrder} setSortOrder={setSortOrder} />

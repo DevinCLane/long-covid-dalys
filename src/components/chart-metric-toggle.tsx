@@ -9,11 +9,13 @@ export type ChartMetric = "percent" | "dalys" | "averted";
 interface ChartMetricToggleProps {
   value: ChartMetric;
   onValueChange: (value: ChartMetric) => void;
+  showPercentReduction?: boolean;
 }
 
 export function ChartMetricToggle({
   value,
   onValueChange,
+  showPercentReduction = true,
 }: ChartMetricToggleProps) {
   const id = useId();
   const percentDescription =
@@ -59,26 +61,30 @@ export function ChartMetricToggle({
             </TooltipContent>
           </Tooltip>
         </Field>
-        <Field orientation="horizontal" className={fieldStyles}>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <FieldLabel className={fieldLabelStyles}>
-                <RadioGroupItem
-                  value="percent"
-                  aria-describedby={`${id}-percent`}
-                />
-                <span className="min-w-0 break-words">Percent reduction</span>
-              </FieldLabel>
-            </TooltipTrigger>
-            <TooltipContent className="max-w-64 px-2 py-1 text-xs text-wrap">
-              {percentDescription}
-            </TooltipContent>
-          </Tooltip>
-        </Field>
+        {showPercentReduction && (
+          <Field orientation="horizontal" className={fieldStyles}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <FieldLabel className={fieldLabelStyles}>
+                  <RadioGroupItem
+                    value="percent"
+                    aria-describedby={`${id}-percent`}
+                  />
+                  <span className="min-w-0 break-words">Percent reduction</span>
+                </FieldLabel>
+              </TooltipTrigger>
+              <TooltipContent className="max-w-64 px-2 py-1 text-xs text-wrap">
+                {percentDescription}
+              </TooltipContent>
+            </Tooltip>
+          </Field>
+        )}
       </RadioGroup>
-      <p id={`${id}-percent`} className="sr-only">
-        {percentDescription}
-      </p>
+      {showPercentReduction && (
+        <p id={`${id}-percent`} className="sr-only">
+          {percentDescription}
+        </p>
+      )}
       <p id={`${id}-averted`} className="sr-only">
         {avertedDescription}
       </p>
