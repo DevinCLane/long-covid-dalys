@@ -250,8 +250,7 @@ Each chart has its own sort parameter: `airSortOrder`, `prophylaxisSortOrder`,
 order); missing or invalid values use `default`. For example,
 `?tab=air&airSortOrder=descending` opens Air Cleaning sorted high to low.
 Sort changes replace the current history entry, matching metric and filter
-changes. Shared current-view links include all selected sort orders. Reset order
-sets only that chart's parameter to `default`; Reset view removes all view
+changes. Shared current-view links include all selected sort orders. Reset view removes all view
 parameters, including sorting, while preserving unrelated parameters and the hash.
 
 During `npm run dev`, the React app targets the local parent at

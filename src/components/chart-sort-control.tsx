@@ -30,15 +30,6 @@ export function ChartSortControl({ sortOrder, setSortOrder }: ChartSortProps) {
         >
           Low → high
         </Button>
-        <Button
-          type="button"
-          variant="outline"
-          className="min-h-11 flex-1 px-3 sm:flex-none"
-          disabled={sortOrder === "descending"}
-          onClick={() => setSortOrder("descending")}
-        >
-          Reset order
-        </Button>
       </div>
     </ChartControlGroup>
   );
