@@ -19,6 +19,7 @@ import {
 import { ScenarioYAxisTick } from "@/components/charts/model-y-axis-tick";
 import { ModelTooltipValues } from "@/components/charts/model-tooltip-values";
 import { getScenarioColor } from "@/config/chart-colors";
+import { scenarioDescriptions } from "@/config/chart-label-descriptions";
 
 import {
   Card,
@@ -180,6 +181,7 @@ export function ProphylacticMedicationChart({
               data={sortedRows.map((row) => ({
                 ...row,
                 fill: getScenarioColor(row.id),
+                description: scenarioDescriptions[row.id],
               }))}
               layout="vertical"
               margin={{

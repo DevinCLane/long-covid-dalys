@@ -232,9 +232,9 @@ export const ASSUMPTIONS = [
   {
     key: "uvc",
     group: "interventionParameters",
-    sliderLabel: "Far-UVC maximum case reduction",
+    sliderLabel: "Far UVC maximum case reduction",
     sliderSubLabel:
-      "Maximum percent of infections avoided by full Far-UVC implementation; other Far-UVC scenarios retain their evidence-based relative intensity",
+      "Maximum percent of infections avoided by full Far UVC implementation; other Far UVC scenarios retain their evidence-based relative intensity",
     sliderMin: 0,
     sliderMax: 100,
     sliderStep: 0.01,

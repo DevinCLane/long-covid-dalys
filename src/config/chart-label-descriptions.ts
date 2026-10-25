@@ -9,17 +9,16 @@ export const scenarioDescriptions: Record<string, string> = {
   baseline:
     "No public health action to mitigate COVID-19 infections at the population level.",
   hepa_most_public:
-    "HEPA filtration captures very small airborne particles in some shared indoor spaces, such as dining halls and waiting rooms.",
+    "HEPA filtration in some shared indoor spaces, such as dining halls and waiting rooms.",
   hepa_schools_and_daycares:
-    "HEPA filtration captures very small airborne particles in all indoor spaces in schools and daycares.",
-  hepa_all_public:
-    "HEPA filtration captures very small airborne particles in all indoor public spaces.",
+    "HEPA filtration in all indoor spaces in schools and daycares.",
+  hepa_all_public: "HEPA filtration in all indoor public spaces.",
   far_uvc_most_public:
-    "Germicidal far UV-C irradiation in some shared indoor spaces, such as dining halls and waiting rooms.",
+    "Germicidal Far UVC irradiation in some shared indoor spaces, such as dining halls and waiting rooms.",
   far_uvc_schools_and_daycares:
-    "Germicidal far UV-C irradiation in all indoor spaces in schools and daycares.",
+    "Germicidal Far UVC irradiation in all indoor spaces in schools and daycares.",
   far_uvc_all_public:
-    "Germicidal far UV-C irradiation in all indoor public spaces.",
+    "Germicidal Far UVC irradiation in all indoor public spaces.",
   preexposure_prophylaxis:
     "Hypothetical medication used before exposure to reduce COVID-19 infections.",
   postexposure_prophylaxis:
@@ -36,7 +35,7 @@ export const outcomeDescriptions: Record<string, string> = {
   "Long COVID":
     "Ongoing symptoms with some or significant activity limitations following COVID-19 infection.",
   "Other sequelae":
-    "New-onset conditions following COVID-19: heart attack, heart failure, dementia, stroke, pulmonary embolism, and diabetes.",
+    "New-onset or worsened comorbid conditions following a COVID infection are modeled separately from Long COVID.",
   Total:
     "Combined disability and mortality from acute COVID, Long COVID, and other post-acute sequelae.",
 };

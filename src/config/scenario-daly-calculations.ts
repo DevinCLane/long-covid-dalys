@@ -130,7 +130,9 @@ function airScenarioDefinition(
 
   return {
     id: scenario.id,
-    label: scenario.label,
+    label: scenario.id.startsWith("far_uvc_")
+      ? scenario.label.replace(/^UVC/, "Far UVC")
+      : scenario.label,
     interventions: [assumptionKey],
     annualInfectionProportion: (values) =>
       selectedBaseline(values) *

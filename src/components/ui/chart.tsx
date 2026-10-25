@@ -250,10 +250,17 @@ function ChartTooltipContent({
       aria-atomic={accessibilityLayer ? true : undefined}
       className={cn(
         "border-border/50 bg-background grid min-w-32 items-start gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs shadow-xl",
+        payload?.some((item) => typeof item.payload?.description === "string") &&
+          "max-h-[min(24rem,70vh)] max-w-64 overflow-y-auto",
         className,
       )}
     >
       {!nestLabel ? tooltipLabel : null}
+      {typeof payload?.[0]?.payload?.description === "string" && (
+        <div className="border-border/60 text-muted-foreground border-b pb-2 leading-relaxed whitespace-normal">
+          {payload[0].payload.description}
+        </div>
+      )}
       <div className="grid gap-1.5">
         {payload
           .filter((item) => item.type !== "none")

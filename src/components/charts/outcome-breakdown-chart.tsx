@@ -25,7 +25,10 @@ import {
 } from "@/components/charts/model-bar-value-label";
 import { ModelTooltipValues } from "@/components/charts/model-tooltip-values";
 import { ModelYAxisTick } from "@/components/charts/model-y-axis-tick";
-import { outcomeDescriptions } from "@/config/chart-label-descriptions";
+import {
+  outcomeDescriptions,
+  scenarioDescriptions,
+} from "@/config/chart-label-descriptions";
 import { outcomeColors } from "@/config/chart-colors";
 
 import {
@@ -315,6 +318,11 @@ export function OutcomeBreakdownChart(props: OutcomeBreakdownChartProps) {
             {displayedMetric === "averted" ? "DALYs averted" : "DALYs"} by
             outcome
           </CardTitle>
+          {scenarioDescriptions[scenarioId] && (
+            <CardDescription className="text-pretty">
+              {scenarioDescriptions[scenarioId]}
+            </CardDescription>
+          )}
         </div>
       </CardHeader>
       <CardContent>
@@ -364,7 +372,10 @@ export function OutcomeBreakdownChart(props: OutcomeBreakdownChartProps) {
             <BarChart
               aria-label={`${scenario.label}: outcomes over 5 years. Use Left and Right arrow keys to explore values.`}
               accessibilityLayer
-              data={visibleOutcomeData}
+              data={visibleOutcomeData.map((row) => ({
+                ...row,
+                description: outcomeDescriptions[row.label],
+              }))}
               layout="vertical"
               margin={{
                 bottom: 15,

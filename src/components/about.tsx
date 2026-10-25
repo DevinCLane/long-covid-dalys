@@ -239,14 +239,14 @@ export function AboutPage() {
                   </div>
                   <div className="space-y-2">
                     <dt className="text-foreground font-semibold">
-                      Far UV-C irradiation
+                      Far UVC irradiation
                     </dt>
                     <dd>
-                      Far UV-C irradiation is a type of ultraviolet irradiation
+                      Far UVC irradiation is a type of ultraviolet irradiation
                       that can have germicidal properties. We assume that
-                      appropriate use of far UVC irradiation reduces COVID
+                      appropriate use of Far UVC irradiation reduces COVID
                       infections by 90%, a conservative estimate derived from
-                      studies estimating the efficacy of far UVC at reducing
+                      studies estimating the efficacy of Far UVC at reducing
                       infective viral load by{" "}
                       <a href="https://www.nature.com/articles/s41598-020-76597-y">
                         90-99.9%
