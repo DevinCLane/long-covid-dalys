@@ -65,7 +65,7 @@ export function AboutPage() {
                 Baseline rates of annual COVID infection in the general
                 population were identified from a recent national study of COVID
                 prevalence using wastewater surveillance data (
-                <a href="https://doi.org/10.1016/j.puhe.2025.105970">
+                <a target="_blank" rel="noopener noreferrer" href="https://doi.org/10.1016/j.puhe.2025.105970">
                   Austria, 2024-2025
                 </a>
                 ). The effect of each intervention (or of multiple
@@ -82,7 +82,7 @@ export function AboutPage() {
                 Years of Life Lost to disease (YLLs) and Years of Life Lived
                 with Disease (YLDs). We calculated DALYs by incorporating the
                 scenario-specific infection proportions estimated above into a{" "}
-                <a href="https://chds.hsph.harvard.edu/joint-modeling-of-dalys-and-qalys/">
+                <a target="_blank" rel="noopener noreferrer" href="https://chds.hsph.harvard.edu/joint-modeling-of-dalys-and-qalys/">
                   previously published Markov state-transition model
                 </a>{" "}
                 with five one-year cycles. We assume that rates of transition
@@ -100,7 +100,7 @@ export function AboutPage() {
                 some activity limitations (“less severe”), and one representing
                 patients with ongoing symptoms and significant activity
                 limitations (“more severe”), drawing from CDC{" "}
-                <a href="https://www.cdc.gov/nchs/covid19/pulse/long-covid.htm">
+                <a target="_blank" rel="noopener noreferrer" href="https://www.cdc.gov/nchs/covid19/pulse/long-covid.htm">
                   Household Pulse Survey
                 </a>{" "}
                 data. We modeled the rates of transitions between five health
@@ -118,7 +118,7 @@ export function AboutPage() {
                 We model acute COVID infections as a source of short-term
                 disability and mortality. Current estimates of mortality rates
                 from acute COVID infections are drawn from the{" "}
-                <a href="https://doi.org/10.1038/s41467-024-47199-3">
+                <a target="_blank" rel="noopener noreferrer" href="https://doi.org/10.1038/s41467-024-47199-3">
                   most recent national estimates
                 </a>{" "}
                 available and are adjusted relative to the US age distribution.
@@ -137,7 +137,7 @@ export function AboutPage() {
               </h4>
               <p>
                 Although some consensus definitions of Long COVID (e.g.,{" "}
-                <a href="https://doi.org/10.17226/27768">NASEM</a>) include
+                <a target="_blank" rel="noopener noreferrer" href="https://doi.org/10.17226/27768">NASEM</a>) include
                 persons with new-onset or worsened comorbid conditions following
                 a COVID infection in the category of Long COVID patients, we
                 model these patients separately to apply the distinct disability
@@ -181,7 +181,7 @@ export function AboutPage() {
                 To account for age-related differences in mortality without
                 modeling separate age groups, we calculated background mortality
                 and remaining life expectancy as averages weighted by the{" "}
-                <a href="https://data.census.gov/table?q=DP05">
+                <a target="_blank" rel="noopener noreferrer" href="https://data.census.gov/table?q=DP05">
                   US population distribution
                 </a>{" "}
                 among adults aged 18 years and older. Because age-specific
@@ -225,13 +225,13 @@ export function AboutPage() {
                       very small particles in the air. We assume that HEPA
                       filtration that achieves the equivalent of 5 air changes
                       per hour{" "}
-                      <a href="https://www.doi.org/10.3389/fpubh.2022.1087087">
+                      <a target="_blank" rel="noopener noreferrer" href="https://www.doi.org/10.3389/fpubh.2022.1087087">
                         reduces
                       </a>{" "}
-                      <a href="https://doi.org/10.1080/02786826.2021.1877257">
+                      <a target="_blank" rel="noopener noreferrer" href="https://doi.org/10.1080/02786826.2021.1877257">
                         COVID infections
                       </a>{" "}
-                      <a href="https://www.cdc.gov/mmwr/volumes/70/wr/mm7027e1.htm">
+                      <a target="_blank" rel="noopener noreferrer" href="https://www.cdc.gov/mmwr/volumes/70/wr/mm7027e1.htm">
                         by 65%
                       </a>
                       .
@@ -248,16 +248,16 @@ export function AboutPage() {
                       infections by 90%, a conservative estimate derived from
                       studies estimating the efficacy of Far UVC at reducing
                       infective viral load by{" "}
-                      <a href="https://www.nature.com/articles/s41598-020-76597-y">
+                      <a target="_blank" rel="noopener noreferrer" href="https://www.nature.com/articles/s41598-020-76597-y">
                         90-99.9%
                       </a>{" "}
-                      <a href="https://www.doi.org/10.1038/s41598-020-67211-2">
+                      <a target="_blank" rel="noopener noreferrer" href="https://www.doi.org/10.1038/s41598-020-67211-2">
                         over 5-10
                       </a>{" "}
-                      <a href="https://www.nature.com/articles/s41598-024-57441-z">
+                      <a target="_blank" rel="noopener noreferrer" href="https://www.nature.com/articles/s41598-024-57441-z">
                         minutes
                       </a>{" "}
-                      <a href="https://www.nature.com/articles/s41598-022-08462-z">
+                      <a target="_blank" rel="noopener noreferrer" href="https://www.nature.com/articles/s41598-022-08462-z">
                         of exposure
                       </a>
                       .
@@ -332,10 +332,10 @@ export function AboutPage() {
                     Under this scenario, we assume a hypothetical pre-exposure
                     prophylaxis intervention reduces COVID-19 infections by an
                     amount grounded in{" "}
-                    <a href="https://jamanetwork.com/journals/jamainternalmedicine/fullarticle/2838335">
+                    <a target="_blank" rel="noopener noreferrer" href="https://jamanetwork.com/journals/jamainternalmedicine/fullarticle/2838335">
                       existing
                     </a>{" "}
-                    <a href="https://academic.oup.com/cid/article/81/3/439/8145246">
+                    <a target="_blank" rel="noopener noreferrer" href="https://academic.oup.com/cid/article/81/3/439/8145246">
                       evidence
                     </a>
                     .
@@ -349,7 +349,7 @@ export function AboutPage() {
                     Under this scenario, we assume a hypothetical post-exposure
                     prophylaxis intervention reduces COVID infections by an
                     amount grounded in{" "}
-                    <a href="https://www.nejm.org/doi/full/10.1056/NEJMoa2509306">
+                    <a target="_blank" rel="noopener noreferrer" href="https://www.nejm.org/doi/full/10.1056/NEJMoa2509306">
                       existing evidence
                     </a>
                     .
