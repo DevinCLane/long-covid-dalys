@@ -331,7 +331,14 @@ export function AboutPage() {
                   <dd>
                     Under this scenario, we assume a hypothetical pre-exposure
                     prophylaxis intervention reduces COVID-19 infections by an
-                    amount grounded in existing evidence.
+                    amount grounded in{" "}
+                    <a href="https://jamanetwork.com/journals/jamainternalmedicine/fullarticle/2838335">
+                      existing
+                    </a>{" "}
+                    <a href="https://academic.oup.com/cid/article/81/3/439/8145246">
+                      evidence
+                    </a>
+                    .
                   </dd>
                 </div>
                 <div className="space-y-2">
@@ -341,7 +348,11 @@ export function AboutPage() {
                   <dd>
                     Under this scenario, we assume a hypothetical post-exposure
                     prophylaxis intervention reduces COVID infections by an
-                    amount grounded in existing evidence.
+                    amount grounded in{" "}
+                    <a href="https://www.nejm.org/doi/full/10.1056/NEJMoa2509306">
+                      existing evidence
+                    </a>
+                    .
                   </dd>
                 </div>
               </dl>
@@ -378,9 +389,9 @@ export function AboutPage() {
                   </dt>
                   <dd>
                     We assume a hypothetical medication or other treatment for
-                    Long COVID reduces the proportion of persons with Long
-                    COVID who progress from having some activity limitations to
-                    having significant activity limitations by varying amounts.
+                    Long COVID reduces the proportion of persons with Long COVID
+                    who progress from having some activity limitations to having
+                    significant activity limitations by varying amounts.
                     Currently, there are no FDA-approved treatments for Long
                     COVID.
                   </dd>
